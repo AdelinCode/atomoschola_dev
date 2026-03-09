@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .settings-header {
+            margin-bottom: 30px;
+        }
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .settings-card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-group small {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+            display: block;
+        }
+        .btn-save {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-save:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        .btn-save:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .current-info {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .current-info strong {
+            color: #333;
+        }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .back-link:hover {
+            color: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Settings Content -->
+    <main class="settings-container">
+        <a href="profile.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Profile
+        </a>
+        
+        <div class="settings-header">
+            <h1><i class="fas fa-cog"></i> Settings</h1>
+            <p>Manage your account preferences</p>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="settings-card">
+            <h3><i class="fas fa-user-edit"></i> Account Information</h3>
+            
+            <div class="current-info">
+                <strong>Current Username:</strong> <span id="currentUsername">Loading...</span><br>
+                <strong>Email:</strong> <span id="currentEmail">Loading...</span><br>
+                <strong>Role:</strong> <span id="currentRole">Loading...</span>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <form id="updateNameForm">
+                <div class="form-group">
+                    <label for="newUsername">New Username</label>
+                    <input type="text" id="newUsername" name="username" placeholder="Enter new username" required>
+                    <small>Username must be at least 3 characters long and contain only letters, numbers, and underscores.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName">First Name (Optional)</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name (Optional)</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name">
+                </div>
+
+                <button type="submit" class="btn-save" id="saveBtn">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+            </form>
+        </div>
+
+        <!-- Password Settings -->
+        <div class="settings-card">
+            <h3><i class="fas fa-lock"></i> Password</h3>
+            <p style="color: #666; margin-bottom: 20px;">
+                For security reasons, password changes are not available in this demo version.
+                Contact your administrator if you need to change your password.
+            </p>
+        </div>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        // Settings page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!window.API.isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            loadCurrentInfo();
+            setupForm();
+        });
+
+        function loadCurrentInfo() {
+            const currentUser = window.API.getUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display current info
+            document.getElementById('currentUsername').textContent = currentUser.username;
+            document.getElementById('currentEmail').textContent = currentUser.email;
+            document.getElementById('currentRole').textContent = capitalizeFirst(currentUser.userType);
+
+            // Pre-fill form
+            document.getElementById('newUsername').value = currentUser.username;
+            document.getElementById('firstName').value = currentUser.firstName || '';
+            document.getElementById('lastName').value = currentUser.lastName || '';
+        }
+
+        function setupForm() {
+            const form = document.getElementById('updateNameForm');
+            form.addEventListener('submit', handleUpdateProfile);
+        }
+
+        async function handleUpdateProfile(e) {
+            e.preventDefault();
+            
+            const saveBtn = document.getElementById('saveBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Hide previous messages
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            // Disable button
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            try {
+                const formData = new FormData(e.target);
+                const updateData = {
+                    username: formData.get('username').trim(),
+                    firstName: formData.get('firstName').trim(),
+                    lastName: formData.get('lastName').trim()
+                };
+
+                // Validate username
+                if (updateData.username.length < 3) {
+                    throw new Error('Username must be at least 3 characters long');
+                }
+
+                if (!/^[a-zA-Z0-9_]+$/.test(updateData.username)) {
+                    throw new Error('Username can only contain letters, numbers, and underscores');
+                }
+
+                // Update profile via API
+                const response = await window.API.users.updateProfile(updateData);
+                
+                if (response.success) {
+                    // Update stored user data
+                    const currentUser = window.API.getUser();
+                    const updatedUser = { ...currentUser, ...updateData };
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                    
+                    // Show success message
+                    successMsg.textContent = 'Profile updated successfully!';
+                    successMsg.style.display = 'block';
+                    
+                    // Update current info display
+                    loadCurrentInfo();
+                    
+                    // Refresh navigation to show new username
+                    if (window.renderAuthenticatedNav) {
+                        window.renderAuthenticatedNav();
+                    }
+                }
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = 'block';
+            } finally {
+                // Re-enable button
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            }
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+</body>
+</html>

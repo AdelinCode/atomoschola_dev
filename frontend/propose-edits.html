@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Edits - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .propose-container {
+            max-width: 900px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .propose-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .propose-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .edit-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border-left: 4px solid #6f42c1;
+        }
+        .edit-number {
+            background: #6f42c1;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn-submit {
+            background: #6f42c1;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background: #5a32a3;
+            transform: translateY(-2px);
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Propose Edits Content -->
+    <main class="propose-container">
+        <div class="propose-header">
+            <h1><i class="fas fa-edit"></i> Propose Edits</h1>
+            <p>Submit 3 lesson edits to become an Editor</p>
+        </div>
+
+        <div class="info-box">
+            <strong><i class="fas fa-info-circle"></i> Requirements:</strong>
+            <ul style="margin: 8px 0 0 20px;">
+                <li>You must propose exactly 3 edits</li>
+                <li>Each edit must be for a different lesson</li>
+                <li>Provide clear descriptions and content for each edit</li>
+                <li>The Editor Commission will vote on your proposals</li>
+            </ul>
+        </div>
+
+        <form id="proposeEditsForm">
+            <!-- Edit 1 -->
+            <div class="edit-item">
+                <h3><span class="edit-number">1</span> First Edit</h3>
+                <div class="form-group">
+                    <label for="lesson1">Select Lesson *</label>
+                    <select id="lesson1" name="lesson1" required>
+                        <option value="">Loading lessons...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description1">Edit Description *</label>
+                    <input type="text" id="description1" name="description1" placeholder="Brief description of your edit" required>
+                </div>
+                <div class="form-group">
+                    <label for="content1">Edit Content *</label>
+                    <textarea id="content1" name="content1" placeholder="Describe your proposed changes in detail..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Edit 2 -->
+            <div class="edit-item">
+                <h3><span class="edit-number">2</span> Second Edit</h3>
+                <div class="form-group">
+                    <label for="lesson2">Select Lesson *</label>
+                    <select id="lesson2" name="lesson2" required>
+                        <option value="">Loading lessons...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description2">Edit Description *</label>
+                    <input type="text" id="description2" name="description2" placeholder="Brief description of your edit" required>
+                </div>
+                <div class="form-group">
+                    <label for="content2">Edit Content *</label>
+                    <textarea id="content2" name="content2" placeholder="Describe your proposed changes in detail..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Edit 3 -->
+            <div class="edit-item">
+                <h3><span class="edit-number">3</span> Third Edit</h3>
+                <div class="form-group">
+                    <label for="lesson3">Select Lesson *</label>
+                    <select id="lesson3" name="lesson3" required>
+                        <option value="">Loading lessons...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description3">Edit Description *</label>
+                    <input type="text" id="description3" name="description3" placeholder="Brief description of your edit" required>
+                </div>
+                <div class="form-group">
+                    <label for="content3">Edit Content *</label>
+                    <textarea id="content3" name="content3" placeholder="Describe your proposed changes in detail..." required></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Submit Proposals
+            </button>
+        </form>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/propose-edits.js"></script>
+</body>
+</html>

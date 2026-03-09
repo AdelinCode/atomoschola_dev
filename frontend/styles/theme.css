@@ -1,0 +1,371 @@
+/* Black, White, Grey Theme - Complete Override */
+
+:root {
+    --primary-black: #000000;
+    --secondary-grey: #333333;
+    --light-grey: #666666;
+    --border-grey: #e0e0e0;
+    --bg-grey: #f5f5f5;
+    --white: #ffffff;
+    --text-dark: #212529;
+    --text-light: #6c757d;
+}
+
+/* Remove ALL purple/blue colors */
+* {
+    --primary-color: #000000 !important;
+    --secondary-color: #333333 !important;
+}
+
+/* Header Override */
+.header {
+    background: var(--white) !important;
+    border-bottom: 2px solid var(--border-grey) !important;
+}
+
+.logo a {
+    color: var(--primary-black) !important;
+}
+
+.logo i {
+    color: var(--primary-black) !important;
+}
+
+/* Search Bar */
+.search-bar {
+    background: var(--bg-grey) !important;
+    border: 2px solid var(--border-grey) !important;
+}
+
+.search-bar input {
+    color: var(--primary-black) !important;
+    background: transparent !important;
+}
+
+.search-bar input::placeholder {
+    color: var(--light-grey) !important;
+}
+
+.search-btn {
+    background: var(--primary-black) !important;
+    color: var(--white) !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+}
+
+.search-btn:hover {
+    background: var(--secondary-grey) !important;
+}
+
+/* Navigation */
+.nav-item {
+    color: var(--primary-black) !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+}
+
+.nav-item:hover {
+    background: var(--bg-grey) !important;
+}
+
+.nav-item i {
+    color: var(--primary-black) !important;
+}
+
+/* Account Button */
+.account-btn {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+    border: 2px solid var(--border-grey) !important;
+    font-weight: 500 !important;
+}
+
+.account-btn:hover {
+    background: var(--white) !important;
+    border-color: var(--primary-black) !important;
+}
+
+.account-btn i {
+    color: var(--primary-black) !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background: var(--white) !important;
+    border: 1px solid var(--border-grey) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-header {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--border-grey) !important;
+    background: transparent !important;
+}
+
+.dropdown-header strong {
+    display: block !important;
+    color: var(--primary-black) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-bottom: 2px !important;
+}
+
+.dropdown-header small {
+    display: block !important;
+    color: var(--light-grey) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+.dropdown-menu a {
+    color: var(--primary-black) !important;
+    padding: 10px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    transition: background 0.2s !important;
+}
+
+.dropdown-menu a i {
+    margin-right: 10px !important;
+    width: 16px !important;
+    color: var(--light-grey) !important;
+}
+
+.dropdown-menu a:hover {
+    background: var(--bg-grey) !important;
+}
+
+.dropdown-divider {
+    border-top: 1px solid var(--border-grey) !important;
+    margin: 4px 0 !important;
+}
+
+/* Buttons */
+.btn-primary,
+.btn.btn-primary {
+    background: var(--primary-black) !important;
+    color: var(--white) !important;
+    border: none !important;
+}
+
+.btn-primary:hover,
+.btn.btn-primary:hover {
+    background: var(--secondary-grey) !important;
+}
+
+.btn-secondary,
+.btn.btn-secondary {
+    background: var(--white) !important;
+    color: var(--primary-black) !important;
+    border: 2px solid var(--border-grey) !important;
+}
+
+.btn-secondary:hover,
+.btn.btn-secondary:hover {
+    background: var(--bg-grey) !important;
+}
+
+/* Cards */
+.subject-card,
+.lesson-card,
+.domain-card,
+.category-card,
+.dashboard-card {
+    background: var(--white) !important;
+    border: 1px solid var(--border-grey) !important;
+    color: var(--text-dark) !important;
+}
+
+.subject-card:hover,
+.lesson-card:hover,
+.domain-card:hover,
+.category-card:hover {
+    border-color: var(--primary-black) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.subject-card h3,
+.lesson-card h3,
+.domain-card h3,
+.category-card h3,
+.dashboard-card h3 {
+    color: var(--primary-black) !important;
+}
+
+.subject-card p,
+.lesson-card p,
+.domain-card p,
+.category-card p {
+    color: var(--light-grey) !important;
+}
+
+/* Subject Icon */
+.subject-icon {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+}
+
+.subject-icon i {
+    color: var(--primary-black) !important;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--white) !important;
+    border-right: 1px solid var(--border-grey) !important;
+}
+
+.sidebar-header {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+    border-bottom: 1px solid var(--border-grey) !important;
+}
+
+.sidebar-item {
+    color: var(--primary-black) !important;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+}
+
+.sidebar-item i {
+    color: var(--primary-black) !important;
+}
+
+/* Main Content */
+.main-content {
+    background: var(--bg-grey) !important;
+}
+
+/* Hero Section */
+.hero {
+    background: var(--white) !important;
+    border: 1px solid var(--border-grey) !important;
+}
+
+.hero h1 {
+    color: var(--primary-black) !important;
+}
+
+.hero p {
+    color: var(--light-grey) !important;
+}
+
+/* Stats */
+.stat-number {
+    color: var(--primary-black) !important;
+}
+
+.stat-label {
+    color: var(--light-grey) !important;
+}
+
+/* Lesson Type Badge */
+.lesson-type {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+    border: 1px solid var(--border-grey) !important;
+}
+
+/* Rating Stars */
+.star {
+    color: #ffc107 !important;
+}
+
+.star.empty {
+    color: var(--border-grey) !important;
+}
+
+/* Dashboard Specific */
+.dashboard-container {
+    background: var(--bg-grey) !important;
+}
+
+.dashboard-header h1 {
+    color: var(--primary-black) !important;
+}
+
+.dashboard-header p {
+    color: var(--light-grey) !important;
+}
+
+.invite-code-item {
+    background: var(--white) !important;
+    border: 1px solid var(--border-grey) !important;
+}
+
+.code-text {
+    color: var(--primary-black) !important;
+    background: var(--bg-grey) !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: monospace !important;
+    font-weight: bold !important;
+}
+
+.code-status {
+    background: var(--bg-grey) !important;
+    color: var(--primary-black) !important;
+    border: 1px solid var(--border-grey) !important;
+}
+
+.code-status.available {
+    background: #d4edda !important;
+    color: #155724 !important;
+    border-color: #c3e6cb !important;
+}
+
+/* Forms */
+.form-group label {
+    color: var(--primary-black) !important;
+    font-weight: 600 !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: var(--white) !important;
+    color: var(--primary-black) !important;
+    border: 2px solid var(--border-grey) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-black) !important;
+}
+
+.form-group small {
+    color: var(--light-grey) !important;
+}
+
+/* Remove any gradient backgrounds */
+.header,
+.hero,
+.subject-card,
+.lesson-card {
+    background-image: none !important;
+}
+
+/* Ensure text is always visible */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-black) !important;
+}
+
+p {
+    color: var(--light-grey) !important;
+}
+
+a {
+    color: var(--primary-black) !important;
+}
+
+/* Badge */
+.badge {
+    background: var(--primary-black) !important;
+    color: var(--white) !important;
+}

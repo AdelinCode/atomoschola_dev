@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .team-container {
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .team-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .team-header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .team-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .team-member {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .member-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: white;
+        }
+        .member-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .member-role {
+            font-size: 16px;
+            color: #6c5ce7;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .member-title {
+            font-size: 15px;
+            color: #fff;
+            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #5f4dd1;
+        }
+        .team-section {
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Team Content -->
+    <main class="team-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+        
+        <div class="team-header">
+            <h1><i class="fas fa-users"></i> Meet Our Team</h1>
+            <p>The dedicated individuals working together to bring you quality educational content and an exceptional learning experience.</p>
+        </div>
+
+        <!-- Leadership Section -->
+        <div class="team-section">
+            <h2 class="section-title">Leadership</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="member-name">Covrig Raul Alexandru</div>
+                    <div class="member-role">President</div>
+                    <div class="member-title">CEO</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-name">Ilieș Gabriel</div>
+                    <div class="member-role">Vice President</div>
+                    <div class="member-title">COO</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="member-name">Hojda Adelin</div>
+                    <div class="member-role">Site Building & Maintenance</div>
+                    <div class="member-title">CTO</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operations Section -->
+        <div class="team-section">
+            <h2 class="section-title">Operations & Marketing</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="member-name">Brumar Patrik</div>
+                    <div class="member-role">Public Relations</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="member-name">Blaga Izabela</div>
+                    <div class="member-role">Graphic Design</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="member-name">Dudaș Beniamin</div>
+                    <div class="member-role">Marketing</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Team Section -->
+        <div class="team-section">
+            <h2 class="section-title">Content Development</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="member-name">Bobosan Tudor</div>
+                    <div class="member-role">Course Building</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="member-name">Muntean Rares</div>
+                    <div class="member-role">Course Building</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="member-name">Iercoșan Andrei</div>
+                    <div class="member-role">Course Building</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Subjects</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="subject.html?subject=physics" class="sidebar-item">
+                <i class="fas fa-atom"></i>
+                <span>Physics</span>
+            </a>
+            <a href="subject.html?subject=chemistry" class="sidebar-item">
+                <i class="fas fa-flask"></i>
+                <span>Chemistry</span>
+            </a>
+            <a href="subject.html?subject=mathematics" class="sidebar-item">
+                <i class="fas fa-calculator"></i>
+                <span>Mathematics</span>
+            </a>
+            <a href="subject.html?subject=biology" class="sidebar-item">
+                <i class="fas fa-dna"></i>
+                <span>Biology</span>
+            </a>
+        </nav>
+        
+        <!-- Propose Edits Button -->
+        <div style="padding: 16px; border-top: 1px solid #e0e0e0; margin-top: 16px;">
+            <a href="propose-edits.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(111, 66, 193, 0.3);">
+                <i class="fas fa-edit"></i>
+                <span>Propose Edits</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <section class="hero">
+                <h1>Welcome to Atomo Schola</h1>
+                <p>Discover comprehensive lessons in Physics, Chemistry, Mathematics, and Biology</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalLessons">0</span>
+                        <span class="stat-label">Lessons</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalSubjects">0</span>
+                        <span class="stat-label">Subjects</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalDomains">0</span>
+                        <span class="stat-label">Domains</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Platform Information Section -->
+            <section class="platform-info" style="margin-top: 60px; margin-bottom: 60px; padding: 60px 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 20px;">
+                <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+                    <div style="text-align: center; margin-bottom: 50px;">
+                        <h2 style="font-size: 32px; color: #333; margin-bottom: 15px;">Join Our Learning Community</h2>
+                        <p style="font-size: 18px; color: #6c757d; max-width: 600px; margin: 0 auto;">
+                            Discover how you can contribute to and benefit from our collaborative educational platform
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                        <!-- Become a Creator Card -->
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <div style="width: 50px; height: 50px; background: #ffc107; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-lightbulb" style="color: white; font-size: 20px;"></i>
+                                </div>
+                                <h3 style="margin: 0; color: #333; font-size: 20px;">Become a Creator</h3>
+                            </div>
+                            <div style="color: #6c757d; line-height: 1.7;">
+                                <p style="margin-bottom: 15px;">Want to create quality educational content? Here's how you can become a creator:</p>
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li style="margin-bottom: 10px;">Propose an original lesson on a subject you're passionate about</li>
+                                    <li style="margin-bottom: 10px;">Our commission will evaluate the quality and relevance of your proposed content</li>
+                                    <li style="margin-bottom: 10px;">If your lesson is approved, you'll receive Creator status</li>
+                                    <li>Start publishing lessons and contributing to the educational community</li>
+                                </ol>
+                                <p style="margin-top: 15px; font-style: italic; color: #495057;">
+                                    <i class="fas fa-info-circle" style="color: #ffc107; margin-right: 5px;"></i>
+                                    Each approved lesson strengthens your reputation as a valuable content creator!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Become an Editor Card -->
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <div style="width: 50px; height: 50px; background: #17a2b8; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-pen-fancy" style="color: white; font-size: 20px;"></i>
+                                </div>
+                                <h3 style="margin: 0; color: #333; font-size: 20px;">Become an Editor</h3>
+                            </div>
+                            <div style="color: #6c757d; line-height: 1.7;">
+                                <p style="margin-bottom: 15px;">Have a keen eye for detail and want to improve existing content? Here's how to become an editor:</p>
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li style="margin-bottom: 10px;">Propose 3 edits to 3 different lessons on the platform</li>
+                                    <li style="margin-bottom: 10px;">Your edits should improve clarity, accuracy, or overall content quality</li>
+                                    <li style="margin-bottom: 10px;">The commission will evaluate your contributions and attention to detail</li>
+                                    <li>If all 3 edits are accepted, you'll join the editorial team</li>
+                                </ol>
+                                <p style="margin-top: 15px; font-style: italic; color: #495057;">
+                                    <i class="fas fa-info-circle" style="color: #17a2b8; margin-right: 5px;"></i>
+                                    Editors play an essential role in maintaining high quality standards!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Platform Features Card -->
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <div style="width: 50px; height: 50px; background: #6f42c1; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-star" style="color: white; font-size: 20px;"></i>
+                                </div>
+                                <h3 style="margin: 0; color: #333; font-size: 20px;">Platform Features</h3>
+                            </div>
+                            <ul style="list-style: none; padding: 0; margin: 0; color: #6c757d; line-height: 1.8;">
+                                <li style="margin-bottom: 8px;"><i class="fas fa-search" style="color: #007bff; margin-right: 8px; width: 16px;"></i> Advanced search across all content</li>
+                                <li style="margin-bottom: 8px;"><i class="fas fa-bookmark" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> Bookmark your favorite lessons</li>
+                                <li style="margin-bottom: 8px;"><i class="fas fa-star" style="color: #28a745; margin-right: 8px; width: 16px;"></i> Rate and review lessons</li>
+                                <li style="margin-bottom: 8px;"><i class="fas fa-file-alt" style="color: #17a2b8; margin-right: 8px; width: 16px;"></i> Rich text editor with LaTeX formulas</li>
+                                <li><i class="fas fa-paperclip" style="color: #6c757d; margin-right: 8px; width: 16px;"></i> Attach files from cloud storage</li>
+                            </ul>
+                        </div>
+
+                        <!-- Content Types Card -->
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <div style="width: 50px; height: 50px; background: #fd7e14; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-layer-group" style="color: white; font-size: 20px;"></i>
+                                </div>
+                                <h3 style="margin: 0; color: #333; font-size: 20px;">Content Types</h3>
+                            </div>
+                            <ul style="list-style: none; padding: 0; margin: 0; color: #6c757d; line-height: 1.8;">
+                                <li style="margin-bottom: 8px;"><i class="fas fa-file-alt" style="color: #007bff; margin-right: 8px; width: 16px;"></i> <strong>Text Lessons:</strong> Rich formatted content with formulas</li>
+                                <li style="margin-bottom: 8px;"><i class="fas fa-video" style="color: #dc3545; margin-right: 8px; width: 16px;"></i> <strong>Video Lessons:</strong> Embedded YouTube videos</li>
+                                <li><i class="fas fa-presentation" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> <strong>Presentations:</strong> Interactive slide content</li>
+                            </ul>
+                        </div>
+
+                        <!-- Getting Started Card -->
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <div style="width: 50px; height: 50px; background: #20c997; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-rocket" style="color: white; font-size: 20px;"></i>
+                                </div>
+                                <h3 style="margin: 0; color: #333; font-size: 20px;">Getting Started</h3>
+                            </div>
+                            <div style="color: #6c757d; line-height: 1.7;">
+                                <p style="margin-bottom: 15px;">Ready to start learning? Here's what you can do:</p>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Browse subjects and explore content</li>
+                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Create a free account to bookmark lessons</li>
+                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Rate content to help others</li>
+                                    <li><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Apply to become a content creator</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Join Our Discord Section -->
+                    <div style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fab fa-discord" style="color: #fff; font-size: 24px;"></i>
+                                    </div>
+                                    <h3 style="margin: 0; color: white; font-size: 20px;">Join Our Discord Community</h3>
+                                </div>
+                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
+                                    Connect with fellow learners, ask questions, share knowledge, and stay engaged with our growing community!
+                                </p>
+                            </div>
+                            <div style="flex-shrink: 0;">
+                                <a href="https://discord.gg/hCQrmYccWf" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
+                                    <i class="fab fa-discord"></i>
+                                    Join Discord
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest News Section -->
+                    <div style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fas fa-newspaper" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h3 style="margin: 0; color: white; font-size: 20px;">Latest News</h3>
+                                </div>
+                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
+                                    Stay updated with the latest platform updates, new features, and educational content releases.
+                                </p>
+                            </div>
+                            <div style="flex-shrink: 0;">
+                                <a href="news.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
+                                    <i class="fas fa-arrow-right"></i>
+                                    View News
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meet Our Team Section -->
+                    <div style="background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fas fa-users" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h3 style="margin: 0; color: white; font-size: 20px;">Meet Our Team</h3>
+                                </div>
+                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
+                                    Get to know the dedicated team behind Atomo Schola and our mission to provide quality education.
+                                </p>
+                            </div>
+                            <div style="flex-shrink: 0;">
+                                <a href="team.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Meet the Team
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div style="text-align: center; padding: 40px 30px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                        <h3 style="color: #333; margin-bottom: 15px; font-size: 24px;">Ready to Start Learning?</h3>
+                        <p style="color: #6c757d; margin-bottom: 25px; font-size: 16px;">Join thousands of learners exploring quality educational content</p>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <a href="register.html" style="background: #007bff; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;" onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                                <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Create Account
+                            </a>
+                            <a href="subject.html?subject=physics" style="background: #28a745; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;" onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'">
+                                <i class="fas fa-play" style="margin-right: 8px;"></i>Start Learning
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="featured-subjects">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">Featured Subjects</h2>
+                    <a href="propose-edits.html" class="btn" style="background: #6f42c1; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-edit"></i> Propose Edits
+                    </a>
+                </div>
+                <div class="subjects-grid" id="subjectsGrid">
+                    <!-- Subjects will be loaded dynamically from database -->
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">
+                        Loading subjects...
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="padding: 20px 30px;">
+        <div style="text-align: right;">
+            <span style="font-size: 14px; color: #6c757d;">
+                Created by <a href="https://github.com/HojdaAdelin" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">Hojda Adelin</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

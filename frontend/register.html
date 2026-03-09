@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/auth.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px;">
+                    <span>Atomo Schola</span>
+                </div>
+                <h1>Create Account</h1>
+                <p>Join our learning community today</p>
+            </div>
+            
+            <form class="auth-form register-form" id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input type="text" id="username" name="username" required placeholder="Choose a username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <div style="position: relative;">
+                            <input type="password" id="password" name="password" required placeholder="Create password" style="padding-right: 45px;">
+                            <button type="button" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666; font-size: 18px;">
+                                <i class="fas fa-eye" id="password-toggle-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <div style="position: relative;">
+                            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm password" style="padding-right: 45px;">
+                            <button type="button" onclick="togglePassword('confirmPassword')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666; font-size: 18px;">
+                                <i class="fas fa-eye" id="confirmPassword-toggle-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="account-type-selection">
+                    <h4>Account Type *</h4>
+                    <div class="account-types">
+                        <div class="account-type-option" data-type="user">
+                            <i class="fas fa-user"></i>
+                            <div class="type-name">User</div>
+                            <div class="type-desc">Access and read lessons</div>
+                        </div>
+                        <div class="account-type-option" data-type="creator">
+                            <i class="fas fa-pencil-alt"></i>
+                            <div class="type-name">Creator</div>
+                            <div class="type-desc">Create and modify lessons</div>
+                        </div>
+                        <div class="account-type-option" data-type="editor">
+                            <i class="fas fa-edit"></i>
+                            <div class="type-name">Editor</div>
+                            <div class="type-desc">Review and edit lessons</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="accountType" name="accountType">
+                </div>
+                
+                <div class="form-group" id="inviteCodeGroup" style="display: none;">
+                    <label for="inviteCode">Invite Code (Required for Creator/Editor) *</label>
+                    <input type="text" id="inviteCode" name="inviteCode" placeholder="Enter 16-digit invite code" maxlength="16">
+                    <small style="color: #6c757d;">Contact an owner to get an invite code</small>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#" style="color: #000000; text-decoration: underline;">Terms of Service</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById(fieldId + '-toggle-icon');
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

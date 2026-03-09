@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+        }
+        .profile-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .profile-role {
+            font-size: 18px;
+            opacity: 0.9;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .profile-info {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-value {
+            color: #666;
+            font-family: monospace;
+        }
+        .role-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .role-badge.owner {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .role-badge.creator {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .role-badge.editor {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .role-badge.user {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        .btn-profile {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <main class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-name" id="profileName">Loading...</div>
+            <div class="profile-role" id="profileRole">Loading...</div>
+        </div>
+
+        <div class="profile-info">
+            <h3 style="margin-bottom: 20px; color: #333;">
+                <i class="fas fa-info-circle"></i> Account Information
+            </h3>
+            
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-user"></i>
+                    Username
+                </div>
+                <div class="info-value" id="infoUsername">Loading...</div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </div>
+                <div class="info-value" id="infoEmail">Loading...</div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-shield-alt"></i>
+                    Role
+                </div>
+                <div>
+                    <span class="role-badge" id="infoBadge">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    Member Since
+                </div>
+                <div class="info-value" id="infoMemberSince">Loading...</div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="settings.html" class="btn-profile btn-primary">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+            <a href="index.html" class="btn-profile btn-secondary">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+        </div>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        // Profile page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!window.API.isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            loadProfile();
+        });
+
+        function loadProfile() {
+            const currentUser = window.API.getUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Update profile header
+            document.getElementById('profileName').textContent = currentUser.firstName && currentUser.lastName 
+                ? `${currentUser.firstName} ${currentUser.lastName}`
+                : currentUser.username;
+            document.getElementById('profileRole').textContent = capitalizeFirst(currentUser.userType);
+
+            // Update info section
+            document.getElementById('infoUsername').textContent = currentUser.username;
+            document.getElementById('infoEmail').textContent = currentUser.email;
+            
+            const badge = document.getElementById('infoBadge');
+            badge.textContent = currentUser.userType;
+            badge.className = `role-badge ${currentUser.userType}`;
+            
+            // Format member since date
+            if (currentUser.createdAt) {
+                const memberSince = new Date(currentUser.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                document.getElementById('infoMemberSince').textContent = memberSince;
+            } else {
+                document.getElementById('infoMemberSince').textContent = 'Unknown';
+            }
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+</body>
+</html>

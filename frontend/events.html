@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .events-container {
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .events-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .events-header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .events-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .events-filters {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #666;
+        }
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        .filter-btn.active:hover {
+            color: white;
+        }
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .event-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .event-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            position: relative;
+        }
+        .event-type-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+        .event-content {
+            padding: 24px;
+        }
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .event-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #333;
+            line-height: 1.3;
+        }
+        .event-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .event-attendees {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .event-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-event {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        .no-events {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .no-events i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        .create-event-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .create-event-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        .event-status {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-upcoming {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .status-ongoing {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .status-past {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Events Content -->
+    <main class="events-container">
+        <div class="events-header">
+            <h1><i class="fas fa-calendar-alt"></i> Events</h1>
+            <p>Discover upcoming workshops, webinars, and educational events. Join our community and enhance your learning experience.</p>
+        </div>
+
+        <div class="events-filters">
+            <button class="filter-btn active" data-filter="all">All Events</button>
+            <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+            <button class="filter-btn" data-filter="ongoing">Ongoing</button>
+            <button class="filter-btn" data-filter="past">Past</button>
+            <button class="filter-btn" data-filter="workshop">Workshops</button>
+            <button class="filter-btn" data-filter="webinar">Webinars</button>
+            <button class="filter-btn" data-filter="conference">Conferences</button>
+        </div>
+
+        <div class="events-grid" id="eventsGrid">
+            <!-- Events will be loaded here -->
+        </div>
+
+        <div class="no-events" id="noEvents" style="display: none;">
+            <i class="fas fa-calendar-times"></i>
+            <h3>No Events Found</h3>
+            <p>There are no events matching your current filter. Try selecting a different category.</p>
+        </div>
+    </main>
+
+    <!-- Create Event FAB (only for creators, editors, owners) -->
+    <button class="create-event-fab" id="createEventFab" style="display: none;" title="Create New Event">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        // Sample events data (in a real app, this would come from API)
+        const sampleEvents = [];
+
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initEvents();
+            setupEventListeners();
+            showCreateFabIfAllowed();
+        });
+
+        function initEvents() {
+            displayEvents(sampleEvents);
+        }
+
+        function setupEventListeners() {
+            // Filter buttons
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active filter
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    currentFilter = this.dataset.filter;
+                    filterEvents();
+                });
+            });
+
+            // Create event FAB
+            const createFab = document.getElementById('createEventFab');
+            if (createFab) {
+                createFab.addEventListener('click', function() {
+                    alert('Event creation feature coming soon! This would open a form to create new events.');
+                });
+            }
+        }
+
+        function filterEvents() {
+            let filteredEvents = sampleEvents;
+
+            if (currentFilter !== 'all') {
+                if (['upcoming', 'ongoing', 'past'].includes(currentFilter)) {
+                    filteredEvents = sampleEvents.filter(event => event.status === currentFilter);
+                } else {
+                    filteredEvents = sampleEvents.filter(event => event.type === currentFilter);
+                }
+            }
+
+            displayEvents(filteredEvents);
+        }
+
+        function displayEvents(events) {
+            const grid = document.getElementById('eventsGrid');
+            const noEvents = document.getElementById('noEvents');
+
+            if (events.length === 0) {
+                grid.style.display = 'none';
+                noEvents.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noEvents.style.display = 'none';
+
+            grid.innerHTML = events.map(event => {
+                const eventDate = new Date(event.date + 'T' + event.time);
+                const formattedDate = eventDate.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                const formattedTime = eventDate.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                return `
+                    <div class="event-card" data-type="${event.type}" data-status="${event.status}">
+                        <div class="event-image">
+                            <i class="${event.image}"></i>
+                            <div class="event-status status-${event.status}">
+                                ${capitalizeFirst(event.status)}
+                            </div>
+                            <div class="event-type-badge">
+                                ${capitalizeFirst(event.type)}
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">
+                                <i class="fas fa-calendar"></i>
+                                ${formattedDate} at ${formattedTime}
+                            </div>
+                            <h3 class="event-title">${event.title}</h3>
+                            <p class="event-description">${event.description}</p>
+                            <div class="event-meta">
+                                <div class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${event.location}
+                                </div>
+                                <div class="event-attendees">
+                                    <i class="fas fa-users"></i>
+                                    ${event.attendees}/${event.maxAttendees}
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                ${getEventActions(event)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getEventActions(event) {
+            if (event.status === 'past') {
+                return `
+                    <button class="btn-event btn-secondary">
+                        <i class="fas fa-history"></i>
+                        View Recording
+                    </button>
+                `;
+            } else if (event.status === 'ongoing') {
+                return `
+                    <button class="btn-event btn-primary">
+                        <i class="fas fa-play"></i>
+                        Join Now
+                    </button>
+                `;
+            } else {
+                return `
+                    <button class="btn-event btn-primary">
+                        <i class="fas fa-calendar-plus"></i>
+                        Register
+                    </button>
+                    <button class="btn-event btn-secondary">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                `;
+            }
+        }
+
+        function showCreateFabIfAllowed() {
+            const currentUser = window.API.getUser();
+            if (currentUser && ['creator', 'editor', 'owner'].includes(currentUser.userType)) {
+                document.getElementById('createEventFab').style.display = 'block';
+            }
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+</body>
+</html>

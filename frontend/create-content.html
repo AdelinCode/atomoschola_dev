@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Quill Rich Text Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <!-- KaTeX for Math Formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <style>
+        .create-content-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .content-type-selector {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .type-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .type-btn {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .type-btn:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        
+        .type-btn.active {
+            border-color: #007bff;
+            background: #e7f3ff;
+        }
+        
+        .type-btn i {
+            font-size: 32px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        
+        .content-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .content-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        #editor {
+            min-height: 400px;
+            background: white;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        /* Attachments styling */
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .attachment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .attachment-icon {
+            width: 32px;
+            height: 32px;
+            background: #007bff;
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .attachment-details h5 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .attachment-details small {
+            color: #6c757d;
+            font-size: 12px;
+        }
+        
+        .attachment-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .attachment-remove:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu"></nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="create-content-container">
+            <h1><i class="fas fa-plus-circle"></i> Create New Content</h1>
+            
+            <!-- Content Type Selector -->
+            <div class="content-type-selector">
+                <h2>What would you like to create?</h2>
+                <div class="type-buttons">
+                    <div class="type-btn" data-type="lesson">
+                        <i class="fas fa-book"></i>
+                        <h3>Lesson</h3>
+                        <p>Create a new lesson</p>
+                    </div>
+                    <div class="type-btn" data-type="domain">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>Domain</h3>
+                        <p>Add a new domain</p>
+                    </div>
+                    <div class="type-btn" data-type="category">
+                        <i class="fas fa-folder"></i>
+                        <h3>Category</h3>
+                        <p>Add a new category</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lesson Form -->
+            <div class="content-form" id="lessonForm">
+                <h2><i class="fas fa-book"></i> Create New Lesson</h2>
+                <form id="createLessonForm">
+                    <div class="form-group">
+                        <label for="lessonSubject">Subject *</label>
+                        <select id="lessonSubject" required>
+                            <option value="">Select Subject</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonDomain">Domain *</label>
+                        <select id="lessonDomain" required>
+                            <option value="">Select Domain</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonCategory">Category *</label>
+                        <select id="lessonCategory" required>
+                            <option value="">Select Category</option>
+                        </select>
+                        <small id="categoryHelp" style="color: #dc3545; display: none; margin-top: 5px;">
+                            <i class="fas fa-exclamation-triangle"></i> 
+                            No categories available. Please create a Domain and Category first by selecting the appropriate content type above.
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonTitle">Title *</label>
+                        <input type="text" id="lessonTitle" required placeholder="Enter lesson title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonSlug">Slug *</label>
+                        <input type="text" id="lessonSlug" required placeholder="lesson-slug">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonDescription">Description *</label>
+                        <textarea id="lessonDescription" required placeholder="Brief description of the lesson"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonType">Type *</label>
+                        <select id="lessonType" required>
+                            <option value="text">Text</option>
+                            <option value="video">Video</option>
+                            <option value="presentation">Presentation</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Video URL field (only for video type) -->
+                    <div class="form-group" id="videoUrlGroup" style="display: none;">
+                        <label for="videoUrl">YouTube Video URL *</label>
+                        <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                        <small style="color: #6c757d;">Paste the full YouTube video URL</small>
+                    </div>
+                    
+                    <!-- Content editor (for text and presentation) -->
+                    <div class="form-group" id="contentEditorGroup">
+                        <label for="lessonContent">Content *</label>
+                        <div id="editor"></div>
+                        <small style="color: #6c757d; margin-top: 10px; display: block;">
+                            <i class="fas fa-info-circle"></i> 
+                            Use the formula button (∑) to insert LaTeX math formulas. Example: \frac{a}{b} or x^2
+                        </small>
+                    </div>
+                    
+                    <!-- Attachments section -->
+                    <div class="form-group">
+                        <label for="attachments">Attachments (Optional)</label>
+                        <div id="attachmentsList" style="margin-bottom: 15px;">
+                            <!-- Dynamic attachment items will be added here -->
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: end;">
+                            <div style="flex: 1;">
+                                <input type="text" id="attachmentName" placeholder="File name (e.g., Course Notes.docx)" style="margin-bottom: 8px;">
+                                <input type="url" id="attachmentUrl" placeholder="File URL (Google Drive, Dropbox, etc.)">
+                            </div>
+                            <div>
+                                <select id="attachmentType" style="width: 140px;">
+                                    <option value="document">Document</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="spreadsheet">Spreadsheet</option>
+                                    <option value="presentation">Presentation</option>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" id="addAttachmentBtn" class="btn" style="background: #28a745; color: white; padding: 12px 16px;">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                        <small style="color: #6c757d; margin-top: 8px; display: block;">
+                            <i class="fas fa-paperclip"></i> 
+                            Add links to files from Google Drive, Dropbox, OneDrive, etc.
+                        </small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Lesson</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Domain Form -->
+            <div class="content-form" id="domainForm">
+                <h2><i class="fas fa-layer-group"></i> Create New Domain</h2>
+                <form id="createDomainForm">
+                    <div class="form-group">
+                        <label for="domainSubject">Subject *</label>
+                        <select id="domainSubject" required>
+                            <option value="">Select Subject</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="domainName">Name *</label>
+                        <input type="text" id="domainName" required placeholder="Enter domain name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="domainSlug">Slug *</label>
+                        <input type="text" id="domainSlug" required placeholder="domain-slug">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="domainDescription">Description *</label>
+                        <textarea id="domainDescription" required placeholder="Brief description of the domain"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Domain</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Category Form -->
+            <div class="content-form" id="categoryForm">
+                <h2><i class="fas fa-folder"></i> Create New Category</h2>
+                <form id="createCategoryForm">
+                    <div class="form-group">
+                        <label for="categorySubject">Subject *</label>
+                        <select id="categorySubject" required>
+                            <option value="">Select Subject</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoryDomain">Domain *</label>
+                        <select id="categoryDomain" required>
+                            <option value="">Select Domain</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoryName">Name *</label>
+                        <input type="text" id="categoryName" required placeholder="Enter category name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categorySlug">Slug *</label>
+                        <input type="text" id="categorySlug" required placeholder="category-slug">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoryDescription">Description *</label>
+                        <textarea id="categoryDescription" required placeholder="Brief description of the category"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Category</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #007bff;"></i>
+                <p>Creating content...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- KaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <!-- Quill Editor -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/create-content.js"></script>
+</body>
+</html>

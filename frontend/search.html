@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        Events
+                        <span class="badge">Coming Soon</span>
+                    </a>
+                    <div class="account-dropdown">
+                        <button class="account-btn" id="accountBtn">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Account</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="accountDropdown">
+                            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#"><i class="fas fa-crown"></i> Account Type: <span id="accountType">User</span></a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Subjects</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="subject.html?subject=physics" class="sidebar-item">
+                <i class="fas fa-atom"></i>
+                <span>Physics</span>
+            </a>
+            <a href="subject.html?subject=chemistry" class="sidebar-item">
+                <i class="fas fa-flask"></i>
+                <span>Chemistry</span>
+            </a>
+            <a href="subject.html?subject=mathematics" class="sidebar-item">
+                <i class="fas fa-calculator"></i>
+                <span>Mathematics</span>
+            </a>
+            <a href="subject.html?subject=biology" class="sidebar-item">
+                <i class="fas fa-dna"></i>
+                <span>Biology</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Search Header -->
+            <div class="search-header">
+                <h1>Search Results</h1>
+                <p class="search-query">Showing results for: <strong id="searchQuery"></strong></p>
+                <div class="search-stats">
+                    <span id="searchStats">Found 0 results</span>
+                </div>
+            </div>
+
+            <!-- Search Filters -->
+            <div class="search-filters">
+                <div class="filter-group">
+                    <label>Subject:</label>
+                    <select id="subjectFilter">
+                        <option value="all">All Subjects</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="biology">Biology</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Type:</label>
+                    <select id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="video">Video</option>
+                        <option value="text">Text</option>
+                        <option value="audio">Audio</option>
+                        <option value="presentation">Presentation</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sort by:</label>
+                    <select id="sortFilter">
+                        <option value="relevance">Relevance</option>
+                        <option value="rating">Rating</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div class="search-results" id="searchResults">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-content">
+                    <i class="fas fa-search"></i>
+                    <h3>No results found</h3>
+                    <p>Try adjusting your search terms or filters</p>
+                    <div class="search-suggestions">
+                        <h4>Suggestions:</h4>
+                        <ul>
+                            <li>Check your spelling</li>
+                            <li>Try more general terms</li>
+                            <li>Use different keywords</li>
+                            <li>Remove some filters</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

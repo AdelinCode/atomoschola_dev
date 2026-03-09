@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/lesson.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="lesson-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" id="breadcrumb">
+                <!-- Populated by JavaScript -->
+            </nav>
+
+            <!-- Lesson Header -->
+            <div class="lesson-header-section">
+                <div class="lesson-meta-info">
+                    <div class="lesson-type-badge" id="lessonTypeBadge">
+                        <i class="fas fa-play-circle"></i>
+                        Video Lesson
+                    </div>
+                    <h1 class="lesson-title" id="lessonTitle">Introduction to Forces</h1>
+                    <p class="lesson-description" id="lessonDescription">
+                        Understanding the basic concepts of forces and their effects on objects in static and dynamic situations.
+                    </p>
+                    
+                    <div class="lesson-stats">
+                        <div class="lesson-rating">
+                            <div class="stars" id="lessonStars">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                            <span class="rating-value" id="ratingValue">4.8</span>
+                            <span class="rating-count">(124 ratings)</span>
+                        </div>
+                        
+                        <div class="lesson-info">
+                            <div class="info-item">
+                                <i class="fas fa-user"></i>
+                                <span>Created by: <strong id="lessonCreators">Dr. Smith, Prof. Johnson</strong></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Edited by: <strong id="lessonEditors">Editor1</strong></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Published: <strong id="lessonDate">January 15, 2024</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lesson-actions">
+                    <button class="btn btn-secondary" id="bookmarkBtn">
+                        <i class="far fa-bookmark"></i>
+                        Bookmark
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="lesson-content-section">
+                <div class="lesson-content" id="lessonContent">
+                    <!-- Content will be loaded based on lesson type -->
+                </div>
+                
+                <!-- Rating Section -->
+                <div class="rating-section">
+                    <h3>Rate this lesson</h3>
+                    <div class="user-rating">
+                        <div class="rating-stars" id="userRatingStars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <button class="btn btn-primary" id="submitRatingBtn" style="display: none;">
+                            Submit Rating
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Lessons -->
+            <div class="related-lessons-section">
+                <h2>Related Lessons</h2>
+                <div class="related-lessons-grid" id="relatedLessonsGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Lesson Modal -->
+    <div class="modal" id="editLessonModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Lesson</h3>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" id="editTitle" placeholder="Enter lesson title">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="editDescription" placeholder="Enter lesson description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Content:</label>
+                    <textarea id="editContent" placeholder="Enter lesson content" rows="10"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+                    <button class="btn btn-primary" id="submitEditBtn">Submit Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/lesson.js"></script>
+</body>
+</html>

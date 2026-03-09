@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Subjects</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="subject.html?subject=physics" class="sidebar-item">
+                <i class="fas fa-atom"></i>
+                <span>Physics</span>
+            </a>
+            <a href="subject.html?subject=chemistry" class="sidebar-item">
+                <i class="fas fa-flask"></i>
+                <span>Chemistry</span>
+            </a>
+            <a href="subject.html?subject=mathematics" class="sidebar-item">
+                <i class="fas fa-calculator"></i>
+                <span>Mathematics</span>
+            </a>
+            <a href="subject.html?subject=biology" class="sidebar-item">
+                <i class="fas fa-dna"></i>
+                <span>Biology</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Subject Header -->
+            <div class="subject-header">
+                <div class="subject-title">
+                    <i class="fas fa-atom"></i>
+                    <h1 id="subjectTitle">Physics</h1>
+                </div>
+                <div class="subject-actions">
+                    <div class="sort-controls">
+                        <label for="sortBy">Sort by:</label>
+                        <select id="sortBy">
+                            <option value="rating">Rating</option>
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="type">Type</option>
+                        </select>
+                    </div>
+                    <div class="filter-controls">
+                        <label for="filterType">Filter:</label>
+                        <select id="filterType">
+                            <option value="all">All Types</option>
+                            <option value="text">Text</option>
+                            <option value="video">Video</option>
+                            <option value="audio">Audio</option>
+                            <option value="presentation">Presentation</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Domains Grid -->
+            <div class="domains-section">
+                <h2>Domains</h2>
+                <div class="domains-grid" id="domainsGrid">
+                    <!-- Domains will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Categories for Selected Domain -->
+            <div class="categories-section" id="categoriesSection" style="display: none;">
+                <h2 id="categoriesTitle">Mechanics Categories</h2>
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Lessons for Selected Category -->
+            <div class="lessons-section" id="lessonsSection" style="display: none;">
+                <h2 id="lessonsTitle">Static Mechanics Lessons</h2>
+                <div class="lessons-grid" id="lessonsGrid">
+                    <!-- Lessons will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Creator Modal -->
+    <div class="modal" id="creatorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Content</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Content Type:</label>
+                    <select id="contentType">
+                        <option value="lesson">Lesson</option>
+                        <option value="category">Category</option>
+                        <option value="domain">Domain</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" id="contentTitle" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="contentDescription" placeholder="Enter description"></textarea>
+                </div>
+                <div class="form-group lesson-specific">
+                    <label>Lesson Type:</label>
+                    <select id="lessonType">
+                        <option value="text">Text</option>
+                        <option value="video">Video</option>
+                        <option value="audio">Audio</option>
+                        <option value="presentation">Presentation</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button class="btn btn-primary" id="submitBtn">Submit for Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/subject.js"></script>
+</body>
+</html>

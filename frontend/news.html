@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .news-container {
+            max-width: 1000px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        .news-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .news-header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .news-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .news-article {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .news-article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        }
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .news-category {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .news-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.3;
+        }
+        .news-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+        .news-content p {
+            margin-bottom: 20px;
+        }
+        .news-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .news-content li {
+            margin-bottom: 8px;
+        }
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .highlight-box h4 {
+            margin: 0 0 10px 0;
+            color: #17a2b8;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #17a2b8;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #138496;
+        }
+        .no-news {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .no-news i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- News Content -->
+    <main class="news-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+        
+        <div class="news-header">
+            <h1><i class="fas fa-newspaper"></i> News & Updates</h1>
+            <p>Stay informed about the latest platform updates, new features, and important announcements.</p>
+        </div>
+
+        <!-- Website Release Article -->
+        <article class="news-article">
+            <div class="news-meta">
+                <div class="news-date">
+                    <i class="fas fa-calendar"></i>
+                    January 25, 2026
+                </div>
+                <div class="news-category">Platform Release</div>
+            </div>
+            
+            <h2 class="news-title">🎉 Welcome to Atomo Schola - Website Release</h2>
+            
+            <div class="news-content">
+                <p>
+                    We're excited to announce the official launch of <strong>Atomo Schola</strong> - your new destination for quality educational content and collaborative learning!
+                </p>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-rocket"></i> What's New</h4>
+                    <p>Our platform launches with a comprehensive set of features designed to enhance your learning experience.</p>
+                </div>
+
+                <h3>🌟 Key Features</h3>
+                <ul>
+                    <li><strong>Subject Organization:</strong> Browse content organized by subjects, domains, and categories</li>
+                    <li><strong>User Roles:</strong> Different access levels for users, creators, editors, and owners</li>
+                    <li><strong>Content Creation:</strong> Creators and editors can contribute high-quality lessons</li>
+                    <li><strong>Search & Discovery:</strong> Powerful search functionality to find relevant content</li>
+                    <li><strong>User Management:</strong> Comprehensive dashboard for platform administration</li>
+                    <li><strong>Events System:</strong> Stay updated with educational events and workshops</li>
+                </ul>
+
+                <h3>🚀 Getting Started</h3>
+                <p>
+                    Ready to begin your learning journey? Here's how to get started:
+                </p>
+                <ul>
+                    <li>Create your account or log in if you already have one</li>
+                    <li>Explore our subjects and find topics that interest you</li>
+                    <li>Start learning with our carefully curated lessons</li>
+                    <li>Join our community and participate in discussions</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-users"></i> Join Our Community</h4>
+                    <p>
+                        Whether you're here to learn, teach, or both - we're excited to have you as part of our growing educational community.
+                    </p>
+                </div>
+
+                <p>
+                    This is just the beginning! We have many exciting features and improvements planned for the coming months. 
+                    Stay tuned for regular updates and new content.
+                </p>
+
+                <p>
+                    <strong>Happy Learning!</strong><br>
+                    <em>The Atomo Schola Team</em>
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
