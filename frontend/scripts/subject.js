@@ -80,7 +80,7 @@ async function loadData() {
         const subject = subjectsData[currentSubject];
         if (subject) {
             document.getElementById('subjectTitle').textContent = subject.name;
-            document.title = `${subject.name} - EduPlatform`;
+            document.title = `${subject.name} - Atomo Schola`;
         }
         
         // Show authentication status
