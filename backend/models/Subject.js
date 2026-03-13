@@ -18,6 +18,12 @@ const subjectSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  majorCategory: {
+    type: String,
+    enum: ['STEAM', 'Humanities'],
+    required: true,
+    default: 'STEAM'
+  },
   isPremium: {
     type: Boolean,
     default: false

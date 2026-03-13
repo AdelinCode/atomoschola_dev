@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Load data
     await loadData();
     
+    // Load sidebar
+    await loadSidebar();
+    
+    // Setup sidebar toggle
+    setupSidebarToggle();
+    
     // Display domains
     displayDomains();
     
@@ -89,6 +95,38 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         alert('Error loading data. Please refresh the page.');
+    }
+}
+
+// Load sidebar with all subjects
+async function loadSidebar() {
+    const sidebarNav = document.getElementById('sidebarNav');
+    if (!sidebarNav) return;
+    
+    try {
+        const response = await window.API.subjects.getAll();
+        
+        if (response.success && response.data.length > 0) {
+            sidebarNav.innerHTML = '';
+            response.data.forEach(subject => {
+                const link = document.createElement('a');
+                link.href = `subject.html?subject=${subject.slug}`;
+                link.className = 'sidebar-item';
+                if (subject.slug === currentSubject) {
+                    link.classList.add('active');
+                }
+                link.innerHTML = `
+                    <i class="${subject.icon}"></i>
+                    <span>${subject.name}</span>
+                `;
+                sidebarNav.appendChild(link);
+            });
+        } else {
+            sidebarNav.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No subjects yet</p>';
+        }
+    } catch (error) {
+        console.error('Error loading sidebar:', error);
+        sidebarNav.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 20px;">Error loading</p>';
     }
 }
 
@@ -403,5 +441,30 @@ function setupEventListeners() {
                 displayLessons(currentCategory, category);
             }
         });
+    }
+}
+
+
+function setupSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            body.classList.toggle('sidebar-collapsed');
+            
+            // Save state
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Restore state
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+            body.classList.add('sidebar-collapsed');
+        }
     }
 }
