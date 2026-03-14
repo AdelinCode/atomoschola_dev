@@ -98,17 +98,33 @@ async function loadData() {
     }
 }
 
-// Load sidebar with all subjects
+// Load sidebar with subjects filtered by the same majorCategory as current subject
 async function loadSidebar() {
     const sidebarNav = document.getElementById('sidebarNav');
     if (!sidebarNav) return;
     
     try {
-        const response = await window.API.subjects.getAll();
-        
-        if (response.success && response.data.length > 0) {
+        // First get the current subject to know its majorCategory
+        const allResponse = await window.API.subjects.getAll();
+        if (!allResponse.success) return;
+
+        const currentSubjectData = allResponse.data.find(s => s.slug === currentSubject);
+        const majorCategory = currentSubjectData ? currentSubjectData.majorCategory : null;
+
+        // Filter subjects by the same majorCategory
+        const filtered = majorCategory
+            ? allResponse.data.filter(s => s.majorCategory === majorCategory)
+            : allResponse.data;
+
+        // Update sidebar header to reflect the category
+        const sidebarHeader = document.querySelector('.sidebar-header h3');
+        if (sidebarHeader && majorCategory) {
+            sidebarHeader.textContent = majorCategory === 'STEAM' ? 'STEM' : 'Humanities';
+        }
+
+        if (filtered.length > 0) {
             sidebarNav.innerHTML = '';
-            response.data.forEach(subject => {
+            filtered.forEach(subject => {
                 const link = document.createElement('a');
                 link.href = `subject.html?subject=${subject.slug}`;
                 link.className = 'sidebar-item';
