@@ -87,6 +87,11 @@ async function loadData() {
         if (subject) {
             document.getElementById('subjectTitle').textContent = subject.name;
             document.title = `${subject.name} - Atomo Schola`;
+            // Update icon from subject data
+            const iconEl = document.getElementById('subjectIcon');
+            if (iconEl && subject.icon) {
+                iconEl.className = subject.icon;
+            }
         }
         
         // Show authentication status
