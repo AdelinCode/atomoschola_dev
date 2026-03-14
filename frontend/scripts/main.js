@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     updateUIBasedOnUserType();
-    updateSidebarForCurrentPage();
     
     // Only load homepage data on index.html
     const currentPath = window.location.pathname;
@@ -56,6 +55,7 @@ function renderGuestNav() {
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="dropdown-menu" id="coursesDropdown">
+                <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
                 <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
                 <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
             </div>
@@ -93,6 +93,7 @@ function renderAuthenticatedNav() {
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="dropdown-menu" id="coursesDropdown">
+                <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
                 <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
                 <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
             </div>
@@ -223,9 +224,6 @@ function setupEventListeners() {
             });
         }
     }
-
-    // Mobile sidebar toggle
-    setupMobileSidebar();
 }
 
 function setupNavEventListeners() {
@@ -296,30 +294,6 @@ function setupCoursesDropdown() {
         document.addEventListener('click', function() {
             coursesDropdown.classList.remove('show');
         });
-    }
-}
-
-function setupSidebarToggle() {
-    const toggleBtn = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
-    
-    if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            body.classList.toggle('sidebar-collapsed');
-            
-            // Save state to localStorage
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            localStorage.setItem('sidebarCollapsed', isCollapsed);
-        });
-        
-        // Restore sidebar state from localStorage
-        const savedState = localStorage.getItem('sidebarCollapsed');
-        if (savedState === 'true') {
-            sidebar.classList.add('collapsed');
-            body.classList.add('sidebar-collapsed');
-        }
     }
 }
 
@@ -528,49 +502,6 @@ function performSearch(query) {
     window.location.href = `search-results.html?q=${encodeURIComponent(query.trim())}`;
 }
 
-function setupMobileSidebar() {
-    // Add mobile menu button if needed
-    if (window.innerWidth <= 768) {
-        addMobileMenuButton();
-    }
-    
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            addMobileMenuButton();
-        } else {
-            removeMobileMenuButton();
-        }
-    });
-}
-
-function addMobileMenuButton() {
-    const header = document.querySelector('.header-content');
-    let mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    
-    if (!mobileMenuBtn && header) {
-        mobileMenuBtn = document.createElement('button');
-        mobileMenuBtn.id = 'mobileMenuBtn';
-        mobileMenuBtn.className = 'mobile-menu-btn';
-        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('show');
-            }
-        });
-        
-        header.insertBefore(mobileMenuBtn, header.firstChild);
-    }
-}
-
-function removeMobileMenuButton() {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    if (mobileMenuBtn) {
-        mobileMenuBtn.remove();
-    }
-}
-
 function showCreatorModal() {
     const modal = document.getElementById('creatorModal');
     if (modal) {
@@ -666,42 +597,6 @@ function clearModalForm() {
 
 function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function updateSidebarForCurrentPage() {
-    // Get current page and subject from URL
-    const currentPath = window.location.pathname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const subject = urlParams.get('subject');
-    
-    // Remove active class from all sidebar items
-    const sidebarItems = document.querySelectorAll('.sidebar-item');
-    sidebarItems.forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Add active class based on current page
-    if (currentPath.includes('subject.html') && subject) {
-        const currentSidebarItem = document.querySelector(`a[href="subject.html?subject=${subject}"]`);
-        if (currentSidebarItem) {
-            currentSidebarItem.classList.add('active');
-        }
-    } else if (currentPath.includes('index.html') || currentPath === '/' || currentPath === '') {
-        // No active state for homepage
-    } else {
-        // For other pages, you might want to highlight based on context
-        // For now, we'll leave no active state
-    }
-    
-    // Add click listeners to sidebar items to update active state
-    sidebarItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active from all items
-            sidebarItems.forEach(i => i.classList.remove('active'));
-            // Add active to clicked item
-            this.classList.add('active');
-        });
-    });
 }
 
 // Rating system
@@ -823,9 +718,6 @@ async function loadHomepageData() {
     } catch (error) {
         console.error('Error loading homepage data:', error);
     }
-    
-    // Setup sidebar toggle
-    setupSidebarToggle();
 }
 
 // Export functions for use in other scripts
