@@ -85,13 +85,28 @@ async function loadData() {
         // Update page title
         const subject = subjectsData[currentSubject];
         if (subject) {
-            document.getElementById('subjectTitle').textContent = subject.name;
-            document.title = `${subject.name} - Atomo Schola`;
-            // Update icon from subject data
+            const titleEl = document.getElementById('subjectTitle');
             const iconEl = document.getElementById('subjectIcon');
-            if (iconEl && subject.icon) {
-                iconEl.className = subject.icon;
+
+            if (titleEl) {
+                titleEl.style.transition = 'opacity 0.3s ease';
+                titleEl.style.opacity = '0';
+                setTimeout(() => {
+                    titleEl.textContent = subject.name;
+                    titleEl.style.opacity = '1';
+                }, 150);
             }
+
+            if (iconEl && subject.icon) {
+                iconEl.style.transition = 'opacity 0.3s ease';
+                iconEl.style.opacity = '0';
+                setTimeout(() => {
+                    iconEl.className = subject.icon;
+                    iconEl.style.opacity = '1';
+                }, 150);
+            }
+
+            document.title = `${subject.name} - Atomo Schola`;
         }
         
         // Show authentication status
