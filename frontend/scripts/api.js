@@ -88,7 +88,13 @@ const authAPI = {
 
 // Subjects API
 const subjectsAPI = {
-  getAll: () => apiRequest('/subjects'),
+  getAll: (filters = {}) => {
+    const params = new URLSearchParams(filters);
+    const url = `/subjects?${params}`;
+    console.log('[API] subjects.getAll - filters:', filters);
+    console.log('[API] subjects.getAll - URL:', url);
+    return apiRequest(url);
+  },
   getBySlug: (slug) => apiRequest(`/subjects/${slug}`),
   create: (subjectData) => apiRequest('/subjects', {
     method: 'POST',

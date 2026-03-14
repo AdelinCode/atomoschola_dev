@@ -338,3 +338,63 @@ function getTypeIcon(type) {
     };
     return icons[type] || 'file';
 }
+
+
+// Load sidebar with all subjects
+async function loadSearchSidebar() {
+    const sidebarNav = document.getElementById('sidebarNav');
+    if (!sidebarNav) return;
+    
+    try {
+        const response = await window.API.subjects.getAll();
+        
+        if (response.success && response.data.length > 0) {
+            sidebarNav.innerHTML = '';
+            response.data.forEach(subject => {
+                const link = document.createElement('a');
+                link.href = `subject.html?subject=${subject.slug}`;
+                link.className = 'sidebar-item';
+                link.innerHTML = `
+                    <i class="${subject.icon}"></i>
+                    <span>${subject.name}</span>
+                `;
+                sidebarNav.appendChild(link);
+            });
+        } else {
+            sidebarNav.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No subjects yet</p>';
+        }
+    } catch (error) {
+        console.error('Error loading sidebar:', error);
+    }
+}
+
+// Load sidebar when page loads - ONLY on search.html
+const currentPath = window.location.pathname;
+if (document.getElementById('sidebarNav') && currentPath.includes('search.html')) {
+    loadSearchSidebar();
+    setupSearchSidebarToggle();
+}
+
+function setupSearchSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            body.classList.toggle('sidebar-collapsed');
+            
+            // Save state
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Restore state
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+            body.classList.add('sidebar-collapsed');
+        }
+    }
+}

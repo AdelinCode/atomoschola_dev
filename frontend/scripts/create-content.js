@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
     
+    // Hide subject button for non-owners
+    if (user.userType !== 'owner') {
+        const subjectBtn = document.querySelector('[data-type="subject"]');
+        if (subjectBtn) {
+            subjectBtn.style.display = 'none';
+        }
+    }
+    
     // Initialize Quill editor with KaTeX support
     quill = new Quill('#editor', {
         theme: 'snow',
@@ -144,7 +152,12 @@ function setupEventListeners() {
         document.getElementById('categorySlug').value = generateSlug(this.value);
     });
     
+    document.getElementById('subjectName')?.addEventListener('input', function() {
+        document.getElementById('subjectSlug').value = generateSlug(this.value);
+    });
+    
     // Form submissions
+    document.getElementById('createSubjectForm').addEventListener('submit', handleSubjectSubmit);
     document.getElementById('createLessonForm').addEventListener('submit', handleLessonSubmit);
     document.getElementById('createDomainForm').addEventListener('submit', handleDomainSubmit);
     document.getElementById('createCategoryForm').addEventListener('submit', handleCategorySubmit);
@@ -168,6 +181,15 @@ function selectContentType(type) {
         form.classList.remove('active');
     });
     document.getElementById(`${type}Form`).classList.add('active');
+    
+    // Check if user is owner for subject creation
+    if (type === 'subject') {
+        const user = window.API.getUser();
+        if (user.userType !== 'owner') {
+            alert('Only owners can create subjects');
+            return;
+        }
+    }
 }
 
 // Populate domains dropdown
@@ -225,6 +247,47 @@ function generateSlug(text) {
         .replace(/[^\w\s-]/g, '')
         .replace(/[\s_-]+/g, '-')
         .replace(/^-+|-+$/g, '');
+}
+
+// Handle subject submission
+async function handleSubjectSubmit(e) {
+    e.preventDefault();
+    
+    const user = window.API.getUser();
+    
+    // Only owner can create subjects
+    if (user.userType !== 'owner') {
+        alert('Only owners can create subjects');
+        return;
+    }
+    
+    const loading = document.getElementById('loading');
+    loading.classList.add('active');
+    
+    try {
+        const subjectData = {
+            name: document.getElementById('subjectName').value,
+            slug: document.getElementById('subjectSlug').value,
+            icon: document.getElementById('subjectIcon').value,
+            description: document.getElementById('subjectDescription').value,
+            majorCategory: document.getElementById('subjectMajorCategory').value,
+            isPremium: false
+        };
+        
+        const response = await window.API.subjects.create(subjectData);
+        
+        if (response.success) {
+            alert('Subject created successfully!');
+            window.location.href = 'index.html';
+        } else {
+            alert('Error creating subject: ' + response.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error creating subject: ' + error.message);
+    } finally {
+        loading.classList.remove('active');
+    }
 }
 
 // Handle lesson submission

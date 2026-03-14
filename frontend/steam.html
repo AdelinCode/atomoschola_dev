@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/category-themes.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="theme-steam">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <section class="hero">
+                <h1 style="color: white;"><i class="fas fa-atom"></i> STEM</h1>
+                <p style="color: white;">Science, Technology, Engineering & Mathematics</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalLessons">0</span>
+                        <span class="stat-label">Lessons</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalSubjects">0</span>
+                        <span class="stat-label">Subjects</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalDomains">0</span>
+                        <span class="stat-label">Domains</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="featured-subjects">
+                <h2>STEM Subjects</h2>
+                <div class="subjects-grid" id="subjectsGrid">
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">
+                        Loading subjects...
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer style="padding: 20px 30px;">
+        <div style="text-align: right;">
+            <span style="font-size: 14px; color: #6c757d;">
+                Created by <a href="https://github.com/HojdaAdelin" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">Hojda Adelin</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/category-page.js"></script>
+</body>
+</html>

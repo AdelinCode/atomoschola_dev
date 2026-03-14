@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Load data
     await loadData();
     
+    // Load sidebar
+    await loadSidebar();
+    
+    // Setup sidebar toggle
+    setupSidebarToggle();
+    
     // Display domains
     displayDomains();
     
@@ -81,6 +87,11 @@ async function loadData() {
         if (subject) {
             document.getElementById('subjectTitle').textContent = subject.name;
             document.title = `${subject.name} - Atomo Schola`;
+            // Update icon from subject data
+            const iconEl = document.getElementById('subjectIcon');
+            if (iconEl && subject.icon) {
+                iconEl.className = subject.icon;
+            }
         }
         
         // Show authentication status
@@ -89,6 +100,54 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         alert('Error loading data. Please refresh the page.');
+    }
+}
+
+// Load sidebar with subjects filtered by the same majorCategory as current subject
+async function loadSidebar() {
+    const sidebarNav = document.getElementById('sidebarNav');
+    if (!sidebarNav) return;
+    
+    try {
+        // First get the current subject to know its majorCategory
+        const allResponse = await window.API.subjects.getAll();
+        if (!allResponse.success) return;
+
+        const currentSubjectData = allResponse.data.find(s => s.slug === currentSubject);
+        const majorCategory = currentSubjectData ? currentSubjectData.majorCategory : null;
+
+        // Filter subjects by the same majorCategory
+        const filtered = majorCategory
+            ? allResponse.data.filter(s => s.majorCategory === majorCategory)
+            : allResponse.data;
+
+        // Update sidebar header to reflect the category
+        const sidebarHeader = document.querySelector('.sidebar-header h3');
+        if (sidebarHeader && majorCategory) {
+            sidebarHeader.textContent = majorCategory === 'STEAM' ? 'STEM' : 'Humanities';
+        }
+
+        if (filtered.length > 0) {
+            sidebarNav.innerHTML = '';
+            filtered.forEach(subject => {
+                const link = document.createElement('a');
+                link.href = `subject.html?subject=${subject.slug}`;
+                link.className = 'sidebar-item';
+                if (subject.slug === currentSubject) {
+                    link.classList.add('active');
+                }
+                link.innerHTML = `
+                    <i class="${subject.icon}"></i>
+                    <span>${subject.name}</span>
+                `;
+                sidebarNav.appendChild(link);
+            });
+        } else {
+            sidebarNav.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No subjects yet</p>';
+        }
+    } catch (error) {
+        console.error('Error loading sidebar:', error);
+        sidebarNav.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 20px;">Error loading</p>';
     }
 }
 
@@ -403,5 +462,30 @@ function setupEventListeners() {
                 displayLessons(currentCategory, category);
             }
         });
+    }
+}
+
+
+function setupSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            body.classList.toggle('sidebar-collapsed');
+            
+            // Save state
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Restore state
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+            body.classList.add('sidebar-collapsed');
+        }
     }
 }

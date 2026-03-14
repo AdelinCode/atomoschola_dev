@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     updateUIBasedOnUserType();
-    updateSidebarForCurrentPage();
-    loadHomepageData();
+    
+    // Only load homepage data on index.html
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('index.html') || currentPath === '/' || currentPath.endsWith('/')) {
+        loadHomepageData();
+    }
 });
 
 function initializeApp() {
@@ -20,6 +24,9 @@ function initializeApp() {
     if (window.API && window.API.isAuthenticated()) {
         currentUser = window.API.getUser();
         renderAuthenticatedNav();
+        // Hide guest-only CTA section
+        const ctaSection = document.getElementById('ctaSection');
+        if (ctaSection) ctaSection.style.display = 'none';
     } else {
         currentUser = null;
         renderGuestNav();
@@ -41,6 +48,18 @@ function renderGuestNav() {
     if (!navMenu) return;
     
     navMenu.innerHTML = `
+        <div class="account-dropdown">
+            <button class="account-btn" id="coursesBtn">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Courses</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="coursesDropdown">
+                <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
+                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
+            </div>
+        </div>
         <a href="staff.html" class="nav-item">
             <i class="fas fa-users-cog"></i>
             Staff
@@ -54,6 +73,9 @@ function renderGuestNav() {
             Register
         </a>
     `;
+    
+    // Setup courses dropdown
+    setupCoursesDropdown();
 }
 
 function renderAuthenticatedNav() {
@@ -61,6 +83,22 @@ function renderAuthenticatedNav() {
     if (!navMenu) return;
     
     let navItems = '';
+    
+    // Add Courses dropdown for all users
+    navItems += `
+        <div class="account-dropdown">
+            <button class="account-btn" id="coursesBtn">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Courses</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="coursesDropdown">
+                <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
+                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
+            </div>
+        </div>
+    `;
     
     // Add Staff button for all users
     navItems += `
@@ -86,54 +124,43 @@ function renderAuthenticatedNav() {
             <span id="notificationBadge" style="display: none; position: absolute; top: 4px; right: 8px; background: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; align-items: center; justify-content: center;">0</span>
         </button>
     `;
-    
-    // Add role-specific navigation
-    // Add Create Content button for creators, editors, staff, and owners
-    if (['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType)) {
+
+    // Build Dashboard dropdown (only if user has access to at least one dashboard)
+    const hasDashboardAccess = 
+        ['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType) ||
+        currentUser.isCreatorCommissionMember ||
+        currentUser.isEditorCommissionMember;
+
+    if (hasDashboardAccess) {
+        let dashboardItems = '';
+
+        if (['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType)) {
+            dashboardItems += `<a href="create-content.html"><i class="fas fa-plus-circle"></i> Create Content</a>`;
+        }
+        if (currentUser.userType === 'staff') {
+            dashboardItems += `<a href="staff-dashboard.html"><i class="fas fa-tasks"></i> Staff Dashboard</a>`;
+        }
+        if (currentUser.isCreatorCommissionMember) {
+            dashboardItems += `<a href="commission-dashboard.html"><i class="fas fa-gavel"></i> Creator Commission</a>`;
+        }
+        if (currentUser.isEditorCommissionMember) {
+            dashboardItems += `<a href="editor-commission-dashboard.html"><i class="fas fa-pen-fancy"></i> Editor Commission</a>`;
+        }
+        if (currentUser.userType === 'owner') {
+            dashboardItems += `<a href="dashboard.html"><i class="fas fa-crown"></i> Owner Dashboard</a>`;
+        }
+
         navItems += `
-            <a href="create-content.html" class="nav-item">
-                <i class="fas fa-plus-circle"></i>
-                Create
-            </a>
-        `;
-    }
-    
-    // Add Staff Dashboard for staff users
-    if (currentUser.userType === 'staff') {
-        navItems += `
-            <a href="staff-dashboard.html" class="nav-item">
-                <i class="fas fa-tasks"></i>
-                Dashboard
-            </a>
-        `;
-    }
-    
-    // Add Commission Dashboard for creator commission members
-    if (currentUser.isCreatorCommissionMember) {
-        navItems += `
-            <a href="commission-dashboard.html" class="nav-item">
-                <i class="fas fa-gavel"></i>
-                Creators
-            </a>
-        `;
-    }
-    
-    // Add Editor Commission Dashboard for editor commission members
-    if (currentUser.isEditorCommissionMember) {
-        navItems += `
-            <a href="editor-commission-dashboard.html" class="nav-item">
-                <i class="fas fa-pen-fancy"></i>
-                Editors
-            </a>
-        `;
-    }
-    
-    if (currentUser.userType === 'owner') {
-        navItems += `
-            <a href="dashboard.html" class="nav-item">
-                <i class="fas fa-tachometer-alt"></i>
-                Dashboard
-            </a>
+            <div class="account-dropdown">
+                <button class="account-btn" id="dashboardBtn">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dashboardDropdown">
+                    ${dashboardItems}
+                </div>
+            </div>
         `;
     }
 
@@ -155,7 +182,6 @@ function renderAuthenticatedNav() {
                 <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
                 <a href="#" id="bookmarksBtn"><i class="fas fa-bookmark"></i> My Bookmarks</a>
                 <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                ${currentUser.userType === 'owner' ? '<a href="dashboard.html"><i class="fas fa-crown"></i> Dashboard</a>' : ''}
                 ${currentUser.userType === 'user' ? '<a href="#" id="useCodeBtn"><i class="fas fa-key"></i> Use Invite Code</a>' : ''}
                 <div class="dropdown-divider"></div>
                 <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -167,6 +193,8 @@ function renderAuthenticatedNav() {
     
     // Setup event listeners
     setupNavEventListeners();
+    setupCoursesDropdown();
+    setupDashboardDropdown();
 }
 
 function setupEventListeners() {
@@ -185,9 +213,6 @@ function setupEventListeners() {
             });
         }
     }
-
-    // Mobile sidebar toggle
-    setupMobileSidebar();
 }
 
 function setupNavEventListeners() {
@@ -199,6 +224,9 @@ function setupNavEventListeners() {
         accountBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             accountDropdown.classList.toggle('show');
+            // Close courses dropdown if open
+            const coursesDropdown = document.getElementById('coursesDropdown');
+            if (coursesDropdown) coursesDropdown.classList.remove('show');
         });
 
         // Close dropdown when clicking outside
@@ -234,6 +262,48 @@ function setupNavEventListeners() {
         useCodeBtn.addEventListener('click', function(e) {
             e.preventDefault();
             showUseCodeModal();
+        });
+    }
+}
+
+function setupCoursesDropdown() {
+    const coursesBtn = document.getElementById('coursesBtn');
+    const coursesDropdown = document.getElementById('coursesDropdown');
+    
+    if (coursesBtn && coursesDropdown) {
+        coursesBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            coursesDropdown.classList.toggle('show');
+            // Close other dropdowns
+            const accountDropdown = document.getElementById('accountDropdown');
+            const dashboardDropdown = document.getElementById('dashboardDropdown');
+            if (accountDropdown) accountDropdown.classList.remove('show');
+            if (dashboardDropdown) dashboardDropdown.classList.remove('show');
+        });
+
+        document.addEventListener('click', function() {
+            coursesDropdown.classList.remove('show');
+        });
+    }
+}
+
+function setupDashboardDropdown() {
+    const dashboardBtn = document.getElementById('dashboardBtn');
+    const dashboardDropdown = document.getElementById('dashboardDropdown');
+
+    if (dashboardBtn && dashboardDropdown) {
+        dashboardBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dashboardDropdown.classList.toggle('show');
+            // Close other dropdowns
+            const accountDropdown = document.getElementById('accountDropdown');
+            const coursesDropdown = document.getElementById('coursesDropdown');
+            if (accountDropdown) accountDropdown.classList.remove('show');
+            if (coursesDropdown) coursesDropdown.classList.remove('show');
+        });
+
+        document.addEventListener('click', function() {
+            dashboardDropdown.classList.remove('show');
         });
     }
 }
@@ -443,49 +513,6 @@ function performSearch(query) {
     window.location.href = `search-results.html?q=${encodeURIComponent(query.trim())}`;
 }
 
-function setupMobileSidebar() {
-    // Add mobile menu button if needed
-    if (window.innerWidth <= 768) {
-        addMobileMenuButton();
-    }
-    
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            addMobileMenuButton();
-        } else {
-            removeMobileMenuButton();
-        }
-    });
-}
-
-function addMobileMenuButton() {
-    const header = document.querySelector('.header-content');
-    let mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    
-    if (!mobileMenuBtn && header) {
-        mobileMenuBtn = document.createElement('button');
-        mobileMenuBtn.id = 'mobileMenuBtn';
-        mobileMenuBtn.className = 'mobile-menu-btn';
-        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('show');
-            }
-        });
-        
-        header.insertBefore(mobileMenuBtn, header.firstChild);
-    }
-}
-
-function removeMobileMenuButton() {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    if (mobileMenuBtn) {
-        mobileMenuBtn.remove();
-    }
-}
-
 function showCreatorModal() {
     const modal = document.getElementById('creatorModal');
     if (modal) {
@@ -583,42 +610,6 @@ function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function updateSidebarForCurrentPage() {
-    // Get current page and subject from URL
-    const currentPath = window.location.pathname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const subject = urlParams.get('subject');
-    
-    // Remove active class from all sidebar items
-    const sidebarItems = document.querySelectorAll('.sidebar-item');
-    sidebarItems.forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Add active class based on current page
-    if (currentPath.includes('subject.html') && subject) {
-        const currentSidebarItem = document.querySelector(`a[href="subject.html?subject=${subject}"]`);
-        if (currentSidebarItem) {
-            currentSidebarItem.classList.add('active');
-        }
-    } else if (currentPath.includes('index.html') || currentPath === '/' || currentPath === '') {
-        // No active state for homepage
-    } else {
-        // For other pages, you might want to highlight based on context
-        // For now, we'll leave no active state
-    }
-    
-    // Add click listeners to sidebar items to update active state
-    sidebarItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active from all items
-            sidebarItems.forEach(i => i.classList.remove('active'));
-            // Add active to clicked item
-            this.classList.add('active');
-        });
-    });
-}
-
 // Rating system
 function createStarRating(rating) {
     const stars = [];
@@ -660,72 +651,83 @@ function getTypeIcon(type) {
 
 // Load homepage data
 async function loadHomepageData() {
-    const subjectsGrid = document.getElementById('subjectsGrid');
-    if (!subjectsGrid) return;
-    
     try {
-        // Load stats separately (faster and cached)
-        const statsPromise = window.API.stats.getStats();
+        // Load stats for both categories in real-time
+        const steamResponse = await window.API.subjects.getAll({ majorCategory: 'STEAM' });
+        const humanitiesResponse = await window.API.subjects.getAll({ majorCategory: 'Humanities' });
         
-        // Load subjects from API
-        const response = await window.API.subjects.getAll();
+        console.log('STEAM subjects:', steamResponse.data);
+        console.log('Humanities subjects:', humanitiesResponse.data);
         
-        if (response.success && response.data.length > 0) {
-            subjectsGrid.innerHTML = '';
-            
-            response.data.forEach(subject => {
-                // Count total lessons for this subject
-                let totalLessons = 0;
-                
+        // Calculate STEAM stats
+        let steamLessons = 0, steamDomains = 0;
+        if (steamResponse.success) {
+            steamResponse.data.forEach(subject => {
                 if (subject.domains) {
+                    steamDomains += subject.domains.length;
                     subject.domains.forEach(domain => {
                         if (domain.categories) {
                             domain.categories.forEach(category => {
                                 if (category.lessons) {
-                                    totalLessons += category.lessons.length;
+                                    steamLessons += category.lessons.length;
                                 }
                             });
                         }
                     });
                 }
-                
-                const card = document.createElement('div');
-                card.className = 'subject-card';
-                card.onclick = () => location.href = `subject.html?subject=${subject.slug}`;
-                
-                card.innerHTML = `
-                    <div class="subject-icon">
-                        <i class="${subject.icon}"></i>
-                    </div>
-                    <h3>${subject.name}</h3>
-                    <p>${subject.description || 'Explore comprehensive lessons and topics'}</p>
-                    <div class="subject-stats">
-                        <span><i class="fas fa-book"></i> ${totalLessons} Lessons</span>
-                        <span><i class="fas fa-layer-group"></i> ${subject.domains ? subject.domains.length : 0} Domains</span>
-                    </div>
-                `;
-                
-                subjectsGrid.appendChild(card);
             });
             
-            // Update hero stats from dedicated endpoint
-            const statsResponse = await statsPromise;
-            if (statsResponse.success) {
-                const totalLessonsEl = document.getElementById('totalLessons');
-                const totalSubjectsEl = document.getElementById('totalSubjects');
-                const totalDomainsEl = document.getElementById('totalDomains');
-                
-                if (totalLessonsEl) totalLessonsEl.textContent = statsResponse.data.totalLessons;
-                if (totalSubjectsEl) totalSubjectsEl.textContent = statsResponse.data.totalSubjects;
-                if (totalDomainsEl) totalDomainsEl.textContent = statsResponse.data.totalDomains;
-            }
+            const steamLessonsEl = document.getElementById('steamLessons');
+            const steamSubjectsEl = document.getElementById('steamSubjects');
+            const steamDomainsEl = document.getElementById('steamDomains');
             
-        } else {
-            subjectsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">No subjects available yet.</div>';
+            if (steamLessonsEl) steamLessonsEl.textContent = steamLessons;
+            if (steamSubjectsEl) steamSubjectsEl.textContent = steamResponse.data.length;
+            if (steamDomainsEl) steamDomainsEl.textContent = steamDomains;
         }
+        
+        // Calculate Humanities stats
+        let humanitiesLessons = 0, humanitiesDomains = 0;
+        if (humanitiesResponse.success) {
+            humanitiesResponse.data.forEach(subject => {
+                if (subject.domains) {
+                    humanitiesDomains += subject.domains.length;
+                    subject.domains.forEach(domain => {
+                        if (domain.categories) {
+                            domain.categories.forEach(category => {
+                                if (category.lessons) {
+                                    humanitiesLessons += category.lessons.length;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            const humanitiesLessonsEl = document.getElementById('humanitiesLessons');
+            const humanitiesSubjectsEl = document.getElementById('humanitiesSubjects');
+            const humanitiesDomainsEl = document.getElementById('humanitiesDomains');
+            
+            if (humanitiesLessonsEl) humanitiesLessonsEl.textContent = humanitiesLessons;
+            if (humanitiesSubjectsEl) humanitiesSubjectsEl.textContent = humanitiesResponse.data.length;
+            if (humanitiesDomainsEl) humanitiesDomainsEl.textContent = humanitiesDomains;
+        }
+        
+        // Update hero stats (total) in real-time
+        const totalLessons = steamLessons + humanitiesLessons;
+        const totalSubjects = (steamResponse.data?.length || 0) + (humanitiesResponse.data?.length || 0);
+        const totalDomains = steamDomains + humanitiesDomains;
+        
+        const totalLessonsEl = document.getElementById('totalLessons');
+        const totalSubjectsEl = document.getElementById('totalSubjects');
+        const totalDomainsEl = document.getElementById('totalDomains');
+        
+        if (totalLessonsEl) totalLessonsEl.textContent = totalLessons;
+        if (totalSubjectsEl) totalSubjectsEl.textContent = totalSubjects;
+        if (totalDomainsEl) totalDomainsEl.textContent = totalDomains;
+        
     } catch (error) {
-        console.error('Error loading subjects:', error);
-        subjectsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #dc3545;">Error loading subjects. Please try again later.</div>';
+        console.error('Error loading homepage data:', error);
     }
 }
 
