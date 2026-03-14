@@ -12,7 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     updateUIBasedOnUserType();
     updateSidebarForCurrentPage();
-    loadHomepageData();
+    
+    // Only load homepage data on index.html
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('index.html') || currentPath === '/' || currentPath.endsWith('/')) {
+        loadHomepageData();
+    }
 });
 
 function initializeApp() {
@@ -20,6 +25,9 @@ function initializeApp() {
     if (window.API && window.API.isAuthenticated()) {
         currentUser = window.API.getUser();
         renderAuthenticatedNav();
+        // Hide guest-only CTA section
+        const ctaSection = document.getElementById('ctaSection');
+        if (ctaSection) ctaSection.style.display = 'none';
     } else {
         currentUser = null;
         renderGuestNav();
@@ -41,6 +49,17 @@ function renderGuestNav() {
     if (!navMenu) return;
     
     navMenu.innerHTML = `
+        <div class="account-dropdown">
+            <button class="account-btn" id="coursesBtn">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Courses</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="coursesDropdown">
+                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
+            </div>
+        </div>
         <a href="staff.html" class="nav-item">
             <i class="fas fa-users-cog"></i>
             Staff
@@ -54,6 +73,9 @@ function renderGuestNav() {
             Register
         </a>
     `;
+    
+    // Setup courses dropdown
+    setupCoursesDropdown();
 }
 
 function renderAuthenticatedNav() {
@@ -61,6 +83,21 @@ function renderAuthenticatedNav() {
     if (!navMenu) return;
     
     let navItems = '';
+    
+    // Add Courses dropdown for all users
+    navItems += `
+        <div class="account-dropdown">
+            <button class="account-btn" id="coursesBtn">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Courses</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="coursesDropdown">
+                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
+            </div>
+        </div>
+    `;
     
     // Add Staff button for all users
     navItems += `
@@ -167,6 +204,7 @@ function renderAuthenticatedNav() {
     
     // Setup event listeners
     setupNavEventListeners();
+    setupCoursesDropdown();
 }
 
 function setupEventListeners() {
@@ -199,6 +237,9 @@ function setupNavEventListeners() {
         accountBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             accountDropdown.classList.toggle('show');
+            // Close courses dropdown if open
+            const coursesDropdown = document.getElementById('coursesDropdown');
+            if (coursesDropdown) coursesDropdown.classList.remove('show');
         });
 
         // Close dropdown when clicking outside
@@ -235,6 +276,50 @@ function setupNavEventListeners() {
             e.preventDefault();
             showUseCodeModal();
         });
+    }
+}
+
+function setupCoursesDropdown() {
+    const coursesBtn = document.getElementById('coursesBtn');
+    const coursesDropdown = document.getElementById('coursesDropdown');
+    
+    if (coursesBtn && coursesDropdown) {
+        coursesBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            coursesDropdown.classList.toggle('show');
+            // Close account dropdown if open
+            const accountDropdown = document.getElementById('accountDropdown');
+            if (accountDropdown) accountDropdown.classList.remove('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            coursesDropdown.classList.remove('show');
+        });
+    }
+}
+
+function setupSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            body.classList.toggle('sidebar-collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Restore sidebar state from localStorage
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+            body.classList.add('sidebar-collapsed');
+        }
     }
 }
 
@@ -660,73 +745,87 @@ function getTypeIcon(type) {
 
 // Load homepage data
 async function loadHomepageData() {
-    const subjectsGrid = document.getElementById('subjectsGrid');
-    if (!subjectsGrid) return;
-    
     try {
-        // Load stats separately (faster and cached)
-        const statsPromise = window.API.stats.getStats();
+        // Load stats for both categories in real-time
+        const steamResponse = await window.API.subjects.getAll({ majorCategory: 'STEAM' });
+        const humanitiesResponse = await window.API.subjects.getAll({ majorCategory: 'Humanities' });
         
-        // Load subjects from API
-        const response = await window.API.subjects.getAll();
+        console.log('STEAM subjects:', steamResponse.data);
+        console.log('Humanities subjects:', humanitiesResponse.data);
         
-        if (response.success && response.data.length > 0) {
-            subjectsGrid.innerHTML = '';
-            
-            response.data.forEach(subject => {
-                // Count total lessons for this subject
-                let totalLessons = 0;
-                
+        // Calculate STEAM stats
+        let steamLessons = 0, steamDomains = 0;
+        if (steamResponse.success) {
+            steamResponse.data.forEach(subject => {
                 if (subject.domains) {
+                    steamDomains += subject.domains.length;
                     subject.domains.forEach(domain => {
                         if (domain.categories) {
                             domain.categories.forEach(category => {
                                 if (category.lessons) {
-                                    totalLessons += category.lessons.length;
+                                    steamLessons += category.lessons.length;
                                 }
                             });
                         }
                     });
                 }
-                
-                const card = document.createElement('div');
-                card.className = 'subject-card';
-                card.onclick = () => location.href = `subject.html?subject=${subject.slug}`;
-                
-                card.innerHTML = `
-                    <div class="subject-icon">
-                        <i class="${subject.icon}"></i>
-                    </div>
-                    <h3>${subject.name}</h3>
-                    <p>${subject.description || 'Explore comprehensive lessons and topics'}</p>
-                    <div class="subject-stats">
-                        <span><i class="fas fa-book"></i> ${totalLessons} Lessons</span>
-                        <span><i class="fas fa-layer-group"></i> ${subject.domains ? subject.domains.length : 0} Domains</span>
-                    </div>
-                `;
-                
-                subjectsGrid.appendChild(card);
             });
             
-            // Update hero stats from dedicated endpoint
-            const statsResponse = await statsPromise;
-            if (statsResponse.success) {
-                const totalLessonsEl = document.getElementById('totalLessons');
-                const totalSubjectsEl = document.getElementById('totalSubjects');
-                const totalDomainsEl = document.getElementById('totalDomains');
-                
-                if (totalLessonsEl) totalLessonsEl.textContent = statsResponse.data.totalLessons;
-                if (totalSubjectsEl) totalSubjectsEl.textContent = statsResponse.data.totalSubjects;
-                if (totalDomainsEl) totalDomainsEl.textContent = statsResponse.data.totalDomains;
-            }
+            const steamLessonsEl = document.getElementById('steamLessons');
+            const steamSubjectsEl = document.getElementById('steamSubjects');
+            const steamDomainsEl = document.getElementById('steamDomains');
             
-        } else {
-            subjectsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">No subjects available yet.</div>';
+            if (steamLessonsEl) steamLessonsEl.textContent = steamLessons;
+            if (steamSubjectsEl) steamSubjectsEl.textContent = steamResponse.data.length;
+            if (steamDomainsEl) steamDomainsEl.textContent = steamDomains;
         }
+        
+        // Calculate Humanities stats
+        let humanitiesLessons = 0, humanitiesDomains = 0;
+        if (humanitiesResponse.success) {
+            humanitiesResponse.data.forEach(subject => {
+                if (subject.domains) {
+                    humanitiesDomains += subject.domains.length;
+                    subject.domains.forEach(domain => {
+                        if (domain.categories) {
+                            domain.categories.forEach(category => {
+                                if (category.lessons) {
+                                    humanitiesLessons += category.lessons.length;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            const humanitiesLessonsEl = document.getElementById('humanitiesLessons');
+            const humanitiesSubjectsEl = document.getElementById('humanitiesSubjects');
+            const humanitiesDomainsEl = document.getElementById('humanitiesDomains');
+            
+            if (humanitiesLessonsEl) humanitiesLessonsEl.textContent = humanitiesLessons;
+            if (humanitiesSubjectsEl) humanitiesSubjectsEl.textContent = humanitiesResponse.data.length;
+            if (humanitiesDomainsEl) humanitiesDomainsEl.textContent = humanitiesDomains;
+        }
+        
+        // Update hero stats (total) in real-time
+        const totalLessons = steamLessons + humanitiesLessons;
+        const totalSubjects = (steamResponse.data?.length || 0) + (humanitiesResponse.data?.length || 0);
+        const totalDomains = steamDomains + humanitiesDomains;
+        
+        const totalLessonsEl = document.getElementById('totalLessons');
+        const totalSubjectsEl = document.getElementById('totalSubjects');
+        const totalDomainsEl = document.getElementById('totalDomains');
+        
+        if (totalLessonsEl) totalLessonsEl.textContent = totalLessons;
+        if (totalSubjectsEl) totalSubjectsEl.textContent = totalSubjects;
+        if (totalDomainsEl) totalDomainsEl.textContent = totalDomains;
+        
     } catch (error) {
-        console.error('Error loading subjects:', error);
-        subjectsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #dc3545;">Error loading subjects. Please try again later.</div>';
+        console.error('Error loading homepage data:', error);
     }
+    
+    // Setup sidebar toggle
+    setupSidebarToggle();
 }
 
 // Export functions for use in other scripts

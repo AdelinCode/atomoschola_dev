@@ -11,7 +11,15 @@ const router = express.Router();
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const subjects = await Subject.find()
+    const { majorCategory } = req.query;
+    
+    // Build filter
+    const filter = {};
+    if (majorCategory) {
+      filter.majorCategory = majorCategory;
+    }
+    
+    const subjects = await Subject.find(filter)
       .populate({
         path: 'domains',
         populate: {
@@ -102,13 +110,14 @@ router.get('/:slug', async (req, res) => {
 // @access  Private/Owner
 router.post('/', protect, authorize('owner'), async (req, res) => {
   try {
-    const { name, slug, icon, description, isPremium } = req.body;
+    const { name, slug, icon, description, isPremium, majorCategory } = req.body;
 
     const subject = await Subject.create({
       name,
       slug,
       icon,
       description,
+      majorCategory: majorCategory || 'STEAM',
       isPremium: isPremium || false,
       managedBy: [req.user._id]
     });

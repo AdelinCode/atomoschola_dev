@@ -37,28 +37,18 @@
         </div>
     </header>
 
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3>Subjects</h3>
         </div>
-        <nav class="sidebar-nav">
-            <a href="subject.html?subject=physics" class="sidebar-item">
-                <i class="fas fa-atom"></i>
-                <span>Physics</span>
-            </a>
-            <a href="subject.html?subject=chemistry" class="sidebar-item">
-                <i class="fas fa-flask"></i>
-                <span>Chemistry</span>
-            </a>
-            <a href="subject.html?subject=mathematics" class="sidebar-item">
-                <i class="fas fa-calculator"></i>
-                <span>Mathematics</span>
-            </a>
-            <a href="subject.html?subject=biology" class="sidebar-item">
-                <i class="fas fa-dna"></i>
-                <span>Biology</span>
-            </a>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <p style="text-align: center; color: #666; padding: 20px;">Loading...</p>
         </nav>
     </aside>
 
@@ -68,7 +58,7 @@
             <!-- Subject Header -->
             <div class="subject-header">
                 <div class="subject-title">
-                    <i class="fas fa-atom"></i>
+                    <i id="subjectIcon" class="fas fa-atom"></i>
                     <h1 id="subjectTitle">Physics</h1>
                 </div>
                 <div class="subject-actions">

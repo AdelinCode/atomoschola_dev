@@ -1,0 +1,66 @@
+/* =============================================
+   Category Theme - only the main page title is colored
+   Everything else stays default (black/grey/white)
+   ============================================= */
+
+body.theme-steam {
+    --cat-primary: #667eea;
+    --cat-secondary: #764ba2;
+    --cat-light: rgba(102, 126, 234, 0.1);
+    --cat-shadow: rgba(102, 126, 234, 0.3);
+}
+
+body.theme-humanities {
+    --cat-primary: #f093fb;
+    --cat-secondary: #f5576c;
+    --cat-light: rgba(240, 147, 251, 0.1);
+    --cat-shadow: rgba(240, 147, 251, 0.3);
+}
+
+/* Only the main h1 title gets the category color */
+html body.theme-steam .hero h1,
+html body.theme-humanities .hero h1 {
+    color: var(--cat-primary) !important;
+}
+
+/* Stat numbers (Lessons, Subjects, Domains) */
+html body.theme-steam .stat-number,
+html body.theme-humanities .stat-number {
+    color: var(--cat-primary) !important;
+}
+
+/* Sidebar toggle button */
+html body.theme-steam .sidebar-toggle,
+html body.theme-humanities .sidebar-toggle {
+    background: var(--cat-primary) !important;
+    box-shadow: 0 2px 10px var(--cat-shadow) !important;
+}
+
+html body.theme-steam .sidebar-toggle:hover,
+html body.theme-humanities .sidebar-toggle:hover {
+    background: var(--cat-secondary) !important;
+}
+
+/* Sidebar active item accent */
+html body.theme-steam .sidebar-item.active,
+html body.theme-humanities .sidebar-item.active {
+    border-left-color: var(--cat-primary) !important;
+    color: var(--cat-primary) !important;
+    background: var(--cat-light) !important;
+}
+
+html body.theme-steam .sidebar-item.active i,
+html body.theme-humanities .sidebar-item.active i {
+    color: var(--cat-primary) !important;
+}
+
+html body.theme-steam .sidebar-item:hover,
+html body.theme-humanities .sidebar-item:hover {
+    color: var(--cat-primary) !important;
+    background: var(--cat-light) !important;
+}
+
+html body.theme-steam .sidebar-item:hover i,
+html body.theme-humanities .sidebar-item:hover i {
+    color: var(--cat-primary) !important;
+}
