@@ -124,54 +124,43 @@ function renderAuthenticatedNav() {
             <span id="notificationBadge" style="display: none; position: absolute; top: 4px; right: 8px; background: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; align-items: center; justify-content: center;">0</span>
         </button>
     `;
-    
-    // Add role-specific navigation
-    // Add Create Content button for creators, editors, staff, and owners
-    if (['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType)) {
+
+    // Build Dashboard dropdown (only if user has access to at least one dashboard)
+    const hasDashboardAccess = 
+        ['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType) ||
+        currentUser.isCreatorCommissionMember ||
+        currentUser.isEditorCommissionMember;
+
+    if (hasDashboardAccess) {
+        let dashboardItems = '';
+
+        if (['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType)) {
+            dashboardItems += `<a href="create-content.html"><i class="fas fa-plus-circle"></i> Create Content</a>`;
+        }
+        if (currentUser.userType === 'staff') {
+            dashboardItems += `<a href="staff-dashboard.html"><i class="fas fa-tasks"></i> Staff Dashboard</a>`;
+        }
+        if (currentUser.isCreatorCommissionMember) {
+            dashboardItems += `<a href="commission-dashboard.html"><i class="fas fa-gavel"></i> Creator Commission</a>`;
+        }
+        if (currentUser.isEditorCommissionMember) {
+            dashboardItems += `<a href="editor-commission-dashboard.html"><i class="fas fa-pen-fancy"></i> Editor Commission</a>`;
+        }
+        if (currentUser.userType === 'owner') {
+            dashboardItems += `<a href="dashboard.html"><i class="fas fa-crown"></i> Owner Dashboard</a>`;
+        }
+
         navItems += `
-            <a href="create-content.html" class="nav-item">
-                <i class="fas fa-plus-circle"></i>
-                Create
-            </a>
-        `;
-    }
-    
-    // Add Staff Dashboard for staff users
-    if (currentUser.userType === 'staff') {
-        navItems += `
-            <a href="staff-dashboard.html" class="nav-item">
-                <i class="fas fa-tasks"></i>
-                Dashboard
-            </a>
-        `;
-    }
-    
-    // Add Commission Dashboard for creator commission members
-    if (currentUser.isCreatorCommissionMember) {
-        navItems += `
-            <a href="commission-dashboard.html" class="nav-item">
-                <i class="fas fa-gavel"></i>
-                Creators
-            </a>
-        `;
-    }
-    
-    // Add Editor Commission Dashboard for editor commission members
-    if (currentUser.isEditorCommissionMember) {
-        navItems += `
-            <a href="editor-commission-dashboard.html" class="nav-item">
-                <i class="fas fa-pen-fancy"></i>
-                Editors
-            </a>
-        `;
-    }
-    
-    if (currentUser.userType === 'owner') {
-        navItems += `
-            <a href="dashboard.html" class="nav-item">
-                <i class="fas fa-tachometer-alt"></i>
-                Dashboard
-            </a>
+            <div class="account-dropdown">
+                <button class="account-btn" id="dashboardBtn">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dashboardDropdown">
+                    ${dashboardItems}
+                </div>
+            </div>
         `;
     }
 
@@ -193,7 +182,6 @@ function renderAuthenticatedNav() {
                 <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
                 <a href="#" id="bookmarksBtn"><i class="fas fa-bookmark"></i> My Bookmarks</a>
                 <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                ${currentUser.userType === 'owner' ? '<a href="dashboard.html"><i class="fas fa-crown"></i> Dashboard</a>' : ''}
                 ${currentUser.userType === 'user' ? '<a href="#" id="useCodeBtn"><i class="fas fa-key"></i> Use Invite Code</a>' : ''}
                 <div class="dropdown-divider"></div>
                 <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -206,6 +194,7 @@ function renderAuthenticatedNav() {
     // Setup event listeners
     setupNavEventListeners();
     setupCoursesDropdown();
+    setupDashboardDropdown();
 }
 
 function setupEventListeners() {
@@ -285,14 +274,36 @@ function setupCoursesDropdown() {
         coursesBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             coursesDropdown.classList.toggle('show');
-            // Close account dropdown if open
+            // Close other dropdowns
             const accountDropdown = document.getElementById('accountDropdown');
+            const dashboardDropdown = document.getElementById('dashboardDropdown');
             if (accountDropdown) accountDropdown.classList.remove('show');
+            if (dashboardDropdown) dashboardDropdown.classList.remove('show');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function() {
             coursesDropdown.classList.remove('show');
+        });
+    }
+}
+
+function setupDashboardDropdown() {
+    const dashboardBtn = document.getElementById('dashboardBtn');
+    const dashboardDropdown = document.getElementById('dashboardDropdown');
+
+    if (dashboardBtn && dashboardDropdown) {
+        dashboardBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dashboardDropdown.classList.toggle('show');
+            // Close other dropdowns
+            const accountDropdown = document.getElementById('accountDropdown');
+            const coursesDropdown = document.getElementById('coursesDropdown');
+            if (accountDropdown) accountDropdown.classList.remove('show');
+            if (coursesDropdown) coursesDropdown.classList.remove('show');
+        });
+
+        document.addEventListener('click', function() {
+            dashboardDropdown.classList.remove('show');
         });
     }
 }
