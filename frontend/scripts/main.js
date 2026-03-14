@@ -25,6 +25,9 @@ function initializeApp() {
     if (window.API && window.API.isAuthenticated()) {
         currentUser = window.API.getUser();
         renderAuthenticatedNav();
+        // Hide guest-only CTA section
+        const ctaSection = document.getElementById('ctaSection');
+        if (ctaSection) ctaSection.style.display = 'none';
     } else {
         currentUser = null;
         renderGuestNav();
