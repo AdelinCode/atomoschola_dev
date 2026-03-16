@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/home.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -21,7 +22,7 @@
             <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 65px; vertical-align: middle;">
+                        <img src="logo.jpeg" alt="Atomo Schola">
                         <span>Atomo Schola</span>
                     </a>
                 </div>
@@ -43,238 +44,217 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
+
+            <!-- Hero -->
             <section class="hero">
                 <h1>Welcome to Atomo Schola</h1>
                 <p>Discover comprehensive lessons in STEM and Humanities</p>
             </section>
 
-            <!-- Category Cards Section -->
+            <!-- Category Cards -->
             <section class="featured-subjects" style="margin-top: 40px; margin-bottom: 60px;">
                 <h2 style="text-align: center; margin-bottom: 40px;">Explore Our Categories</h2>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto;">
+
+                <div class="category-cards-grid">
                     <!-- STEM Card -->
-                    <div class="category-major-card" onclick="location.href='steam.html'" style="cursor: pointer; background: white; color: #333; padding: 60px 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 2px solid #e9ecef; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)'">
-                        <div style="text-align: center;">
-                            <div style="font-size: 80px; margin-bottom: 20px; color: #667eea;">
-                                <i class="fas fa-atom"></i>
+                    <div class="category-major-card" onclick="location.href='steam.html'">
+                        <div class="card-icon stem-accent">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h2>STEM</h2>
+                        <p class="card-description">Science, Technology, Engineering &amp; Mathematics</p>
+                        <div class="category-stats-grid">
+                            <div class="category-stat-item">
+                                <div class="stat-value stem-accent" id="steamLessons">0</div>
+                                <div class="stat-label">Lessons</div>
                             </div>
-                            <h2 style="font-size: 36px; margin-bottom: 15px; color: #333;">STEM</h2>
-                            <p style="font-size: 18px; margin-bottom: 30px; color: #666;">Science, Technology, Engineering & Mathematics</p>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px;">
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #667eea;" id="steamLessons">0</div>
-                                    <div style="font-size: 14px; color: #666;">Lessons</div>
-                                </div>
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #667eea;" id="steamSubjects">0</div>
-                                    <div style="font-size: 14px; color: #666;">Subjects</div>
-                                </div>
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #667eea;" id="steamDomains">0</div>
-                                    <div style="font-size: 14px; color: #666;">Domains</div>
-                                </div>
+                            <div class="category-stat-item">
+                                <div class="stat-value stem-accent" id="steamSubjects">0</div>
+                                <div class="stat-label">Subjects</div>
+                            </div>
+                            <div class="category-stat-item">
+                                <div class="stat-value stem-accent" id="steamDomains">0</div>
+                                <div class="stat-label">Domains</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Humanities Card -->
-                    <div class="category-major-card" onclick="location.href='humanities.html'" style="cursor: pointer; background: white; color: #333; padding: 60px 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 2px solid #e9ecef; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)'">
-                        <div style="text-align: center;">
-                            <div style="font-size: 80px; margin-bottom: 20px; color: #f093fb;">
-                                <i class="fas fa-book-reader"></i>
+                    <div class="category-major-card" onclick="location.href='humanities.html'">
+                        <div class="card-icon humanities-accent">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <h2>Humanities</h2>
+                        <p class="card-description">History, Literature, Philosophy, Languages &amp; Social Sciences</p>
+                        <div class="category-stats-grid">
+                            <div class="category-stat-item">
+                                <div class="stat-value humanities-accent" id="humanitiesLessons">0</div>
+                                <div class="stat-label">Lessons</div>
                             </div>
-                            <h2 style="font-size: 36px; margin-bottom: 15px; color: #333;">Humanities</h2>
-                            <p style="font-size: 18px; margin-bottom: 30px; color: #666;">History, Literature, Philosophy, Languages & Social Sciences</p>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px;">
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #f093fb;" id="humanitiesLessons">0</div>
-                                    <div style="font-size: 14px; color: #666;">Lessons</div>
-                                </div>
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #f093fb;" id="humanitiesSubjects">0</div>
-                                    <div style="font-size: 14px; color: #666;">Subjects</div>
-                                </div>
-                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
-                                    <div style="font-size: 28px; font-weight: bold; color: #f093fb;" id="humanitiesDomains">0</div>
-                                    <div style="font-size: 14px; color: #666;">Domains</div>
-                                </div>
+                            <div class="category-stat-item">
+                                <div class="stat-value humanities-accent" id="humanitiesSubjects">0</div>
+                                <div class="stat-label">Subjects</div>
+                            </div>
+                            <div class="category-stat-item">
+                                <div class="stat-value humanities-accent" id="humanitiesDomains">0</div>
+                                <div class="stat-label">Domains</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <!-- Propose Edits Card -->
-            <div style="max-width: 1200px; margin: 20px auto 60px; padding: 0 20px;">
-                <div style="background: linear-gradient(135deg, #9b59b6 0%, #7d3c98 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-edit" style="color: #fff; font-size: 20px;"></i>
+
+                <!-- Propose Edits Banner -->
+                <div class="info-cards-section" style="margin-top: 20px; margin-bottom: 0;">
+                    <div class="banner-card banner-propose">
+                        <div class="banner-card-inner">
+                            <div class="banner-card-content">
+                                <div class="banner-card-title-row">
+                                    <div class="banner-card-icon">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                    <h3>Propose Edits</h3>
                                 </div>
-                                <h3 style="margin: 0; color: white; font-size: 20px;">Propose Edits</h3>
+                                <p>Spotted something that could be improved? Propose edits to existing lessons and help us maintain high quality educational content.</p>
                             </div>
-                            <p style="margin: 0; color: #000000 !important; line-height: 1.6;">
-                                Spotted something that could be improved? Propose edits to existing lessons and help us maintain high quality educational content.
-                            </p>
-                        </div>
-                        <div style="flex-shrink: 0;">
-                            <a href="propose-edits.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
-                                <i class="fas fa-arrow-right"></i>
-                                Go to Propose Edits
-                            </a>
+                            <div class="banner-card-action">
+                                <a href="propose-edits.html" class="banner-btn">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Go to Propose Edits
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </section>
 
             <!-- Platform Information Section -->
-                <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
-                    <div style="text-align: center; margin-bottom: 50px;">
-                        <h2 style="font-size: 32px; color: #333; margin-bottom: 15px;">Join Our Learning Community</h2>
-                        <p style="font-size: 18px; color: #6c757d; max-width: 600px; margin: 0 auto;">
-                            Discover how you can contribute to and benefit from our collaborative educational platform
-                        </p>
+            <section>
+                <div class="info-cards-section">
+
+                    <div class="section-header">
+                        <h2>Join Our Learning Community</h2>
+                        <p>Discover how you can contribute to and benefit from our collaborative educational platform</p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
-                        <!-- Become a Creator Card -->
-                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <div style="width: 50px; height: 50px; background: #ffc107; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-lightbulb" style="color: white; font-size: 20px;"></i>
+                    <div class="info-cards-grid">
+
+                        <!-- Become a Creator -->
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-yellow">
+                                    <i class="fas fa-lightbulb"></i>
                                 </div>
-                                <h3 style="margin: 0; color: #333; font-size: 20px;">Become a Creator</h3>
+                                <h3>Become a Creator</h3>
                             </div>
-                            <div style="color: #6c757d; line-height: 1.7;">
-                                <p style="margin-bottom: 15px;">Want to create quality educational content? Here's how you can become a creator:</p>
-                                <ol style="padding-left: 20px; margin: 0;">
-                                    <li style="margin-bottom: 10px;">Propose an original lesson on a subject you're passionate about</li>
-                                    <li style="margin-bottom: 10px;">Our commission will evaluate the quality and relevance of your proposed content</li>
-                                    <li style="margin-bottom: 10px;">If your lesson is approved, you'll receive Creator status</li>
+                            <div class="info-card-body">
+                                <p>Want to create quality educational content? Here's how you can become a creator:</p>
+                                <ol>
+                                    <li>Propose an original lesson on a subject you're passionate about</li>
+                                    <li>Our commission will evaluate the quality and relevance of your proposed content</li>
+                                    <li>If your lesson is approved, you'll receive Creator status</li>
                                     <li>Start publishing lessons and contributing to the educational community</li>
                                 </ol>
-                                <p style="margin-top: 15px; font-style: italic; color: #495057;">
+                                <p class="info-note">
                                     <i class="fas fa-info-circle" style="color: #ffc107; margin-right: 5px;"></i>
                                     Each approved lesson strengthens your reputation as a valuable content creator!
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Become an Editor Card -->
-                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <div style="width: 50px; height: 50px; background: #17a2b8; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-pen-fancy" style="color: white; font-size: 20px;"></i>
+                        <!-- Become an Editor -->
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-teal">
+                                    <i class="fas fa-pen-fancy"></i>
                                 </div>
-                                <h3 style="margin: 0; color: #333; font-size: 20px;">Become an Editor</h3>
+                                <h3>Become an Editor</h3>
                             </div>
-                            <div style="color: #6c757d; line-height: 1.7;">
-                                <p style="margin-bottom: 15px;">Have a keen eye for detail and want to improve existing content? Here's how to become an editor:</p>
-                                <ol style="padding-left: 20px; margin: 0;">
-                                    <li style="margin-bottom: 10px;">Propose 3 edits to 3 different lessons on the platform</li>
-                                    <li style="margin-bottom: 10px;">Your edits should improve clarity, accuracy, or overall content quality</li>
-                                    <li style="margin-bottom: 10px;">The commission will evaluate your contributions and attention to detail</li>
+                            <div class="info-card-body">
+                                <p>Have a keen eye for detail and want to improve existing content? Here's how to become an editor:</p>
+                                <ol>
+                                    <li>Propose 3 edits to 3 different lessons on the platform</li>
+                                    <li>Your edits should improve clarity, accuracy, or overall content quality</li>
+                                    <li>The commission will evaluate your contributions and attention to detail</li>
                                     <li>If all 3 edits are accepted, you'll join the editorial team</li>
                                 </ol>
-                                <p style="margin-top: 15px; font-style: italic; color: #495057;">
+                                <p class="info-note">
                                     <i class="fas fa-info-circle" style="color: #17a2b8; margin-right: 5px;"></i>
                                     Editors play an essential role in maintaining high quality standards!
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Platform Features Card -->
-                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <div style="width: 50px; height: 50px; background: #6f42c1; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-star" style="color: white; font-size: 20px;"></i>
+                        <!-- Platform Features -->
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-purple">
+                                    <i class="fas fa-star"></i>
                                 </div>
-                                <h3 style="margin: 0; color: #333; font-size: 20px;">Platform Features</h3>
+                                <h3>Platform Features</h3>
                             </div>
-                            <ul style="list-style: none; padding: 0; margin: 0; color: #6c757d; line-height: 1.8;">
-                                <li style="margin-bottom: 8px;"><i class="fas fa-search" style="color: #007bff; margin-right: 8px; width: 16px;"></i> Advanced search across all content</li>
-                                <li style="margin-bottom: 8px;"><i class="fas fa-bookmark" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> Bookmark your favorite lessons</li>
-                                <li style="margin-bottom: 8px;"><i class="fas fa-star" style="color: #28a745; margin-right: 8px; width: 16px;"></i> Rate and review lessons</li>
-                                <li style="margin-bottom: 8px;"><i class="fas fa-file-alt" style="color: #17a2b8; margin-right: 8px; width: 16px;"></i> Rich text editor with LaTeX formulas</li>
-                                <li><i class="fas fa-paperclip" style="color: #6c757d; margin-right: 8px; width: 16px;"></i> Attach files from cloud storage</li>
-                            </ul>
+                            <div class="info-card-body">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-search" style="color: #007bff; margin-right: 8px; width: 16px;"></i> Advanced search across all content</li>
+                                    <li><i class="fas fa-bookmark" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> Bookmark your favorite lessons</li>
+                                    <li><i class="fas fa-star" style="color: #28a745; margin-right: 8px; width: 16px;"></i> Rate and review lessons</li>
+                                    <li><i class="fas fa-file-alt" style="color: #17a2b8; margin-right: 8px; width: 16px;"></i> Rich text editor with LaTeX formulas</li>
+                                    <li><i class="fas fa-paperclip" style="color: #6c757d; margin-right: 8px; width: 16px;"></i> Attach files from cloud storage</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <!-- Content Types Card -->
-                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <div style="width: 50px; height: 50px; background: #fd7e14; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-layer-group" style="color: white; font-size: 20px;"></i>
+                        <!-- Content Types -->
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-orange">
+                                    <i class="fas fa-layer-group"></i>
                                 </div>
-                                <h3 style="margin: 0; color: #333; font-size: 20px;">Content Types</h3>
+                                <h3>Content Types</h3>
                             </div>
-                            <ul style="list-style: none; padding: 0; margin: 0; color: #6c757d; line-height: 1.8;">
-                                <li style="margin-bottom: 8px;"><i class="fas fa-file-alt" style="color: #007bff; margin-right: 8px; width: 16px;"></i> <strong>Text Lessons:</strong> Rich formatted content with formulas</li>
-                                <li style="margin-bottom: 8px;"><i class="fas fa-video" style="color: #dc3545; margin-right: 8px; width: 16px;"></i> <strong>Video Lessons:</strong> Embedded YouTube videos</li>
-                                <li><i class="fas fa-presentation" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> <strong>Presentations:</strong> Interactive slide content</li>
-                            </ul>
+                            <div class="info-card-body">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-file-alt" style="color: #007bff; margin-right: 8px; width: 16px;"></i> <strong>Text Lessons:</strong> Rich formatted content with formulas</li>
+                                    <li><i class="fas fa-video" style="color: #dc3545; margin-right: 8px; width: 16px;"></i> <strong>Video Lessons:</strong> Embedded YouTube videos</li>
+                                    <li><i class="fas fa-presentation" style="color: #ffc107; margin-right: 8px; width: 16px;"></i> <strong>Presentations:</strong> Interactive slide content</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <!-- Getting Started Card -->
-                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e9ecef;">
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <div style="width: 50px; height: 50px; background: #20c997; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <i class="fas fa-rocket" style="color: white; font-size: 20px;"></i>
+                        <!-- Getting Started -->
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-green">
+                                    <i class="fas fa-rocket"></i>
                                 </div>
-                                <h3 style="margin: 0; color: #333; font-size: 20px;">Getting Started</h3>
+                                <h3>Getting Started</h3>
                             </div>
-                            <div style="color: #6c757d; line-height: 1.7;">
-                                <p style="margin-bottom: 15px;">Ready to start learning? Here's what you can do:</p>
-                                <ul style="list-style: none; padding: 0; margin: 0;">
-                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Browse subjects and explore content</li>
-                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Create a free account to bookmark lessons</li>
-                                    <li style="margin-bottom: 8px;"><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Rate content to help others</li>
+                            <div class="info-card-body">
+                                <p>Ready to start learning? Here's what you can do:</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Browse subjects and explore content</li>
+                                    <li><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Create a free account to bookmark lessons</li>
+                                    <li><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Rate content to help others</li>
                                     <li><i class="fas fa-arrow-right" style="color: #20c997; margin-right: 8px; width: 16px;"></i> Apply to become a content creator</li>
                                 </ul>
                             </div>
                         </div>
+
                     </div>
 
-                    <!-- Join Our Discord Section -->
-                    <div style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                            <div style="flex: 1; min-width: 250px;">
-                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                        <i class="fab fa-discord" style="color: #fff; font-size: 24px;"></i>
+                    <!-- News Banner -->
+                    <div class="banner-card banner-news">
+                        <div class="banner-card-inner">
+                            <div class="banner-card-content">
+                                <div class="banner-card-title-row">
+                                    <div class="banner-card-icon">
+                                        <i class="fas fa-newspaper"></i>
                                     </div>
-                                    <h3 style="margin: 0; color: white; font-size: 20px;">Join Our Discord Community</h3>
+                                    <h3>Latest News</h3>
                                 </div>
-                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
-                                    Connect with fellow learners, ask questions, share knowledge, and stay engaged with our growing community!
-                                </p>
+                                <p>Stay updated with the latest platform updates, new features, and educational content releases.</p>
                             </div>
-                            <div style="flex-shrink: 0;">
-                                <a href="https://discord.gg/hCQrmYccWf" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
-                                    <i class="fab fa-discord"></i>
-                                    Join Discord
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Latest News Section -->
-                    <div style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                            <div style="flex: 1; min-width: 250px;">
-                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                        <i class="fas fa-newspaper" style="color: #fff; font-size: 20px;"></i>
-                                    </div>
-                                    <h3 style="margin: 0; color: white; font-size: 20px;">Latest News</h3>
-                                </div>
-                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
-                                    Stay updated with the latest platform updates, new features, and educational content releases.
-                                </p>
-                            </div>
-                            <div style="flex-shrink: 0;">
-                                <a href="news.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
+                            <div class="banner-card-action">
+                                <a href="news.html" class="banner-btn">
                                     <i class="fas fa-arrow-right"></i>
                                     View News
                                 </a>
@@ -282,22 +262,20 @@
                         </div>
                     </div>
 
-                    <!-- Meet Our Team Section -->
-                    <div style="background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); color: white; margin-bottom: 30px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                            <div style="flex: 1; min-width: 250px;">
-                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                    <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                        <i class="fas fa-users" style="color: #fff; font-size: 20px;"></i>
+                    <!-- Team Banner -->
+                    <div class="banner-card banner-team">
+                        <div class="banner-card-inner">
+                            <div class="banner-card-content">
+                                <div class="banner-card-title-row">
+                                    <div class="banner-card-icon">
+                                        <i class="fas fa-users"></i>
                                     </div>
-                                    <h3 style="margin: 0; color: white; font-size: 20px;">Meet Our Team</h3>
+                                    <h3>Meet Our Team</h3>
                                 </div>
-                                <p style="margin: 0; color: #ffffff !important; line-height: 1.6;">
-                                    Get to know the dedicated team behind Atomo Schola and our mission to provide quality education.
-                                </p>
+                                <p>Get to know the dedicated team behind Atomo Schola and our mission to provide quality education.</p>
                             </div>
-                            <div style="flex-shrink: 0;">
-                                <a href="team.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)'">
+                            <div class="banner-card-action">
+                                <a href="team.html" class="banner-btn">
                                     <i class="fas fa-arrow-right"></i>
                                     Meet the Team
                                 </a>
@@ -306,20 +284,24 @@
                     </div>
 
                     <!-- Call to Action -->
-                    <div id="ctaSection" style="text-align: center; padding: 40px 30px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-                        <h3 style="color: #333; margin-bottom: 15px; font-size: 24px;">Ready to Start Learning?</h3>
-                        <p style="color: #6c757d; margin-bottom: 25px; font-size: 16px;">Join thousands of learners exploring quality educational content</p>
-                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                            <a href="register.html" style="background: #007bff; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;" onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
-                                <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Create Account
+                    <div class="cta-section" id="ctaSection">
+                        <h3>Ready to Start Learning?</h3>
+                        <p>Join thousands of learners exploring quality educational content</p>
+                        <div class="cta-buttons">
+                            <a href="register.html" class="cta-btn cta-btn-primary">
+                                <i class="fas fa-user-plus"></i>
+                                Create Account
                             </a>
-                            <a href="subject.html?subject=physics" style="background: #28a745; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;" onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'">
-                                <i class="fas fa-play" style="margin-right: 8px;"></i>Start Learning
+                            <a href="subject.html?subject=physics" class="cta-btn cta-btn-success">
+                                <i class="fas fa-play"></i>
+                                Start Learning
                             </a>
                         </div>
                     </div>
+
                 </div>
             </section>
+
         </div>
     </main>
 

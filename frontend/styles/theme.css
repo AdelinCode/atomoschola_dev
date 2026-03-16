@@ -89,6 +89,16 @@
     color: var(--primary-black) !important;
 }
 
+#accountBtn i.fa-user-circle {
+    color: #6C3483 !important;
+    font-size: 1.2em !important;
+}
+
+#accountBtn span {
+    color: #6C3483 !important;
+    font-weight: 600 !important;
+}
+
 /* Dropdown */
 .dropdown-menu {
     background: var(--white) !important;

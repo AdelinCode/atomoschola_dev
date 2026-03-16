@@ -64,6 +64,14 @@ function renderGuestNav() {
             <i class="fas fa-users-cog"></i>
             Staff
         </a>
+        <a href="social.html" class="nav-item">
+            <i class="fas fa-hashtag"></i>
+            Social
+        </a>
+        <a href="contribution.html" class="nav-item">
+            <i class="fas fa-hands-helping"></i>
+            Contribution
+        </a>
         <a href="login.html" class="nav-item">
             <i class="fas fa-sign-in-alt"></i>
             Login
@@ -105,6 +113,22 @@ function renderAuthenticatedNav() {
         <a href="staff.html" class="nav-item">
             <i class="fas fa-users-cog"></i>
             Staff
+        </a>
+    `;
+
+    // Add Social button for all users
+    navItems += `
+        <a href="social.html" class="nav-item">
+            <i class="fas fa-hashtag"></i>
+            Social
+        </a>
+    `;
+
+    // Add Contribution button for all users
+    navItems += `
+        <a href="contribution.html" class="nav-item">
+            <i class="fas fa-hands-helping"></i>
+            Contribution
         </a>
     `;
     

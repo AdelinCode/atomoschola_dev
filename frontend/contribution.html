@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribution - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .contrib-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .contrib-hero {
+            text-align: center;
+            padding: 50px 30px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 40px;
+        }
+
+        .contrib-hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .contrib-hero p {
+            font-size: 17px;
+            color: #6c757d !important;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        .contrib-section {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .contrib-section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .contrib-section-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contrib-section-icon i {
+            font-size: 22px;
+            color: white;
+        }
+
+        .contrib-section-header h2 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .contrib-section p {
+            color: #6c757d !important;
+            line-height: 1.75;
+            margin-bottom: 16px;
+        }
+
+        .contrib-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Steps */
+        .steps-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: steps;
+        }
+
+        .steps-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #6c757d !important;
+            line-height: 1.6;
+        }
+
+        .steps-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #6c757d !important;
+            font-size: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li i {
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Role badges */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .role-badge {
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .role-badge i {
+            font-size: 26px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .role-badge .role-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #333 !important;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .role-badge .role-desc {
+            font-size: 12px;
+            color: #6c757d !important;
+            line-height: 1.4;
+        }
+
+        /* CTA */
+        .contrib-cta {
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #6C3483 0%, #5b2c6f 100%);
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .contrib-cta h3 {
+            color: white !important;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .contrib-cta p {
+            color: rgba(255,255,255,0.85) !important;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .contrib-cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-white {
+            background: white;
+            color: #6C3483 !important;
+        }
+
+        .cta-btn-white:hover {
+            background: #f0e6f6;
+            color: #6C3483 !important;
+        }
+
+        .cta-btn-outline {
+            background: rgba(255,255,255,0.15);
+            color: white !important;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .cta-btn-outline:hover {
+            background: rgba(255,255,255,0.25);
+            color: white !important;
+        }
+
+        /* Icon colors */
+        .bg-yellow  { background: #ffc107; }
+        .bg-teal    { background: #17a2b8; }
+        .bg-purple  { background: #6C3483; }
+        .bg-orange  { background: #fd7e14; }
+        .bg-green   { background: #20c997; }
+        .bg-blue    { background: #007bff; }
+        .bg-red     { background: #dc3545; }
+
+        .color-yellow  { color: #ffc107; }
+        .color-teal    { color: #17a2b8; }
+        .color-purple  { color: #6C3483; }
+        .color-orange  { color: #fd7e14; }
+        .color-green   { color: #20c997; }
+        .color-blue    { color: #007bff; }
+        .color-red     { color: #dc3545; }
+        .color-grey    { color: #6c757d; }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <nav class="nav-menu" id="navMenu"></nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="contrib-page">
+
+                <!-- Hero -->
+                <div class="contrib-hero">
+                    <h1>How Atomo Schola Works</h1>
+                    <p>A collaborative educational platform where learners, creators, and editors work together to build quality content.</p>
+                </div>
+
+                <!-- CTA - guests only -->
+                <div class="contrib-cta" id="guestCta" style="margin-bottom: 24px;">
+                    <h3>Ready to Contribute?</h3>
+                    <p>Create a free account and start your journey as a learner, creator or editor.</p>
+                    <div class="contrib-cta-buttons">
+                        <a href="register.html" class="cta-btn cta-btn-white">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </a>
+                        <a href="propose-edits.html" class="cta-btn cta-btn-outline">
+                            <i class="fas fa-edit"></i>
+                            Propose an Edit
+                        </a>
+                    </div>
+                </div>
+
+                <!-- What is Atomo Schola -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-purple">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h2>What is Atomo Schola?</h2>
+                    </div>
+                    <p>Atomo Schola is a community-driven educational platform organized around two major categories: <strong>STEM</strong> (Science, Technology, Engineering &amp; Mathematics) and <strong>Humanities</strong> (History, Literature, Philosophy, Languages &amp; Social Sciences).</p>
+                    <p>Content is structured hierarchically — each category contains subjects, subjects contain domains, and domains contain lessons. Anyone can browse and read lessons freely, while contributing requires an account and a specific role.</p>
+                </div>
+
+                <!-- Content Types -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-orange">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h2>Content Types</h2>
+                    </div>
+                    <p>Lessons on the platform come in three formats:</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-file-alt color-blue"></i> <strong>Text Lessons</strong> — Rich formatted content with support for LaTeX mathematical formulas</li>
+                        <li><i class="fas fa-video color-red"></i> <strong>Video Lessons</strong> — Embedded YouTube videos with descriptions</li>
+                        <li><i class="fas fa-chalkboard color-orange"></i> <strong>Presentations</strong> — Interactive slide-based content</li>
+                    </ul>
+                </div>
+
+                <!-- Roles -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h2>Roles on the Platform</h2>
+                    </div>
+                    <p>Roles are hierarchical — each role includes all the permissions of the roles below it. Creators are also editors and users; editors are also users.</p>
+                    <div class="roles-grid">
+                        <div class="role-badge">
+                            <i class="fas fa-user color-grey"></i>
+                            <span class="role-name">User</span>
+                            <span class="role-desc">Browse, bookmark and rate lessons</span>
+                        </div>
+                        <div class="role-badge">
+                            <i class="fas fa-pen-fancy color-teal"></i>
+                            <span class="role-name">Editor</span>
+                            <span class="role-desc">Everything a User can do, plus vote on proposed lessons</span>
+                        </div>
+                        <div class="role-badge">
+                            <i class="fas fa-lightbulb color-yellow"></i>
+                            <span class="role-name">Creator</span>
+                            <span class="role-desc">Everything an Editor can do, plus create and publish lessons</span>
+                        </div>
+                        <div class="role-badge">
+                            <i class="fas fa-tasks color-orange"></i>
+                            <span class="role-name">Staff</span>
+                            <span class="role-desc">Moderate content and manage the platform</span>
+                        </div>
+                        <div class="role-badge">
+                            <i class="fas fa-crown color-purple"></i>
+                            <span class="role-name">Owner</span>
+                            <span class="role-desc">Full platform access and administration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Become a Creator -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-yellow">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h2>Become a Creator</h2>
+                    </div>
+                    <p>Creators write and publish lessons on the platform. To earn the Creator role, you need to propose one original lesson. The proposal is sent to the Creator Commission, which votes on whether to accept it. If accepted, the lesson is automatically published and you receive Creator status.</p>
+                    <ul class="steps-list">
+                        <li>
+                            <span class="step-number bg-yellow">1</span>
+                            Create a free account and log in to the platform.
+                        </li>
+                        <li>
+                            <span class="step-number bg-yellow">2</span>
+                            Propose an original lesson on a subject you're passionate about.
+                        </li>
+                        <li>
+                            <span class="step-number bg-yellow">3</span>
+                            The Creator Commission votes on your proposal. If approved, your lesson is published automatically.
+                        </li>
+                        <li>
+                            <span class="step-number bg-yellow">4</span>
+                            You receive Creator status and can start publishing more lessons.
+                        </li>
+                    </ul>
+                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-yellow" style="margin-right: 6px;"></i> Each approved lesson strengthens your reputation and contributes to your leaderboard ranking.</p>
+                </div>
+
+                <!-- Become an Editor -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-teal">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h2>Become an Editor</h2>
+                    </div>
+                    <p>Editors review and vote on lessons proposed by creators. To earn the Editor role, you need to propose 3 edits to 3 different published lessons. Each edit proposal is sent to the Editor Commission, which votes on it.</p>
+                    <ul class="steps-list">
+                        <li>
+                            <span class="step-number bg-teal">1</span>
+                            Propose edits to 3 different lessons already published on the platform.
+                        </li>
+                        <li>
+                            <span class="step-number bg-teal">2</span>
+                            Each edit is reviewed by the Editor Commission, which votes to accept or reject it.
+                        </li>
+                        <li>
+                            <span class="step-number bg-teal">3</span>
+                            If all 3 edits are accepted, you officially become an Editor.
+                        </li>
+                        <li>
+                            <span class="step-number bg-teal">4</span>
+                            As an Editor, you can now vote on new lesson proposals submitted by creators.
+                        </li>
+                    </ul>
+                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-teal" style="margin-right: 6px;"></i> Editors play an essential role in maintaining the quality standards of the platform.</p>
+                </div>
+
+                <!-- Lesson Review Process -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-blue">
+                            <i class="fas fa-vote-yea"></i>
+                        </div>
+                        <h2>Lesson Review Process</h2>
+                    </div>
+                    <p>When a creator submits a new lesson, it enters a review queue visible to all editors. Editors vote independently — no feedback is required, just a yes or no vote.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle color-green"></i> <strong>7 yes votes</strong> — the lesson is accepted and published</li>
+                        <li><i class="fas fa-times-circle color-red"></i> <strong>5 no votes</strong> — the lesson is rejected</li>
+                        <li><i class="fas fa-clock color-orange"></i> Rejected lessons remain in the database for a period so the creator can revise and resubmit</li>
+                        <li><i class="fas fa-award color-purple"></i> Editors who voted no on a lesson that was later improved and accepted receive credit for their contribution</li>
+                    </ul>
+                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-blue" style="margin-right: 6px;"></i> A future improvement will require that at least a minimum number of yes votes come from editors familiar with the subject area.</p>
+                </div>
+
+                <!-- Leaderboards & Commissions -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-purple">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h2>Leaderboards &amp; Commissions</h2>
+                    </div>
+                    <p>Creators and editors each have their own leaderboard. Since creators also have editor privileges, a creator can appear on both leaderboards simultaneously.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-star color-yellow"></i> <strong>Creator leaderboard</strong> — requires at least 5 published lessons to qualify</li>
+                        <li><i class="fas fa-star color-teal"></i> <strong>Editor leaderboard</strong> — requires having voted on at least 15 accepted lessons to qualify</li>
+                        <li><i class="fas fa-chart-bar color-blue"></i> Ranking is based on the average rating of lessons you participated in (only lessons with a minimum number of ratings count)</li>
+                        <li><i class="fas fa-gavel color-purple"></i> The top 7 creators and top 7 editors are invited to join their respective commission for a one-month term</li>
+                        <li><i class="fas fa-arrow-right color-grey"></i> If someone declines the invitation, the spot passes to the next person on the leaderboard</li>
+                    </ul>
+                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-purple" style="margin-right: 6px;"></i> Commissions are the governing bodies that vote on role upgrade proposals and new lesson submissions.</p>
+                </div>
+
+                <!-- Platform Features -->
+                <div class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-icon bg-green">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h2>Platform Features</h2>
+                    </div>
+                    <p>All registered users have access to these features:</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-search color-blue"></i> Advanced search across all subjects, domains and lessons</li>
+                        <li><i class="fas fa-bookmark color-yellow"></i> Bookmark your favorite lessons to find them quickly later</li>
+                        <li><i class="fas fa-star color-green"></i> Rate and review lessons to help other learners</li>
+                        <li><i class="fas fa-file-alt color-teal"></i> Rich text editor with LaTeX formula support for creators</li>
+                        <li><i class="fas fa-paperclip color-grey"></i> Attach files from cloud storage to lessons</li>
+                        <li><i class="fas fa-bell color-orange"></i> Inbox notifications for updates on your proposals and edits</li>
+                        <li><i class="fas fa-key color-purple"></i> Use invite codes to upgrade your account role</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.API && window.API.isAuthenticated()) {
+                const cta = document.getElementById('guestCta');
+                if (cta) cta.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
