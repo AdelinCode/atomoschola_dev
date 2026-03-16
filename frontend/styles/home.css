@@ -1,0 +1,518 @@
+/* ============================================
+   HOME PAGE STYLES
+   ============================================ */
+
+/* Category Cards Grid */
+.category-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.category-major-card {
+    cursor: pointer;
+    background: white;
+    color: #333;
+    padding: 60px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e9ecef;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.category-major-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-major-card .card-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.category-major-card h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.category-major-card .card-description {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+/* Category Stats */
+.category-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.category-stat-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.category-stat-item .stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.category-stat-item .stat-label {
+    font-size: 14px;
+    color: #666;
+}
+
+/* STEM accent color */
+.stem-accent { color: #667eea; }
+
+/* Humanities accent color */
+.humanities-accent { color: #f093fb; }
+
+/* ============================================
+   INFO CARDS SECTION
+   ============================================ */
+
+.info-cards-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.info-cards-section .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.info-cards-section .section-header h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-cards-section .section-header p {
+    font-size: 18px;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.info-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Generic Info Card */
+.info-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.info-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.info-card-icon i {
+    color: white;
+    font-size: 20px;
+}
+
+.info-card-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 20px;
+}
+
+.info-card-body {
+    color: #6c757d;
+    line-height: 1.7;
+}
+
+.info-card-body p {
+    margin-bottom: 15px;
+}
+
+.info-card-body ol,
+.info-card-body ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.info-card-body li {
+    margin-bottom: 10px;
+}
+
+.info-card-body .info-note {
+    margin-top: 15px;
+    font-style: italic;
+    color: #495057;
+}
+
+.info-card-body .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.info-card-body .feature-list li {
+    margin-bottom: 8px;
+}
+
+/* Icon accent colors */
+.icon-yellow  { background: #ffc107; }
+.icon-teal    { background: #17a2b8; }
+.icon-purple  { background: #6f42c1; }
+.icon-orange  { background: #fd7e14; }
+.icon-green   { background: #20c997; }
+
+/* ============================================
+   BANNER CARDS (Discord, News, Team, Propose)
+   ============================================ */
+
+.banner-card {
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    color: white;
+    margin-bottom: 30px;
+}
+
+.banner-card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.banner-card-content {
+    flex: 1;
+    min-width: 250px;
+}
+
+.banner-card-title-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.banner-card-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.banner-card-icon i {
+    color: #fff;
+    font-size: 20px;
+}
+
+.banner-card-title-row h3 {
+    margin: 0;
+    color: white !important;
+    font-size: 20px;
+}
+
+.banner-card-content p {
+    margin: 0;
+    color: white !important;
+    line-height: 1.6;
+}
+
+.banner-card-action {
+    flex-shrink: 0;
+}
+
+.banner-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.banner-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white !important;
+}
+
+/* Banner gradient variants */
+.banner-propose  { background: linear-gradient(135deg, #9b59b6 0%, #7d3c98 100%); }
+.banner-discord  { background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); }
+.banner-news     { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
+.banner-team     { background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%); }
+
+/* ============================================
+   CALL TO ACTION
+   ============================================ */
+
+.cta-section {
+    text-align: center;
+    padding: 40px 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.cta-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.cta-section p {
+    color: #6c757d;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-btn {
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cta-btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.cta-btn-primary:hover {
+    background: #0056b3;
+    color: white;
+}
+
+.cta-btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.cta-btn-success:hover {
+    background: #1e7e34;
+    color: white;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .category-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-major-card {
+        padding: 40px 20px;
+    }
+
+    .category-major-card .card-icon {
+        font-size: 60px;
+    }
+
+    .banner-card-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Override theme.css heading color for accent elements */
+.category-major-card .card-icon.stem-accent,
+.stat-value.stem-accent {
+    color: #667eea !important;
+}
+
+.category-major-card .card-icon.humanities-accent,
+.stat-value.humanities-accent {
+    color: #f093fb !important;
+}
+
+/* ============================================
+   HERO QUICK LINKS
+   ============================================ */
+
+.hero-top {
+    padding-bottom: 20px;
+}
+
+.hero-quick-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 0 24px 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hero-quick-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.25s;
+    will-change: transform;
+    background: white;
+    border: 4px solid;
+}
+
+.hero-quick-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    background: white;
+}
+
+.hero-btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+    color: white;
+}
+
+.hero-btn-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.hero-btn-label {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero-btn-sub {
+    display: none;
+}
+
+/* Individual button colors — white bg, colored border + icon circle */
+.hero-btn-social {
+    border-color: #5865F2;
+}
+.hero-btn-social .hero-btn-icon {
+    background: #5865F2;
+}
+.hero-btn-social .hero-btn-label {
+    color: #5865F2;
+}
+
+.hero-btn-contribution {
+    border-color: #00ADB5;
+}
+.hero-btn-contribution .hero-btn-icon {
+    background: #00ADB5;
+}
+.hero-btn-contribution .hero-btn-label {
+    color: #00ADB5;
+}
+
+.hero-btn-news {
+    border-color: #c471ed;
+}
+.hero-btn-news .hero-btn-icon {
+    background: #c471ed;
+}
+.hero-btn-news .hero-btn-label {
+    color: #c471ed;
+}
+
+.hero-btn-team {
+    border-color: #f7971e;
+}
+.hero-btn-team .hero-btn-icon {
+    background: #f7971e;
+}
+.hero-btn-team .hero-btn-label {
+    color: #f7971e;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .hero-quick-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-quick-links {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .hero-quick-btn {
+        padding: 14px 12px;
+        gap: 10px;
+    }
+
+    .hero-btn-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .hero-btn-label {
+        font-size: 13px;
+    }
+}

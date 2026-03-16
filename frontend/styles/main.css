@@ -27,14 +27,14 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 80px;
+    height: 90px;
 }
 
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 90px;
     gap: 24px;
     max-width: 100%;
 }
@@ -95,6 +95,7 @@ body {
     color: #6c757d;
     cursor: pointer;
     padding: 4px;
+    font-size: 14px;
 }
 
 .search-btn:hover {
@@ -114,9 +115,9 @@ body {
     align-items: center;
     text-decoration: none;
     color: #495057;
-    font-size: 13px;
-    padding: 8px 12px;
-    border-radius: 6px;
+    font-size: 17px;
+    padding: 12px 16px;
+    border-radius: 8px;
     transition: all 0.2s ease;
     white-space: nowrap;
     font-weight: 500;
@@ -128,8 +129,8 @@ body {
 }
 
 .nav-item i {
-    margin-right: 6px;
-    font-size: 13px;
+    margin-right: 7px;
+    font-size: 17px;
 }
 
 .badge {
@@ -153,9 +154,9 @@ body {
     background: none;
     border: none;
     color: #495057;
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 6px;
+    font-size: 17px;
+    padding: 12px 16px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -166,13 +167,13 @@ body {
 }
 
 .account-btn i:first-child {
-    margin-right: 6px;
-    font-size: 18px;
+    margin-right: 8px;
+    font-size: 20px;
 }
 
 .account-btn i:last-child {
-    margin-left: 6px;
-    font-size: 12px;
+    margin-left: 8px;
+    font-size: 14px;
 }
 
 .dropdown-menu {
@@ -203,7 +204,7 @@ body {
     padding: 12px 16px;
     text-decoration: none;
     color: #495057;
-    font-size: 14px;
+    font-size: 17px;
     transition: background 0.2s ease;
 }
 
@@ -212,8 +213,8 @@ body {
 }
 
 .dropdown-menu a i {
-    margin-right: 8px;
-    width: 16px;
+    margin-right: 10px;
+    width: 18px;
 }
 
 .dropdown-divider {
@@ -224,15 +225,15 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-top: 80px;
-    min-height: calc(100vh - 70px);
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
     padding: 40px 0;
 }
 
 /* Hero Section */
 .hero {
     text-align: center;
-    padding: 60px 0;
+    padding: 60px 0 0 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-radius: 12px;
