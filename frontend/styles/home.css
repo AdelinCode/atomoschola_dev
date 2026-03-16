@@ -383,7 +383,7 @@
    ============================================ */
 
 .hero-top {
-    padding-bottom: 20px;
+    padding-bottom: 0;
 }
 
 .hero-quick-links {
@@ -391,7 +391,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin: 0 24px 24px;
-    padding-top: 20px;
+    padding-top: 4px;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -400,33 +400,88 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    padding: 16px 18px;
-    border-radius: 14px;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
     text-decoration: none;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
                 background 0.25s;
     will-change: transform;
     background: white;
-    border: 4px solid;
+    border: 3px solid;
 }
 
 .hero-quick-btn:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Social hover */
+.hero-btn-social:hover {
+    background: #fd7e14;
+}
+.hero-btn-social:hover .hero-btn-icon {
     background: white;
+}
+.hero-btn-social:hover .hero-btn-icon i {
+    color: #fd7e14;
+}
+.hero-btn-social:hover .hero-btn-label {
+    color: white;
+}
+
+/* Contribution hover */
+.hero-btn-contribution:hover {
+    background: #6C3483;
+}
+.hero-btn-contribution:hover .hero-btn-icon {
+    background: white;
+}
+.hero-btn-contribution:hover .hero-btn-icon i {
+    color: #6C3483;
+}
+.hero-btn-contribution:hover .hero-btn-label {
+    color: white;
+}
+
+/* News hover */
+.hero-btn-news:hover {
+    background: #17a2b8;
+}
+.hero-btn-news:hover .hero-btn-icon {
+    background: white;
+}
+.hero-btn-news:hover .hero-btn-icon i {
+    color: #17a2b8;
+}
+.hero-btn-news:hover .hero-btn-label {
+    color: white;
+}
+
+/* Team hover */
+.hero-btn-team:hover {
+    background: #6c5ce7;
+}
+.hero-btn-team:hover .hero-btn-icon {
+    background: white;
+}
+.hero-btn-team:hover .hero-btn-icon i {
+    color: #6c5ce7;
+}
+.hero-btn-team:hover .hero-btn-label {
+    color: white;
 }
 
 .hero-btn-icon {
-    width: 44px;
-    height: 44px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
 }
 
@@ -437,7 +492,7 @@
 }
 
 .hero-btn-label {
-    font-size: 19px;
+    font-size: 15px;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -448,43 +503,43 @@
 
 /* Individual button colors — white bg, colored border + icon circle */
 .hero-btn-social {
-    border-color: #5865F2;
+    border-color: #fd7e14;
 }
 .hero-btn-social .hero-btn-icon {
-    background: #5865F2;
+    background: #fd7e14;
 }
 .hero-btn-social .hero-btn-label {
-    color: #5865F2;
+    color: #fd7e14;
 }
 
 .hero-btn-contribution {
-    border-color: #00ADB5;
+    border-color: #6C3483;
 }
 .hero-btn-contribution .hero-btn-icon {
-    background: #00ADB5;
+    background: #6C3483;
 }
 .hero-btn-contribution .hero-btn-label {
-    color: #00ADB5;
+    color: #6C3483;
 }
 
 .hero-btn-news {
-    border-color: #c471ed;
+    border-color: #17a2b8;
 }
 .hero-btn-news .hero-btn-icon {
-    background: #c471ed;
+    background: #17a2b8;
 }
 .hero-btn-news .hero-btn-label {
-    color: #c471ed;
+    color: #17a2b8;
 }
 
 .hero-btn-team {
-    border-color: #f7971e;
+    border-color: #6c5ce7;
 }
 .hero-btn-team .hero-btn-icon {
-    background: #f7971e;
+    background: #6c5ce7;
 }
 .hero-btn-team .hero-btn-label {
-    color: #f7971e;
+    color: #6c5ce7;
 }
 
 /* Responsive */
