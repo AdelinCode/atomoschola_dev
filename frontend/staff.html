@@ -184,20 +184,6 @@
             <p>Meet the dedicated team members who manage, create, and maintain quality educational content on Atomo Schola.</p>
         </div>
 
-        <!-- Owner Section -->
-        <div class="role-section">
-            <div class="role-header owner">
-                <div class="role-icon owner">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <h2 class="role-title">Owners</h2>
-                <span class="role-count" id="ownerCount">0</span>
-            </div>
-            <div class="staff-grid" id="ownerGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
-        </div>
-
         <!-- Editor Section -->
         <div class="role-section">
             <div class="role-header editor">
@@ -298,7 +284,6 @@
             const creators = staff.filter(u => u.userType === 'creator');
             const staffMembers = staff.filter(u => u.userType === 'staff');
 
-            displayRole('owner', owners);
             displayRole('editor', editors);
             displayRole('creator', creators);
             
@@ -340,7 +325,7 @@
         }
 
         function showError() {
-            ['owner', 'editor', 'creator'].forEach(role => {
+            ['editor', 'creator'].forEach(role => {
                 document.getElementById(`${role}Grid`).innerHTML = 
                     '<div class="empty-state" style="color: #dc3545;">Error loading staff</div>';
             });

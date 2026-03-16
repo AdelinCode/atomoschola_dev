@@ -64,14 +64,6 @@ function renderGuestNav() {
             <i class="fas fa-users-cog"></i>
             Staff
         </a>
-        <a href="social.html" class="nav-item">
-            <i class="fas fa-hashtag"></i>
-            Social
-        </a>
-        <a href="contribution.html" class="nav-item">
-            <i class="fas fa-hands-helping"></i>
-            Contribution
-        </a>
         <a href="login.html" class="nav-item">
             <i class="fas fa-sign-in-alt"></i>
             Login
@@ -115,22 +107,6 @@ function renderAuthenticatedNav() {
             Staff
         </a>
     `;
-
-    // Add Social button for all users
-    navItems += `
-        <a href="social.html" class="nav-item">
-            <i class="fas fa-hashtag"></i>
-            Social
-        </a>
-    `;
-
-    // Add Contribution button for all users
-    navItems += `
-        <a href="contribution.html" class="nav-item">
-            <i class="fas fa-hands-helping"></i>
-            Contribution
-        </a>
-    `;
     
     // Add Events button for all users
     navItems += `
@@ -143,7 +119,7 @@ function renderAuthenticatedNav() {
     // Add Notifications button for authenticated users
     navItems += `
         <button class="nav-item" onclick="showNotificationsModal()" style="background: none; border: none; cursor: pointer; position: relative; padding: 8px 16px;">
-            <i class="fas fa-bell"></i>
+        <i class="fa-solid fa-envelope"></i>
             Inbox
             <span id="notificationBadge" style="display: none; position: absolute; top: 4px; right: 8px; background: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; align-items: center; justify-content: center;">0</span>
         </button>
