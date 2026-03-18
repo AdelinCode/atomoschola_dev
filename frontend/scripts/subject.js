@@ -172,22 +172,7 @@ function updateAuthStatus() {
     const isAuthenticated = !!token;
     
     // Add a notice if not authenticated
-    if (!isAuthenticated) {
-        const header = document.querySelector('.subject-header');
-        if (header && !document.getElementById('authNotice')) {
-            const notice = document.createElement('div');
-            notice.id = 'authNotice';
-            notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;';
-            notice.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-info-circle" style="color: #856404;"></i>
-                    <span style="color: #856404;">You are browsing as a guest. Login to access lessons.</span>
-                </div>
-                <a href="login.html" class="btn btn-primary" style="padding: 6px 16px; font-size: 14px;">Login</a>
-            `;
-            header.parentNode.insertBefore(notice, header);
-        }
-    }
+    // guests can browse freely — no notice needed
 }
 
 // Display domains
@@ -268,35 +253,16 @@ function displayCategories(domainSlug) {
     categories.forEach(([slug, category]) => {
         const card = document.createElement('div');
         card.className = 'category-card';
-        
-        if (isAuthenticated) {
-            // Authenticated users see normal cards
-            card.innerHTML = `
-                <h3>${category.name}</h3>
-                <p>${category.description}</p>
-                <div class="category-stats">
-                    <span><i class="fas fa-book"></i> ${category.lessonCount} Lessons</span>
-                </div>
-            `;
-            card.onclick = () => displayLessons(slug, category);
-        } else {
-            // Non-authenticated users see locked cards
-            card.innerHTML = `
-                <h3>${category.name} <i class="fas fa-lock" style="font-size: 14px; color: #999; margin-left: 8px;"></i></h3>
-                <p>${category.description}</p>
-                <div class="category-stats">
-                    <span><i class="fas fa-book"></i> ${category.lessonCount} Lessons</span>
-                </div>
-            `;
-            card.style.opacity = '0.7';
-            card.style.cursor = 'not-allowed';
-            card.onclick = () => {
-                if (confirm('You need to login to view lessons. Go to login page?')) {
-                    window.location.href = 'login.html';
-                }
-            };
-        }
-        
+
+        card.innerHTML = `
+            <h3>${category.name}</h3>
+            <p>${category.description}</p>
+            <div class="category-stats">
+                <span><i class="fas fa-book"></i> ${category.lessonCount} Lessons</span>
+            </div>
+        `;
+        card.onclick = () => displayLessons(slug, category);
+
         grid.appendChild(card);
     });
     
@@ -320,23 +286,7 @@ function displayLessons(categorySlug, category) {
     section.style.display = 'block';
     title.textContent = `${category.name} Lessons`;
     grid.innerHTML = '';
-    
-    // If not authenticated, show login message
-    if (!isAuthenticated) {
-        grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-                <i class="fas fa-lock" style="font-size: 48px; color: #6c757d; margin-bottom: 20px;"></i>
-                <h3 style="color: #333; margin-bottom: 10px;">Login Required</h3>
-                <p style="color: #6c757d; margin-bottom: 20px;">You need to be logged in to view lessons.</p>
-                <a href="login.html" class="btn btn-primary" style="display: inline-block; padding: 12px 30px; background: #007bff; color: white; text-decoration: none; border-radius: 6px;">
-                    Login to Continue
-                </a>
-            </div>
-        `;
-        section.scrollIntoView({ behavior: 'smooth' });
-        return;
-    }
-    
+
     // Filter lessons
     const filtered = lessonsData.filter(lesson => {
         if (typeof lesson.category === 'object' && lesson.category !== null) {
