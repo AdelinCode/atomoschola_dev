@@ -506,8 +506,7 @@ async function submitRating() {
     
     const user = window.API.getUser();
     if (!user) {
-        alert('Please login to rate this lesson');
-        window.location.href = 'login.html';
+        showAuthToast('Rate this lesson');
         return;
     }
     
@@ -515,7 +514,7 @@ async function submitRating() {
         const response = await window.API.lessons.rate(currentLesson._id, userRating);
         
         if (response.success) {
-            alert(`Thank you for rating this lesson ${userRating} stars!`);
+            showToast('Thank you for rating this lesson!', 'success');
             
             // Update displayed rating
             currentLesson.averageRating = response.data.averageRating;
@@ -530,22 +529,19 @@ async function submitRating() {
             if (starsElement) starsElement.innerHTML = window.EduPlatform.createStarRating(response.data.averageRating);
             
             const submitRatingBtn = document.getElementById('submitRatingBtn');
-            if (submitRatingBtn) {
-                submitRatingBtn.style.display = 'none';
-            }
+            if (submitRatingBtn) submitRatingBtn.style.display = 'none';
             
-            // Disable further rating
             const ratingStars = document.querySelectorAll('.rating-stars i');
             ratingStars.forEach(star => {
                 star.style.pointerEvents = 'none';
                 star.style.opacity = '0.7';
             });
         } else {
-            alert('Error submitting rating: ' + response.message);
+            showToast('Error submitting rating: ' + response.message, 'error');
         }
     } catch (error) {
         console.error('Error submitting rating:', error);
-        alert('Error submitting rating. Please try again.');
+        showToast('Error submitting rating. Please try again.', 'error');
     }
 }
 
@@ -592,8 +588,7 @@ async function updateBookmarkButton() {
 async function toggleBookmark() {
     const user = window.API.getUser();
     if (!user) {
-        alert('Please login to bookmark lessons');
-        window.location.href = 'login.html';
+        showAuthToast('Bookmark this lesson');
         return;
     }
     
@@ -610,19 +605,19 @@ async function toggleBookmark() {
             if (response.success) {
                 bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
                 bookmarkBtn.style.background = '';
-                alert('Lesson removed from bookmarks');
+                showToast('Removed from bookmarks', 'info');
             }
         } else {
             response = await window.API.users.bookmarkLesson(currentLesson._id);
             if (response.success) {
                 bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmarked';
                 bookmarkBtn.style.background = '#333';
-                alert('Lesson added to bookmarks');
+                showToast('Added to bookmarks!', 'success');
             }
         }
     } catch (error) {
         console.error('Error toggling bookmark:', error);
-        alert('Error updating bookmark. Please try again.');
+        showToast('Error updating bookmark. Please try again.', 'error');
     }
 }
 
@@ -736,4 +731,87 @@ function showError(message) {
             </div>
         `;
     }
+}
+
+// ── Toast notification ──────────────────────────────────────────────────────
+
+function showToast(message, type = 'info') {
+    const colors = {
+        success: { bg: '#212529', border: '#28a745', icon: 'fa-check-circle', iconColor: '#28a745' },
+        error:   { bg: '#212529', border: '#dc3545', icon: 'fa-times-circle',  iconColor: '#dc3545' },
+        info:    { bg: '#212529', border: '#000000', icon: 'fa-info-circle',   iconColor: '#ffffff' }
+    };
+    const c = colors[type] || colors.info;
+
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; bottom: 28px; right: 28px; z-index: 99999;
+        display: flex; align-items: center; gap: 12px;
+        background: ${c.bg}; color: #ffffff;
+        border-left: 4px solid ${c.border};
+        padding: 16px 20px; border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        font-size: 15px; font-weight: 500;
+        max-width: 340px;
+        animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1);
+    `;
+    toast.innerHTML = `
+        <i class="fas ${c.icon}" style="font-size:18px; color:${c.iconColor}; flex-shrink:0;"></i>
+        <span>${message}</span>
+    `;
+
+    if (!document.getElementById('toastStyle')) {
+        const s = document.createElement('style');
+        s.id = 'toastStyle';
+        s.textContent = `
+            @keyframes toastIn  { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+            @keyframes toastOut { from { opacity:1; transform:translateY(0); }    to { opacity:0; transform:translateY(16px); } }
+        `;
+        document.head.appendChild(s);
+    }
+
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = 'toastOut 0.3s cubic-bezier(0.4,0,0.2,1) forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function showAuthToast(action) {
+    const existing = document.getElementById('authToast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'authToast';
+    toast.style.cssText = `
+        position: fixed; bottom: 28px; right: 28px; z-index: 99999;
+        background: #ffffff; color: #212529;
+        border: 2px solid #000000; border-radius: 12px;
+        padding: 20px 24px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        max-width: 320px;
+        animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1);
+    `;
+    toast.innerHTML = `
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <i class="fas fa-lock" style="font-size:18px; color:#000;"></i>
+            <strong style="font-size:15px;">Account required</strong>
+            <button onclick="this.closest('#authToast').remove()" style="margin-left:auto; background:none; border:none; font-size:20px; cursor:pointer; color:#666; line-height:1;">&times;</button>
+        </div>
+        <p style="font-size:14px; color:#555; margin-bottom:14px; line-height:1.5;">
+            You need an account to <strong>${action.toLowerCase()}</strong>.
+        </p>
+        <div style="display:flex; gap:8px;">
+            <a href="login.html" style="flex:1; text-align:center; padding:9px; background:#000; color:#fff !important; border-radius:7px; text-decoration:none; font-size:14px; font-weight:600;">Login</a>
+            <a href="register.html" style="flex:1; text-align:center; padding:9px; background:#f5f5f5; color:#000 !important; border:2px solid #e0e0e0; border-radius:7px; text-decoration:none; font-size:14px; font-weight:600;">Register</a>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.style.animation = 'toastOut 0.3s cubic-bezier(0.4,0,0.2,1) forwards';
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 6000);
 }

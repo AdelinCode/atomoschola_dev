@@ -118,7 +118,7 @@ function renderAuthenticatedNav() {
     
     // Add Notifications button for authenticated users
     navItems += `
-        <button class="nav-item" onclick="showNotificationsModal()" style="background: none; border: none; cursor: pointer; position: relative; padding: 8px 16px;">
+        <button class="nav-item" onclick="showNotificationsModal()" style="background: none; border: none; cursor: pointer; position: relative;">
         <i class="fa-solid fa-envelope"></i>
             <strong>Inbox</strong>
             <span id="notificationBadge" style="display: none; position: absolute; top: 4px; right: 8px; background: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; align-items: center; justify-content: center;">0</span>
