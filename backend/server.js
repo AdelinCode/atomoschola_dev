@@ -16,6 +16,7 @@ import pendingRequestsRoutes from './routes/pendingRequests.js';
 import notificationsRoutes from './routes/notifications.js';
 import commissionRoutes from './routes/commission.js';
 import editorCommissionRoutes from './routes/editorCommission.js';
+import leaderboardRoutes from './routes/leaderboard.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -54,6 +55,7 @@ app.use('/api/pending-requests', pendingRequestsRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/commission', commissionRoutes);
 app.use('/api/editor-commission', editorCommissionRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

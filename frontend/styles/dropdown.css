@@ -53,3 +53,20 @@
     margin: 4px 0;
     border: none;
 }
+/*
+ Hover-triggered dropdown */
+.nav-hover-dropdown {
+    position: relative;
+}
+
+.nav-hover-dropdown .dropdown-menu {
+    top: calc(100% + 4px);
+    left: 0;
+    right: auto;
+}
+
+.nav-hover-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}

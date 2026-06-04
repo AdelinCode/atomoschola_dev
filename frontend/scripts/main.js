@@ -60,10 +60,17 @@ function renderGuestNav() {
                 <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
             </div>
         </div>
-        <a href="staff.html" class="nav-item">
-            <i class="fas fa-users-cog"></i>
-            Contributors
-        </a>
+        <div class="account-dropdown nav-hover-dropdown">
+            <button class="account-btn" id="contributorsGuestBtn">
+                <i class="fas fa-users-cog"></i>
+                <span>Contributors</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="contributorsGuestDropdown">
+                <a href="staff.html"><i class="fas fa-users-cog"></i> Contributors</a>
+                <a href="#" onclick="showLeaderboardModal(); return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
+            </div>
+        </div>
         <a href="login.html" class="nav-item">
             <i class="fas fa-sign-in-alt"></i>
             Login
@@ -76,6 +83,7 @@ function renderGuestNav() {
     
     // Setup courses dropdown
     setupCoursesDropdown();
+    setupHoverDropdowns();
 }
 
 function renderAuthenticatedNav() {
@@ -102,10 +110,17 @@ function renderAuthenticatedNav() {
     
     // Add Staff button for all users
     navItems += `
-        <a href="staff.html" class="nav-item">
-            <i class="fas fa-users-cog"></i>
-            Contributors
-        </a>
+        <div class="account-dropdown nav-hover-dropdown">
+            <button class="account-btn" id="contributorsBtn">
+                <i class="fas fa-users-cog"></i>
+                <span>Contributors</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="contributorsDropdown">
+                <a href="staff.html"><i class="fas fa-users-cog"></i> Contributors</a>
+                <a href="#" onclick="showLeaderboardModal(); return false;"><i class="fas fa-trophy"></i> Leaderboard</a>
+            </div>
+        </div>
     `;
     
     // Add Events button for all users
@@ -195,6 +210,7 @@ function renderAuthenticatedNav() {
     setupNavEventListeners();
     setupCoursesDropdown();
     setupDashboardDropdown();
+    setupHoverDropdowns();
 }
 
 function setupEventListeners() {
@@ -306,6 +322,168 @@ function setupDashboardDropdown() {
             dashboardDropdown.classList.remove('show');
         });
     }
+}
+
+function setupHoverDropdowns() {
+    document.querySelectorAll('.nav-hover-dropdown').forEach(wrapper => {
+        const dropdown = wrapper.querySelector('.dropdown-menu');
+        if (!dropdown) return;
+
+        wrapper.addEventListener('mouseenter', () => dropdown.classList.add('show'));
+        wrapper.addEventListener('mouseleave', () => dropdown.classList.remove('show'));
+    });
+}
+
+function showLeaderboardModal() {
+    let modal = document.getElementById('leaderboardModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'leaderboardModal';
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: flex;
+            align-items: center; justify-content: center; z-index: 10000;
+        `;
+        modal.innerHTML = `
+            <div style="background: white; border-radius: 16px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div style="padding: 24px 28px 16px; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0; font-size: 22px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-trophy" style="color: #f59e0b;"></i> Leaderboard
+                    </h2>
+                    <button onclick="document.getElementById('leaderboardModal').style.display='none'" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666; line-height: 1;">&times;</button>
+                </div>
+                <div style="padding: 16px 28px 0;">
+                    <div style="display: flex; gap: 8px; border-bottom: 2px solid #e9ecef; margin-bottom: 0;">
+                        <button id="lbTabCreators" onclick="switchLbTab('creators')" style="padding: 10px 20px; border: none; background: none; font-weight: 700; font-size: 14px; cursor: pointer; border-bottom: 3px solid #f59e0b; margin-bottom: -2px; color: #f59e0b; transition: all 0.2s;">
+                            <i class="fas fa-pen-nib"></i> Creators
+                        </button>
+                        <button id="lbTabEditors" onclick="switchLbTab('editors')" style="padding: 10px 20px; border: none; background: none; font-weight: 700; font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; color: #6c757d; transition: all 0.2s;">
+                            <i class="fas fa-pen-fancy"></i> Editors
+                        </button>
+                    </div>
+                </div>
+                <div style="overflow-y: auto; padding: 20px 28px 28px;" id="leaderboardContent">
+                    <div id="lbScoreInfo"></div>
+                    <div id="lbCreators"></div>
+                    <div id="lbEditors" style="display:none;"></div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    modal.style.display = 'flex';
+    loadLeaderboard();
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+}
+
+window.switchLbTab = function(tab) {
+    const creatorsEl = document.getElementById('lbCreators');
+    const editorsEl = document.getElementById('lbEditors');
+    const tabCreators = document.getElementById('lbTabCreators');
+    const tabEditors = document.getElementById('lbTabEditors');
+    const scoreInfo = document.getElementById('lbScoreInfo');
+
+    if (tab === 'creators') {
+        creatorsEl.style.display = 'block';
+        editorsEl.style.display = 'none';
+        tabCreators.style.borderBottomColor = '#f59e0b';
+        tabCreators.style.color = '#f59e0b';
+        tabEditors.style.borderBottomColor = 'transparent';
+        tabEditors.style.color = '#6c757d';
+        if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('creator');
+    } else {
+        creatorsEl.style.display = 'none';
+        editorsEl.style.display = 'block';
+        tabEditors.style.borderBottomColor = '#17a2b8';
+        tabEditors.style.color = '#17a2b8';
+        tabCreators.style.borderBottomColor = 'transparent';
+        tabCreators.style.color = '#6c757d';
+        if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('editor');
+    }
+};
+
+async function loadLeaderboard() {
+    const creatorsEl = document.getElementById('lbCreators');
+    const editorsEl = document.getElementById('lbEditors');
+    const scoreInfo = document.getElementById('lbScoreInfo');
+
+    creatorsEl.innerHTML = '<p style="text-align:center;color:#999;padding:30px;">Loading...</p>';
+    editorsEl.innerHTML = '';
+    if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('creator');
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/leaderboard`);
+        const data = await response.json();
+
+        if (data.success) {
+            creatorsEl.innerHTML = renderLeaderboardList(data.data.creators, 'creator');
+            editorsEl.innerHTML = renderLeaderboardList(data.data.editors, 'editor');
+        } else {
+            throw new Error('API error');
+        }
+    } catch (e) {
+        creatorsEl.innerHTML = '<p style="text-align:center;color:#dc3545;padding:30px;"><i class="fas fa-exclamation-circle"></i> Could not load leaderboard.</p>';
+        editorsEl.innerHTML = '<p style="text-align:center;color:#dc3545;padding:30px;"><i class="fas fa-exclamation-circle"></i> Could not load leaderboard.</p>';
+    }
+}
+
+function renderScoreInfo(type) {
+    if (type === 'creator') {
+        return `
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-info-circle" style="color:#f59e0b;flex-shrink:0;"></i>
+                <span><strong>Score formula:</strong> (Published lessons × 10) + (Average rating × 5)</span>
+            </div>`;
+    } else {
+        return `
+            <div style="background:#e0f7fa;border:1px solid #b2ebf2;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#006064;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-info-circle" style="color:#17a2b8;flex-shrink:0;"></i>
+                <span><strong>Score formula:</strong> Approved edits × 10</span>
+            </div>`;
+    }
+}
+
+function renderLeaderboardList(users, type) {
+    if (!users || users.length === 0) {
+        return '<p style="text-align:center;color:#999;padding:30px;">No eligible users yet.</p>';
+    }
+
+    const accentColor = type === 'creator' ? '#f59e0b' : '#17a2b8';
+    const statLabel = type === 'creator' ? 'published lessons' : 'approved edits';
+    const statKey = type === 'creator' ? 'lessonsCount' : 'editsCount';
+
+    return users.map((u, i) => {
+        const isTop3 = i < 3;
+        const medal = isTop3
+            ? `<span style="font-size:22px;">${['🥇','🥈','🥉'][i]}</span>`
+            : `<span style="width:28px;text-align:center;font-weight:700;color:#aaa;font-size:16px;">#${u.rank}</span>`;
+
+        const initials = (u.username || '?').slice(0, 2).toUpperCase();
+        const displayName = u.displayName || u.username;
+
+        const extraInfo = type === 'creator' && u.avgRating > 0
+            ? `<span style="margin-left:8px;color:#f59e0b;font-size:11px;">★ ${u.avgRating.toFixed(1)} avg</span>`
+            : '';
+
+        return `
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;margin-bottom:8px;background:${isTop3 ? '#fafafa' : 'white'};border:1px solid ${isTop3 ? accentColor + '44' : '#e9ecef'};">
+                <div style="flex-shrink:0;width:28px;display:flex;justify-content:center;">${medal}</div>
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,${accentColor},${accentColor}99);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;flex-shrink:0;">${initials}</div>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-weight:700;color:#212529;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${displayName}</div>
+                    <div style="font-size:12px;color:#6c757d;">${u[statKey] ?? 0} ${statLabel}${extraInfo}</div>
+                </div>
+                <div style="text-align:right;flex-shrink:0;">
+                    <div style="font-size:18px;font-weight:800;color:${accentColor};">${u.score ?? 0}</div>
+                    <div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;">pts</div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Show bookmarks modal
