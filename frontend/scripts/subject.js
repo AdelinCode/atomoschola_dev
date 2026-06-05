@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const urlParams = new URLSearchParams(window.location.search);
     currentSubject = urlParams.get('subject') || 'physics';
     
+    // Set background image based on subject
+    setSubjectBackground(currentSubject);
+    
     // Load data
     await loadData();
     
@@ -26,6 +29,64 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Setup event listeners
     setupEventListeners();
 });
+
+// Set background image based on subject
+function setSubjectBackground(subject) {
+    const backgroundElement = document.getElementById('subjectBackground');
+    
+    if (!backgroundElement) {
+        return;
+    }
+    
+    // Map subject slugs to background images
+    const backgroundMap = {
+        // Chemistry
+        'chemistry': 'photo_background/chemistry.jpeg',
+        'chimie': 'photo_background/chemistry.jpeg',
+        
+        // Physics
+        'physics': 'photo_background/physics.jpeg',
+        'fizica': 'photo_background/physics.jpeg',
+        
+        // Mathematics
+        'mathematics': 'photo_background/math.jpeg',
+        'math': 'photo_background/math.jpeg',
+        'matematica': 'photo_background/math.jpeg',
+        
+        // Biology
+        'biology': 'photo_background/biology.jpeg',
+        'biologie': 'photo_background/biology.jpeg',
+        
+        // History
+        'history': 'photo_background/history.jpeg',
+        'istorie': 'photo_background/history.jpeg',
+        
+        // Philosophy
+        'philosophy': 'photo_background/philosophy.jpeg',
+        'filosofie': 'photo_background/philosophy.jpeg',
+        
+        // Modern Languages
+        'modern-languages': 'photo_background/languages.jpeg',
+        'modern-language': 'photo_background/languages.jpeg',
+        'languages': 'photo_background/languages.jpeg',
+        'limbi-moderne': 'photo_background/languages.jpeg',
+        
+        // Romanian Language & Literature
+        'literature': 'photo_background/literatura.jpeg',
+        'romanian-language': 'photo_background/literatura.jpeg',
+        'romanian-literature': 'photo_background/literatura.jpeg',
+        'romanian': 'photo_background/literatura.jpeg',
+        'romana': 'photo_background/literatura.jpeg',
+        'literatura': 'photo_background/literatura.jpeg',
+        'limba-romana': 'photo_background/literatura.jpeg'
+    };
+    
+    const backgroundImage = backgroundMap[subject];
+    
+    if (backgroundImage) {
+        backgroundElement.style.backgroundImage = `url('${backgroundImage}')`;
+    }
+}
 
 // Load all data from API
 async function loadData() {

@@ -2,7 +2,7 @@
 .lesson-main {
     margin-top: 70px;
     min-height: calc(100vh - 70px);
-    background: #f8f9fa;
+    background: transparent;
 }
 
 .lesson-main .container {
@@ -12,11 +12,12 @@
 
 /* Lesson Header Section */
 .lesson-header-section {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
     border-radius: 12px;
     padding: 40px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -129,9 +130,11 @@
 
 /* Lesson Content Section */
 .lesson-content-section {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
     border-radius: 12px;
     padding: 40px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     margin-bottom: 30px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -259,9 +262,11 @@
 
 /* Related Lessons Section */
 .related-lessons-section {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
     border-radius: 12px;
     padding: 40px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
