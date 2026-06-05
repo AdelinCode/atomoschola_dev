@@ -248,7 +248,7 @@
 
 /* Main Content */
 .main-content {
-    background: var(--bg-grey) !important;
+    background: transparent !important;
 }
 
 /* Hero Section */
