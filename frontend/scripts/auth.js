@@ -54,7 +54,7 @@ async function handleRegister(e) {
     const data = Object.fromEntries(formData);
     
     // Validation
-    if (!data.email || !data.password || !data.username) {
+    if (!data.email || !data.password) {
         showMessage('Please fill in all required fields.', 'error');
         return;
     }
@@ -79,7 +79,7 @@ async function handleRegister(e) {
     
     try {
         const userData = {
-            username: data.username,
+            username: data.username || null, // Allow empty username
             email: data.email,
             password: data.password,
             firstName: data.firstName,
