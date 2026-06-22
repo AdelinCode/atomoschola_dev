@@ -19,29 +19,6 @@
             padding: 40px 20px 60px;
         }
 
-        .contrib-hero {
-            text-align: center;
-            padding: 50px 30px;
-            background: url('../photo_background/banner_as.jpeg') center center / cover no-repeat;
-            border-radius: 20px;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            margin-bottom: 40px;
-            position: relative;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contrib-hero h1 {
-            display: none;
-        }
-
-        .contrib-hero p {
-            display: none;
-        }
-
         /* Section */
         .contrib-section {
             background: white;
@@ -292,25 +269,6 @@
         <div class="container">
             <div class="contrib-page">
 
-                <!-- Hero -->
-                <div class="contrib-hero">
-                    <!-- CTA - guests only -->
-                    <div class="contrib-cta" id="guestCta" style="margin-bottom: 0;">
-                        <h3>Ready to Contribute?</h3>
-                        <p>Create a free account and start your journey as a learner, creator or editor.</p>
-                        <div class="contrib-cta-buttons">
-                            <a href="register.html" class="cta-btn cta-btn-white">
-                                <i class="fas fa-user-plus"></i>
-                                Create Account
-                            </a>
-                            <a href="propose-edits.html" class="cta-btn cta-btn-outline">
-                                <i class="fas fa-edit"></i>
-                                Propose an Edit
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- What is Atomo Schola -->
                 <div class="contrib-section">
                     <div class="contrib-section-header">
@@ -518,7 +476,7 @@
                     <ul class="feature-list">
                         <li><i class="fas fa-star color-yellow"></i> <strong>Creator leaderboard</strong> — requires at least 5 published lessons to qualify</li>
                         <li><i class="fas fa-star color-teal"></i> <strong>Editor leaderboard</strong> — requires having voted on at least 15 accepted lessons to qualify</li>
-                        <li><i class="fas fa-chart-bar color-blue"></i> Ranking is based on the average rating of lessons you participated in (only lessons with a minimum number of ratings count)</li>
+                        <li><i class="fas fa-chart-bar color-blue"></i> Score formula: 15×(avg rating 0-3 months) + 10×(avg rating 3-12 months) + 7.5×(avg rating 12+ months) + 1×(total published)</li>
                         <li><i class="fas fa-gavel color-purple"></i> The top 7 creators and top 7 editors are invited to join their respective commission for a one-month term</li>
                         <li><i class="fas fa-arrow-right color-grey"></i> If someone declines the invitation, the spot passes to the next person on the leaderboard</li>
                     </ul>
@@ -554,14 +512,7 @@
     <script src="scripts/search.js"></script>
     <script src="scripts/notifications.js"></script>
     <script src="scripts/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (window.API && window.API.isAuthenticated()) {
-                const cta = document.getElementById('guestCta');
-                if (cta) cta.style.display = 'none';
-            }
-        });
-    </script>
+
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-inner">
@@ -595,7 +546,7 @@
             <div class="footer-col">
                 <div class="footer-col-title">Platform</div>
                 <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
-                <a href="contribution.html"><i class="fas fa-chevron-right"></i> Contribution</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
                 <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
                 <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
             </div>
