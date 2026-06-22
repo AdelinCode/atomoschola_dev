@@ -388,11 +388,14 @@
 
 .hero-quick-links {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    margin: 0 24px 24px;
-    padding-top: 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 24px;
+    width: 66.666%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-quick-btn {
@@ -408,8 +411,10 @@
                 box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
                 background 0.25s;
     will-change: transform;
-    background: white;
-    border: 3px solid;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hero-quick-btn:hover {
