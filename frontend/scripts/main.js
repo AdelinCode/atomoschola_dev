@@ -436,13 +436,13 @@ function renderScoreInfo(type) {
         return `
             <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:8px;">
                 <i class="fas fa-info-circle" style="color:#f59e0b;flex-shrink:0;"></i>
-                <span><strong>Score formula:</strong> (Published lessons × 10) + (Average rating × 5)</span>
+                <span><strong>Score formula:</strong> 15×(avg rating 0-3mo) + 10×(avg rating 3-12mo) + 7.5×(avg rating 12+mo) + 1×(total lessons)</span>
             </div>`;
     } else {
         return `
             <div style="background:#e0f7fa;border:1px solid #b2ebf2;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#006064;display:flex;align-items:center;gap:8px;">
                 <i class="fas fa-info-circle" style="color:#17a2b8;flex-shrink:0;"></i>
-                <span><strong>Score formula:</strong> Approved edits × 10</span>
+                <span><strong>Score formula:</strong> 15×(avg rating 0-3mo) + 10×(avg rating 3-12mo) + 7.5×(avg rating 12+mo) + 1×(total edits)</span>
             </div>`;
     }
 }

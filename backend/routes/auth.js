@@ -10,12 +10,25 @@ const router = express.Router();
 // @desc    Register a new user
 // @access  Public
 router.post('/register', [
-    body('username').trim().isLength({ min: 3 }).withMessage('Username must be at least 3 characters'),
     body('email').isEmail().withMessage('Please provide a valid email'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
 ], async (req, res) => {
     try {
-        const { username, email, password, firstName, lastName, userType, inviteCode } = req.body;
+        let { username, email, password, firstName, lastName, userType, inviteCode } = req.body;
+
+        // Generate random username if not provided
+        if (!username || username.trim() === '') {
+            let generatedUsername;
+            let usernameExists = true;
+            
+            while (usernameExists) {
+                const randomNumber = Math.floor(Math.random() * 999999) + 1;
+                generatedUsername = `user${randomNumber}`;
+                usernameExists = await User.findOne({ username: generatedUsername });
+            }
+            
+            username = generatedUsername;
+        }
 
         // Check if user exists
         const userExists = await User.findOne({ $or: [{ email }, { username }] });
