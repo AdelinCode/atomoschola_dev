@@ -257,21 +257,25 @@ body {
 /* Hero Section */
 .hero {
     text-align: center;
-    padding: 0;
+    padding: 60px 0 0 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-radius: 12px;
     margin-bottom: 60px;
+}
+
+/* Hero special pentru main page */
+.hero-main {
+    padding: 0 !important;
     aspect-ratio: 2 / 1;
-    width: 100%;
     display: flex;
     align-items: flex-end;
     position: relative;
     overflow: hidden;
 }
 
-/* Gradient overlay pentru chenар */
-.hero::after {
+/* Gradient overlay pentru hero main */
+.hero-main::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -281,11 +285,6 @@ body {
     background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
     z-index: 1;
     pointer-events: none;
-}
-
-/* Overlay pentru imagine */
-.hero::before {
-    display: none;
 }
 
 .hero h1 {
