@@ -17,30 +17,84 @@
             margin: 80px auto 40px;
             padding: 20px;
         }
+        
         .team-header {
             text-align: center;
             margin-bottom: 60px;
         }
+        
         .team-header h1 {
             font-size: 48px;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #1e293b;
+            font-weight: 700;
         }
+        
         .team-header p {
             font-size: 18px;
-            color: #666;
+            color: #64748b;
             max-width: 700px;
             margin: 0 auto;
+            line-height: 1.6;
         }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #1d4ed8;
+        }
+        
+        .team-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+        
+        /* Tech Section - Navy Blue */
+        .tech .section-title {
+            border-color: #1e40af;
+            color: #1e40af;
+        }
+        
+        /* Leadership Section - Red */
+        .leadership .section-title {
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+        
+        /* Operations Section - Green */
+        .operations .section-title {
+            border-color: #059669;
+            color: #059669;
+        }
+        
+        /* Content Section - Orange */
+        .content .section-title {
+            border-color: #ea580c;
+            color: #ea580c;
+        }
+        
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-bottom: 40px;
         }
+        
         .team-member {
             background: white;
             border-radius: 16px;
@@ -48,15 +102,17 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
+            border: 2px solid transparent;
         }
+        
         .team-member:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
+        
         .member-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -65,50 +121,88 @@
             font-size: 32px;
             color: white;
         }
+        
+        /* Tech member icons - Navy Blue */
+        .tech .member-icon {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        }
+        
+        /* Leadership member icons - Red */
+        .leadership .member-icon {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+        
+        /* Operations member icons - Green */
+        .operations .member-icon {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        
+        /* Content member icons - Orange */
+        .content .member-icon {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+        }
+        
         .member-name {
             font-size: 22px;
             font-weight: 700;
             color: #333;
             margin-bottom: 8px;
         }
+        
         .member-role {
             font-size: 16px;
-            color: #6c5ce7;
             font-weight: 600;
             margin-bottom: 8px;
         }
+        
+        /* Tech member roles - Navy Blue */
+        .tech .member-role {
+            color: #1e40af;
+        }
+        
+        /* Leadership member roles - Red */
+        .leadership .member-role {
+            color: #dc2626;
+        }
+        
+        /* Operations member roles - Green */
+        .operations .member-role {
+            color: #059669;
+        }
+        
+        /* Content member roles - Orange */
+        .content .member-role {
+            color: #ea580c;
+        }
+        
         .member-title {
             font-size: 15px;
             color: #fff;
-            background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%);
             padding: 6px 16px;
             border-radius: 20px;
             display: inline-block;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #6c5ce7;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 30px;
-            transition: color 0.3s ease;
+        
+        /* Tech member titles - Navy Blue */
+        .tech .member-title {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
         }
-        .back-link:hover {
-            color: #5f4dd1;
+        
+        /* Leadership member titles - Red */
+        .leadership .member-title {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
         }
-        .team-section {
-            margin-bottom: 50px;
+        
+        /* Operations member titles - Green */
+        .operations .member-title {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
         }
-        .section-title {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #6c5ce7;
+        
+        /* Content member titles - Orange */
+        .content .member-title {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
         }
     </style>
 </head>
@@ -141,8 +235,31 @@
             <p>The dedicated individuals working together to bring you quality educational content and an exceptional learning experience.</p>
         </div>
 
+        <!-- Tech Section -->
+        <div class="team-section tech">
+            <h2 class="section-title">Technology</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="member-name">Hojda Adelin</div>
+                    <div class="member-role">Lead</div>
+                    <div class="member-title">CTO</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="member-name">Lazar Andrei</div>
+                    <div class="member-role">Developer</div>
+                    <div class="member-title">Vice CTO</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Leadership Section -->
-        <div class="team-section">
+        <div class="team-section leadership">
             <h2 class="section-title">Leadership</h2>
             <div class="team-grid">
                 <div class="team-member">
@@ -153,7 +270,6 @@
                     <div class="member-role">President</div>
                     <div class="member-title">CEO</div>
                 </div>
-
                 <div class="team-member">
                     <div class="member-icon">
                         <i class="fas fa-user-tie"></i>
@@ -162,20 +278,11 @@
                     <div class="member-role">Vice President</div>
                     <div class="member-title">COO</div>
                 </div>
-
-                <div class="team-member">
-                    <div class="member-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="member-name">Hojda Adelin</div>
-                    <div class="member-role">Site Building & Maintenance</div>
-                    <div class="member-title">CTO</div>
-                </div>
             </div>
         </div>
 
-        <!-- Operations Section -->
-        <div class="team-section">
+        <!-- Operations & Marketing Section -->
+        <div class="team-section operations">
             <h2 class="section-title">Operations & Marketing</h2>
             <div class="team-grid">
                 <div class="team-member">
@@ -184,28 +291,29 @@
                     </div>
                     <div class="member-name">Brumar Patrik</div>
                     <div class="member-role">Public Relations</div>
+                    <div class="member-title">PR Manager</div>
                 </div>
-
                 <div class="team-member">
                     <div class="member-icon">
                         <i class="fas fa-palette"></i>
                     </div>
                     <div class="member-name">Blaga Izabela</div>
                     <div class="member-role">Graphic Design</div>
+                    <div class="member-title">Designer</div>
                 </div>
-
                 <div class="team-member">
                     <div class="member-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="member-name">Dudaș Beniamin</div>
                     <div class="member-role">Marketing</div>
+                    <div class="member-title">Marketing Lead</div>
                 </div>
             </div>
         </div>
 
-        <!-- Content Team Section -->
-        <div class="team-section">
+        <!-- Content Development Section -->
+        <div class="team-section content">
             <h2 class="section-title">Content Development</h2>
             <div class="team-grid">
                 <div class="team-member">
@@ -214,22 +322,23 @@
                     </div>
                     <div class="member-name">Bobosan Tudor</div>
                     <div class="member-role">Course Building</div>
+                    <div class="member-title">Content Creator</div>
                 </div>
-
                 <div class="team-member">
                     <div class="member-icon">
                         <i class="fas fa-book"></i>
                     </div>
                     <div class="member-name">Muntean Rares</div>
                     <div class="member-role">Course Building</div>
+                    <div class="member-title">Content Creator</div>
                 </div>
-
                 <div class="team-member">
                     <div class="member-icon">
                         <i class="fas fa-book"></i>
                     </div>
                     <div class="member-name">Iercoșan Andrei</div>
                     <div class="member-role">Course Building</div>
+                    <div class="member-title">Content Creator</div>
                 </div>
             </div>
         </div>
