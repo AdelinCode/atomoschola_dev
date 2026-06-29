@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atomo Schola</title>
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dark-mode.css">
     <style>
         .settings-container {
             max-width: 800px;
@@ -125,6 +127,7 @@
 <body>
     <!-- Header -->
     <header class="header">
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
         <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
@@ -201,6 +204,7 @@
     <script src="scripts/api.js"></script>
     <script src="scripts/search.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/theme-manager.js"></script>
     <script>
         // Settings page functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -339,6 +343,7 @@
                 <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
                 <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
                 <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
+                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
                 <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
             </div>
         </div>
