@@ -394,3 +394,15 @@ a {
 .badge-commission-editor  { background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important; color: #fff !important; }
 .badge-verified     { background: linear-gradient(135deg, #10b981, #059669) !important; color: #fff !important; }
 .badge-veteran      { background: linear-gradient(135deg, #f59e0b, #d97706) !important; color: #fff !important; }
+
+/* Achievement badges */
+.badge-ach-author   { background: linear-gradient(135deg, #34d399, #059669) !important; color: #fff !important; }
+.badge-ach-prolific { background: linear-gradient(135deg, #6ee7b7, #10b981) !important; color: #064e3b !important; }
+.badge-ach-scholar  { background: linear-gradient(135deg, #667eea, #764ba2) !important; color: #fff !important; }
+.badge-ach-legend   { background: linear-gradient(135deg, #f6d365, #fda085) !important; color: #7a3800 !important; }
+.badge-ach-editor1  { background: linear-gradient(135deg, #89f7fe, #66a6ff) !important; color: #1e3a5f !important; }
+.badge-ach-polisher { background: linear-gradient(135deg, #a18cd1, #fbc2eb) !important; color: #3b0764 !important; }
+.badge-ach-refiner  { background: linear-gradient(135deg, #43e97b, #38f9d7) !important; color: #064e3b !important; }
+.badge-ach-quality  { background: linear-gradient(135deg, #f7971e, #ffd200) !important; color: #7a3800 !important; }
+.badge-ach-perfect  { background: linear-gradient(135deg, #f953c6, #b91d73) !important; color: #fff !important; }
+.badge-ach-early    { background: linear-gradient(135deg, #4facfe, #00f2fe) !important; color: #0c3547 !important; }

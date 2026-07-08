@@ -414,7 +414,13 @@
 
         function renderBadges() {
             const badges = [];
-            
+            const created = viewedUser.createdLessons?.length || 0;
+            const edited  = viewedUser.editedLessons?.length || 0;
+            const joinDate = new Date(viewedUser.createdAt);
+            const now = new Date();
+            const monthsOld = (now.getFullYear() - joinDate.getFullYear()) * 12 + (now.getMonth() - joinDate.getMonth());
+
+            // ── Role badges ──────────────────────────────────────────
             const roleIconMap = {
                 owner:   'fa-crown',
                 staff:   'fa-shield-alt',
@@ -422,56 +428,53 @@
                 creator: 'fa-paint-brush',
                 user:    'fa-user'
             };
-            
-            const roleClass = `badge-role-${viewedUser.userType}`;
-            const roleIcon = roleIconMap[viewedUser.userType] || 'fa-user';
-            badges.push(`
-                <span class="badge badge-colored ${roleClass}">
-                    <i class="fas ${roleIcon}"></i>
-                    ${viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1)}
-                </span>
-            `);
-            
+            badges.push(makeBadge(
+                `badge-role-${viewedUser.userType}`,
+                roleIconMap[viewedUser.userType] || 'fa-user',
+                viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1),
+                'You are what you are.'
+            ));
+
             if (viewedUser.isCreatorCommissionMember) {
-                badges.push(`
-                    <span class="badge badge-colored badge-commission-creator">
-                        <i class="fas fa-gavel"></i>
-                        Creator Commission
-                    </span>
-                `);
+                badges.push(makeBadge('badge-commission-creator', 'fa-gavel', 'Creator Commission', 'Member of the creator commission.'));
             }
-            
             if (viewedUser.isEditorCommissionMember) {
-                badges.push(`
-                    <span class="badge badge-colored badge-commission-editor">
-                        <i class="fas fa-balance-scale"></i>
-                        Editor Commission
-                    </span>
-                `);
-            }
-            
-            const hasContent = (viewedUser.createdLessons?.length > 0) || (viewedUser.editedLessons?.length > 0);
-            if (hasContent) {
-                badges.push(`
-                    <span class="badge badge-colored badge-verified">
-                        <i class="fas fa-check-circle"></i>
-                        Verified Contributor
-                    </span>
-                `);
+                badges.push(makeBadge('badge-commission-editor', 'fa-balance-scale', 'Editor Commission', 'Member of the editor commission.'));
             }
 
-            const joinYear = new Date(viewedUser.createdAt).getFullYear();
-            const currentYear = new Date().getFullYear();
-            if (currentYear - joinYear >= 1) {
-                badges.push(`
-                    <span class="badge badge-colored badge-veteran">
-                        <i class="fas fa-star"></i>
-                        ${currentYear - joinYear}+ Year Member
-                    </span>
-                `);
+            // ── Content achievements ─────────────────────────────────
+            if (created >= 1)  badges.push(makeBadge('badge-ach-author',   'fa-feather-alt',   'Author',       'Published a first lesson.'));
+            if (created >= 5)  badges.push(makeBadge('badge-ach-prolific',  'fa-books',          'Prolific',     '5 lessons published.'));
+            if (created >= 10) badges.push(makeBadge('badge-ach-scholar',   'fa-graduation-cap', 'Scholar',      '10 lessons published.'));
+            if (created >= 25) badges.push(makeBadge('badge-ach-legend',    'fa-infinity',       'Legend',       '25 lessons published.'));
+
+            if (edited >= 1)   badges.push(makeBadge('badge-ach-editor1',   'fa-pencil-alt',     'First Edit',   'First approved edit.'));
+            if (edited >= 10)  badges.push(makeBadge('badge-ach-polisher',  'fa-magic',          'Polisher',     '10 edits approved.'));
+            if (edited >= 30)  badges.push(makeBadge('badge-ach-refiner',   'fa-gem',            'Refiner',      '30 edits approved.'));
+
+            const avgRating = calculateAverageRating(viewedUser.createdLessons || []);
+            if (created >= 3 && avgRating >= 4.5) badges.push(makeBadge('badge-ach-quality',  'fa-star',  'Quality Creator', 'avg rating ≥ 4.5 on 3+ lessons.'));
+            if (created >= 3 && avgRating >= 4.8) badges.push(makeBadge('badge-ach-perfect',  'fa-award', 'Perfectionist',   'avg rating ≥ 4.8 on 3+ lessons.'));
+
+            // ── Time achievements ────────────────────────────────────
+            const launchDate = new Date('2026-07-20');
+            if (joinDate < launchDate) {
+                badges.push(makeBadge('badge-ach-early', 'fa-rocket', 'Early Adopter', 'Joined before the official launch.'));
             }
-            
+            if (monthsOld >= 12) badges.push(makeBadge('badge-veteran', 'fa-history',  `${Math.floor(monthsOld/12)}yr Member`, 'Loyal member of the community.'));
+
+            // ── Verified ─────────────────────────────────────────────
+            if (created > 0 || edited > 0) {
+                badges.push(makeBadge('badge-verified', 'fa-check-circle', 'Verified Contributor', 'Has published or edited content.'));
+            }
+
             document.getElementById('profileBadges').innerHTML = badges.join('');
+        }
+
+        function makeBadge(cssClass, icon, label, tooltip) {
+            return `<span class="badge badge-colored ${cssClass}" title="${tooltip}" style="cursor:default;">
+                <i class="fas ${icon}"></i> ${label}
+            </span>`;
         }
 
         function calculateAverageRating(lessons) {
