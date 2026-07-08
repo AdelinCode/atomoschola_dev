@@ -40,16 +40,16 @@ router.post('/', protect, async (req, res) => {
       description
     });
 
-    // Notify all staff members
-    const staffUsers = await User.find({ userType: 'staff' });
+    // Notify all staff and owner members
+    const staffUsers = await User.find({ userType: { $in: ['staff', 'owner'] } });
     const targetName = targetType === 'lesson' ? target.title : target.username;
     
     const notificationPromises = staffUsers.map(staff => 
       Notification.create({
         user: staff._id,
         type: 'report',
-        title: `New Report: ${targetType}`,
-        message: `User ${req.user.username} reported a ${targetType}: ${targetName}`,
+        title: `New ${targetType} report`,
+        message: `${req.user.username} reported ${targetType === 'lesson' ? 'lesson' : 'user'} "${targetName}" — reason: ${reason}`,
         relatedItem: report._id,
         relatedModel: 'Report'
       })

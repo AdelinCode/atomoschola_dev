@@ -373,42 +373,57 @@ async function loadReports() {
         };
 
         list.innerHTML = reports.map(r => {
-            const targetName = r.targetId?.title || r.targetId?.username || r.targetId?._id || 'Unknown';
+            const targetName = r.targetId?.title || r.targetId?.username || 'Unknown';
+            const targetLink = r.targetType === 'lesson'
+                ? `<a href="lesson.html?id=${r.targetId?._id}" target="_blank" style="color:#17a2b8; text-decoration:none; font-weight:600;">${targetName} <i class="fas fa-external-link-alt" style="font-size:10px;"></i></a>`
+                : `<a href="public-profile.html?id=${r.targetId?._id}" target="_blank" style="color:#17a2b8; text-decoration:none; font-weight:600;">${targetName} <i class="fas fa-external-link-alt" style="font-size:10px;"></i></a>`;
+
+            const reporterLink = r.reportedBy?._id
+                ? `<a href="public-profile.html?id=${r.reportedBy._id}" target="_blank" style="color:#333; text-decoration:none; font-weight:600;">${r.reportedBy.username}</a>`
+                : r.reportedBy?.username || 'Unknown';
+
             return `
-                <div style="background:#f8f9fa; padding:16px; border-radius:8px; margin-bottom:10px; border-left:4px solid #dc3545;">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                        <div>
-                            <span style="background:#dc3545; color:white; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; text-transform:uppercase;">
+                <div style="background:#fff; border:1px solid #e9ecef; padding:16px; border-radius:8px; margin-bottom:10px; border-left:4px solid #dc3545;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <span style="background:#dc3545; color:white; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600;">
                                 <i class="fas fa-${r.targetType === 'lesson' ? 'book' : 'user'}"></i> ${r.targetType}
                             </span>
-                            <span style="background:${statusColors[r.status]}; color:${r.status === 'pending' ? '#000' : 'white'}; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; margin-left:6px;">
+                            <span style="background:${statusColors[r.status]}; color:${r.status === 'pending' ? '#000' : 'white'}; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600;">
                                 ${r.status}
                             </span>
+                            <span style="background:#f0f0f0; color:#555; padding:3px 10px; border-radius:12px; font-size:12px;">
+                                ${reasonLabels[r.reason] || r.reason}
+                            </span>
                         </div>
-                        <span style="font-size:12px; color:#999;">${new Date(r.createdAt).toLocaleDateString()}</span>
+                        <span style="font-size:12px; color:#999; white-space:nowrap;">${new Date(r.createdAt).toLocaleDateString()}</span>
                     </div>
-                    <div style="font-size:14px; color:#333; margin-bottom:4px;">
-                        <strong>Target:</strong> ${targetName}
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+                        <div style="font-size:13px; color:#666;">
+                            <span style="color:#999; text-transform:uppercase; font-size:11px; display:block; margin-bottom:2px;">Reported ${r.targetType}</span>
+                            ${targetLink}
+                        </div>
+                        <div style="font-size:13px; color:#666;">
+                            <span style="color:#999; text-transform:uppercase; font-size:11px; display:block; margin-bottom:2px;">Reported by</span>
+                            ${reporterLink}
+                        </div>
                     </div>
-                    <div style="font-size:14px; color:#333; margin-bottom:4px;">
-                        <strong>Reason:</strong> ${reasonLabels[r.reason] || r.reason}
-                    </div>
-                    <div style="font-size:14px; color:#555; margin-bottom:8px;">
-                        <strong>Reported by:</strong> ${r.reportedBy?.username || 'Unknown'}
-                    </div>
-                    <div style="font-size:13px; color:#666; background:white; padding:10px; border-radius:6px; margin-bottom:10px;">
+
+                    <div style="font-size:13px; color:#444; background:#f8f9fa; padding:10px 12px; border-radius:6px; margin-bottom:10px; line-height:1.5;">
                         ${r.description}
                     </div>
+
                     ${r.status === 'pending' ? `
                         <div style="display:flex; gap:8px;">
-                            <button onclick="reviewReport('${r._id}', 'resolved')" style="background:#28a745; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;">
+                            <button onclick="reviewReport('${r._id}', 'resolved')" style="background:#28a745; color:white; border:none; padding:7px 16px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;">
                                 <i class="fas fa-check"></i> Resolve
                             </button>
-                            <button onclick="reviewReport('${r._id}', 'dismissed')" style="background:#6c757d; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:13px;">
+                            <button onclick="reviewReport('${r._id}', 'dismissed')" style="background:#6c757d; color:white; border:none; padding:7px 16px; border-radius:6px; cursor:pointer; font-size:13px;">
                                 <i class="fas fa-times"></i> Dismiss
                             </button>
                         </div>
-                    ` : `<div style="font-size:12px; color:#888;">Reviewed by ${r.reviewedBy?.username || 'staff'}</div>`}
+                    ` : `<div style="font-size:12px; color:#888; font-style:italic;">Reviewed by ${r.reviewedBy?.username || 'staff'}</div>`}
                 </div>
             `;
         }).join('');

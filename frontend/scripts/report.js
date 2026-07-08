@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function openReportModal(targetType) {
+function openReportModal(targetType, targetId) {
     if (!window.API.isAuthenticated()) {
         alert('Please login to report content');
         window.location.href = 'login.html';
@@ -57,28 +57,25 @@ function openReportModal(targetType) {
     const modal = document.getElementById('reportModal');
     const typeLabel = document.getElementById('reportTargetType');
     document.getElementById('reportTargetTypeValue').value = targetType;
-    
-    // Get target ID based on page
-    let targetId = '';
-    if (targetType === 'lesson') {
-        const urlParams = new URLSearchParams(window.location.search);
-        targetId = urlParams.get('id');
-        typeLabel.textContent = 'Lesson';
-    } else if (targetType === 'user') {
-        const user = window.API.getUser();
-        targetId = user._id;
-        typeLabel.textContent = 'User';
+
+    // targetId can be passed directly, or derived from context
+    if (!targetId) {
+        if (targetType === 'lesson') {
+            const urlParams = new URLSearchParams(window.location.search);
+            targetId = urlParams.get('id');
+        }
     }
-    
+
     if (!targetId) {
         alert('Unable to identify target');
         return;
     }
-    
+
+    typeLabel.textContent = targetType === 'lesson' ? 'Lesson' : 'User';
     document.getElementById('reportTargetId').value = targetId;
     document.getElementById('reportReason').value = 'inappropriate_content';
     document.getElementById('reportDescription').value = '';
-    
+
     modal.style.display = 'flex';
 }
 
