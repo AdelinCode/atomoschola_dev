@@ -48,12 +48,14 @@ body {
 
 .header-content .logo {
     flex-shrink: 0;
-    margin-right: auto;
+    margin-right: 0;
 }
 
 .header-content .search-bar {
     flex: 0 1 340px;
     min-width: 200px;
+    margin-left: 80px;
+    margin-right: auto;
 }
 
 .header-content .nav-menu {
