@@ -24,6 +24,26 @@ router.get('/staff', async (req, res) => {
   }
 });
 
+// @route   GET /api/users/:id
+// @desc    Get public profile of a user
+// @access  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select('username firstName lastName userType createdLessons editedLessons createdAt isCreatorCommissionMember isEditorCommissionMember')
+      .populate('createdLessons', 'title type averageRating status')
+      .populate('editedLessons', 'title type averageRating status');
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, data: user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // @route   GET /api/users/me
 // @desc    Get current user profile
 // @access  Private

@@ -18,8 +18,12 @@ function initStaffDashboard() {
     // Load pending requests
     loadPendingRequests();
     
-    // Refresh pending requests every 15 seconds
+    // Load reports
+    loadReports();
+    
+    // Refresh every 15 seconds
     setInterval(loadPendingRequests, 15000);
+    setInterval(loadReports, 15000);
 }
 
 // Load pending requests
@@ -325,3 +329,120 @@ window.searchLessonsForEdit = searchLessonsForEdit;
 window.openEditModal = openEditModal;
 window.closeEditModal = closeEditModal;
 window.saveLesson = saveLesson;
+
+// ---- Reports ----
+
+async function loadReports() {
+    const filter = document.getElementById('reportsFilter')?.value || 'pending';
+    const list = document.getElementById('reportsList');
+    const count = document.getElementById('reportsCount');
+    if (!list) return;
+    list.innerHTML = '<p style="text-align:center; color:#6c757d; font-size:14px;">Loading...</p>';
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const query = filter === 'all' ? '' : `?status=${filter}`;
+        const response = await fetch(`${apiUrl}/reports${query}`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message);
+
+        const reports = data.data || [];
+        count.textContent = reports.length;
+
+        if (!reports.length) {
+            list.innerHTML = '<p style="text-align:center; color:#6c757d; padding:20px;">No reports found</p>';
+            return;
+        }
+
+        const reasonLabels = {
+            inappropriate_content: 'Inappropriate Content',
+            spam: 'Spam',
+            harassment: 'Harassment',
+            misinformation: 'Misinformation',
+            copyright_violation: 'Copyright Violation',
+            other: 'Other'
+        };
+
+        const statusColors = {
+            pending: '#ffc107',
+            reviewed: '#17a2b8',
+            resolved: '#28a745',
+            dismissed: '#6c757d'
+        };
+
+        list.innerHTML = reports.map(r => {
+            const targetName = r.targetId?.title || r.targetId?.username || r.targetId?._id || 'Unknown';
+            return `
+                <div style="background:#f8f9fa; padding:16px; border-radius:8px; margin-bottom:10px; border-left:4px solid #dc3545;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                        <div>
+                            <span style="background:#dc3545; color:white; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; text-transform:uppercase;">
+                                <i class="fas fa-${r.targetType === 'lesson' ? 'book' : 'user'}"></i> ${r.targetType}
+                            </span>
+                            <span style="background:${statusColors[r.status]}; color:${r.status === 'pending' ? '#000' : 'white'}; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; margin-left:6px;">
+                                ${r.status}
+                            </span>
+                        </div>
+                        <span style="font-size:12px; color:#999;">${new Date(r.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div style="font-size:14px; color:#333; margin-bottom:4px;">
+                        <strong>Target:</strong> ${targetName}
+                    </div>
+                    <div style="font-size:14px; color:#333; margin-bottom:4px;">
+                        <strong>Reason:</strong> ${reasonLabels[r.reason] || r.reason}
+                    </div>
+                    <div style="font-size:14px; color:#555; margin-bottom:8px;">
+                        <strong>Reported by:</strong> ${r.reportedBy?.username || 'Unknown'}
+                    </div>
+                    <div style="font-size:13px; color:#666; background:white; padding:10px; border-radius:6px; margin-bottom:10px;">
+                        ${r.description}
+                    </div>
+                    ${r.status === 'pending' ? `
+                        <div style="display:flex; gap:8px;">
+                            <button onclick="reviewReport('${r._id}', 'resolved')" style="background:#28a745; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;">
+                                <i class="fas fa-check"></i> Resolve
+                            </button>
+                            <button onclick="reviewReport('${r._id}', 'dismissed')" style="background:#6c757d; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:13px;">
+                                <i class="fas fa-times"></i> Dismiss
+                            </button>
+                        </div>
+                    ` : `<div style="font-size:12px; color:#888;">Reviewed by ${r.reviewedBy?.username || 'staff'}</div>`}
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        list.innerHTML = `<p style="text-align:center; color:#dc3545; font-size:14px;">Error loading reports: ${e.message}</p>`;
+    }
+}
+
+async function reviewReport(id, status) {
+    const note = status === 'dismissed' ? prompt('Reason for dismissal (optional):') : null;
+    if (note === null && status === 'dismissed' && note !== '') {
+        // user cancelled prompt for dismissed - still allow empty
+    }
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/reports/${id}/review`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.API.getToken()}`
+            },
+            body: JSON.stringify({ status, reviewNote: note || '' })
+        });
+        const data = await response.json();
+        if (data.success) {
+            loadReports();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (e) {
+        alert('Error: ' + e.message);
+    }
+}
+
+window.loadReports = loadReports;
+window.reviewReport = reviewReport;

@@ -246,15 +246,17 @@ function updateLessonHeader() {
     
     // Handle creators (can be array of objects or strings)
     if (creatorsElement) {
-        let creatorsText = 'Unknown';
         if (currentLesson.creators && currentLesson.creators.length > 0) {
             if (typeof currentLesson.creators[0] === 'object') {
-                creatorsText = currentLesson.creators.map(c => c.username || c.firstName || 'Unknown').join(', ');
+                creatorsElement.innerHTML = currentLesson.creators.map(c =>
+                    `<a href="public-profile.html?id=${c._id}" style="color:inherit;font-weight:600;text-decoration:none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${c.username || c.firstName || 'Unknown'}</a>`
+                ).join(', ');
             } else {
-                creatorsText = currentLesson.creators.join(', ');
+                creatorsElement.textContent = currentLesson.creators.join(', ');
             }
+        } else {
+            creatorsElement.textContent = 'Unknown';
         }
-        creatorsElement.textContent = creatorsText;
     }
     
     // Handle editors

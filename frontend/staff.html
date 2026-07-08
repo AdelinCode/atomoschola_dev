@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
@@ -9,9 +9,7 @@
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/dark-mode.css">
-    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
         .staff-container {
             max-width: 1200px;
             margin: 80px auto 40px;
@@ -260,9 +258,7 @@
     <script src="scripts/api.js"></script>
     <script src="scripts/search.js"></script>
     <script src="scripts/notifications.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/theme-manager.js"></script>
-    <script>
+    <script src="scripts/main.js"></script>    <script>
         // Load staff members
         async function loadStaff() {
             try {
@@ -313,11 +309,15 @@
 
             grid.innerHTML = users.map(user => {
                 const initials = getInitials(user.username || user.email);
+                const name = user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username;
                 return `
-                    <div class="staff-card ${role}">
+                    <div class="staff-card ${role}" style="cursor:pointer;" onclick="window.location.href='public-profile.html?id=${user._id}'">
                         <div class="staff-avatar ${role}">${initials}</div>
-                        <div class="staff-name">${user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username}</div>
+                        <div class="staff-name">${name}</div>
                         <div class="staff-role ${role}">${role.charAt(0).toUpperCase() + role.slice(1)}</div>
+                        <div style="margin-top: 12px; font-size: 13px; color: #999;">
+                            <i class="fas fa-user"></i> View Profile
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -376,11 +376,15 @@
 
             grid.innerHTML = users.map(user => {
                 const initials = getInitials(user.username || user.email);
+                const name = user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username;
                 return `
-                    <div class="staff-card commission">
+                    <div class="staff-card commission" style="cursor:pointer;" onclick="window.location.href='public-profile.html?id=${user._id}'">
                         <div class="staff-avatar commission">${initials}</div>
-                        <div class="staff-name">${user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username}</div>
+                        <div class="staff-name">${name}</div>
                         <div class="staff-role commission">Commission Member</div>
+                        <div style="margin-top: 12px; font-size: 13px; color: #999;">
+                            <i class="fas fa-user"></i> View Profile
+                        </div>
                     </div>
                 `;
             }).join('');

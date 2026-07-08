@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            padding: 20px;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 180px;
+            position: relative;
+        }
+        .profile-main {
+            padding: 0 40px 40px;
+            position: relative;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border: 5px solid white;
+            position: absolute;
+            top: -60px;
+            left: 40px;
+            color: #667eea;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .profile-info {
+            padding-top: 70px;
+        }
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+        .profile-username {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .badge {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .badge:hover {
+            transform: translateY(-1px);
+        }
+        .badge-role {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .badge-commission {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .badge-verified {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        .profile-bio {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            padding: 24px 0;
+            margin: 24px 0;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: block;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+            display: block;
+        }
+        .info-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .info-item {
+            display: flex;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .info-icon {
+            width: 36px;
+            height: 36px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .info-content {
+            flex: 1;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .info-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 30px 0 16px;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lessons-grid {
+            display: grid;
+            gap: 12px;
+        }
+        .lesson-card {
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid #667eea;
+        }
+        .lesson-card:hover {
+            background: #e9ecef;
+            transform: translateX(3px);
+        }
+        .lesson-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        .lesson-meta {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid #e9ecef;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-report {
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+        }
+        .btn-report:hover {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-back {
+            background: #f8f9fa;
+            color: #333;
+        }
+        .btn-back:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
+        <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
+                        <span>Atomo Schola</span>
+                    </a>
+                </div>
+                <div class="search-bar"><input type="text" placeholder="Search for lessons, topics..." id="searchInput"><button class="search-btn"><i class="fas fa-search"></i></button></div><nav class="nav-menu" id="navMenu">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+                    </div>
+    </header>
+
+    <!-- Profile Content -->
+    <main class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header"></div>
+            <div class="profile-main">
+                <div class="profile-avatar" id="profileAvatar">?</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">Loading...</div>
+                    <div class="profile-username" id="profileUsername"></div>
+                    <div class="badges" id="profileBadges"></div>
+
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="statCreated">0</span>
+                            <span class="stat-label">Lessons Created</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="statEdited">0</span>
+                            <span class="stat-label">Lessons Edited</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="statRating">—</span>
+                            <span class="stat-label">Avg. Rating</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="statSince">—</span>
+                            <span class="stat-label">Member Since</span>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-tag"></i></div>
+                            <div class="info-content">
+                                <div class="info-label">Role</div>
+                                <div class="info-value" id="infoRole">—</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="info-content">
+                                <div class="info-label">Joined</div>
+                                <div class="info-value" id="infoJoined">—</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Created Lessons -->
+                    <div id="createdSection" style="display:none;">
+                        <div class="section-title"><i class="fas fa-book" style="color:#667eea;"></i> Created Lessons</div>
+                        <div class="lessons-grid" id="createdLessons"></div>
+                    </div>
+
+                    <!-- Edited Lessons -->
+                    <div id="editedSection" style="display:none;">
+                        <div class="section-title"><i class="fas fa-edit" style="color:#667eea;"></i> Edited Lessons</div>
+                        <div class="lessons-grid" id="editedLessons"></div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn btn-report" onclick="openReportModal('user')">
+                            <i class="fas fa-flag"></i> Report User
+                        </button>
+                        <button class="btn btn-back" onclick="history.back()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/main.js"></script>    <script src="scripts/report.js"></script>
+    <script>
+        let viewedUser = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            
+            if (!userId) {
+                alert('No user specified');
+                window.location.href = 'staff.html';
+                return;
+            }
+            
+            loadUserProfile(userId);
+        });
+
+        async function loadUserProfile(userId) {
+            try {
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                const response = await fetch(`${apiUrl}/users/${userId}`);
+                const data = await response.json();
+                
+                if (!data.success) throw new Error(data.message);
+                
+                viewedUser = data.data;
+                renderProfile();
+            } catch (e) {
+                alert('Error loading profile: ' + e.message);
+                window.location.href = 'staff.html';
+            }
+        }
+
+        function renderProfile() {
+            const initials = (viewedUser.username || '?').slice(0, 2).toUpperCase();
+            document.getElementById('profileAvatar').textContent = initials;
+            
+            const displayName = viewedUser.firstName && viewedUser.lastName 
+                ? `${viewedUser.firstName} ${viewedUser.lastName}`
+                : viewedUser.username;
+            
+            document.getElementById('profileName').textContent = displayName;
+            document.getElementById('profileUsername').textContent = '@' + viewedUser.username;
+            
+            // Render badges
+            renderBadges();
+            
+            // Stats
+            document.getElementById('statCreated').textContent = viewedUser.createdLessons?.length || 0;
+            document.getElementById('statEdited').textContent = viewedUser.editedLessons?.length || 0;
+            document.getElementById('statSince').textContent = new Date(viewedUser.createdAt).getFullYear();
+            
+            // Calculate average rating if creator
+            if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
+                const avgRating = calculateAverageRating(viewedUser.createdLessons);
+                document.getElementById('statRating').textContent = avgRating > 0 ? avgRating.toFixed(1) : '—';
+            } else {
+                document.getElementById('statRating').textContent = '—';
+            }
+            
+            // Info grid
+            document.getElementById('infoRole').textContent = 
+                viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1);
+            
+            document.getElementById('infoJoined').textContent = new Date(viewedUser.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            if (viewedUser.userType === 'creator' || viewedUser.userType === 'editor' || viewedUser.userType === 'owner' || viewedUser.userType === 'staff') {
+                loadLessons();
+            }
+        }
+
+        function renderBadges() {
+            const badges = [];
+            
+            const roleIconMap = {
+                owner:   'fa-crown',
+                staff:   'fa-shield-alt',
+                editor:  'fa-pen-fancy',
+                creator: 'fa-paint-brush',
+                user:    'fa-user'
+            };
+            
+            const roleClass = `badge-role-${viewedUser.userType}`;
+            const roleIcon = roleIconMap[viewedUser.userType] || 'fa-user';
+            badges.push(`
+                <span class="badge badge-colored ${roleClass}">
+                    <i class="fas ${roleIcon}"></i>
+                    ${viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1)}
+                </span>
+            `);
+            
+            if (viewedUser.isCreatorCommissionMember) {
+                badges.push(`
+                    <span class="badge badge-colored badge-commission-creator">
+                        <i class="fas fa-gavel"></i>
+                        Creator Commission
+                    </span>
+                `);
+            }
+            
+            if (viewedUser.isEditorCommissionMember) {
+                badges.push(`
+                    <span class="badge badge-colored badge-commission-editor">
+                        <i class="fas fa-balance-scale"></i>
+                        Editor Commission
+                    </span>
+                `);
+            }
+            
+            const hasContent = (viewedUser.createdLessons?.length > 0) || (viewedUser.editedLessons?.length > 0);
+            if (hasContent) {
+                badges.push(`
+                    <span class="badge badge-colored badge-verified">
+                        <i class="fas fa-check-circle"></i>
+                        Verified Contributor
+                    </span>
+                `);
+            }
+
+            const joinYear = new Date(viewedUser.createdAt).getFullYear();
+            const currentYear = new Date().getFullYear();
+            if (currentYear - joinYear >= 1) {
+                badges.push(`
+                    <span class="badge badge-colored badge-veteran">
+                        <i class="fas fa-star"></i>
+                        ${currentYear - joinYear}+ Year Member
+                    </span>
+                `);
+            }
+            
+            document.getElementById('profileBadges').innerHTML = badges.join('');
+        }
+
+        function calculateAverageRating(lessons) {
+            if (!lessons || lessons.length === 0) return 0;
+            const withRatings = lessons.filter(l => l.averageRating && l.averageRating > 0);
+            if (withRatings.length === 0) return 0;
+            const sum = withRatings.reduce((acc, l) => acc + l.averageRating, 0);
+            return sum / withRatings.length;
+        }
+
+        async function loadLessons() {
+            try {
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                
+                // Load created lessons
+                if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
+                    const createdIds = viewedUser.createdLessons.map(l => typeof l === 'object' ? l._id : l);
+                    const createdResponse = await fetch(`${apiUrl}/lessons?status=published`);
+                    const createdData = await createdResponse.json();
+                    
+                    if (createdData.success) {
+                        const userCreated = createdData.data.filter(l => 
+                            l.creators && l.creators.some(c => 
+                                (typeof c === 'object' ? c._id : c) === viewedUser._id
+                            )
+                        );
+                        
+                        if (userCreated.length > 0) {
+                            document.getElementById('createdSection').style.display = 'block';
+                            renderLessonList('createdLessons', userCreated);
+                        }
+                    }
+                }
+                
+                // Load edited lessons
+                if (viewedUser.editedLessons && viewedUser.editedLessons.length > 0) {
+                    const editedIds = viewedUser.editedLessons.map(l => typeof l === 'object' ? l._id : l);
+                    const editedResponse = await fetch(`${apiUrl}/lessons?status=published`);
+                    const editedData = await editedResponse.json();
+                    
+                    if (editedData.success) {
+                        const userEdited = editedData.data.filter(l => 
+                            l.editors && l.editors.some(e => 
+                                (typeof e === 'object' ? e._id : e) === viewedUser._id
+                            )
+                        );
+                        
+                        if (userEdited.length > 0) {
+                            document.getElementById('editedSection').style.display = 'block';
+                            renderLessonList('editedLessons', userEdited);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading lessons:', e);
+            }
+        }
+
+        function renderLessonList(elementId, lessons) {
+            const el = document.getElementById(elementId);
+            if (!lessons || lessons.length === 0) {
+                el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox" style="font-size:32px; margin-bottom:8px;"></i><p>No lessons found</p></div>';
+                return;
+            }
+            
+            el.innerHTML = lessons.map(l => `
+                <div class="lesson-card" onclick="window.location.href='lesson.html?id=${l._id}'">
+                    <div class="lesson-title">${l.title}</div>
+                    <div class="lesson-meta">
+                        <span><i class="fas fa-tag"></i> ${l.type}</span>
+                        ${l.averageRating > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${l.averageRating.toFixed(1)}</span>` : ''}
+                        <span style="text-transform:capitalize; padding:2px 8px; background:#e3f2fd; color:#1976d2; border-radius:4px; font-size:12px;">${l.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getTypeIcon(type) {
+            const icons = {
+                text: 'file-text',
+                video: 'play-circle',
+                audio: 'volume-up',
+                presentation: 'presentation'
+            };
+            return icons[type] || 'file';
+        }
+
+        // Override report modal to use viewed user ID
+        window.openReportModal = function(targetType) {
+            if (!window.API.isAuthenticated()) {
+                alert('Please login to report content');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const modal = document.getElementById('reportModal');
+            const typeLabel = document.getElementById('reportTargetType');
+            document.getElementById('reportTargetTypeValue').value = targetType;
+            
+            document.getElementById('reportTargetId').value = viewedUser._id;
+            typeLabel.textContent = 'User';
+            
+            document.getElementById('reportReason').value = 'inappropriate_content';
+            document.getElementById('reportDescription').value = '';
+            
+            modal.style.display = 'flex';
+        };
+    </script>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-name">
+                    <i class="fas fa-atom"></i>
+                    Atomo Schola
+                </div>
+                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+                <div class="footer-social">
+                    <a href="https://discord.gg/hCQrmYccWf" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <div class="footer-col-title">Explore</div>
+                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+                <a href="steam.html"><i class="fas fa-chevron-right"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+                <a href="search.html"><i class="fas fa-chevron-right"></i> Search</a>
+            </div>
+
+            <div class="footer-col">
+                <div class="footer-col-title">Community</div>
+                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
+                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
+            </div>
+
+            <div class="footer-col">
+                <div class="footer-col-title">Platform</div>
+                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
+                <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
+                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
+                <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
+        </div>
+    </footer>
+</body>
+</html>

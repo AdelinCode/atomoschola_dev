@@ -379,3 +379,18 @@ a {
     background: var(--primary-black) !important;
     color: var(--white) !important;
 }
+
+/* Profile page colored badges - override theme */
+.badge-colored {
+    background: unset !important;
+    color: unset !important;
+}
+.badge-role-owner   { background: linear-gradient(135deg, #ff4d4d, #c0392b) !important; color: #fff !important; }
+.badge-role-staff   { background: linear-gradient(135deg, #a855f7, #7c3aed) !important; color: #fff !important; }
+.badge-role-editor  { background: linear-gradient(135deg, #06b6d4, #0284c7) !important; color: #fff !important; }
+.badge-role-creator { background: linear-gradient(135deg, #f97316, #ea580c) !important; color: #fff !important; }
+.badge-role-user    { background: linear-gradient(135deg, #6b7280, #4b5563) !important; color: #fff !important; }
+.badge-commission-creator { background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important; color: #fff !important; }
+.badge-commission-editor  { background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important; color: #fff !important; }
+.badge-verified     { background: linear-gradient(135deg, #10b981, #059669) !important; color: #fff !important; }
+.badge-veteran      { background: linear-gradient(135deg, #f59e0b, #d97706) !important; color: #fff !important; }

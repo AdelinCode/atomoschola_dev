@@ -68,6 +68,7 @@ router.get('/', async (req, res) => {
           : 0;
 
         return {
+          _id: user._id,
           username: user.username,
           displayName: user.firstName && user.lastName
             ? `${user.firstName} ${user.lastName}`
@@ -137,6 +138,7 @@ router.get('/', async (req, res) => {
         );
 
         return {
+          _id: user._id,
           username: user.username,
           displayName: user.firstName && user.lastName
             ? `${user.firstName} ${user.lastName}`

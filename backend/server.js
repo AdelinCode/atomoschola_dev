@@ -18,6 +18,7 @@ import commissionRoutes from './routes/commission.js';
 import editorCommissionRoutes from './routes/editorCommission.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import passwordResetRoutes from './routes/password-reset.js';
+import reportsRoutes from './routes/reports.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +59,7 @@ app.use('/api/commission', commissionRoutes);
 app.use('/api/editor-commission', editorCommissionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/password-reset', passwordResetRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

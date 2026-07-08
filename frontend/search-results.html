@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.className+=' dark-mode';}();</script>
@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/search.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/dark-mode.css">
-    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
         .search-results-page {
             max-width: 1200px;
             margin: 40px auto;
@@ -186,9 +184,7 @@
     <script src="scripts/config.js"></script>
     <script src="scripts/api.js"></script>
     <script src="scripts/search.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/theme-manager.js"></script>
-    <script>
+    <script src="scripts/main.js"></script>    <script>
         // Search results page specific functionality
         document.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -262,7 +258,7 @@
                 `;
                 
                 lessons.forEach(lesson => {
-                    const stars = '★'.repeat(Math.round(lesson.averageRating || 0)) + '☆'.repeat(5 - Math.round(lesson.averageRating || 0));
+                    const stars = '?'.repeat(Math.round(lesson.averageRating || 0)) + '?'.repeat(5 - Math.round(lesson.averageRating || 0));
                     html += `
                         <div class="result-card" onclick="window.location.href='lesson.html?id=${lesson._id}'">
                             <div class="result-header">
@@ -272,7 +268,7 @@
                                 <div class="result-content">
                                     <div class="result-title">${highlightMatch(lesson.title, query)}</div>
                                     <div class="result-meta">
-                                        <span><i class="fas fa-layer-group"></i> ${lesson.subject} → ${lesson.domain} → ${lesson.category}</span>
+                                        <span><i class="fas fa-layer-group"></i> ${lesson.subject} ? ${lesson.domain} ? ${lesson.category}</span>
                                         <span><i class="fas fa-star"></i> ${stars} ${(lesson.averageRating || 0).toFixed(1)}</span>
                                         ${lesson.isPremium ? '<span style="color: #ffc107;"><i class="fas fa-crown"></i> Premium</span>' : ''}
                                     </div>
@@ -350,7 +346,7 @@
                                 <div class="result-content">
                                     <div class="result-title">${highlightMatch(category.name, query)} <small style="color: #6c757d;">(Category)</small></div>
                                     <div class="result-meta">
-                                        <span><i class="fas fa-layer-group"></i> ${category.subject} → ${category.domain}</span>
+                                        <span><i class="fas fa-layer-group"></i> ${category.subject} ? ${category.domain}</span>
                                     </div>
                                     <div class="result-description">${highlightMatch(category.description, query)}</div>
                                 </div>

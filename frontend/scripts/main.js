@@ -341,31 +341,53 @@ function showLeaderboardModal() {
         modal.id = 'leaderboardModal';
         modal.style.cssText = `
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5); display: flex;
+            background: rgba(0,0,0,0.65); display: flex;
             align-items: center; justify-content: center; z-index: 10000;
+            backdrop-filter: blur(3px);
         `;
         modal.innerHTML = `
-            <div style="background: white; border-radius: 16px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-                <div style="padding: 24px 28px 16px; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; font-size: 22px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-trophy" style="color: #f59e0b;"></i> Leaderboard
-                    </h2>
-                    <button onclick="document.getElementById('leaderboardModal').style.display='none'" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666; line-height: 1;">&times;</button>
-                </div>
-                <div style="padding: 16px 28px 0;">
-                    <div style="display: flex; gap: 8px; border-bottom: 2px solid #e9ecef; margin-bottom: 0;">
-                        <button id="lbTabCreators" onclick="switchLbTab('creators')" style="padding: 10px 20px; border: none; background: none; font-weight: 700; font-size: 14px; cursor: pointer; border-bottom: 3px solid #f59e0b; margin-bottom: -2px; color: #f59e0b; transition: all 0.2s;">
-                            <i class="fas fa-pen-nib"></i> Creators
+            <style>
+                .lb-row { transition: background 0.15s; cursor: default; }
+                .lb-row:hover { background: #f9f9f9 !important; }
+                .lb-avatar { transition: transform 0.15s; }
+                .lb-row:hover .lb-avatar { transform: scale(1.08); }
+            </style>
+            <div style="background:#fff; border-radius:16px; width:92%; max-width:520px; max-height:88vh; display:flex; flex-direction:column; box-shadow:0 12px 40px rgba(0,0,0,0.15); overflow:hidden; font-family:'Inter',system-ui,sans-serif;">
+                <div style="padding:28px 28px 0;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+                        <div>
+                            <div style="font-size:22px; font-weight:800; color:#111; letter-spacing:-0.5px;">Leaderboard</div>
+                            <div style="font-size:13px; color:#aaa; margin-top:4px;">Top contributors by score</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <button onclick="toggleScoreInfo()" style="background:#f5f5f5; border:none; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; color:#666; display:flex; align-items:center; gap:5px;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f5f5f5'">
+                                <i class="fas fa-info-circle" style="font-size:11px;"></i> How rating works
+                            </button>
+                            <button onclick="document.getElementById('leaderboardModal').style.display='none'" style="background:#f5f5f5; border:none; width:32px; height:32px; border-radius:8px; font-size:18px; cursor:pointer; color:#888; display:flex; align-items:center; justify-content:center;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f5f5f5'">&times;</button>
+                        </div>
+                    </div>
+                    <div id="lbScorePopup" style="display:none; background:#f9f9f9; border:1px solid #e9e9e9; border-radius:10px; padding:16px 18px; margin-bottom:16px; font-size:13px; color:#444; line-height:1.7;">
+                        <div style="font-weight:700; margin-bottom:8px; color:#111;">Score formula</div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <div><span style="display:inline-block; width:14px; height:14px; background:#4ade80; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×15</strong> &nbsp;avg rating on lessons from the last 3 months</div>
+                            <div><span style="display:inline-block; width:14px; height:14px; background:#facc15; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×10</strong> &nbsp;avg rating on lessons from 3–12 months ago</div>
+                            <div><span style="display:inline-block; width:14px; height:14px; background:#fb923c; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×7.5</strong> &nbsp;avg rating on lessons older than 12 months</div>
+                            <div><span style="display:inline-block; width:14px; height:14px; background:#94a3b8; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×1</strong> &nbsp;total number of published lessons / approved edits</div>
+                        </div>
+                        <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e9e9e9; color:#999; font-size:12px;">Recent content weighs more to reward active contributors.</div>
+                    </div>
+                    <div style="display:flex; gap:4px; border-bottom:1px solid #f0f0f0;">
+                        <button id="lbTabCreators" onclick="switchLbTab('creators')" style="padding:10px 18px 11px; border:none; border-bottom:2px solid #111; margin-bottom:-1px; background:none; font-weight:700; font-size:14px; cursor:pointer; color:#111; letter-spacing:0.1px; transition:all 0.15s;">
+                            Creators
                         </button>
-                        <button id="lbTabEditors" onclick="switchLbTab('editors')" style="padding: 10px 20px; border: none; background: none; font-weight: 700; font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; color: #6c757d; transition: all 0.2s;">
-                            <i class="fas fa-pen-fancy"></i> Editors
+                        <button id="lbTabEditors" onclick="switchLbTab('editors')" style="padding:10px 18px 11px; border:none; border-bottom:2px solid transparent; margin-bottom:-1px; background:none; font-weight:700; font-size:14px; cursor:pointer; color:#bbb; letter-spacing:0.1px; transition:all 0.15s;">
+                            Editors
                         </button>
                     </div>
                 </div>
-                <div style="overflow-y: auto; padding: 20px 28px 28px;" id="leaderboardContent">
-                    <div id="lbScoreInfo"></div>
-                    <div id="lbCreators"></div>
-                    <div id="lbEditors" style="display:none;"></div>
+                <div style="overflow-y:auto; flex:1;">
+                    <div id="lbCreators" style="padding:4px 0;"></div>
+                    <div id="lbEditors" style="display:none; padding:4px 0;"></div>
                 </div>
             </div>
         `;
@@ -381,38 +403,32 @@ function showLeaderboardModal() {
 
 window.switchLbTab = function(tab) {
     const creatorsEl = document.getElementById('lbCreators');
-    const editorsEl = document.getElementById('lbEditors');
-    const tabCreators = document.getElementById('lbTabCreators');
-    const tabEditors = document.getElementById('lbTabEditors');
-    const scoreInfo = document.getElementById('lbScoreInfo');
+    const editorsEl  = document.getElementById('lbEditors');
+    const tabC = document.getElementById('lbTabCreators');
+    const tabE = document.getElementById('lbTabEditors');
 
     if (tab === 'creators') {
         creatorsEl.style.display = 'block';
-        editorsEl.style.display = 'none';
-        tabCreators.style.borderBottomColor = '#f59e0b';
-        tabCreators.style.color = '#f59e0b';
-        tabEditors.style.borderBottomColor = 'transparent';
-        tabEditors.style.color = '#6c757d';
-        if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('creator');
+        editorsEl.style.display  = 'none';
+        tabC.style.borderBottomColor = '#111';
+        tabC.style.color = '#111';
+        tabE.style.borderBottomColor = 'transparent';
+        tabE.style.color = '#bbb';
     } else {
         creatorsEl.style.display = 'none';
-        editorsEl.style.display = 'block';
-        tabEditors.style.borderBottomColor = '#17a2b8';
-        tabEditors.style.color = '#17a2b8';
-        tabCreators.style.borderBottomColor = 'transparent';
-        tabCreators.style.color = '#6c757d';
-        if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('editor');
+        editorsEl.style.display  = 'block';
+        tabE.style.borderBottomColor = '#111';
+        tabE.style.color = '#111';
+        tabC.style.borderBottomColor = 'transparent';
+        tabC.style.color = '#bbb';
     }
 };
 
 async function loadLeaderboard() {
     const creatorsEl = document.getElementById('lbCreators');
     const editorsEl = document.getElementById('lbEditors');
-    const scoreInfo = document.getElementById('lbScoreInfo');
 
-    creatorsEl.innerHTML = '<p style="text-align:center;color:#999;padding:30px;">Loading...</p>';
-    editorsEl.innerHTML = '';
-    if (scoreInfo) scoreInfo.innerHTML = renderScoreInfo('creator');
+    creatorsEl.innerHTML = '<p style="text-align:center;color:#bbb;padding:40px 0;font-size:14px;">Loading...</p>';
 
     try {
         const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
@@ -426,60 +442,75 @@ async function loadLeaderboard() {
             throw new Error('API error');
         }
     } catch (e) {
-        creatorsEl.innerHTML = '<p style="text-align:center;color:#dc3545;padding:30px;"><i class="fas fa-exclamation-circle"></i> Could not load leaderboard.</p>';
-        editorsEl.innerHTML = '<p style="text-align:center;color:#dc3545;padding:30px;"><i class="fas fa-exclamation-circle"></i> Could not load leaderboard.</p>';
+        const err = '<p style="text-align:center;color:#dc3545;padding:40px 0;font-size:14px;">Could not load leaderboard.</p>';
+        creatorsEl.innerHTML = err;
+        editorsEl.innerHTML = err;
     }
 }
 
 function renderScoreInfo(type) {
-    if (type === 'creator') {
-        return `
-            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:8px;">
-                <i class="fas fa-info-circle" style="color:#f59e0b;flex-shrink:0;"></i>
-                <span><strong>Score formula:</strong> 15×(avg rating 0-3mo) + 10×(avg rating 3-12mo) + 7.5×(avg rating 12+mo) + 1×(total lessons)</span>
-            </div>`;
-    } else {
-        return `
-            <div style="background:#e0f7fa;border:1px solid #b2ebf2;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#006064;display:flex;align-items:center;gap:8px;">
-                <i class="fas fa-info-circle" style="color:#17a2b8;flex-shrink:0;"></i>
-                <span><strong>Score formula:</strong> 15×(avg rating 0-3mo) + 10×(avg rating 3-12mo) + 7.5×(avg rating 12+mo) + 1×(total edits)</span>
-            </div>`;
-    }
+    return '';
 }
+
+window.toggleScoreInfo = function() {
+    const popup = document.getElementById('lbScorePopup');
+    if (!popup) return;
+    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+};
 
 function renderLeaderboardList(users, type) {
     if (!users || users.length === 0) {
-        return '<p style="text-align:center;color:#999;padding:30px;">No eligible users yet.</p>';
+        return '<p style="text-align:center;color:#bbb;padding:48px 0;font-size:15px;">No entries yet.</p>';
     }
 
-    const accentColor = type === 'creator' ? '#f59e0b' : '#17a2b8';
-    const statLabel = type === 'creator' ? 'published lessons' : 'approved edits';
-    const statKey = type === 'creator' ? 'lessonsCount' : 'editsCount';
+    const statLabel = type === 'creator' ? 'lessons' : 'edits';
+    const statKey   = type === 'creator' ? 'lessonsCount' : 'editsCount';
+
+    // Top 3: gold / silver / bronze gradient avatars
+    const top3 = [
+        { grad: 'linear-gradient(135deg,#f6d365,#c9922a)', label: '1', textColor: '#7a4800' },
+        { grad: 'linear-gradient(135deg,#d4d4d4,#8e8e8e)', label: '2', textColor: '#444'    },
+        { grad: 'linear-gradient(135deg,#e8a87c,#a0522d)', label: '3', textColor: '#5c2700' },
+    ];
 
     return users.map((u, i) => {
-        const isTop3 = i < 3;
-        const medal = isTop3
-            ? `<span style="font-size:22px;">${['🥇','🥈','🥉'][i]}</span>`
-            : `<span style="width:28px;text-align:center;font-weight:700;color:#aaa;font-size:16px;">#${u.rank}</span>`;
-
+        const isTop3   = i < 3;
         const initials = (u.username || '?').slice(0, 2).toUpperCase();
-        const displayName = u.displayName || u.username;
+        const name     = u.displayName || u.username;
 
-        const extraInfo = type === 'creator' && u.avgRating > 0
-            ? `<span style="margin-left:8px;color:#f59e0b;font-size:11px;">★ ${u.avgRating.toFixed(1)} avg</span>`
+        const avatarStyle = isTop3
+            ? `background:${top3[i].grad}; color:${top3[i].textColor};`
+            : 'background:#f0eeff; color:#7c5cbf;';
+
+        const rankBadge = isTop3
+            ? `<div style="width:20px; height:20px; border-radius:50%; background:${top3[i].grad}; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:${top3[i].textColor}; position:absolute; bottom:-3px; right:-3px; box-shadow:0 1px 4px rgba(0,0,0,0.2);">${top3[i].label}</div>`
             : '';
 
+        const ratingBit = type === 'creator' && u.avgRating > 0
+            ? `<span style="font-size:12px; color:#f59e0b; font-weight:600;">&#9733; ${u.avgRating.toFixed(1)}</span>`
+            : '';
+
+        const rowBg = isTop3 ? '#fdfbff' : '#fff';
+
         return `
-            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;margin-bottom:8px;background:${isTop3 ? '#fafafa' : 'white'};border:1px solid ${isTop3 ? accentColor + '44' : '#e9ecef'};">
-                <div style="flex-shrink:0;width:28px;display:flex;justify-content:center;">${medal}</div>
-                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,${accentColor},${accentColor}99);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;flex-shrink:0;">${initials}</div>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-weight:700;color:#212529;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${displayName}</div>
-                    <div style="font-size:12px;color:#6c757d;">${u[statKey] ?? 0} ${statLabel}${extraInfo}</div>
+            <div class="lb-row" style="display:flex; align-items:center; gap:16px; padding:16px 24px; background:${rowBg}; border-bottom:1px solid #f2f2f2;">
+                <div style="width:18px; text-align:right; font-size:12px; font-weight:700; color:#ccc; flex-shrink:0;">${isTop3 ? '' : '#' + u.rank}</div>
+                <div style="position:relative; flex-shrink:0;">
+                    <div class="lb-avatar" style="width:44px; height:44px; border-radius:50%; ${avatarStyle} display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;">${initials}</div>
+                    ${rankBadge}
                 </div>
-                <div style="text-align:right;flex-shrink:0;">
-                    <div style="font-size:18px;font-weight:800;color:${accentColor};">${u.score ?? 0}</div>
-                    <div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;">pts</div>
+                <div style="flex:1; min-width:0;">
+                    <div style="font-weight:700; font-size:17px; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <a href="public-profile.html?id=${u._id}" style="color:#111; text-decoration:none;" onmouseover="this.style.color='#555'" onmouseout="this.style.color='#111'">${name}</a>
+                    </div>
+                    <div style="font-size:12px; color:#bbb; margin-top:3px; display:flex; align-items:center; gap:8px;">
+                        <span>${u[statKey] ?? 0} ${statLabel}</span>
+                        ${ratingBit}
+                    </div>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <div style="font-size:20px; font-weight:800; color:#111; letter-spacing:-0.5px;">${u.score ?? 0}</div>
+                    <div style="font-size:10px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">pts</div>
                 </div>
             </div>
         `;
