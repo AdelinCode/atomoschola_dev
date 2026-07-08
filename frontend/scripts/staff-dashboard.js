@@ -194,3 +194,134 @@ async function rejectRequest(id) {
 // Make functions global for onclick handlers
 window.approveRequest = approveRequest;
 window.rejectRequest = rejectRequest;
+
+// ---- Edit Lessons ----
+
+function toggleEditLessonsPanel() {
+    const panel = document.getElementById('editLessonsPanel');
+    const btn = document.getElementById('toggleEditBtn');
+    const isHidden = panel.style.display === 'none';
+    panel.style.display = isHidden ? 'block' : 'none';
+    btn.innerHTML = isHidden
+        ? '<i class="fas fa-chevron-up"></i> Hide'
+        : '<i class="fas fa-chevron-down"></i> Show';
+    if (isHidden && !document.getElementById('editLessonsList').innerHTML) {
+        searchLessonsForEdit();
+    }
+}
+
+async function searchLessonsForEdit() {
+    const query = document.getElementById('lessonSearchInput').value.trim();
+    const list = document.getElementById('editLessonsList');
+    list.innerHTML = '<p style="color:#666; font-size:14px;">Loading...</p>';
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const url = query
+            ? `${apiUrl}/search?q=${encodeURIComponent(query)}&type=lesson`
+            : `${apiUrl}/lessons?status=published`;
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const data = await response.json();
+        const lessons = data.data || data.results || [];
+        renderEditLessonsList(lessons.slice(0, 20));
+    } catch (e) {
+        list.innerHTML = '<p style="color:#dc3545; font-size:14px;">Error loading lessons</p>';
+    }
+}
+
+function renderEditLessonsList(lessons) {
+    const list = document.getElementById('editLessonsList');
+    if (!lessons.length) {
+        list.innerHTML = '<p style="color:#666; font-size:14px;">No lessons found</p>';
+        return;
+    }
+    list.innerHTML = lessons.map(l => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border:1px solid #e9ecef; border-radius:8px; margin-bottom:8px;">
+            <div>
+                <div style="font-weight:600; font-size:14px; color:#333;">${l.title}</div>
+                <div style="font-size:12px; color:#888; margin-top:2px;">${l.status} &bull; ${l.type}</div>
+            </div>
+            <button onclick="openEditModal('${l._id}')" style="background:#17a2b8; color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; white-space:nowrap;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+        </div>
+    `).join('');
+}
+
+async function openEditModal(lessonId) {
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/lessons/${lessonId}`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const data = await response.json();
+        if (!data.success) return alert('Could not load lesson');
+        const l = data.data;
+
+        document.getElementById('editLessonId').value = l._id;
+        document.getElementById('editTitle').value = l.title;
+        document.getElementById('editSlug').value = l.slug;
+        document.getElementById('editDescription').value = l.description;
+        document.getElementById('editContent').value = l.content;
+        document.getElementById('editType').value = l.type;
+        document.getElementById('editStatus').value = l.status;
+        document.getElementById('editIsPremium').checked = l.isPremium;
+
+        const modal = document.getElementById('editLessonModal');
+        modal.style.display = 'flex';
+    } catch (e) {
+        alert('Error loading lesson: ' + e.message);
+    }
+}
+
+function closeEditModal() {
+    document.getElementById('editLessonModal').style.display = 'none';
+}
+
+async function saveLesson() {
+    const id = document.getElementById('editLessonId').value;
+    const body = {
+        title: document.getElementById('editTitle').value,
+        slug: document.getElementById('editSlug').value,
+        description: document.getElementById('editDescription').value,
+        content: document.getElementById('editContent').value,
+        type: document.getElementById('editType').value,
+        status: document.getElementById('editStatus').value,
+        isPremium: document.getElementById('editIsPremium').checked
+    };
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/lessons/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.API.getToken()}`
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        if (data.success) {
+            closeEditModal();
+            searchLessonsForEdit();
+            alert('Lesson updated successfully!');
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (e) {
+        alert('Error saving lesson: ' + e.message);
+    }
+}
+
+// Close modal on overlay click
+document.getElementById('editLessonModal')?.addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+});
+
+window.toggleEditLessonsPanel = toggleEditLessonsPanel;
+window.searchLessonsForEdit = searchLessonsForEdit;
+window.openEditModal = openEditModal;
+window.closeEditModal = closeEditModal;
+window.saveLesson = saveLesson;
