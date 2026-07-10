@@ -4,17 +4,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     if (!document.getElementById('reportModal')) {
         const modalHTML = `
-            <div id="reportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:10000; align-items:center; justify-content:center;">
-                <div style="background:white; border-radius:12px; padding:32px; max-width:500px; width:90%; position:relative;">
-                    <button onclick="closeReportModal()" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999;">&times;</button>
-                    <h3 style="margin-bottom:20px; color:#dc3545;"><i class="fas fa-flag"></i> Report <span id="reportTargetType">Content</span></h3>
-                    <p style="color:#666; font-size:14px; margin-bottom:20px;">Help us keep the platform safe. Please provide details about the issue.</p>
+            <div id="reportModal" class="report-modal-overlay">
+                <div class="report-modal-box">
+                    <button onclick="closeReportModal()" class="report-modal-close">&times;</button>
+                    <h3 class="report-modal-title"><i class="fas fa-flag"></i> Report <span id="reportTargetType">Content</span></h3>
+                    <p class="report-modal-desc">Help us keep the platform safe. Please provide details about the issue.</p>
                     <input type="hidden" id="reportTargetId">
                     <input type="hidden" id="reportTargetTypeValue">
                     
-                    <div style="margin-bottom:16px;">
-                        <label style="display:block; font-weight:600; margin-bottom:8px; font-size:14px; color:#333;">Reason</label>
-                        <select id="reportReason" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-size:14px;">
+                    <div class="report-modal-group">
+                        <label class="report-modal-label">Reason</label>
+                        <select id="reportReason" class="report-modal-select">
                             <option value="inappropriate_content">Inappropriate Content</option>
                             <option value="spam">Spam</option>
                             <option value="harassment">Harassment</option>
@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         </select>
                     </div>
                     
-                    <div style="margin-bottom:20px;">
-                        <label style="display:block; font-weight:600; margin-bottom:8px; font-size:14px; color:#333;">Description</label>
-                        <textarea id="reportDescription" rows="4" placeholder="Please provide specific details..." style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-size:14px; resize:vertical; box-sizing:border-box;"></textarea>
+                    <div class="report-modal-group">
+                        <label class="report-modal-label">Description</label>
+                        <textarea id="reportDescription" rows="4" placeholder="Please provide specific details..." class="report-modal-textarea"></textarea>
                     </div>
                     
-                    <div style="display:flex; gap:12px; justify-content:flex-end;">
-                        <button onclick="closeReportModal()" style="background:#6c757d; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:14px;">Cancel</button>
-                        <button onclick="submitReport()" style="background:#dc3545; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:14px; font-weight:600;">
+                    <div class="report-modal-actions">
+                        <button onclick="closeReportModal()" class="report-modal-btn-cancel">Cancel</button>
+                        <button onclick="submitReport()" class="report-modal-btn-submit">
                             <i class="fas fa-paper-plane"></i> Submit Report
                         </button>
                     </div>
