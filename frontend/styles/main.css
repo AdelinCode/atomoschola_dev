@@ -214,8 +214,8 @@ body {
     min-width: 200px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.2s ease;
+    transform: translateY(-8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
     z-index: 1001;
 }
 

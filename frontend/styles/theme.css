@@ -75,32 +75,65 @@ body {
 .theme-toggle-btn {
     display: flex;
     align-items: center;
-    background: var(--interactive-bg);
+    background: transparent;
     color: var(--text-primary);
-    border: 2px solid var(--border-primary);
+    border: none;
     font-size: 16px;
     padding: 10px 12px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
     font-weight: 500;
     white-space: nowrap;
     margin-right: 8px;
+    transition: background 0.2s ease, padding 0.2s ease;
 }
 
 .theme-toggle-btn:hover {
     background: var(--interactive-hover);
-    border-color: var(--accent-primary);
-    transform: translateY(-1px);
+    padding: 10px 18px;
 }
 
 .theme-toggle-btn i {
     font-size: 18px;
-    transition: transform 0.3s ease;
 }
 
-.theme-toggle-btn:hover i {
-    transform: rotate(180deg);
+/* Navigation */
+.nav-item {
+    color: var(--text-primary) !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+    transition: background 0.2s ease, padding 0.2s ease !important;
+}
+
+.nav-item:hover {
+    background: var(--interactive-hover) !important;
+    color: var(--accent-primary) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.nav-item i {
+    color: var(--text-primary) !important;
+}
+
+/* Account Button */
+.account-btn {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    transition: background 0.2s ease, padding 0.2s ease !important;
+}
+
+.account-btn:hover {
+    background: var(--interactive-hover) !important;
+    border: none !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.account-btn i {
+    color: var(--text-primary) !important;
 }
 
 /* ============================================
@@ -149,43 +182,6 @@ body {
 .search-btn:hover {
     background: var(--accent-secondary) !important;
 }
-
-/* Navigation */
-.nav-item {
-    color: var(--text-primary) !important;
-    font-weight: 500 !important;
-    background: transparent !important;
-    transition: all 0.3s ease;
-}
-
-.nav-item:hover {
-    background: var(--interactive-hover) !important;
-    color: var(--accent-primary) !important;
-}
-
-.nav-item i {
-    color: var(--text-primary) !important;
-}
-
-/* Account Button */
-.account-btn {
-    background: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
-    border: 2px solid var(--border-primary) !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease;
-}
-
-.account-btn:hover {
-    background: var(--interactive-hover) !important;
-    border-color: var(--accent-primary) !important;
-}
-
-.account-btn i {
-    color: var(--text-primary) !important;
-}
-
-#accountBtn i.fa-user-circle {
     color: #6C3483 !important;
     font-size: 1.2em !important;
 }

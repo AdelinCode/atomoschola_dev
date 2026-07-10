@@ -247,20 +247,29 @@ function setupEventListeners() {
 }
 
 function setupNavEventListeners() {
-    // Account dropdown toggle
+    // Account dropdown — hover + click fallback
     const accountBtn = document.getElementById('accountBtn');
     const accountDropdown = document.getElementById('accountDropdown');
-    
+
     if (accountBtn && accountDropdown) {
+        const wrapper = accountBtn.closest('.account-dropdown');
+
+        if (wrapper) {
+            wrapper.addEventListener('mouseenter', function() {
+                accountDropdown.classList.add('show');
+            });
+            wrapper.addEventListener('mouseleave', function() {
+                accountDropdown.classList.remove('show');
+            });
+        }
+
         accountBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             accountDropdown.classList.toggle('show');
-            // Close courses dropdown if open
             const coursesDropdown = document.getElementById('coursesDropdown');
             if (coursesDropdown) coursesDropdown.classList.remove('show');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function() {
             accountDropdown.classList.remove('show');
         });
@@ -303,45 +312,65 @@ function setupNavEventListeners() {
 }
 
 function setupCoursesDropdown() {
-    const coursesBtn = document.getElementById('coursesBtn');
+    const wrapper = document.getElementById('coursesBtn')?.closest('.account-dropdown');
     const coursesDropdown = document.getElementById('coursesDropdown');
-    
-    if (coursesBtn && coursesDropdown) {
-        coursesBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            coursesDropdown.classList.toggle('show');
-            // Close other dropdowns
-            const accountDropdown = document.getElementById('accountDropdown');
-            const dashboardDropdown = document.getElementById('dashboardDropdown');
-            if (accountDropdown) accountDropdown.classList.remove('show');
-            if (dashboardDropdown) dashboardDropdown.classList.remove('show');
-        });
 
-        document.addEventListener('click', function() {
-            coursesDropdown.classList.remove('show');
-        });
-    }
+    if (!wrapper || !coursesDropdown) return;
+
+    // Hover
+    wrapper.addEventListener('mouseenter', function() {
+        coursesDropdown.classList.add('show');
+    });
+    wrapper.addEventListener('mouseleave', function() {
+        coursesDropdown.classList.remove('show');
+    });
+
+    // Click (fallback / mobile)
+    document.getElementById('coursesBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        coursesDropdown.classList.toggle('show');
+        const accountDropdown = document.getElementById('accountDropdown');
+        const dashboardDropdown = document.getElementById('dashboardDropdown');
+        if (accountDropdown) accountDropdown.classList.remove('show');
+        if (dashboardDropdown) dashboardDropdown.classList.remove('show');
+    });
+
+    document.addEventListener('click', function() {
+        coursesDropdown.classList.remove('show');
+    });
 }
 
 function setupDashboardDropdown() {
     const dashboardBtn = document.getElementById('dashboardBtn');
     const dashboardDropdown = document.getElementById('dashboardDropdown');
 
-    if (dashboardBtn && dashboardDropdown) {
-        dashboardBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dashboardDropdown.classList.toggle('show');
-            // Close other dropdowns
-            const accountDropdown = document.getElementById('accountDropdown');
-            const coursesDropdown = document.getElementById('coursesDropdown');
-            if (accountDropdown) accountDropdown.classList.remove('show');
-            if (coursesDropdown) coursesDropdown.classList.remove('show');
-        });
+    if (!dashboardBtn || !dashboardDropdown) return;
 
-        document.addEventListener('click', function() {
+    const wrapper = dashboardBtn.closest('.account-dropdown');
+
+    // Hover
+    if (wrapper) {
+        wrapper.addEventListener('mouseenter', function() {
+            dashboardDropdown.classList.add('show');
+        });
+        wrapper.addEventListener('mouseleave', function() {
             dashboardDropdown.classList.remove('show');
         });
     }
+
+    // Click (fallback / mobile)
+    dashboardBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dashboardDropdown.classList.toggle('show');
+        const accountDropdown = document.getElementById('accountDropdown');
+        const coursesDropdown = document.getElementById('coursesDropdown');
+        if (accountDropdown) accountDropdown.classList.remove('show');
+        if (coursesDropdown) coursesDropdown.classList.remove('show');
+    });
+
+    document.addEventListener('click', function() {
+        dashboardDropdown.classList.remove('show');
+    });
 }
 
 function setupHoverDropdowns() {
