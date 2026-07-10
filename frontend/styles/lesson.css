@@ -394,3 +394,164 @@
         border: 1px solid #dee2e6;
     }
 }
+/* 
+============================================
+   DARK MODE - LESSON PAGE
+   ============================================ */
+
+.dark-mode .lesson-header-section {
+    background: var(--bg-secondary) !important;
+    box-shadow: 0 4px 12px var(--shadow-medium) !important;
+}
+
+.dark-mode .lesson-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .lesson-description {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .info-item {
+    color: var(--text-muted) !important;
+}
+
+.dark-mode .info-item i {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .rating-count {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .lesson-content-section {
+    background: var(--bg-secondary) !important;
+    box-shadow: 0 4px 12px var(--shadow-medium) !important;
+}
+
+.dark-mode .text-content {
+    color: var(--text-muted) !important;
+}
+
+.dark-mode .text-content h2,
+.dark-mode .text-content h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .rating-section {
+    border-top-color: var(--border-primary) !important;
+}
+
+.dark-mode .rating-section h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .rating-stars i {
+    color: var(--border-secondary) !important;
+}
+
+.dark-mode .rating-stars i:hover,
+.dark-mode .rating-stars i.active {
+    color: #ffc107 !important;
+}
+
+.dark-mode .related-lessons-section {
+    background: var(--bg-secondary) !important;
+    box-shadow: 0 4px 12px var(--shadow-medium) !important;
+}
+
+.dark-mode .related-lessons-section h2 {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .related-lesson-card {
+    border-color: var(--border-primary) !important;
+    background: var(--bg-tertiary) !important;
+}
+
+.dark-mode .related-lesson-card:hover {
+    box-shadow: 0 4px 12px var(--shadow-medium) !important;
+}
+
+.dark-mode .related-lesson-card .lesson-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .related-lesson-card .lesson-rating {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .presentation-viewer {
+    border-color: var(--border-primary) !important;
+    background: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Attachment link card */
+.attachment-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: var(--bg-secondary, #f8f9fa);
+    border: 1px solid var(--border-secondary, #e9ecef);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+}
+
+.attachment-link:hover,
+.attachment-link.attachment-link-hover {
+    border-color: #007bff !important;
+    background: color-mix(in srgb, #007bff 10%, var(--bg-secondary, #f8f9fa)) !important;
+}
+
+.attachment-link-icon {
+    width: 36px;
+    height: 36px;
+    color: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.attachment-link-body {
+    flex: 1;
+}
+
+.attachment-link-name {
+    font-weight: 500;
+    color: var(--text-primary, #333);
+    margin-bottom: 2px;
+}
+
+.attachment-link-meta {
+    color: var(--text-secondary, #6c757d);
+    font-size: 12px;
+}
+
+.attachment-link-ext {
+    color: var(--text-secondary, #6c757d);
+    font-size: 14px;
+}
+
+.lesson-attachments {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-primary, #e9ecef) !important;
+}
+
+.lesson-attachments h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary, #333) !important;
+    font-size: 16px;
+}
+
+.attachments-grid {
+    display: grid;
+    gap: 10px;
+}

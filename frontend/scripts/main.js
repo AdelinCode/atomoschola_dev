@@ -48,6 +48,9 @@ function renderGuestNav() {
     if (!navMenu) return;
     
     navMenu.innerHTML = `
+        <button class="theme-toggle-btn" id="themeToggle" title="Switch to Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
         <div class="account-dropdown">
             <button class="account-btn" id="coursesBtn">
                 <i class="fas fa-graduation-cap"></i>
@@ -84,6 +87,11 @@ function renderGuestNav() {
     // Setup courses dropdown
     setupCoursesDropdown();
     setupHoverDropdowns();
+    
+    // Update theme toggle icon after nav is rendered
+    if (window.themeManager) {
+        window.themeManager.updateToggleButton();
+    }
 }
 
 function renderAuthenticatedNav() {
@@ -91,6 +99,13 @@ function renderAuthenticatedNav() {
     if (!navMenu) return;
     
     let navItems = '';
+
+    // Theme toggle button (before Courses)
+    navItems += `
+        <button class="theme-toggle-btn" id="themeToggle" title="Switch to Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    `;
     
     // Add Courses dropdown for all users
     navItems += `
@@ -279,6 +294,11 @@ function setupNavEventListeners() {
             e.preventDefault();
             showUseCodeModal();
         });
+    }
+
+    // Initialize theme toggle after nav is rendered
+    if (window.themeManager) {
+        window.themeManager.updateToggleButton();
     }
 }
 

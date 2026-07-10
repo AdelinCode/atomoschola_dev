@@ -335,11 +335,9 @@ function loadLessonContent() {
     // Add attachments if they exist
     if (currentLesson.attachments && currentLesson.attachments.length > 0) {
         html += `
-            <div class="lesson-attachments" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef;">
-                <h4 style="margin-bottom: 15px; color: #333; font-size: 16px;">
-                    <i class="fas fa-paperclip"></i> Attachments
-                </h4>
-                <div class="attachments-grid" style="display: grid; gap: 10px;">
+            <div class="lesson-attachments">
+                <h4><i class="fas fa-paperclip"></i> Attachments</h4>
+                <div class="attachments-grid">
                     ${currentLesson.attachments.map(att => createAttachmentHTML(att)).join('')}
                 </div>
             </div>
@@ -355,37 +353,17 @@ function createAttachmentHTML(attachment) {
     const domain = getDomainFromUrl(attachment.url);
     
     return `
-        <a href="${attachment.url}" target="_blank" class="attachment-link" style="
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
-        " onmouseover="this.style.borderColor='#007bff'; this.style.backgroundColor='#e7f3ff';" 
-           onmouseout="this.style.borderColor='#e9ecef'; this.style.backgroundColor='#f8f9fa';">
-            <div style="
-                width: 36px;
-                height: 36px;
-                background: ${color};
-                color: white;
-                border-radius: 6px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 16px;
-            ">
+        <a href="${attachment.url}" target="_blank" class="attachment-link" 
+           onmouseover="this.classList.add('attachment-link-hover')" 
+           onmouseout="this.classList.remove('attachment-link-hover')">
+            <div class="attachment-link-icon" style="background: ${color};">
                 <i class="${icon}"></i>
             </div>
-            <div style="flex: 1;">
-                <div style="font-weight: 500; color: #333; margin-bottom: 2px;">${attachment.name}</div>
-                <small style="color: #6c757d;">${attachment.type.charAt(0).toUpperCase() + attachment.type.slice(1)} • ${domain}</small>
+            <div class="attachment-link-body">
+                <div class="attachment-link-name">${attachment.name}</div>
+                <small class="attachment-link-meta">${attachment.type.charAt(0).toUpperCase() + attachment.type.slice(1)} • ${domain}</small>
             </div>
-            <i class="fas fa-external-link-alt" style="color: #6c757d; font-size: 14px;"></i>
+            <i class="fas fa-external-link-alt attachment-link-ext"></i>
         </a>
     `;
 }
