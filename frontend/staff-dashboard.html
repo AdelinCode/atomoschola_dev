@@ -131,6 +131,31 @@
                         <input type="checkbox" id="editIsPremium" style="width: 16px; height: 16px;">
                         <label for="editIsPremium" style="font-size: 14px; color: #555;">Premium lesson</label>
                     </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 4px;">Language</label>
+                        <select id="editLanguage" style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            <option value="română">Română</option>
+                            <option value="english">English</option>
+                            <option value="français">Français</option>
+                            <option value="deutsch">Deutsch</option>
+                            <option value="español">Español</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 4px;">Level</label>
+                        <select id="editLevel" style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 4px;">Tags <span style="font-weight:400;color:#aaa;">(Enter to add)</span></label>
+                        <div id="editTagsContainer" style="display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:1px solid #ddd; border-radius:6px; min-height:38px; cursor:text;" onclick="document.getElementById('editTagInput').focus()">
+                            <input type="text" id="editTagInput" placeholder="Add tag..." style="border:none; outline:none; flex:1; min-width:80px; font-size:14px; background:transparent;">
+                        </div>
+                    </div>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
                     <button onclick="closeEditModal()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px;">Cancel</button>

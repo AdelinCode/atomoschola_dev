@@ -164,6 +164,9 @@ function setupEventListeners() {
     
     // Attachment functionality
     document.getElementById('addAttachmentBtn')?.addEventListener('click', addAttachment);
+
+    // Tags functionality
+    setupTagInput();
 }
 
 // Select content type
@@ -348,6 +351,9 @@ async function handleLessonSubmit(e) {
             type: type,
             category: category,
             isPremium: false,
+            language: document.getElementById('lessonLanguage').value,
+            level: document.getElementById('lessonLevel').value,
+            tags: getTags(),
             attachments: attachments.map(att => ({
                 name: att.name,
                 url: att.url,
@@ -660,3 +666,55 @@ function getDomainFromUrl(url) {
 
 // Make removeAttachment available globally for onclick handlers
 window.removeAttachment = removeAttachment;
+
+// ── Tags ──────────────────────────────────────────────────────────────────────
+
+let currentTags = [];
+
+function setupTagInput() {
+    const input = document.getElementById('tagInput');
+    if (!input) return;
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            addTag(this.value.trim());
+            this.value = '';
+        }
+        if (e.key === 'Backspace' && this.value === '' && currentTags.length > 0) {
+            removeTag(currentTags[currentTags.length - 1]);
+        }
+    });
+}
+
+function addTag(text) {
+    if (!text || currentTags.includes(text) || currentTags.length >= 10) return;
+    currentTags.push(text);
+    renderTags();
+}
+
+function removeTag(tag) {
+    currentTags = currentTags.filter(t => t !== tag);
+    renderTags();
+}
+
+function renderTags() {
+    const container = document.getElementById('tagsContainer');
+    const input = document.getElementById('tagInput');
+    // Remove old tag pills
+    container.querySelectorAll('.tag-pill').forEach(el => el.remove());
+    // Re-insert before input
+    currentTags.forEach(tag => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill';
+        pill.style.cssText = 'display:inline-flex; align-items:center; gap:5px; background:#e9ecef; color:#333; padding:4px 10px; border-radius:20px; font-size:13px; font-weight:500;';
+        pill.innerHTML = `${tag} <span onclick="removeTag('${tag}')" style="cursor:pointer; font-size:16px; line-height:1; color:#888;">&times;</span>`;
+        container.insertBefore(pill, input);
+    });
+}
+
+function getTags() {
+    return currentTags;
+}
+
+window.removeTag = removeTag;

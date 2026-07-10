@@ -365,6 +365,37 @@
                     
                     <!-- Attachments section -->
                     <div class="form-group">
+                        <label>Language *</label>
+                        <select id="lessonLanguage" required>
+                            <option value="română">Română</option>
+                            <option value="english">English</option>
+                            <option value="français">Français</option>
+                            <option value="deutsch">Deutsch</option>
+                            <option value="español">Español</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Level *</label>
+                        <select id="lessonLevel" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags <small style="font-weight:400; color:#888;">(optional, press Enter to add)</small></label>
+                        <div id="tagsContainer" style="display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:2px solid #e0e0e0; border-radius:8px; min-height:42px; cursor:text;" onclick="document.getElementById('tagInput').focus()">
+                            <!-- tags inserted here -->
+                            <input type="text" id="tagInput" placeholder="Add a tag..." style="border:none; outline:none; flex:1; min-width:100px; font-size:14px; background:transparent;">
+                        </div>
+                        <small style="color:#6c757d; margin-top:4px; display:block;">E.g. termodinamică, formule, bacalaureat</small>
+                    </div>
+
+                    <!-- Attachments section -->
+                    <div class="form-group">
                         <label for="attachments">Attachments (Optional)</label>
                         <div id="attachmentsList" style="margin-bottom: 15px;">
                             <!-- Dynamic attachment items will be added here -->

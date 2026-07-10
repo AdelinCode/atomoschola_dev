@@ -44,6 +44,21 @@ const lessonSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  language: {
+    type: String,
+    enum: ['română', 'english', 'français', 'deutsch', 'español', 'other'],
+    default: 'română'
+  },
+  level: {
+    type: String,
+    enum: ['beginner', 'intermediate', 'advanced'],
+    default: 'beginner'
+  },
+  tags: [{
+    type: String,
+    trim: true,
+    maxlength: 30
+  }],
   attachments: [{
     name: {
       type: String,

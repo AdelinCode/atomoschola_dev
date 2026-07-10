@@ -272,6 +272,12 @@ async function openEditModal(lessonId) {
         document.getElementById('editType').value = l.type;
         document.getElementById('editStatus').value = l.status;
         document.getElementById('editIsPremium').checked = l.isPremium;
+        document.getElementById('editLanguage').value = l.language || 'română';
+        document.getElementById('editLevel').value = l.level || 'beginner';
+
+        // Load tags
+        editTags = l.tags || [];
+        renderEditTags();
 
         const modal = document.getElementById('editLessonModal');
         modal.style.display = 'flex';
@@ -293,7 +299,10 @@ async function saveLesson() {
         content: document.getElementById('editContent').value,
         type: document.getElementById('editType').value,
         status: document.getElementById('editStatus').value,
-        isPremium: document.getElementById('editIsPremium').checked
+        isPremium: document.getElementById('editIsPremium').checked,
+        language: document.getElementById('editLanguage').value,
+        level: document.getElementById('editLevel').value,
+        tags: editTags
     };
 
     try {
@@ -461,3 +470,48 @@ async function reviewReport(id, status) {
 
 window.loadReports = loadReports;
 window.reviewReport = reviewReport;
+
+// ---- Edit Modal Tags ----
+
+let editTags = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('editTagInput');
+    if (!input) return;
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            const val = this.value.trim();
+            if (val && !editTags.includes(val) && editTags.length < 10) {
+                editTags.push(val);
+                renderEditTags();
+            }
+            this.value = '';
+        }
+        if (e.key === 'Backspace' && this.value === '' && editTags.length > 0) {
+            editTags.pop();
+            renderEditTags();
+        }
+    });
+});
+
+function renderEditTags() {
+    const container = document.getElementById('editTagsContainer');
+    const input = document.getElementById('editTagInput');
+    if (!container || !input) return;
+    container.querySelectorAll('.edit-tag-pill').forEach(el => el.remove());
+    editTags.forEach(tag => {
+        const pill = document.createElement('span');
+        pill.className = 'edit-tag-pill';
+        pill.style.cssText = 'display:inline-flex;align-items:center;gap:5px;background:#e9ecef;color:#333;padding:4px 10px;border-radius:20px;font-size:13px;';
+        pill.innerHTML = `${tag} <span onclick="removeEditTag('${tag}')" style="cursor:pointer;font-size:16px;color:#888;">&times;</span>`;
+        container.insertBefore(pill, input);
+    });
+}
+
+function removeEditTag(tag) {
+    editTags = editTags.filter(t => t !== tag);
+    renderEditTags();
+}
+
+window.removeEditTag = removeEditTag;
