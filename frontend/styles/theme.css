@@ -182,9 +182,6 @@ body {
 .search-btn:hover {
     background: var(--accent-secondary) !important;
 }
-    color: #6C3483 !important;
-    font-size: 1.2em !important;
-}
 
 #accountBtn span {
     color: #6C3483 !important;
