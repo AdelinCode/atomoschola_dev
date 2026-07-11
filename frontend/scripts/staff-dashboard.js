@@ -471,6 +471,157 @@ async function reviewReport(id, status) {
 window.loadReports = loadReports;
 window.reviewReport = reviewReport;
 
+// ---- Rename Domain / Category ----
+
+function toggleRenamePanel() {
+    const panel = document.getElementById('renamePanel');
+    const btn = document.getElementById('toggleRenameBtn');
+    const isHidden = panel.style.display === 'none';
+    panel.style.display = isHidden ? 'block' : 'none';
+    btn.innerHTML = isHidden
+        ? '<i class="fas fa-chevron-up"></i> Hide'
+        : '<i class="fas fa-chevron-down"></i> Show';
+    if (isHidden && document.getElementById('renameSubjectSelect').options.length === 1) {
+        loadRenameSubjectList();
+    }
+}
+
+async function loadRenameSubjectList() {
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const res = await fetch(`${apiUrl}/subjects`);
+        const data = await res.json();
+        const sel = document.getElementById('renameSubjectSelect');
+        (data.data || []).forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s._id;
+            opt.textContent = s.name;
+            sel.appendChild(opt);
+        });
+    } catch (e) {
+        console.error('Error loading subjects:', e);
+    }
+}
+
+async function loadRenameSubject() {
+    const subjectId = document.getElementById('renameSubjectSelect').value;
+    const container = document.getElementById('renameTreeContainer');
+    if (!subjectId) { container.innerHTML = ''; return; }
+
+    container.innerHTML = '<p style="color:#666; font-size:14px;">Loading...</p>';
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const res = await fetch(`${apiUrl}/subjects/${document.getElementById('renameSubjectSelect').selectedOptions[0].textContent.trim().toLowerCase().replace(/\s+/g, '-')}`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        // fallback: fetch all subjects and find by id
+        const allRes = await fetch(`${apiUrl}/subjects`);
+        const allData = await allRes.json();
+        const subject = (allData.data || []).find(s => s._id === subjectId);
+        if (!subject) { container.innerHTML = '<p style="color:#dc3545;">Subject not found</p>'; return; }
+
+        renderRenameTree(subject, subjectId, container);
+    } catch (e) {
+        container.innerHTML = `<p style="color:#dc3545;">Error: ${e.message}</p>`;
+    }
+}
+
+function renderRenameTree(subject, subjectId, container) {
+    if (!subject.domains || !subject.domains.length) {
+        container.innerHTML = '<p style="color:#666; font-size:14px;">No domains found for this subject.</p>';
+        return;
+    }
+    container.innerHTML = subject.domains.map(domain => `
+        <div style="border:1px solid #e9ecef; border-radius:8px; margin-bottom:10px; overflow:hidden;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f0ebff;">
+                <span style="font-weight:600; font-size:14px; color:#6f42c1;"><i class="fas fa-layer-group"></i> ${domain.name}</span>
+                <button onclick="openRenameModal('domain','${domain._id}','${subjectId}','','${escapeQuotes(domain.name)}','${escapeQuotes(domain.slug)}','${escapeQuotes(domain.description||'')}')"
+                    style="background:#6f42c1; color:white; border:none; padding:5px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
+                    <i class="fas fa-pen"></i> Rename
+                </button>
+            </div>
+            ${domain.categories && domain.categories.length ? domain.categories.map(cat => `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 14px 8px 28px; border-top:1px solid #e9ecef; background:#faf9ff;">
+                    <span style="font-size:13px; color:#555;"><i class="fas fa-folder" style="color:#388e3c;"></i> ${cat.name}</span>
+                    <button onclick="openRenameModal('category','${cat._id}','${subjectId}','${domain._id}','${escapeQuotes(cat.name)}','${escapeQuotes(cat.slug)}','${escapeQuotes(cat.description||'')}')"
+                        style="background:#388e3c; color:white; border:none; padding:5px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
+                        <i class="fas fa-pen"></i> Rename
+                    </button>
+                </div>
+            `).join('') : '<div style="padding:8px 28px; font-size:13px; color:#aaa; border-top:1px solid #e9ecef;">No categories</div>'}
+        </div>
+    `).join('');
+}
+
+function escapeQuotes(str) {
+    return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+function openRenameModal(type, itemId, subjectId, domainId, name, slug, desc) {
+    document.getElementById('renameItemType').value = type;
+    document.getElementById('renameItemId').value = itemId;
+    document.getElementById('renameSubjectId').value = subjectId;
+    document.getElementById('renameDomainId').value = domainId;
+    document.getElementById('renameNameInput').value = name;
+    document.getElementById('renameSlugInput').value = slug;
+    document.getElementById('renameDescInput').value = desc;
+    document.getElementById('renameModalTitle').textContent = type === 'domain' ? 'Rename Domain' : 'Rename Category';
+    document.getElementById('renameModal').style.display = 'flex';
+}
+
+function closeRenameModal() {
+    document.getElementById('renameModal').style.display = 'none';
+}
+
+async function submitRename() {
+    const type = document.getElementById('renameItemType').value;
+    const itemId = document.getElementById('renameItemId').value;
+    const subjectId = document.getElementById('renameSubjectId').value;
+    const domainId = document.getElementById('renameDomainId').value;
+    const body = {
+        name: document.getElementById('renameNameInput').value.trim(),
+        slug: document.getElementById('renameSlugInput').value.trim(),
+        description: document.getElementById('renameDescInput').value.trim()
+    };
+    if (!body.name || !body.slug) return alert('Name and slug are required.');
+
+    const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+    const url = type === 'domain'
+        ? `${apiUrl}/subjects/${subjectId}/domains/${itemId}`
+        : `${apiUrl}/subjects/${subjectId}/domains/${domainId}/categories/${itemId}`;
+
+    try {
+        const res = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.API.getToken()}`
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.success) {
+            closeRenameModal();
+            loadRenameSubject();
+            alert(`${type === 'domain' ? 'Domain' : 'Category'} renamed successfully!`);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (e) {
+        alert('Error: ' + e.message);
+    }
+}
+
+document.getElementById('renameModal')?.addEventListener('click', function(e) {
+    if (e.target === this) closeRenameModal();
+});
+
+window.toggleRenamePanel = toggleRenamePanel;
+window.loadRenameSubject = loadRenameSubject;
+window.openRenameModal = openRenameModal;
+window.closeRenameModal = closeRenameModal;
+window.submitRename = submitRename;
+
 // ---- Edit Modal Tags ----
 
 let editTags = [];

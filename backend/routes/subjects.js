@@ -217,6 +217,46 @@ router.post('/:subjectId/domains', protect, authorize('owner', 'editor', 'staff'
   }
 });
 
+// @route   PUT /api/subjects/:subjectId/domains/:domainId
+// @desc    Rename domain (owner/editor/staff)
+// @access  Private
+router.put('/:subjectId/domains/:domainId', protect, authorize('owner', 'editor', 'staff'), async (req, res) => {
+  try {
+    const { name, slug, description } = req.body;
+    const domain = await Domain.findById(req.params.domainId);
+    if (!domain) {
+      return res.status(404).json({ success: false, message: 'Domain not found' });
+    }
+    if (name) domain.name = name;
+    if (slug) domain.slug = slug;
+    if (description !== undefined) domain.description = description;
+    await domain.save();
+    res.json({ success: true, data: domain });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @route   PUT /api/subjects/:subjectId/domains/:domainId/categories/:categoryId
+// @desc    Rename category (owner/editor/staff)
+// @access  Private
+router.put('/:subjectId/domains/:domainId/categories/:categoryId', protect, authorize('owner', 'editor', 'staff'), async (req, res) => {
+  try {
+    const { name, slug, description } = req.body;
+    const category = await Category.findById(req.params.categoryId);
+    if (!category) {
+      return res.status(404).json({ success: false, message: 'Category not found' });
+    }
+    if (name) category.name = name;
+    if (slug) category.slug = slug;
+    if (description !== undefined) category.description = description;
+    await category.save();
+    res.json({ success: true, data: category });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // @route   POST /api/subjects/:subjectId/domains/:domainId/categories
 // @desc    Create category for domain (owner/editor/staff)
 // @access  Private
