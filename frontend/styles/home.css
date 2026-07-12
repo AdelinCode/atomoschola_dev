@@ -599,24 +599,37 @@
     .hero-quick-links {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+        width: 90%;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .hero-quick-links {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+        width: 100%;
+        padding: 16px;
+        justify-items: center;
     }
 
     .hero-quick-btn {
-        padding: 14px 12px;
-        gap: 10px;
+        width: 100%;
+        padding: 12px 10px;
+        gap: 8px;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
     .hero-btn-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 16px;
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+
+    .hero-btn-text {
+        align-items: center;
     }
 
     .hero-btn-label {
