@@ -432,6 +432,203 @@ body {
 }
 
 /* ============================================
+   MOBILE NAV
+   ============================================ */
+
+.nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.nav-hamburger:hover {
+    background: var(--interactive-hover, #f0f0f0);
+}
+
+.nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-primary, #212529);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Hamburger → X animation */
+.nav-hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+.nav-hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile overlay menu */
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 998;
+}
+
+.mobile-nav-overlay.open {
+    display: block;
+}
+
+.mobile-nav-panel {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--bg-primary, #fff);
+    border-bottom: 2px solid var(--border-primary, #e0e0e0);
+    z-index: 999;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-110%);
+    transition: transform 0.3s ease;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.mobile-nav-panel.open {
+    transform: translateY(0);
+}
+
+/* Mobile search */
+.mobile-search {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary, #f8f9fa);
+    border: 1px solid var(--border-primary, #dee2e6);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.mobile-search input {
+    border: none;
+    background: none;
+    outline: none;
+    flex: 1;
+    font-size: 15px;
+    color: var(--text-primary, #212529);
+}
+
+.mobile-search input::placeholder {
+    color: var(--text-secondary, #6c757d);
+}
+
+.mobile-search button {
+    background: none;
+    border: none;
+    color: var(--text-secondary, #6c757d);
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* Mobile nav items */
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-primary, #212529);
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.mobile-nav-item:hover {
+    background: var(--interactive-hover, #f0f0f0);
+    color: var(--text-primary, #212529);
+}
+
+.mobile-nav-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-secondary, #6c757d);
+    font-size: 15px;
+}
+
+.mobile-nav-section {
+    border-top: 1px solid var(--border-primary, #e9ecef);
+    margin-top: 4px;
+    padding-top: 4px;
+}
+
+.mobile-nav-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary, #6c757d);
+    padding: 8px 14px 4px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 70px !important;
+    }
+
+    .header-content {
+        height: 70px !important;
+        padding: 0 16px !important;
+        gap: 12px !important;
+    }
+
+    .logo a img {
+        height: 46px !important;
+    }
+
+    .logo a span {
+        display: none;
+    }
+
+    /* Hide desktop search and nav */
+    .header-content .search-bar,
+    .header-content .nav-menu {
+        display: none !important;
+    }
+
+    .nav-hamburger {
+        display: flex;
+    }
+
+    .main-content {
+        margin-top: 70px !important;
+    }
+
+    .hero h1 { font-size: 28px; }
+    .hero-stats { gap: 20px; }
+    .subjects-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
    FOOTER
    ============================================ */
 

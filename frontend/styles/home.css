@@ -351,19 +351,66 @@
 @media (max-width: 768px) {
     .category-cards-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .category-major-card {
-        padding: 40px 20px;
+        padding: 30px 20px;
     }
 
     .category-major-card .card-icon {
-        font-size: 60px;
+        font-size: 56px;
+    }
+
+    .category-major-card h2 {
+        font-size: 26px;
+    }
+
+    .category-major-card .card-description {
+        font-size: 15px;
+    }
+
+    .category-stats-grid {
+        gap: 10px;
+    }
+
+    .category-stat-item .stat-value {
+        font-size: 22px;
+    }
+
+    .banner-card {
+        padding: 20px;
     }
 
     .banner-card-inner {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .banner-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .info-cards-section {
+        padding: 0 12px;
+    }
+
+    .cta-section {
+        padding: 30px 16px;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .cta-btn {
+        justify-content: center;
+    }
+
+    .featured-subjects h2 {
+        font-size: 24px;
+        margin-bottom: 24px;
     }
 }
 

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     updateUIBasedOnUserType();
+    setupMobileNav();
     
     // Only load homepage data on index.html
     const currentPath = window.location.pathname;
@@ -988,6 +989,171 @@ async function loadHomepageData() {
         console.error('Error loading homepage data:', error);
     }
 }
+
+// ============================================
+// MOBILE NAV
+// ============================================
+
+function setupMobileNav() {
+    const hamburger = document.getElementById('navHamburger');
+    if (!hamburger) return;
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-nav-overlay';
+    overlay.id = 'mobileNavOverlay';
+    document.body.appendChild(overlay);
+
+    // Create panel
+    const panel = document.createElement('div');
+    panel.className = 'mobile-nav-panel';
+    panel.id = 'mobileNavPanel';
+    document.body.appendChild(panel);
+
+    // Build panel content after nav is rendered (slight delay)
+    setTimeout(() => buildMobilePanel(panel), 100);
+
+    // Toggle
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = panel.classList.contains('open');
+        if (isOpen) closeMobileNav();
+        else openMobileNav();
+    });
+
+    overlay.addEventListener('click', closeMobileNav);
+
+    // Re-build panel if nav re-renders
+    const navMenu = document.getElementById('navMenu');
+    if (navMenu) {
+        new MutationObserver(() => {
+            setTimeout(() => buildMobilePanel(panel), 50);
+        }).observe(navMenu, { childList: true, subtree: true });
+    }
+}
+
+function openMobileNav() {
+    const hamburger = document.getElementById('navHamburger');
+    const panel = document.getElementById('mobileNavPanel');
+    const overlay = document.getElementById('mobileNavOverlay');
+    if (!panel) return;
+    hamburger?.classList.add('open');
+    panel.classList.add('open');
+    overlay?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileNav() {
+    const hamburger = document.getElementById('navHamburger');
+    const panel = document.getElementById('mobileNavPanel');
+    const overlay = document.getElementById('mobileNavOverlay');
+    hamburger?.classList.remove('open');
+    panel?.classList.remove('open');
+    overlay?.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function buildMobilePanel(panel) {
+    const currentPath = window.location.pathname;
+
+    // Search bar
+    let html = `
+        <div class="mobile-search">
+            <input type="text" placeholder="Search for lessons, topics..." id="mobileSearchInput">
+            <button onclick="if(document.getElementById('mobileSearchInput').value.trim()) window.location.href='search-results.html?q='+encodeURIComponent(document.getElementById('mobileSearchInput').value.trim())">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    `;
+
+    // Courses section
+    html += `
+        <div class="mobile-nav-section-label">Courses</div>
+        <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i> Main Page</a>
+        <a href="steam.html" class="mobile-nav-item"><i class="fas fa-atom"></i> STEM</a>
+        <a href="humanities.html" class="mobile-nav-item"><i class="fas fa-book-reader"></i> Humanities</a>
+    `;
+
+    // Community
+    html += `
+        <div class="mobile-nav-section mobile-nav-section-label">Community</div>
+        <a href="staff.html" class="mobile-nav-item"><i class="fas fa-users-cog"></i> Contributors</a>
+        <a href="events.html" class="mobile-nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
+    `;
+
+    if (currentUser) {
+        // Inbox
+        html += `
+            <div class="mobile-nav-section"></div>
+            <button class="mobile-nav-item" onclick="showNotificationsModal(); closeMobileNav();">
+                <i class="fas fa-envelope"></i> Inbox
+            </button>
+        `;
+
+        // Dashboard links
+        const hasDash = ['creator','editor','staff','owner'].includes(currentUser.userType)
+            || currentUser.isCreatorCommissionMember
+            || currentUser.isEditorCommissionMember;
+
+        if (hasDash) {
+            html += `<div class="mobile-nav-section-label" style="margin-top:8px;">Dashboard</div>`;
+            if (['creator','editor','staff','owner'].includes(currentUser.userType))
+                html += `<a href="create-content.html" class="mobile-nav-item"><i class="fas fa-plus-circle"></i> Create Content</a>`;
+            if (currentUser.userType === 'staff')
+                html += `<a href="staff-dashboard.html" class="mobile-nav-item"><i class="fas fa-tasks"></i> Staff Dashboard</a>`;
+            if (currentUser.isCreatorCommissionMember)
+                html += `<a href="commission-dashboard.html" class="mobile-nav-item"><i class="fas fa-gavel"></i> Creator Commission</a>`;
+            if (currentUser.isEditorCommissionMember)
+                html += `<a href="editor-commission-dashboard.html" class="mobile-nav-item"><i class="fas fa-pen-fancy"></i> Editor Commission</a>`;
+            if (currentUser.userType === 'owner')
+                html += `<a href="dashboard.html" class="mobile-nav-item"><i class="fas fa-crown"></i> Owner Dashboard</a>`;
+        }
+
+        // Account
+        html += `
+            <div class="mobile-nav-section">
+                <div class="mobile-nav-section-label">Account — ${currentUser.username}</div>
+                <a href="profile.html" class="mobile-nav-item"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html" class="mobile-nav-item"><i class="fas fa-cog"></i> Settings</a>
+                <button class="mobile-nav-item" style="color:#dc3545;" onclick="localStorage.removeItem('token');localStorage.removeItem('user');window.location.href='index.html';">
+                    <i class="fas fa-sign-out-alt" style="color:#dc3545;"></i> Logout
+                </button>
+            </div>
+        `;
+    } else {
+        html += `
+            <div class="mobile-nav-section">
+                <a href="login.html" class="mobile-nav-item"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="register.html" class="mobile-nav-item"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        `;
+    }
+
+    // Theme toggle at bottom
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    html += `
+        <div class="mobile-nav-section">
+            <button class="mobile-nav-item" onclick="if(window.themeManager){window.themeManager.toggleTheme();this.querySelector('i').className='fas fa-'+(document.documentElement.classList.contains('dark-mode')?'sun':'moon');this.querySelector('span').textContent=document.documentElement.classList.contains('dark-mode')?'Light Mode':'Dark Mode';}">
+                <i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>
+                <span>${isDark ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
+        </div>
+    `;
+
+    panel.innerHTML = html;
+
+    // Mobile search enter key
+    const msi = document.getElementById('mobileSearchInput');
+    if (msi) {
+        msi.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                window.location.href = 'search-results.html?q=' + encodeURIComponent(this.value.trim());
+            }
+        });
+    }
+}
+
+window.closeMobileNav = closeMobileNav;
 
 // Export functions for use in other scripts
 window.EduPlatform = {
