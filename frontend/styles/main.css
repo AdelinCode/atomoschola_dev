@@ -274,7 +274,6 @@ body {
     display: flex;
     align-items: flex-end;
     position: relative;
-    overflow: hidden;
 }
 
 /* Gradient overlay pentru hero main */
@@ -428,6 +427,12 @@ body {
     
     .subjects-grid {
         grid-template-columns: 1fr;
+    }
+
+    .hero-main {
+        aspect-ratio: unset;
+        min-height: 220px;
+        align-items: flex-end;
     }
 }
 
