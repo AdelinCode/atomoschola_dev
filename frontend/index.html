@@ -346,11 +346,14 @@
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
     <script>
-        // Show launch popup on first visit or every time
+        // Show launch popup only once per session
         window.addEventListener('load', function() {
             const popup = document.getElementById('launchPopup');
-            if (popup) {
+            if (popup && !sessionStorage.getItem('launchPopupShown')) {
                 popup.style.display = 'flex';
+                sessionStorage.setItem('launchPopupShown', '1');
+            } else if (popup) {
+                popup.style.display = 'none';
             }
         });
 
