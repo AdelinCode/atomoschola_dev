@@ -78,7 +78,14 @@ function setSubjectBackground(subject) {
         'romanian': 'photo_background/literatura.jpeg',
         'romana': 'photo_background/literatura.jpeg',
         'literatura': 'photo_background/literatura.jpeg',
-        'limba-romana': 'photo_background/literatura.jpeg'
+        'limba-romana': 'photo_background/literatura.jpeg',
+
+        // Informatique / Computer Science
+        'informatique': 'photo_background/info.jpeg',
+        'informatics': 'photo_background/info.jpeg',
+        'informatica': 'photo_background/info.jpeg',
+        'computer-science': 'photo_background/info.jpeg',
+        'info': 'photo_background/info.jpeg'
     };
     
     const backgroundImage = backgroundMap[subject];

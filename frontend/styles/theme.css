@@ -387,6 +387,11 @@ body {
     border: 1px solid var(--border-primary) !important;
 }
 
+.hero.hero-with-bg {
+    background-color: transparent !important;
+    border: none !important;
+}
+
 .hero h1 {
     color: var(--text-primary) !important;
 }
