@@ -136,6 +136,23 @@ body {
     color: var(--text-primary) !important;
 }
 
+/* Account dropdown button — special styling for logged-in user */
+#accountBtn {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--border-secondary) !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#accountBtn:hover {
+    background: var(--bg-secondary) !important;
+    border-color: var(--text-muted) !important;
+    box-shadow: 0 2px 8px var(--shadow-light) !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
 /* ============================================
    HEADER & NAVIGATION
    ============================================ */
@@ -184,8 +201,12 @@ body {
 }
 
 #accountBtn span {
-    color: #6C3483 !important;
+    color: var(--text-primary) !important;
     font-weight: 600 !important;
+}
+
+#accountBtn i {
+    color: var(--text-primary) !important;
 }
 
 /* ============================================
@@ -586,11 +607,13 @@ a:hover {
     color: unset !important;
 }
 
-.badge-role-owner   { background: linear-gradient(135deg, #ff4d4d, #c0392b) !important; color: #fff !important; }
-.badge-role-staff   { background: linear-gradient(135deg, #a855f7, #7c3aed) !important; color: #fff !important; }
-.badge-role-editor  { background: linear-gradient(135deg, #06b6d4, #0284c7) !important; color: #fff !important; }
-.badge-role-creator { background: linear-gradient(135deg, #f97316, #ea580c) !important; color: #fff !important; }
-.badge-role-user    { background: linear-gradient(135deg, #6b7280, #4b5563) !important; color: #fff !important; }
+.badge-role-owner      { background: linear-gradient(135deg, #ff4d4d, #c0392b) !important; color: #fff !important; }
+.badge-role-staff      { background: linear-gradient(135deg, #a855f7, #7c3aed) !important; color: #fff !important; }
+.badge-role-editor     { background: linear-gradient(135deg, #06b6d4, #0284c7) !important; color: #fff !important; }
+.badge-role-creator    { background: linear-gradient(135deg, #f97316, #ea580c) !important; color: #fff !important; }
+.badge-role-user       { background: linear-gradient(135deg, #6b7280, #4b5563) !important; color: #fff !important; }
+.badge-role-operator   { background: linear-gradient(135deg, #ef4444, #b91c1c) !important; color: #fff !important; }
+.badge-role-translator { background: linear-gradient(135deg, #14b8a6, #0f766e) !important; color: #fff !important; }
 .badge-commission-creator { background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important; color: #fff !important; }
 .badge-commission-editor  { background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important; color: #fff !important; }
 .badge-verified     { background: linear-gradient(135deg, #10b981, #059669) !important; color: #fff !important; }
@@ -1429,5 +1452,97 @@ a:hover {
     color: var(--text-primary) !important;
 }
 .dark-mode .modal-close {
+    color: var(--text-secondary) !important;
+}
+
+/* ============================================
+   DARK MODE - PUBLIC PROFILE
+   ============================================ */
+
+.dark-mode .profile-card {
+    background: var(--bg-secondary) !important;
+    box-shadow: 0 1px 3px var(--shadow-medium) !important;
+}
+
+.dark-mode .profile-name {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .profile-username {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .profile-avatar {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .profile-bio {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+    border-left-color: #667eea !important;
+}
+
+.dark-mode .profile-stats {
+    border-top-color: var(--border-primary) !important;
+    border-bottom-color: var(--border-primary) !important;
+}
+
+.dark-mode .stat-value {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .stat-label {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .info-item {
+    background: var(--bg-tertiary) !important;
+}
+
+.dark-mode .info-label {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .info-value {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .section-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .lesson-card {
+    background: var(--bg-tertiary) !important;
+    border-left-color: #667eea !important;
+}
+
+.dark-mode .lesson-card:hover {
+    background: var(--bg-accent) !important;
+}
+
+.dark-mode .lesson-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .lesson-meta {
+    color: var(--text-secondary) !important;
+}
+
+.dark-mode .actions {
+    border-top-color: var(--border-primary) !important;
+}
+
+.dark-mode .btn-back {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .btn-back:hover {
+    background: var(--bg-accent) !important;
+}
+
+.dark-mode .empty-state {
     color: var(--text-secondary) !important;
 }

@@ -53,9 +53,9 @@ body {
 }
 
 .header-content .search-bar {
-    flex: 0 1 340px;
-    min-width: 200px;
-    margin-left: 80px;
+    flex: 0 1 260px;
+    min-width: 160px;
+    margin-left: 50px;
     margin-right: auto;
 }
 

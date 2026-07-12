@@ -204,7 +204,7 @@ router.put('/:id/type', protect, authorize('owner'), async (req, res) => {
   try {
     const { userType } = req.body;
     
-    if (!['user', 'creator', 'editor', 'staff'].includes(userType)) {
+    if (!['user', 'creator', 'editor', 'staff', 'operator', 'translator'].includes(userType)) {
       return res.status(400).json({ 
         success: false, 
         message: 'Invalid user type' 

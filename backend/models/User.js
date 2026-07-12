@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    enum: ['user', 'creator', 'editor', 'staff', 'owner'],
+    enum: ['user', 'creator', 'editor', 'staff', 'operator', 'translator', 'owner'],
     default: 'user'
   },
   isCreatorCommissionMember: {

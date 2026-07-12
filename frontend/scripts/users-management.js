@@ -76,6 +76,8 @@ function displayUsers(users) {
                         <option value="user">User</option>
                         <option value="creator">Creator</option>
                         <option value="editor">Editor</option>
+                        <option value="operator">Operator</option>
+                        <option value="translator">Translator</option>
                         <option value="staff">Staff</option>
                     </select>
                     ${['creator', 'editor', 'staff'].includes(user.userType) ? `

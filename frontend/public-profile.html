@@ -423,11 +423,13 @@
 
             // ── Role badges ──────────────────────────────────────────
             const roleIconMap = {
-                owner:   'fa-crown',
-                staff:   'fa-shield-alt',
-                editor:  'fa-pen-fancy',
-                creator: 'fa-paint-brush',
-                user:    'fa-user'
+                owner:      'fa-crown',
+                staff:      'fa-shield-alt',
+                editor:     'fa-pen-fancy',
+                creator:    'fa-paint-brush',
+                operator:   'fa-cogs',
+                translator: 'fa-language',
+                user:       'fa-user'
             };
             badges.push(makeBadge(
                 `badge-role-${viewedUser.userType}`,
