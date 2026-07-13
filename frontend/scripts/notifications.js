@@ -210,13 +210,15 @@ function getNotificationIcon(type) {
         domain_approved: 'fas fa-check-circle',
         domain_rejected: 'fas fa-times-circle',
         category_approved: 'fas fa-check-circle',
-        category_rejected: 'fas fa-times-circle'
+        category_rejected: 'fas fa-times-circle',
+        password_reset_request: 'fas fa-key'
     };
     return icons[type] || 'fas fa-bell';
 }
 
 // Get notification color
 function getNotificationColor(type) {
+    if (type === 'password_reset_request') return '#f59e0b';
     if (type.includes('approved')) {
         return '#28a745';
     } else if (type.includes('rejected')) {

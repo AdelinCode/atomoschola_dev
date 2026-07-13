@@ -1,6 +1,7 @@
 import express from 'express';
 import PasswordResetRequest from '../models/PasswordResetRequest.js';
 import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 import { protect, authorize } from '../middleware/auth.js';
 import bcrypt from 'bcryptjs';
 
@@ -47,6 +48,20 @@ router.post('/request', async (req, res) => {
       email: user.email,
       reason: reason || 'Forgot password'
     });
+
+    // Notify all staff and owner members
+    const staffMembers = await User.find({ userType: { $in: ['staff', 'owner'] } }, '_id');
+    if (staffMembers.length > 0) {
+      const notifications = staffMembers.map(member => ({
+        user: member._id,
+        type: 'password_reset_request',
+        title: 'New Password Reset Request',
+        message: `User "${user.username}" (${user.email}) has submitted a password reset request.`,
+        relatedItem: resetRequest._id,
+        relatedModel: 'PasswordResetRequest'
+      }));
+      await Notification.insertMany(notifications);
+    }
 
     res.status(201).json({
       success: true,
