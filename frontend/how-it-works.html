@@ -228,7 +228,11 @@
             color: white !important;
         }
 
-        /* Icon colors */
+        .template-banner { display:flex; align-items:center; gap:16px; margin-top:20px; padding:16px 20px; background:#f0fdf4; border:2px solid #20c997; border-radius:10px; }
+        .template-banner-sub { font-size:13px; color:#6c757d; }
+        .dark-mode .template-banner { background:#0d2b22; border-color:#20c997; }
+        .dark-mode .template-banner strong { color:#e0e0e0; }
+        .dark-mode .template-banner-sub { color:#9ca3af; }
         .bg-yellow  { background: #ffc107; }
         .bg-teal    { background: #17a2b8; }
         .bg-purple  { background: #6C3483; }
@@ -348,6 +352,17 @@
                     </ul>
                     
                     <p style="margin-top: 16px;"><i class="fas fa-info-circle color-green" style="margin-right: 6px;"></i> This structure ensures quality and consistency while preserving creator creativity.</p>
+
+                    <div class="template-banner">
+                        <i class="fas fa-file-word" style="font-size:28px; color:#20c997; flex-shrink:0;"></i>
+                        <div style="flex:1;">
+                            <strong style="display:block; margin-bottom:2px;">Official Lesson Template</strong>
+                            <span class="template-banner-sub">Download the Word template with the required structure already set up.</span>
+                        </div>
+                        <a href="docs_materials/Header.docx" download style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#20c997; color:white; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap;">
+                            <i class="fas fa-download"></i> Download .docx
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Roles -->

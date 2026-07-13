@@ -148,6 +148,11 @@
             display: block;
         }
         
+        .template-banner-sm { display:flex; align-items:center; gap:12px; margin-bottom:10px; padding:10px 14px; background:#f0fdf4; border:1px solid #20c997; border-radius:8px; }
+        .template-banner-sm-text { font-size:13px; color:#555; flex:1; }
+        .dark-mode .template-banner-sm { background:#0d2b22; border-color:#20c997; }
+        .dark-mode .template-banner-sm-text { color:#9ca3af; }
+
         /* Attachments styling */
         .attachment-item {
             display: flex;
@@ -357,6 +362,13 @@
                     <!-- Content editor (for text and presentation) -->
                     <div class="form-group" id="contentEditorGroup">
                         <label for="lessonContent">Content *</label>
+                        <div class="template-banner-sm">
+                            <i class="fas fa-file-word" style="color:#20c997; font-size:18px;"></i>
+                            <span class="template-banner-sm-text">Need a starting point? Use the official lesson template.</span>
+                            <a href="docs_materials/Header.docx" download style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:#20c997; color:white; border-radius:6px; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap;">
+                                <i class="fas fa-download"></i> Template .docx
+                            </a>
+                        </div>
                         <div id="editor"></div>
                         <small style="color: #6c757d; margin-top: 10px; display: block;">
                             <i class="fas fa-info-circle"></i> 
