@@ -4,13 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setupAuthEventListeners() {
-    // Login form
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
     
-    // Register form
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', handleRegister);
@@ -73,7 +71,7 @@ async function handleRegister(e) {
     
     try {
         const userData = {
-            username: data.username || null,
+            username: data.username || null, // Allow empty username
             email: data.email,
             password: data.password,
             firstName: data.firstName,
@@ -94,6 +92,8 @@ async function handleRegister(e) {
         showMessage(error.message || 'Registration failed. Please try again.', 'error');
     }
 }
+
+
 
 
 
