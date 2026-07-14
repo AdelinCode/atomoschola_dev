@@ -136,9 +136,9 @@
 
         <!-- Edit Lesson Modal -->
         <div id="editLessonModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
-            <div style="background: white; border-radius: 12px; padding: 32px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative;">
-                <button onclick="closeEditModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: #999;">&times;</button>
-                <h3 style="margin-bottom: 20px; color: #333;"><i class="fas fa-edit"></i> Edit Lesson</h3>
+            <div style="background: var(--bg-primary); border-radius: 12px; padding: 32px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; border: 1px solid var(--border-primary);">
+                <button onclick="closeEditModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary);">&times;</button>
+                <h3 style="margin-bottom: 20px; color: var(--text-primary);"><i class="fas fa-edit"></i> Edit Lesson</h3>
                 <input type="hidden" id="editLessonId">
                 <div style="display: flex; flex-direction: column; gap: 14px;">
                     <div>
@@ -204,6 +204,39 @@
                         <label style="font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 4px;">Tags <span style="font-weight:400;color:#aaa;">(Enter to add)</span></label>
                         <div id="editTagsContainer" style="display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:1px solid #ddd; border-radius:6px; min-height:38px; cursor:text;" onclick="document.getElementById('editTagInput').focus()">
                             <input type="text" id="editTagInput" placeholder="Add tag..." style="border:none; outline:none; flex:1; min-width:80px; font-size:14px; background:transparent;">
+                        </div>
+                    </div>
+
+                    <!-- Attachments -->
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 8px;">
+                            <i class="fas fa-paperclip"></i> Attachments
+                        </label>
+                        <div id="editAttachmentsList" style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;"></div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end;">
+                            <div style="flex:2; min-width:140px;">
+                                <input type="text" id="editAttachmentName" placeholder="File name (e.g. Notes.pdf)"
+                                    style="width:100%; padding:7px 10px; border:1px solid #ddd; border-radius:6px; font-size:13px; box-sizing:border-box;">
+                            </div>
+                            <div style="flex:3; min-width:180px;">
+                                <input type="url" id="editAttachmentUrl" placeholder="URL (Google Drive, Dropbox…)"
+                                    style="width:100%; padding:7px 10px; border:1px solid #ddd; border-radius:6px; font-size:13px; box-sizing:border-box;">
+                            </div>
+                            <div style="min-width:120px;">
+                                <select id="editAttachmentType" style="width:100%; padding:7px 10px; border:1px solid #ddd; border-radius:6px; font-size:13px;">
+                                    <option value="document">Document</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="spreadsheet">Spreadsheet</option>
+                                    <option value="presentation">Presentation</option>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="addEditAttachment()"
+                                style="background:#28a745; color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; white-space:nowrap;">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
                         </div>
                     </div>
                 </div>

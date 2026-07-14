@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import cron from 'node-cron';
 import { fileURLToPath } from 'url';
 import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
@@ -19,6 +20,7 @@ import editorCommissionRoutes from './routes/editorCommission.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import passwordResetRoutes from './routes/password-reset.js';
 import reportsRoutes from './routes/reports.js';
+import { runMonthlyCommissionRotation } from './utils/commissionRotation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +68,24 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
+// Next commission rotation date (public — used by frontend timer)
+app.get('/api/commission/next-rotation', (req, res) => {
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 5, 0);
+    res.json({ success: true, nextRotation: next.toISOString() });
+});
+
+// Manual commission rotation trigger (owner only)
+import { protect, authorize } from './middleware/auth.js';
+app.post('/api/commission/trigger-rotation', protect, authorize('owner'), async (req, res) => {
+    try {
+        await runMonthlyCommissionRotation();
+        res.json({ success: true, message: 'Commission rotation completed successfully.' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 // Serve frontend for all other routes (only in development)
 if (process.env.NODE_ENV !== 'production') {
   app.get('*', (req, res) => {
@@ -96,3 +116,9 @@ app.listen(PORT, () => {
     console.log(`📱 Frontend: http://localhost:${PORT}`);
     console.log(`🔌 API: http://localhost:${PORT}/api\n`);
 });
+
+// Cron: 1st of every month at 00:05 — rotate commissions from leaderboard
+cron.schedule('5 0 1 * *', async () => {
+  console.log('[Cron] Monthly commission rotation triggered.');
+  await runMonthlyCommissionRotation();
+}, { timezone: 'Europe/Bucharest' });

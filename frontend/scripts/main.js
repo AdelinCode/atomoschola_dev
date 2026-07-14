@@ -408,6 +408,10 @@ function showLeaderboardModal() {
                         <div>
                             <div style="font-size:22px; font-weight:800; color:#111; letter-spacing:-0.5px;">Leaderboard</div>
                             <div style="font-size:13px; color:#aaa; margin-top:4px;">Top contributors by score</div>
+                            <div id="lbTimer" style="margin-top:6px; font-size:12px; color:#888; display:flex; align-items:center; gap:5px;">
+                                <i class="fas fa-clock" style="font-size:11px;"></i>
+                                <span id="lbTimerText">Loading...</span>
+                            </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
                             <button onclick="toggleScoreInfo()" style="background:#f5f5f5; border:none; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; color:#666; display:flex; align-items:center; gap:5px;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f5f5f5'">
@@ -445,10 +449,48 @@ function showLeaderboardModal() {
     }
     modal.style.display = 'flex';
     loadLeaderboard();
+    startLbTimer();
 
     modal.addEventListener('click', function(e) {
         if (e.target === modal) modal.style.display = 'none';
     });
+}
+
+// Countdown timer until next commission rotation (1st of next month)
+let _lbTimerInterval = null;
+
+function startLbTimer() {
+    const el = document.getElementById('lbTimerText');
+    if (!el) return;
+
+    // Clear any existing interval
+    if (_lbTimerInterval) clearInterval(_lbTimerInterval);
+
+    function getNextRotation() {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 5, 0);
+    }
+
+    function formatCountdown(ms) {
+        if (ms <= 0) return 'Rotation imminent';
+        const d = Math.floor(ms / 86400000);
+        const h = Math.floor((ms % 86400000) / 3600000);
+        const m = Math.floor((ms % 3600000) / 60000);
+        const s = Math.floor((ms % 60000) / 1000);
+        if (d > 0) return `Next rotation in ${d}d ${h}h ${m}m`;
+        if (h > 0) return `Next rotation in ${h}h ${m}m ${s}s`;
+        return `Next rotation in ${m}m ${s}s`;
+    }
+
+    function tick() {
+        const el = document.getElementById('lbTimerText');
+        if (!el) { clearInterval(_lbTimerInterval); return; }
+        const ms = getNextRotation() - Date.now();
+        el.textContent = formatCountdown(ms);
+    }
+
+    tick();
+    _lbTimerInterval = setInterval(tick, 1000);
 }
 
 window.switchLbTab = function(tab) {
