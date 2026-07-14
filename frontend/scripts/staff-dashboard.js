@@ -279,6 +279,10 @@ async function openEditModal(lessonId) {
         editTags = l.tags || [];
         renderEditTags();
 
+        // Load attachments
+        editAttachments = (l.attachments || []).map(a => ({ ...a }));
+        renderEditAttachments();
+
         const modal = document.getElementById('editLessonModal');
         modal.style.display = 'flex';
     } catch (e) {
@@ -302,7 +306,8 @@ async function saveLesson() {
         isPremium: document.getElementById('editIsPremium').checked,
         language: document.getElementById('editLanguage').value,
         level: document.getElementById('editLevel').value,
-        tags: editTags
+        tags: editTags,
+        attachments: editAttachments
     };
 
     try {
@@ -666,3 +671,60 @@ function removeEditTag(tag) {
 }
 
 window.removeEditTag = removeEditTag;
+
+// ---- Edit Modal Attachments ----
+
+let editAttachments = [];
+
+function renderEditAttachments() {
+    const container = document.getElementById('editAttachmentsList');
+    if (!container) return;
+
+    if (!editAttachments.length) {
+        container.innerHTML = '<p style="font-size:13px; color:#aaa; font-style:italic;">No attachments yet</p>';
+        return;
+    }
+
+    const iconMap = {
+        document: 'fa-file-word', pdf: 'fa-file-pdf', spreadsheet: 'fa-file-excel',
+        presentation: 'fa-file-powerpoint', image: 'fa-file-image', video: 'fa-file-video', other: 'fa-paperclip'
+    };
+    const colorMap = {
+        document: '#2b579a', pdf: '#e74c3c', spreadsheet: '#217346',
+        presentation: '#d04423', image: '#e67e22', video: '#8e44ad', other: '#6c757d'
+    };
+
+    container.innerHTML = editAttachments.map((att, i) => `
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-primary); border-radius:6px;">
+            <i class="fas ${iconMap[att.type] || 'fa-paperclip'}" style="color:${colorMap[att.type] || '#6c757d'}; font-size:18px; width:20px; text-align:center;"></i>
+            <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${att.name}</div>
+                <a href="${att.url}" target="_blank" style="font-size:11px; color:#17a2b8; text-decoration:none; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${att.url}</a>
+            </div>
+            <button onclick="removeEditAttachment(${i})" style="background:none; border:none; color:#dc3545; cursor:pointer; font-size:18px; flex-shrink:0;" title="Remove">&times;</button>
+        </div>
+    `).join('');
+}
+
+function addEditAttachment() {
+    const name = document.getElementById('editAttachmentName').value.trim();
+    const url  = document.getElementById('editAttachmentUrl').value.trim();
+    const type = document.getElementById('editAttachmentType').value;
+
+    if (!name || !url) return alert('Please fill in both the file name and URL.');
+
+    editAttachments.push({ name, url, type });
+    renderEditAttachments();
+
+    document.getElementById('editAttachmentName').value = '';
+    document.getElementById('editAttachmentUrl').value = '';
+    document.getElementById('editAttachmentType').value = 'document';
+}
+
+function removeEditAttachment(index) {
+    editAttachments.splice(index, 1);
+    renderEditAttachments();
+}
+
+window.addEditAttachment = addEditAttachment;
+window.removeEditAttachment = removeEditAttachment;
