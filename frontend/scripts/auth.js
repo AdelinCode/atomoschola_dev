@@ -14,7 +14,6 @@ function setupAuthEventListeners() {
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', handleRegister);
-        setupAccountTypeSelection();
     }
 }
 
@@ -69,23 +68,17 @@ async function handleRegister(e) {
         return;
     }
     
-    if (!data.accountType) {
-        showMessage('Please select an account type.', 'error');
-        return;
-    }
-    
     const submitBtn = e.target.querySelector('button[type="submit"]');
     showLoading(submitBtn);
     
     try {
         const userData = {
-            username: data.username || null, // Allow empty username
+            username: data.username || null,
             email: data.email,
             password: data.password,
             firstName: data.firstName,
             lastName: data.lastName,
-            userType: data.accountType,
-            inviteCode: data.inviteCode
+            userType: 'user'
         };
         
         const response = await window.API.auth.register(userData);
@@ -102,37 +95,6 @@ async function handleRegister(e) {
     }
 }
 
-function setupAccountTypeSelection() {
-    const accountTypeOptions = document.querySelectorAll('.account-type-option');
-    const accountTypeInput = document.getElementById('accountType');
-    const inviteCodeGroup = document.getElementById('inviteCodeGroup');
-    
-    accountTypeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove selected class from all options
-            accountTypeOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Add selected class to clicked option
-            this.classList.add('selected');
-            
-            // Update hidden input value
-            if (accountTypeInput) {
-                accountTypeInput.value = this.dataset.type;
-            }
-            
-            // Show/hide invite code field
-            if (inviteCodeGroup) {
-                if (this.dataset.type === 'creator' || this.dataset.type === 'editor') {
-                    inviteCodeGroup.style.display = 'block';
-                    document.getElementById('inviteCode').required = true;
-                } else {
-                    inviteCodeGroup.style.display = 'none';
-                    document.getElementById('inviteCode').required = false;
-                }
-            }
-        });
-    });
-}
 
 
 
