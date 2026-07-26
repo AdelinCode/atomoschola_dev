@@ -28,6 +28,10 @@ function initializeApp() {
         // Hide guest-only CTA section
         const ctaSection = document.getElementById('ctaSection');
         if (ctaSection) ctaSection.style.display = 'none';
+        // Hide footer register link when logged in
+        const footerRegisterLink = document.getElementById('footerRegisterLink')
+            || document.querySelector('.site-footer a[href="register.html"]');
+        if (footerRegisterLink) footerRegisterLink.style.display = 'none';
     } else {
         currentUser = null;
         renderGuestNav();
@@ -1098,6 +1102,7 @@ function closeMobileNav() {
 
 function buildMobilePanel(panel) {
     const currentPath = window.location.pathname;
+    const isDark = document.documentElement.classList.contains('dark-mode');
 
     // Search bar
     let html = `
@@ -1174,8 +1179,7 @@ function buildMobilePanel(panel) {
         `;
     }
 
-    // Theme toggle at bottom
-    const isDark = document.documentElement.classList.contains('dark-mode');
+    // Theme toggle — always last
     html += `
         <div class="mobile-nav-section">
             <button class="mobile-nav-item" onclick="if(window.themeManager){window.themeManager.toggleTheme();this.querySelector('i').className='fas fa-'+(document.documentElement.classList.contains('dark-mode')?'sun':'moon');this.querySelector('span').textContent=document.documentElement.classList.contains('dark-mode')?'Light Mode':'Dark Mode';}">
