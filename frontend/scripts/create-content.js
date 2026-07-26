@@ -373,26 +373,24 @@ async function handleLessonSubmit(e) {
                 alert('Error creating lesson: ' + response.message);
             }
         } else {
+            // Submit for peer review
             const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-            const response = await fetch(`${apiUrl}/pending-requests`, {
+            const response = await fetch(`${apiUrl}/lesson-reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${window.API.getToken()}`
                 },
-                body: JSON.stringify({
-                    type: 'lesson',
-                    data: lessonData
-                })
+                body: JSON.stringify({ lessonData })
             });
             
             const result = await response.json();
             
             if (result.success) {
-                alert('Lesson request submitted for approval! The owner will review it soon.');
-                window.location.href = 'index.html';
+                alert('Lesson submitted for peer review! Editors can now join your review panel from the Review Dashboard.');
+                window.location.href = 'lesson-review.html';
             } else {
-                alert('Error submitting request: ' + result.message);
+                alert('Error submitting for review: ' + result.message);
             }
         }
     } catch (error) {

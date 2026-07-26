@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Review Dashboard - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .review-container { max-width: 1100px; margin: 90px auto 60px; padding: 0 20px; }
+        .review-tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 2px solid var(--border-primary); }
+        .review-tab {
+            padding: 10px 22px; border: none; background: none; font-size: 15px;
+            font-weight: 600; cursor: pointer; color: var(--text-secondary);
+            border-bottom: 3px solid transparent; margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .review-tab.active { color: var(--text-primary); border-bottom-color: #17a2b8; }
+        .review-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .review-card:hover { box-shadow: 0 4px 16px var(--shadow-light); }
+        .review-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 12px; }
+        .review-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+        .review-meta { font-size: 13px; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: 12px; }
+        .review-meta span { display: flex; align-items: center; gap: 5px; }
+        .status-badge {
+            padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            white-space: nowrap;
+        }
+        .status-under_review { background: #fff3cd; color: #856404; }
+        .status-published     { background: #d4edda; color: #155724; }
+        .status-rejected      { background: #f8d7da; color: #721c24; }
+        .panel-info { display: flex; align-items: center; gap: 8px; margin: 14px 0; font-size: 14px; color: var(--text-secondary); }
+        .panel-bar { flex: 1; height: 6px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; }
+        .panel-bar-fill { height: 100%; background: #17a2b8; border-radius: 3px; transition: width 0.3s; }
+        .vote-bar { display: flex; gap: 4px; margin: 8px 0; }
+        .vote-slot { height: 8px; flex: 1; border-radius: 4px; background: var(--bg-tertiary); }
+        .vote-slot.yes { background: #28a745; }
+        .vote-slot.no  { background: #dc3545; }
+        .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+        .btn-join    { background: #17a2b8; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-leave   { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-primary); padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; }
+        .btn-vote-yes  { background: #28a745; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-vote-no   { background: #dc3545; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-open-vote { background: #6f42c1; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-staff-approve { background: #28a745; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-staff-reject  { background: #dc3545; color: white; border: none; padding: 8px 18px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .lesson-description { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+        .session-box { background: var(--bg-tertiary); border-radius: 8px; padding: 14px; margin-top: 14px; }
+        .session-box-title { font-weight: 700; font-size: 14px; color: var(--text-primary); margin-bottom: 10px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .empty-state i { font-size: 48px; margin-bottom: 16px; color: var(--border-secondary); }
+        .discord-note { background: #5865F222; border: 1px solid #5865F2; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+        .discord-note i { color: #5865F2; font-size: 18px; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.jpeg" alt="Atomo Schola" style="height:50px; vertical-align:middle;">
+                <span>Atomo Schola</span>
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <nav class="nav-menu" id="navMenu"></nav>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<main class="review-container">
+    <h1 style="margin-bottom:8px;"><i class="fas fa-clipboard-check" style="color:#17a2b8;"></i> Lesson Review Dashboard</h1>
+    <p style="color:var(--text-secondary); margin-bottom:24px;">Prototype lessons awaiting peer review. Join a panel, discuss, and vote.</p>
+
+    <div class="review-tabs">
+        <button class="review-tab active" onclick="switchTab('under_review', this)">
+            <i class="fas fa-clock"></i> Under Review <span id="countUnderReview" style="background:#17a2b8;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px;">0</span>
+        </button>
+        <button class="review-tab" onclick="switchTab('mine', this)">
+            <i class="fas fa-user"></i> My Submissions
+        </button>
+        <button class="review-tab" id="tabAll" style="display:none;" onclick="switchTab('all', this)">
+            <i class="fas fa-list"></i> All (Staff)
+        </button>
+    </div>
+
+    <div id="reviewList">
+        <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>
+    </div>
+</main>
+
+<script src="scripts/config.js"></script>
+<script src="scripts/api.js"></script>
+<script src="scripts/search.js"></script>
+<script src="scripts/notifications.js"></script>
+<script src="scripts/theme.js"></script>
+<script src="scripts/main.js"></script>
+<script>
+const API_URL = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+let lrCurrentUser = null;
+let currentTab = 'under_review';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    lrCurrentUser = window.API.getUser();
+    if (!lrCurrentUser) { window.location.href = 'login.html'; return; }
+
+    const allowed = ['editor','creator','staff','owner'];
+    if (!allowed.includes(lrCurrentUser.userType)) {
+        document.querySelector('.review-container').innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-lock"></i>
+                <h3>Access Denied</h3>
+                <p>You need at least Editor rank to access this dashboard.</p>
+            </div>`;
+        return;
+    }
+
+    if (['staff','owner'].includes(lrCurrentUser.userType)) {
+        document.getElementById('tabAll').style.display = '';
+    }
+
+    await loadReviews('under_review');
+});
+
+function switchTab(tab, el) {
+    document.querySelectorAll('.review-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    currentTab = tab;
+    loadReviews(tab);
+}
+
+async function loadReviews(tab) {
+    const list = document.getElementById('reviewList');
+    list.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>';
+
+    try {
+        const url = tab === 'mine'
+            ? `${API_URL}/lesson-reviews/mine`
+            : `${API_URL}/lesson-reviews?status=${tab === 'all' ? 'all' : 'under_review'}`;
+
+        const res = await fetch(url, { headers: { Authorization: `Bearer ${window.API.getToken()}` } });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message);
+
+        const reviews = data.data;
+        if (tab === 'under_review') document.getElementById('countUnderReview').textContent = reviews.length;
+
+        if (!reviews.length) {
+            list.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><p>No lessons here yet.</p></div>`;
+            return;
+        }
+
+        list.innerHTML = reviews.map(r => renderCard(r)).join('');
+    } catch (e) {
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Error: ${e.message}</p></div>`;
+    }
+}
+
+function renderCard(r) {
+    const ld = r.lessonData || {};
+    const panelSize = r.panel?.length || 0;
+    const creatorName = r.creator?.firstName ? `${r.creator.firstName} ${r.creator.lastName}` : r.creator?.username || 'Unknown';
+    const isCreator = r.creator?._id === currentUser._id || r.creator === currentUser._id;
+    const inPanel = r.panel?.some(p => (p._id || p) === currentUser._id);
+    const isStaff = ['staff','owner'].includes(currentUser.userType);
+
+    // Current open session
+    const openSession = r.voteSessions?.find(s => s.status === 'open');
+    const myVote = openSession?.votes?.find(v => (v.editor?._id || v.editor) === currentUser._id);
+
+    let sessionHtml = '';
+    if (openSession) {
+        const yes = openSession.yesCount || 0;
+        const no  = openSession.noCount  || 0;
+        const total = openSession.votes?.length || 0;
+        const slots = Array(7).fill(0).map((_, i) => {
+            const vote = openSession.votes?.[i];
+            const cls = vote ? (vote.vote === 'yes' ? 'yes' : 'no') : '';
+            return `<div class="vote-slot ${cls}"></div>`;
+        }).join('');
+
+        sessionHtml = `
+            <div class="session-box">
+                <div class="session-box-title"><i class="fas fa-vote-yea" style="color:#6f42c1;"></i> Vote Session Open</div>
+                <div style="font-size:13px; color:var(--text-secondary); margin-bottom:8px;">
+                    ${yes} YES · ${no} NO · ${total}/${panelSize} voted · Need 7 YES to approve
+                </div>
+                <div class="vote-bar">${slots}</div>
+                ${inPanel && !myVote ? `
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button class="btn-vote-yes" onclick="castVote('${r._id}','${openSession._id}','yes')"><i class="fas fa-check"></i> Yes</button>
+                        <button class="btn-vote-no"  onclick="castVote('${r._id}','${openSession._id}','no')"><i class="fas fa-times"></i> No</button>
+                    </div>
+                ` : inPanel && myVote ? `<div style="font-size:13px;color:var(--text-secondary);margin-top:8px;"><i class="fas fa-check-circle"></i> You voted <strong>${myVote.vote.toUpperCase()}</strong></div>` : ''}
+            </div>`;
+    }
+
+    // Last rejected session summary
+    const lastRejected = [...(r.voteSessions || [])].reverse().find(s => s.status === 'rejected');
+    if (!openSession && lastRejected) {
+        sessionHtml = `<div class="session-box" style="border-left:3px solid #dc3545;">
+            <div class="session-box-title" style="color:#dc3545;"><i class="fas fa-times-circle"></i> Last Vote: Rejected</div>
+            <div style="font-size:13px;color:var(--text-secondary);">${lastRejected.yesCount} YES · ${lastRejected.noCount} NO · Discussion can continue.</div>
+        </div>`;
+    }
+
+    const actions = [];
+    if (r.status === 'under_review') {
+        if (!isCreator && !isStaff) {
+            if (inPanel)
+                actions.push(`<button class="btn-leave" onclick="togglePanel('${r._id}')"><i class="fas fa-sign-out-alt"></i> Leave Panel</button>`);
+            else if (panelSize < 9)
+                actions.push(`<button class="btn-join" onclick="togglePanel('${r._id}')"><i class="fas fa-plus"></i> Join Review Panel</button>`);
+        }
+        if (isCreator && !openSession)
+            actions.push(`<button class="btn-open-vote" onclick="openVote('${r._id}')"><i class="fas fa-gavel"></i> Open Vote Session</button>`);
+        if (isStaff) {
+            actions.push(`<button class="btn-staff-approve" onclick="staffAction('${r._id}','approve')"><i class="fas fa-check"></i> Approve</button>`);
+            actions.push(`<button class="btn-staff-reject"  onclick="staffAction('${r._id}','reject')"><i class="fas fa-times"></i> Reject</button>`);
+        }
+    }
+
+    return `
+    <div class="review-card" id="card-${r._id}">
+        <div class="review-card-header">
+            <div style="flex:1;">
+                <div class="review-title">${ld.title || 'Untitled'}</div>
+                <div class="review-meta">
+                    <span><i class="fas fa-user"></i> ${creatorName}</span>
+                    <span><i class="fas fa-tag"></i> ${ld.type || 'text'}</span>
+                    <span><i class="fas fa-calendar"></i> ${new Date(r.createdAt).toLocaleDateString()}</span>
+                    <span><i class="fas fa-language"></i> ${ld.language || '—'}</span>
+                    <span><i class="fas fa-signal"></i> ${ld.level || '—'}</span>
+                </div>
+            </div>
+            <span class="status-badge status-${r.status}">${r.status.replace('_',' ')}</span>
+        </div>
+
+        ${ld.description ? `<p class="lesson-description">${ld.description}</p>` : ''}
+
+        <div class="panel-info">
+            <i class="fas fa-users" style="color:#17a2b8;"></i>
+            <span>Review Panel: <strong>${panelSize}/9</strong></span>
+            <div class="panel-bar"><div class="panel-bar-fill" style="width:${(panelSize/9)*100}%;"></div></div>
+        </div>
+
+        ${sessionHtml}
+
+        <div class="discord-note">
+            <i class="fab fa-discord"></i>
+            Discussion happens on the platform Discord server in a private channel coordinated by the creator.
+        </div>
+
+        ${actions.length ? `<div class="actions">${actions.join('')}</div>` : ''}
+    </div>`;
+}
+
+async function togglePanel(reviewId) {
+    try {
+        const res = await fetch(`${API_URL}/lesson-reviews/${reviewId}/join`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${window.API.getToken()}` }
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message);
+        await loadReviews(currentTab);
+    } catch (e) { alert('Error: ' + e.message); }
+}
+
+async function openVote(reviewId) {
+    if (!confirm('Open a vote session? All current panel editors will be notified to vote.')) return;
+    try {
+        const res = await fetch(`${API_URL}/lesson-reviews/${reviewId}/open-vote`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${window.API.getToken()}` }
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message);
+        await loadReviews(currentTab);
+    } catch (e) { alert('Error: ' + e.message); }
+}
+
+async function castVote(reviewId, sessionId, vote) {
+    try {
+        const res = await fetch(`${API_URL}/lesson-reviews/${reviewId}/vote/${sessionId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${window.API.getToken()}` },
+            body: JSON.stringify({ vote })
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message);
+        if (data.result === 'approved') alert('Lesson APPROVED! It is now published.');
+        else if (data.result === 'rejected') alert('Vote session closed — not enough YES votes. Discussion can continue.');
+        await loadReviews(currentTab);
+    } catch (e) { alert('Error: ' + e.message); }
+}
+
+async function staffAction(reviewId, action) {
+    const note = action === 'reject' ? prompt('Reason for rejection (optional):') : null;
+    if (note === null && action === 'reject') return;
+    try {
+        const res = await fetch(`${API_URL}/lesson-reviews/${reviewId}/staff-${action}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${window.API.getToken()}` },
+            body: JSON.stringify({ note: note || '' })
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message);
+        alert(`Lesson ${action}d successfully.`);
+        await loadReviews(currentTab);
+    } catch (e) { alert('Error: ' + e.message); }
+}
+</script>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="footer-brand-name"><i class="fas fa-atom"></i> Atomo Schola</div>
+            <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+            <div class="footer-social">
+                <a href="https://discord.gg/hCQrmYccWf" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <div class="footer-col-title">Explore</div>
+            <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+            <a href="steam.html"><i class="fas fa-chevron-right"></i> STEM</a>
+            <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+        </div>
+        <div class="footer-col">
+            <div class="footer-col-title">Community</div>
+            <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+            <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+        </div>
+        <div class="footer-col">
+            <div class="footer-col-title">Platform</div>
+            <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> How It Works</a>
+            <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+        <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
+    </div>
+</footer>
+</body>
+</html>

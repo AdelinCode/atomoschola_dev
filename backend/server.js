@@ -20,6 +20,7 @@ import editorCommissionRoutes from './routes/editorCommission.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import passwordResetRoutes from './routes/password-reset.js';
 import reportsRoutes from './routes/reports.js';
+import lessonReviewRoutes from './routes/lessonReview.js';
 import { runMonthlyCommissionRotation } from './utils/commissionRotation.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,6 +63,7 @@ app.use('/api/editor-commission', editorCommissionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/password-reset', passwordResetRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/lesson-reviews', lessonReviewRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -167,6 +167,7 @@ function renderAuthenticatedNav() {
 
         if (['creator', 'editor', 'staff', 'owner'].includes(currentUser.userType)) {
             dashboardItems += `<a href="create-content.html"><i class="fas fa-plus-circle"></i> Create Content</a>`;
+            dashboardItems += `<a href="lesson-review.html"><i class="fas fa-clipboard-check"></i> Review Dashboard</a>`;
         }
         if (currentUser.userType === 'staff') {
             dashboardItems += `<a href="staff-dashboard.html"><i class="fas fa-tasks"></i> Staff Dashboard</a>`;
@@ -1141,6 +1142,8 @@ function buildMobilePanel(panel) {
             html += `<div class="mobile-nav-section-label" style="margin-top:8px;">Dashboard</div>`;
             if (['creator','editor','staff','owner'].includes(currentUser.userType))
                 html += `<a href="create-content.html" class="mobile-nav-item"><i class="fas fa-plus-circle"></i> Create Content</a>`;
+            if (['creator','editor','staff','owner'].includes(currentUser.userType))
+                html += `<a href="lesson-review.html" class="mobile-nav-item"><i class="fas fa-clipboard-check"></i> Review Dashboard</a>`;
             if (currentUser.userType === 'staff')
                 html += `<a href="staff-dashboard.html" class="mobile-nav-item"><i class="fas fa-tasks"></i> Staff Dashboard</a>`;
             if (currentUser.isCreatorCommissionMember)
