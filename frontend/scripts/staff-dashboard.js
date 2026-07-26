@@ -221,14 +221,22 @@ async function searchLessonsForEdit() {
 
     try {
         const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-        const url = query
-            ? `${apiUrl}/search?q=${encodeURIComponent(query)}&type=lesson`
-            : `${apiUrl}/lessons?status=published`;
-        const response = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
-        });
-        const data = await response.json();
-        const lessons = data.data || data.results || [];
+        let lessons = [];
+
+        if (query) {
+            const response = await fetch(`${apiUrl}/search?q=${encodeURIComponent(query)}`, {
+                headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+            });
+            const data = await response.json();
+            lessons = (data.data && data.data.lessons) ? data.data.lessons : [];
+        } else {
+            const response = await fetch(`${apiUrl}/lessons?status=published`, {
+                headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+            });
+            const data = await response.json();
+            lessons = data.data || [];
+        }
+
         renderEditLessonsList(lessons.slice(0, 20));
     } catch (e) {
         list.innerHTML = '<p style="color:#dc3545; font-size:14px;">Error loading lessons</p>';
