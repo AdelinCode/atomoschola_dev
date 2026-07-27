@@ -20,11 +20,12 @@
             margin-bottom: 30px;
         }
         .dashboard-card {
-            background: white;
+            background: var(--bg-primary);
             border-radius: 12px;
             padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px var(--shadow-light);
             margin-bottom: 20px;
+            border: 1px solid var(--border-primary);
         }
         .dashboard-card h3 {
             margin-bottom: 16px;
@@ -34,7 +35,7 @@
             display: flex;
             gap: 12px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid var(--border-primary);
         }
         .tab {
             padding: 12px 24px;
@@ -43,7 +44,7 @@
             border-bottom: 3px solid transparent;
             cursor: pointer;
             font-weight: 600;
-            color: #666;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
         }
         .tab.active {
@@ -77,6 +78,61 @@
         .vote-btn.yes:hover {
             background: #218838;
             transform: translateY(-2px);
+        }
+        .edit-detail {
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #6f42c1;
+        }
+        .edit-detail strong,
+        .edit-detail div {
+            color: var(--text-primary) !important;
+        }
+        .approved-edit-item {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #28a745;
+        }
+
+        /* Dark mode overrides for dynamically rendered cards */
+        .dark-mode #pendingProposalsList > div,
+        .dark-mode #approvedEditsList > div {
+            background: var(--bg-secondary) !important;
+        }
+        .dark-mode #pendingProposalsList h4,
+        .dark-mode #approvedEditsList .approved-edit-item div[style*="color: #333"],
+        .dark-mode #pendingProposalsList span[style*="color: #999"],
+        .dark-mode #pendingProposalsList span[style*="color: #666"] {
+            color: var(--text-primary) !important;
+        }
+        .dark-mode [style*="background: #f8f9fa"],
+        .dark-mode [style*="background:#f8f9fa"] {
+            background: var(--bg-secondary) !important;
+        }
+        .dark-mode [style*="background: #f0f0f0"],
+        .dark-mode [style*="background:#f0f0f0"] {
+            background: var(--bg-tertiary) !important;
+            border: 1px solid var(--border-primary);
+        }
+        .dark-mode [style*="color: #333"],
+        .dark-mode [style*="color:#333"] {
+            color: var(--text-primary) !important;
+        }
+        .dark-mode [style*="color: #666"],
+        .dark-mode [style*="color:#666"] {
+            color: var(--text-secondary) !important;
+        }
+        .dark-mode [style*="color: #999"],
+        .dark-mode [style*="color:#999"] {
+            color: var(--text-secondary) !important;
+        }
+        .dark-mode [style*="background: #e0e0e0"],
+        .dark-mode [style*="background:#e0e0e0"] {
+            background: var(--bg-accent) !important;
         }
         .vote-btn.no {
             background: #dc3545;

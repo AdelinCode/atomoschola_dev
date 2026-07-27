@@ -64,11 +64,14 @@ async function loadPendingProposals() {
 
         if (data.success) {
             displayPendingProposals(data.data);
+        } else {
+            document.getElementById('pendingProposalsList').innerHTML =
+                '<p style="text-align: center; color: #dc3545;">Error loading proposals</p>';
         }
     } catch (error) {
         console.error('Error loading proposals:', error);
-        document.getElementById('pendingProposalsList').innerHTML = 
-            '<p style="text-align: center; color: #dc3545;">Error loading proposals</p>';
+        document.getElementById('pendingProposalsList').innerHTML =
+            `<p style="text-align: center; color: #dc3545;">Error loading proposals: ${error.message}</p>`;
     }
 }
 
@@ -76,7 +79,7 @@ function displayPendingProposals(proposals) {
     const list = document.getElementById('pendingProposalsList');
     const badge = document.getElementById('pendingBadge');
     const currentUser = window.API.getUser();
-    
+
     badge.textContent = proposals.length;
 
     if (proposals.length === 0) {
@@ -84,97 +87,100 @@ function displayPendingProposals(proposals) {
         return;
     }
 
-    list.innerHTML = proposals.map(proposal => {
-        // Check if current user has voted
-        const userVote = proposal.votes.find(v => v.user._id === currentUser._id);
-        const hasVoted = !!userVote;
-        
-        // Count votes
-        const yesVotes = proposal.votes.filter(v => v.vote === 'yes').length;
-        const noVotes = proposal.votes.filter(v => v.vote === 'no').length;
-        const totalVotes = proposal.votes.length;
+    try {
+        list.innerHTML = proposals.map(proposal => {
+            // Check if current user has voted
+            const userVote = proposal.votes.find(v =>
+                v.user && (v.user._id?.toString() === currentUser._id?.toString() || v.user === currentUser._id)
+            );
+            const hasVoted = !!userVote;
 
-        return `
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 16px; border-left: 4px solid #6f42c1;">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
-                    <div style="flex: 1;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <span style="background: #6f42c1; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
-                                <i class="fas fa-edit"></i> EDIT PROPOSAL
-                            </span>
-                            <span style="color: #666; font-size: 14px;">
-                                by <strong>${proposal.proposedBy.username}</strong>
-                            </span>
-                            <span style="color: #999; font-size: 12px;">
-                                ${new Date(proposal.createdAt).toLocaleDateString()}
-                            </span>
-                        </div>
-                        
-                        <h4 style="margin: 12px 0 16px 0; color: #333;">3 Proposed Edits:</h4>
-                        
-                        ${proposal.edits.map((edit, index) => {
-                            const lessonPath = edit.lesson.category && edit.lesson.category.domain && edit.lesson.category.domain.subject
-                                ? `${edit.lesson.category.domain.subject.name} → ${edit.lesson.category.domain.name} → ${edit.lesson.category.name} → ${edit.lesson.title}`
-                                : edit.lesson.title;
-                            
-                            return `
-                            <div class="edit-detail">
-                                <div style="font-weight: 600; color: #333; margin-bottom: 4px;">
-                                    <span style="background: #6f42c1; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; margin-right: 8px;">${index + 1}</span>
-                                    ${lessonPath}
-                                </div>
-                                <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
-                                    <strong>Description:</strong> ${edit.editDescription}
-                                </div>
-                                <div style="font-size: 14px; color: #666;">
-                                    <strong>Content:</strong> ${edit.editContent.substring(0, 150)}${edit.editContent.length > 150 ? '...' : ''}
-                                </div>
-                            </div>
-                        `}).join('')}
-                        
-                        <!-- Vote Progress -->
-                        <div style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span style="font-size: 14px; font-weight: 600; color: #333;">
-                                    Votes: ${totalVotes}/7
+            // Count votes
+            const yesVotes = proposal.votes.filter(v => v.vote === 'yes').length;
+            const noVotes = proposal.votes.filter(v => v.vote === 'no').length;
+            const totalVotes = proposal.votes.length;
+
+            return `
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 16px; border-left: 4px solid #6f42c1;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #6f42c1; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                                    <i class="fas fa-edit"></i> EDIT PROPOSAL
                                 </span>
-                                <div style="display: flex; gap: 16px; font-size: 14px;">
-                                    <span style="color: #28a745; font-weight: 600;">
-                                        <i class="fas fa-check"></i> ${yesVotes}
-                                    </span>
-                                    <span style="color: #dc3545; font-weight: 600;">
-                                        <i class="fas fa-times"></i> ${noVotes}
-                                    </span>
+                                <span style="color: #666; font-size: 14px;">
+                                    by <strong>${proposal.proposedBy?.username || 'Unknown'}</strong>
+                                </span>
+                                <span style="color: #999; font-size: 12px;">
+                                    ${new Date(proposal.createdAt).toLocaleDateString()}
+                                </span>
+                            </div>
+
+                            <h4 style="margin: 12px 0 16px 0; color: #333;">Proposed Edits (${proposal.edits.length}):</h4>
+
+                            ${proposal.edits.map((edit, index) => {
+                                const lesson = edit.lesson;
+                                const lessonPath = lesson?.category?.domain?.subject
+                                    ? `${lesson.category.domain.subject.name} → ${lesson.category.domain.name} → ${lesson.category.name} → ${lesson.title}`
+                                    : (lesson?.title || 'Unknown lesson');
+                                const content = edit.editContent || '';
+
+                                return `
+                                <div class="edit-detail">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 4px;">
+                                        <span style="background: #6f42c1; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; margin-right: 8px;">${index + 1}</span>
+                                        ${lessonPath}
+                                    </div>
+                                    <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                                        <strong>Description:</strong> ${edit.editDescription || '—'}
+                                    </div>
+                                    <div style="font-size: 14px; color: #666;">
+                                        <strong>Content:</strong> ${content.substring(0, 150)}${content.length > 150 ? '...' : ''}
+                                    </div>
+                                </div>
+                            `}).join('')}
+
+                            <!-- Vote Progress -->
+                            <div style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-size: 14px; font-weight: 600; color: #333;">Votes: ${totalVotes}/7</span>
+                                    <div style="display: flex; gap: 16px; font-size: 14px;">
+                                        <span style="color: #28a745; font-weight: 600;"><i class="fas fa-check"></i> ${yesVotes}</span>
+                                        <span style="color: #dc3545; font-weight: 600;"><i class="fas fa-times"></i> ${noVotes}</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 4px;">
+                                    ${Array(7).fill(0).map((_, i) =>
+                                        `<div style="height: 6px; flex: 1; border-radius: 3px; background: ${i < totalVotes ? '#6f42c1' : '#e0e0e0'};"></div>`
+                                    ).join('')}
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 4px;">
-                                ${Array(7).fill(0).map((_, i) => 
-                                    `<div style="height: 6px; flex: 1; border-radius: 3px; background: ${i < totalVotes ? '#6f42c1' : '#e0e0e0'};"></div>`
-                                ).join('')}
-                            </div>
+
+                            ${hasVoted ? `
+                                <div style="margin-top: 12px; padding: 8px 12px; background: ${userVote.vote === 'yes' ? '#d4edda' : '#f8d7da'}; color: ${userVote.vote === 'yes' ? '#155724' : '#721c24'}; border-radius: 6px; font-size: 14px; font-weight: 600;">
+                                    <i class="fas fa-${userVote.vote === 'yes' ? 'check-circle' : 'times-circle'}"></i> You voted ${userVote.vote.toUpperCase()}
+                                </div>
+                            ` : ''}
                         </div>
-                        
-                        ${hasVoted ? `
-                            <div style="margin-top: 12px; padding: 8px 12px; background: ${userVote.vote === 'yes' ? '#d4edda' : '#f8d7da'}; color: ${userVote.vote === 'yes' ? '#155724' : '#721c24'}; border-radius: 6px; font-size: 14px; font-weight: 600;">
-                                <i class="fas fa-${userVote.vote === 'yes' ? 'check-circle' : 'times-circle'}"></i> You voted ${userVote.vote.toUpperCase()}
-                            </div>
-                        ` : ''}
                     </div>
+
+                    ${!hasVoted ? `
+                        <div class="vote-buttons">
+                            <button class="vote-btn yes" onclick="voteOnProposal('${proposal._id}', 'yes')">
+                                <i class="fas fa-check"></i> Vote YES
+                            </button>
+                            <button class="vote-btn no" onclick="voteOnProposal('${proposal._id}', 'no')">
+                                <i class="fas fa-times"></i> Vote NO
+                            </button>
+                        </div>
+                    ` : ''}
                 </div>
-                
-                ${!hasVoted ? `
-                    <div class="vote-buttons">
-                        <button class="vote-btn yes" onclick="voteOnProposal('${proposal._id}', 'yes')">
-                            <i class="fas fa-check"></i> Vote YES
-                        </button>
-                        <button class="vote-btn no" onclick="voteOnProposal('${proposal._id}', 'no')">
-                            <i class="fas fa-times"></i> Vote NO
-                        </button>
-                    </div>
-                ` : ''}
-            </div>
-        `;
-    }).join('');
+            `;
+        }).join('');
+    } catch (err) {
+        console.error('Error rendering proposals:', err);
+        list.innerHTML = `<p style="text-align: center; color: #dc3545;">Error rendering proposals: ${err.message}</p>`;
+    }
 }
 
 async function voteOnProposal(proposalId, vote) {
