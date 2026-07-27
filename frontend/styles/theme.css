@@ -97,6 +97,44 @@ body {
     font-size: 18px;
 }
 
+/* Theme toggle animations */
+@keyframes moon-spin {
+    0%   { transform: rotate(0deg) scale(1); }
+    40%  { transform: rotate(-30deg) scale(1.2); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes sun-pulse {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.theme-toggle-btn i.anim-moon {
+    animation: moon-spin 0.5s ease forwards;
+}
+
+.theme-toggle-btn i.anim-sun {
+    animation: sun-pulse 0.5s ease forwards;
+}
+
+/* Hover: icon stays in transformed state while cursor is over button, returns on mouseout */
+.theme-toggle-btn i {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    display: inline-block;
+}
+
+.theme-toggle-btn:hover i.fa-moon {
+    transform: rotate(-25deg) scale(1.2);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.theme-toggle-btn:hover i.fa-sun {
+    transform: scale(1.3);
+    opacity: 0.85;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
 /* Navigation */
 .nav-item {
     color: var(--text-primary) !important;

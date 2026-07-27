@@ -44,6 +44,8 @@ class ThemeManager {
         if (!toggleBtn) return;
 
         const icon = toggleBtn.querySelector('i');
+        // Preserve animation classes when updating icon
+        const animClasses = [...icon.classList].filter(c => c.startsWith('anim-'));
         if (this.currentTheme === 'dark') {
             icon.className = 'fas fa-sun';
             toggleBtn.setAttribute('title', 'Switch to Light Mode');
@@ -51,6 +53,7 @@ class ThemeManager {
             icon.className = 'fas fa-moon';
             toggleBtn.setAttribute('title', 'Switch to Dark Mode');
         }
+        animClasses.forEach(c => icon.classList.add(c));
     }
 
     setupThemeToggleListener() {
