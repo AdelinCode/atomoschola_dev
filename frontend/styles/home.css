@@ -658,3 +658,162 @@
         font-size: 12px;
     }
 }
+
+/* ============================================
+   PARTNERSHIP CARD — Net2077
+   ============================================ */
+
+.partnership-card {
+    position: relative;
+    border-radius: 18px;
+    padding: 2px;
+    background: linear-gradient(135deg, #0d1b3e 0%, #0a2a6e 40%, #0d1b3e 100%);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(10, 42, 110, 0.35);
+    transition: box-shadow 0.3s ease;
+}
+
+.partnership-card:hover {
+    box-shadow: 0 12px 48px rgba(30, 90, 200, 0.5);
+}
+
+/* animated glow border */
+.partnership-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        #1e5eff 60deg,
+        #00c8ff 120deg,
+        transparent 180deg,
+        transparent 360deg
+    );
+    animation: partnershipSpin 4s linear infinite;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+@keyframes partnershipSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.partnership-inner {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, #0b1730 0%, #0e2050 60%, #0b1730 100%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+/* Logo circle */
+.partnership-logo-wrap {
+    flex-shrink: 0;
+}
+
+.partnership-logo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #1a3a8f;
+    border: 2px solid #1e5eff;
+    box-shadow: 0 0 18px rgba(30, 94, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.partnership-card:hover .partnership-logo-circle {
+    box-shadow: 0 0 32px rgba(30, 94, 255, 0.85);
+}
+
+.partnership-logo-img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* Content */
+.partnership-content {
+    flex: 1;
+    min-width: 200px;
+}
+
+.partnership-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #1e5eff;
+    margin-bottom: 4px;
+}
+
+.partnership-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff !important;
+    margin: 0 0 8px;
+    letter-spacing: -0.3px;
+}
+
+.partnership-desc {
+    font-size: 14px;
+    color: #8ba4d4 !important;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 520px;
+}
+
+/* Button */
+.partnership-action {
+    flex-shrink: 0;
+}
+
+.partnership-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1e5eff 0%, #00c8ff 100%);
+    color: #ffffff !important;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: filter 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 16px rgba(30, 94, 255, 0.4);
+    white-space: nowrap;
+}
+
+.partnership-btn:hover {
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+}
+
+/* Dark mode keeps same dark-blue look — already dark */
+.dark-mode .partnership-card {
+    box-shadow: 0 8px 32px rgba(10, 42, 110, 0.6);
+}
+
+@media (max-width: 768px) {
+    .partnership-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 20px;
+        gap: 18px;
+    }
+
+    .partnership-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
