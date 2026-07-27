@@ -83,10 +83,13 @@ router.get('/requests', protect, authorize('staff', 'owner'), async (req, res) =
       .populate('processedBy', 'username email')
       .sort({ createdAt: -1 });
 
+    // Filter out requests where user was deleted
+    const validRequests = requests.filter(r => r.user != null);
+
     res.json({
       success: true,
-      count: requests.length,
-      data: requests
+      count: validRequests.length,
+      data: validRequests
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
