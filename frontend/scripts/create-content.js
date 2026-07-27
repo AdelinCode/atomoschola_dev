@@ -360,10 +360,11 @@ async function handleLessonSubmit(e) {
                 type: att.type
             })),
             creators: [user._id],
-            status: (user.userType === 'owner' || user.userType === 'staff') ? 'published' : 'pending_review'
+            status: user.userType === 'owner' ? 'published' : 'pending_review'
         };
         
-        if (user.userType === 'owner' || user.userType === 'staff') {
+        if (user.userType === 'owner') {
+            // Owner publishes directly
             const response = await window.API.lessons.create(lessonData);
             
             if (response.success) {
@@ -373,7 +374,7 @@ async function handleLessonSubmit(e) {
                 alert('Error creating lesson: ' + response.message);
             }
         } else {
-            // Submit for peer review
+            // Creator, editor, staff — all go through peer review
             const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
             const response = await fetch(`${apiUrl}/lesson-reviews`, {
                 method: 'POST',

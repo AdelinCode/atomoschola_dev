@@ -19,9 +19,9 @@ router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), asyn
   try {
     const user = req.user;
 
-    // Staff/owner bypass — create directly
-    if (['staff', 'owner'].includes(user.userType)) {
-      return res.status(400).json({ success: false, message: 'Staff and owners should use the direct lesson creation endpoint.' });
+    // Only owner can bypass — staff goes through review too
+    if (user.userType === 'owner') {
+      return res.status(400).json({ success: false, message: 'Owners should use the direct lesson creation endpoint.' });
     }
 
     // Daily limit: max 1 submission per calendar day per creator
