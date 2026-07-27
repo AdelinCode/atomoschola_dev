@@ -25,7 +25,7 @@ const notificationSchema = new mongoose.Schema({
   },
   relatedModel: {
     type: String,
-    enum: ['Lesson', 'Domain', 'Category', 'PendingRequest', 'Report', 'PasswordResetRequest']
+    enum: ['Lesson', 'Domain', 'Category', 'PendingRequest', 'Report', 'PasswordResetRequest', 'LessonReview']
   },
   isRead: {
     type: Boolean,

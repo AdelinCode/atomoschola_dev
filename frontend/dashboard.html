@@ -395,6 +395,25 @@
                 <p style="text-align: center; color: #6c757d;">Loading requests...</p>
             </div>
         </div>
+
+        <!-- Lesson Reviews (peer-review system) -->
+        <div class="dashboard-card" style="margin-top: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0;"><i class="fas fa-clipboard-check" style="color:#17a2b8;"></i> Lesson Reviews</h3>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span id="lessonReviewsCount" style="background: #17a2b8; color: white; padding: 4px 12px; border-radius: 12px; font-weight: 600; font-size: 14px;">0</span>
+                    <a href="lesson-review.html" style="background:var(--bg-secondary,#f5f5f5); border:1px solid var(--border-primary,#e0e0e0); color:var(--text-primary,#333); padding:5px 12px; border-radius:6px; font-size:13px; text-decoration:none; font-weight:600;">
+                        <i class="fas fa-external-link-alt"></i> Full Dashboard
+                    </a>
+                </div>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary,#888); margin-bottom:14px;">
+                Lessons submitted by creators/editors currently under peer review.
+            </p>
+            <div id="lessonReviewsList" style="max-height: 500px; overflow-y: auto;">
+                <p style="text-align: center; color: #6c757d;">Loading...</p>
+            </div>
+        </div>
     </main>
 
     <script src="scripts/config.js"></script>

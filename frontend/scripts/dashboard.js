@@ -56,6 +56,10 @@ function initDashboard() {
     
     // Refresh pending requests every 15 seconds
     setInterval(loadPendingRequests, 15000);
+
+    // Load lesson reviews (new peer-review system)
+    loadLessonReviews();
+    setInterval(loadLessonReviews, 20000);
 }
 
 // Load invite codes
@@ -581,3 +585,105 @@ async function rejectRequest(id) {
 // Make functions global for onclick handlers
 window.approveRequest = approveRequest;
 window.rejectRequest = rejectRequest;
+
+// ── Lesson Review System (new peer-review flow) ──────────────────────────────
+
+async function loadLessonReviews() {
+    const list = document.getElementById('lessonReviewsList');
+    if (!list) return;
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const res = await fetch(`${apiUrl}/lesson-reviews?status=under_review`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const data = await res.json();
+        const reviews = data.data || [];
+
+        const countEl = document.getElementById('lessonReviewsCount');
+        if (countEl) countEl.textContent = reviews.length;
+
+        if (!reviews.length) {
+            list.innerHTML = '<p style="text-align:center; color:#6c757d; padding:20px;">No lessons currently under peer review</p>';
+            return;
+        }
+
+        list.innerHTML = reviews.map(r => {
+            const ld = r.lessonData || {};
+            const creator = r.creator?.firstName
+                ? `${r.creator.firstName} ${r.creator.lastName}`
+                : r.creator?.username || 'Unknown';
+            const panelSize = r.panel?.length || 0;
+            const openSession = r.voteSessions?.find(s => s.status === 'open');
+            const yes = openSession?.yesCount || 0;
+            const no  = openSession?.noCount  || 0;
+
+            return `
+                <div style="background: var(--bg-tertiary,#f8f9fa); padding:16px; border-radius:8px; margin-bottom:12px; border-left:4px solid #17a2b8;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div style="flex:1;">
+                            <div style="font-weight:600; font-size:15px; color:var(--text-primary,#333); margin-bottom:4px;">
+                                ${ld.title || 'Untitled'}
+                            </div>
+                            <div style="font-size:13px; color:var(--text-secondary,#666);">
+                                by <strong>${creator}</strong> &bull;
+                                Submitted: ${new Date(r.createdAt).toLocaleDateString()} &bull;
+                                Panel: ${panelSize}/9 editors
+                            </div>
+                            ${openSession ? `
+                                <div style="margin-top:8px; font-size:13px; color:var(--text-secondary,#666);">
+                                    <i class="fas fa-vote-yea" style="color:#6f42c1;"></i>
+                                    Vote session open — ${yes} YES / ${no} NO
+                                </div>` : ''}
+                        </div>
+                        <div style="display:flex; gap:8px; flex-shrink:0; margin-left:12px;">
+                            <a href="lesson-review.html" style="background:#17a2b8; color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <button onclick="ownerApproveReview('${r._id}')" style="background:#28a745; color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button onclick="ownerRejectReview('${r._id}')" style="background:#dc3545; color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        const list = document.getElementById('lessonReviewsList');
+        if (list) list.innerHTML = `<p style="text-align:center; color:#dc3545;">Error: ${e.message}</p>`;
+    }
+}
+
+window.ownerApproveReview = async function(reviewId) {
+    if (!confirm('Approve this lesson directly? It will be published immediately.')) return;
+    const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+    try {
+        const res = await fetch(`${apiUrl}/lesson-reviews/${reviewId}/staff-approve`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${window.API.getToken()}` },
+            body: JSON.stringify({ note: 'Approved by owner.' })
+        });
+        const data = await res.json();
+        if (data.success) { alert('Lesson approved and published!'); loadLessonReviews(); loadContent(); }
+        else alert('Error: ' + data.message);
+    } catch (e) { alert('Error: ' + e.message); }
+};
+
+window.ownerRejectReview = async function(reviewId) {
+    const note = prompt('Reason for rejection (optional):');
+    if (note === null) return;
+    const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+    try {
+        const res = await fetch(`${apiUrl}/lesson-reviews/${reviewId}/staff-reject`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${window.API.getToken()}` },
+            body: JSON.stringify({ note: note || '' })
+        });
+        const data = await res.json();
+        if (data.success) { alert('Lesson rejected.'); loadLessonReviews(); }
+        else alert('Error: ' + data.message);
+    } catch (e) { alert('Error: ' + e.message); }
+};
