@@ -24,22 +24,24 @@ router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), asyn
       return res.status(400).json({ success: false, message: 'Owners should use the direct lesson creation endpoint.' });
     }
 
-    // Daily limit: max 1 submission per calendar day per creator
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
+    // Daily limit: max 1 submission per calendar day per creator (not staff)
+    if (user.userType !== 'staff') {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999);
 
-    const todayCount = await LessonReview.countDocuments({
-      creator: user._id,
-      createdAt: { $gte: startOfDay, $lte: endOfDay }
-    });
-
-    if (todayCount >= 1) {
-      return res.status(429).json({
-        success: false,
-        message: 'You can only submit 1 lesson for review per day. Try again tomorrow.'
+      const todayCount = await LessonReview.countDocuments({
+        creator: user._id,
+        createdAt: { $gte: startOfDay, $lte: endOfDay }
       });
+
+      if (todayCount >= 1) {
+        return res.status(429).json({
+          success: false,
+          message: 'You can only submit 1 lesson for review per day. Try again tomorrow.'
+        });
+      }
     }
 
     const review = await LessonReview.create({
