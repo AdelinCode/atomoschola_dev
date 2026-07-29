@@ -1199,6 +1199,70 @@ function buildMobilePanel(panel) {
 
 window.closeMobileNav = closeMobileNav;
 
+// ── Terms of Use Modal ────────────────────────────────────────────────────────
+
+function openTermsModal() {
+    let modal = document.getElementById('termsModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'termsModal';
+        modal.style.cssText = `
+            position:fixed; inset:0; background:rgba(0,0,0,0.65);
+            display:flex; align-items:center; justify-content:center;
+            z-index:10000; backdrop-filter:blur(3px);
+        `;
+        modal.innerHTML = `
+            <div style="
+                background:var(--bg-primary,#fff);
+                border-radius:14px;
+                width:90%; max-width:860px;
+                height:85vh;
+                display:flex; flex-direction:column;
+                box-shadow:0 16px 48px rgba(0,0,0,0.25);
+                overflow:hidden;
+                border:1px solid var(--border-primary,#e0e0e0);
+            ">
+                <div style="
+                    display:flex; justify-content:space-between; align-items:center;
+                    padding:16px 24px;
+                    border-bottom:1px solid var(--border-primary,#e0e0e0);
+                    background:var(--bg-secondary,#f8f9fa);
+                ">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="fas fa-file-contract" style="color:#17a2b8; font-size:18px;"></i>
+                        <span style="font-weight:700; font-size:16px; color:var(--text-primary,#212529);">Terms of Use — Atomo Schola</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <a href="public/AtomoScholaTermsofUse.pdf" download
+                           style="background:var(--bg-tertiary,#e9ecef); color:var(--text-primary,#333); border:none; padding:7px 14px; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        <button onclick="document.getElementById('termsModal').style.display='none'"
+                            style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-secondary,#888); line-height:1; padding:4px 8px;">&times;</button>
+                    </div>
+                </div>
+                <div style="flex:1; overflow:hidden;">
+                    <embed
+                        src="public/AtomoScholaTermsofUse.pdf"
+                        type="application/pdf"
+                        width="100%"
+                        height="100%"
+                        style="display:block; border:none;"
+                    />
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+    } else {
+        modal.style.display = 'flex';
+    }
+}
+
+window.openTermsModal = openTermsModal;
+
 // Export functions for use in other scripts
 window.EduPlatform = {
     currentUser,
