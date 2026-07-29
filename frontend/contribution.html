@@ -1,22 +1,44 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How AS Works - Atomo Schola</title>
+    <title>Contribution - Atomo Schola</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
         .contrib-page {
             max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px 60px;
+        }
+
+        .contrib-hero {
+            text-align: center;
+            padding: 50px 30px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 40px;
+        }
+
+        .contrib-hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .contrib-hero p {
+            font-size: 17px;
+            color: #6c757d !important;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* Section */
@@ -169,11 +191,9 @@
         .contrib-cta {
             text-align: center;
             padding: 40px 30px;
-            background: linear-gradient(135deg, rgba(108, 52, 131, 0.9) 0%, rgba(91, 44, 111, 0.9) 100%);
+            background: linear-gradient(135deg, #6C3483 0%, #5b2c6f 100%);
             border-radius: 15px;
             margin-top: 10px;
-            z-index: 1;
-            position: relative;
         }
 
         .contrib-cta h3 {
@@ -228,16 +248,7 @@
             color: white !important;
         }
 
-        .template-banner { display:flex; align-items:center; gap:16px; margin-top:20px; padding:16px 20px; background:#f0fdf4; border:2px solid #20c997; border-radius:10px; flex-wrap:wrap; }
-        .template-banner-sub { font-size:13px; color:#6c757d; }
-        .template-banner a { flex-shrink:0; }
-        .dark-mode .template-banner { background:#0d2b22; border-color:#20c997; }
-        .dark-mode .template-banner strong { color:#e0e0e0; }
-        .dark-mode .template-banner-sub { color:#9ca3af; }
-        @media (max-width: 480px) {
-            .template-banner { flex-direction:column; align-items:flex-start; }
-            .template-banner a { width:100%; justify-content:center; box-sizing:border-box; }
-        }
+        /* Icon colors */
         .bg-yellow  { background: #ffc107; }
         .bg-teal    { background: #17a2b8; }
         .bg-purple  { background: #6C3483; }
@@ -259,8 +270,8 @@
 
 <body>
     <header class="header">
-    
-        <div class="header-content">
+        <div class="container">
+            <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
                         <img src="logo.jpeg" alt="Atomo Schola">
@@ -272,13 +283,35 @@
                     <button class="search-btn"><i class="fas fa-search"></i></button>
                 </div>
                 <nav class="nav-menu" id="navMenu"></nav>
-            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
-                    </div>
+            </div>
+        </div>
     </header>
 
     <main class="main-content">
         <div class="container">
             <div class="contrib-page">
+
+                <!-- Hero -->
+                <div class="contrib-hero">
+                    <h1>How Atomo Schola Works</h1>
+                    <p>A collaborative educational platform where learners, creators, and editors work together to build quality content.</p>
+                </div>
+
+                <!-- CTA - guests only -->
+                <div class="contrib-cta" id="guestCta" style="margin-bottom: 24px;">
+                    <h3>Ready to Contribute?</h3>
+                    <p>Create a free account and start your journey as a learner, creator or editor.</p>
+                    <div class="contrib-cta-buttons">
+                        <a href="register.html" class="cta-btn cta-btn-white">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </a>
+                        <a href="propose-edits.html" class="cta-btn cta-btn-outline">
+                            <i class="fas fa-edit"></i>
+                            Propose an Edit
+                        </a>
+                    </div>
+                </div>
 
                 <!-- What is Atomo Schola -->
                 <div class="contrib-section">
@@ -289,7 +322,7 @@
                         <h2>What is Atomo Schola?</h2>
                     </div>
                     <p>Atomo Schola is a community-driven educational platform organized around two major categories: <strong>STEM</strong> (Science, Technology, Engineering &amp; Mathematics) and <strong>Humanities</strong> (History, Literature, Philosophy, Languages &amp; Social Sciences).</p>
-                    <p>Content is structured hierarchically each category contains subjects, subjects contain domains, and domains contain lessons. Anyone can browse and read lessons freely, while contributing requires an account and a specific role.</p>
+                    <p>Content is structured hierarchically — each category contains subjects, subjects contain domains, and domains contain lessons. Anyone can browse and read lessons freely, while contributing requires an account and a specific role.</p>
                 </div>
 
                 <!-- Content Types -->
@@ -302,72 +335,10 @@
                     </div>
                     <p>Lessons on the platform come in three formats:</p>
                     <ul class="feature-list">
-                        <li><i class="fas fa-file-alt color-blue"></i> <strong>Text Lessons</strong> Rich formatted content with support for LaTeX mathematical formulas</li>
-                        <li><i class="fas fa-video color-red"></i> <strong>Video Lessons</strong> Embedded YouTube videos with descriptions</li>
-                        <li><i class="fas fa-chalkboard color-orange"></i> <strong>Presentations</strong> Interactive slide-based content</li>
+                        <li><i class="fas fa-file-alt color-blue"></i> <strong>Text Lessons</strong> — Rich formatted content with support for LaTeX mathematical formulas</li>
+                        <li><i class="fas fa-video color-red"></i> <strong>Video Lessons</strong> — Embedded YouTube videos with descriptions</li>
+                        <li><i class="fas fa-chalkboard color-orange"></i> <strong>Presentations</strong> — Interactive slide-based content</li>
                     </ul>
-                </div>
-
-                <!-- Lesson Structure -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-green">
-                            <i class="fas fa-sitemap"></i>
-                        </div>
-                        <h2>Lesson Structure</h2>
-                    </div>
-                    <p>To maintain consistent quality across the platform, every lesson must follow a general structure. While the majority of content is left to the creator's discretion, the following sections are required:</p>
-                    
-                    <ul class="steps-list">
-                        <li>
-                            <span class="step-number bg-green">1</span>
-                            <div>
-                                <strong>Prerequisites</strong><br>
-                                List the knowledge assumed to be known by the reader to understand the lesson. Total enumeration is not required if calculus requires algebra and arithmetic, and arithmetic is already a prerequisite for algebra, you only need to specify algebra for calculus. Prefer linking to lessons within Atomo Schola, but if unavailable, specify the general chapter or topic with sufficient detail to avoid confusion.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">2</span>
-                            <div>
-                                <strong>The Lesson</strong><br>
-                                This is the core content, whether in Word, PowerPoint, Video, or any other format. The lesson should be easily understood without a teacher, with thorough explanations and examples. Not everything needs to be memorized only understood. Materials requiring memorization belong in the next section.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">3</span>
-                            <div>
-                                <strong>Summary</strong><br>
-                                Provide a concise summary of the lesson. All materials here are expected to be memorized. Students should be able to learn or review using only the summary, without needing the full lesson. For example, include physics formulas and phenomena, or mathematical theorems.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">4</span>
-                            <div>
-                                <strong>Exercises</strong><br>
-                                Include problems for practicing the material presented in the lesson. The number and type are at the creator's discretion, but there should be enough for thorough practice. Ideally, exercises should cover a range of difficulties and dimensions.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">5</span>
-                            <div>
-                                <strong>Bibliography</strong><br>
-                                List the materials used to create the lesson. Even if information comes from memory, this list should be sufficient to verify the accuracy of the presented information. Original explanations not found in sources should be clearly marked as such.
-                            </div>
-                        </li>
-                    </ul>
-                    
-                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-green" style="margin-right: 6px;"></i> This structure ensures quality and consistency while preserving creator creativity.</p>
-
-                    <div class="template-banner">
-                        <i class="fas fa-file-word" style="font-size:28px; color:#20c997; flex-shrink:0;"></i>
-                        <div style="flex:1;">
-                            <strong style="display:block; margin-bottom:2px;">Official Lesson Template</strong>
-                            <span class="template-banner-sub">Download the Word template with the required structure already set up.</span>
-                        </div>
-                        <a href="docs_materials/Header.docx" download style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#20c997; color:white; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap;">
-                            <i class="fas fa-download"></i> Download .docx
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Roles -->
@@ -378,7 +349,7 @@
                         </div>
                         <h2>Roles on the Platform</h2>
                     </div>
-                    <p>Roles are hierarchical each role includes all the permissions of the roles below it. Creators are also editors and users; editors are also users.</p>
+                    <p>Roles are hierarchical — each role includes all the permissions of the roles below it. Creators are also editors and users; editors are also users.</p>
                     <div class="roles-grid">
                         <div class="role-badge">
                             <i class="fas fa-user color-grey"></i>
@@ -399,6 +370,11 @@
                             <i class="fas fa-tasks color-orange"></i>
                             <span class="role-name">Staff</span>
                             <span class="role-desc">Moderate content and manage the platform</span>
+                        </div>
+                        <div class="role-badge">
+                            <i class="fas fa-crown color-purple"></i>
+                            <span class="role-name">Owner</span>
+                            <span class="role-desc">Full platform access and administration</span>
                         </div>
                     </div>
                 </div>
@@ -471,10 +447,10 @@
                         </div>
                         <h2>Lesson Review Process</h2>
                     </div>
-                    <p>When a creator submits a new lesson, it enters a review queue visible to all editors. Editors vote independently no feedback is required, just a yes or no vote.</p>
+                    <p>When a creator submits a new lesson, it enters a review queue visible to all editors. Editors vote independently — no feedback is required, just a yes or no vote.</p>
                     <ul class="feature-list">
-                        <li><i class="fas fa-check-circle color-green"></i> <strong>7 yes votes</strong> the lesson is accepted and published</li>
-                        <li><i class="fas fa-times-circle color-red"></i> <strong>5 no votes</strong> the lesson is rejected</li>
+                        <li><i class="fas fa-check-circle color-green"></i> <strong>7 yes votes</strong> — the lesson is accepted and published</li>
+                        <li><i class="fas fa-times-circle color-red"></i> <strong>5 no votes</strong> — the lesson is rejected</li>
                         <li><i class="fas fa-clock color-orange"></i> Rejected lessons remain in the database for a period so the creator can revise and resubmit</li>
                         <li><i class="fas fa-award color-purple"></i> Editors who voted no on a lesson that was later improved and accepted receive credit for their contribution</li>
                     </ul>
@@ -491,9 +467,9 @@
                     </div>
                     <p>Creators and editors each have their own leaderboard. Since creators also have editor privileges, a creator can appear on both leaderboards simultaneously.</p>
                     <ul class="feature-list">
-                        <li><i class="fas fa-star color-yellow"></i> <strong>Creator leaderboard</strong> requires at least 5 published lessons to qualify</li>
-                        <li><i class="fas fa-star color-teal"></i> <strong>Editor leaderboard</strong> requires having voted on at least 15 accepted lessons to qualify</li>
-                        <li><i class="fas fa-chart-bar color-blue"></i> Score formula: 15(avg rating 0-3 months) + 10(avg rating 3-12 months) + 7.5(avg rating 12+ months) + 1(total published)</li>
+                        <li><i class="fas fa-star color-yellow"></i> <strong>Creator leaderboard</strong> — requires at least 5 published lessons to qualify</li>
+                        <li><i class="fas fa-star color-teal"></i> <strong>Editor leaderboard</strong> — requires having voted on at least 15 accepted lessons to qualify</li>
+                        <li><i class="fas fa-chart-bar color-blue"></i> Ranking is based on the average rating of lessons you participated in (only lessons with a minimum number of ratings count)</li>
                         <li><i class="fas fa-gavel color-purple"></i> The top 7 creators and top 7 editors are invited to join their respective commission for a one-month term</li>
                         <li><i class="fas fa-arrow-right color-grey"></i> If someone declines the invitation, the spot passes to the next person on the leaderboard</li>
                     </ul>
@@ -528,52 +504,14 @@
     <script src="scripts/api.js"></script>
     <script src="scripts/search.js"></script>
     <script src="scripts/notifications.js"></script>
-    <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <div class="footer-brand-name">
-                    <i class="fas fa-atom"></i>
-                    Atomo Schola
-                </div>
-                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
-                <div class="footer-social">
-                    <a href="https://discord.gg/hCQrmYccWf" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <div class="footer-col-title">Explore</div>
-                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
-                <a href="steam.html"><i class="fas fa-chevron-right"></i> STEM</a>
-                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
-                <a href="search.html"><i class="fas fa-chevron-right"></i> Search</a>
-            </div>
-
-            <div class="footer-col">
-                <div class="footer-col-title">Community</div>
-                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
-                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
-                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
-                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
-            </div>
-
-            <div class="footer-col">
-                <div class="footer-col-title">Platform</div>
-                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
-                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
-                <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
-                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
-                <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
-            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
-        </div>
-    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.API && window.API.isAuthenticated()) {
+                const cta = document.getElementById('guestCta');
+                if (cta) cta.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
