@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Use – Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .terms-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+        .terms-hero {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        .terms-hero h1 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+            color: var(--text-primary) !important;
+        }
+        .terms-hero p {
+            color: var(--text-secondary) !important;
+            font-size: 15px;
+        }
+        .terms-toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 48px;
+        }
+        .terms-toc h2 {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary) !important;
+            margin-bottom: 14px;
+        }
+        .terms-toc ol {
+            list-style: decimal;
+            padding-left: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+        }
+        .terms-toc li a {
+            color: var(--text-primary) !important;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .terms-toc li a:hover {
+            color: var(--accent-primary) !important;
+        }
+        .terms-section {
+            margin-bottom: 52px;
+        }
+        .terms-section h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary) !important;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        .terms-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+            margin: 22px 0 8px;
+        }
+        .terms-section p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary) !important;
+            margin-bottom: 12px;
+        }
+        .terms-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 16px;
+        }
+        .terms-section ul li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary) !important;
+            padding: 5px 0 5px 22px;
+            position: relative;
+        }
+        .terms-section ul li::before {
+            content: '–';
+            position: absolute;
+            left: 4px;
+            color: var(--text-muted);
+        }
+        .terms-contact-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-size: 15px;
+            color: var(--text-secondary) !important;
+        }
+        .terms-contact-box strong {
+            color: var(--text-primary);
+        }
+        .terms-contact-box a {
+            color: var(--accent-primary) !important;
+            text-decoration: none;
+        }
+        .terms-contact-box a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .terms-toc ol {
+                grid-template-columns: 1fr;
+            }
+            .terms-hero h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpeg" alt="Atomo Schola">
+                    <span>Atomo Schola</span>
+                </a>
+            </div>
+            <nav class="nav-menu" id="navMenu"></nav>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="terms-wrapper">
+            <div class="terms-hero">
+                <h1><i class="fas fa-file-contract" style="margin-right:12px;"></i>Terms of Use</h1>
+                <p>Last Updated: July 29, 2026 &nbsp;|&nbsp; Atomo Schola</p>
+            </div>
+
+            <!-- Table of Contents -->
+            <nav class="terms-toc" aria-label="Table of Contents">
+                <h2>Table of Contents</h2>
+                <ol>
+                    <li><a href="#s1">Introduction</a></li>
+                    <li><a href="#s2">About Atomo Schola</a></li>
+                    <li><a href="#s3">Definitions</a></li>
+                    <li><a href="#s4">Eligibility</a></li>
+                    <li><a href="#s5">User Accounts</a></li>
+                    <li><a href="#s6">User Roles &amp; Permissions</a></li>
+                    <li><a href="#s7">Educational Content</a></li>
+                    <li><a href="#s8">AI-Generated Content</a></li>
+                    <li><a href="#s9">User Content &amp; Intellectual Property</a></li>
+                    <li><a href="#s10">Acceptable Use</a></li>
+                    <li><a href="#s11">Uploading Files</a></li>
+                    <li><a href="#s12">Moderation &amp; Enforcement</a></li>
+                    <li><a href="#s13">Service Availability</a></li>
+                    <li><a href="#s14">Privacy</a></li>
+                    <li><a href="#s15">Disclaimers</a></li>
+                    <li><a href="#s16">Limitation of Liability</a></li>
+                    <li><a href="#s17">Indemnification</a></li>
+                    <li><a href="#s18">Governing Law</a></li>
+                    <li><a href="#s19">Severability</a></li>
+                    <li><a href="#s20">Entire Agreement</a></li>
+                    <li><a href="#s21">Contact Us</a></li>
+                </ol>
+            </nav>
+
+            <!-- 1. Introduction -->
+            <section class="terms-section" id="s1">
+                <h2>1. Introduction</h2>
+                <h3>1.1 Purpose</h3>
+                <p>Welcome to Atomo Schola ("Atomo Schola", "we", "our", or "us"). These Terms of Use ("Terms") govern your access to and use of the Atomo Schola website, its educational resources, and any related services provided through the platform. Atomo Schola is an independent, non-profit educational project operated by an individual team with the goal of making high-quality educational materials freely accessible.</p>
+                <p>By accessing or using the website, you agree to comply with these Terms. If you do not agree to these Terms, you must discontinue use of the website.</p>
+                <h3>1.2 Acceptance of the Terms</h3>
+                <p>By accessing Atomo Schola, creating an account, uploading content, or using any feature of the website, you acknowledge that you have read, understood, and agree to be bound by these Terms. These Terms apply to all visitors and registered users, including Users, Editors, Creators, members of the Councils of Creators and Editors, and members of the Administration Team.</p>
+                <p>If you are using Atomo Schola on behalf of another person or organization, you represent that you have the authority to accept these Terms on their behalf.</p>
+                <h3>1.3 Changes to the Terms</h3>
+                <p>We may modify these Terms at any time to reflect improvements to the platform, changes in applicable laws, or updates to our policies. When significant changes are made, we will update the "Last Updated" date displayed at the beginning of this document. Continued use of Atomo Schola after updated Terms become effective constitutes acceptance of those changes. If you do not agree with any revised Terms, you must stop using the website.</p>
+            </section>
+
+            <!-- 2. About Atomo Schola -->
+            <section class="terms-section" id="s2">
+                <h2>2. About Atomo Schola</h2>
+                <h3>2.1 Who We Are</h3>
+                <p>Atomo Schola is an independent educational platform created and maintained by a volunteer team dedicated to providing free, accessible, and high-quality educational resources. The platform is operated by an informal administration team and is supported by Editors, Creators, and the Councils of Creators and Editors, each of whom contributes to maintaining the quality and accuracy of the educational content available on the website.</p>
+                <h3>2.2 Non-Profit Status</h3>
+                <p>Atomo Schola is operated as a non-profit project. Access to the platform and its educational resources is provided without charge to users. The platform is not operated for commercial gain. Should this status ever change, users will be informed through an update to these Terms or other appropriate notice.</p>
+                <h3>2.3 Contact Information</h3>
+                <p>Questions regarding these Terms, the operation of the platform, legal matters, or privacy-related requests may be directed to our designated contact email.</p>
+                <div class="terms-contact-box"><strong>Contact Email:</strong> <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a></div>
+                <p>We aim to respond to legitimate inquiries within a reasonable timeframe; however, response times may vary depending on the availability of our volunteer team.</p>
+            </section>
+
+            <!-- 3. Definitions -->
+            <section class="terms-section" id="s3">
+                <h2>3. Definitions</h2>
+                <p>For the purposes of these Terms of Use, the following definitions apply:</p>
+                <h3>3.1 User</h3>
+                <p>A User is any individual who accesses or uses Atomo Schola. Unless granted additional permissions, Users may browse and view publicly available educational content or use the Atomo Schola tools and facilities.</p>
+                <h3>3.2 Editor</h3>
+                <p>An Editor is a User who has been granted permission by the Administration Team or the Council of Editors to decide if a course rises to the Atomo Schola standards. Editors vote on whether a course should be posted on the site and help Creators build quality courses by pointing out mistakes or inaccuracies while also giving ideas in terms of ways of improving the course.</p>
+                <h3>3.3 Creator</h3>
+                <p>A Creator is an Editor authorized by the Administration Team or the Council of Creators to create and publish educational courses on Atomo Schola. Creators are responsible for ensuring that the content they submit complies with these Terms, including all requirements regarding accuracy, licensing, citations, and the use of artificial intelligence.</p>
+                <h3>3.4 Council of Editors</h3>
+                <p>The Council of Editors is a group of designated Editors responsible for promoting editors to the level of Editor. The Council may review edits proposed by Users and determine whether they deserve to be promoted to the level of Editor.</p>
+                <h3>3.5 Council of Creators</h3>
+                <p>The Council of Creators is a group of designated Creators responsible for promoting editors to the level of Creator. The Council may review content submitted by Editors and determine whether they deserve to be promoted to the level of Creator.</p>
+                <h3>3.6 Administration Team</h3>
+                <p>The Administration Team consists of the individuals responsible for operating, maintaining, and managing Atomo Schola. The Administration Team has final authority over technical operations, moderation decisions, role assignments, enforcement of these Terms, and the overall administration of the platform.</p>
+                <h3>3.7 Courses</h3>
+                <p>Courses are educational materials published on Atomo Schola. A course may consist of written lessons, images, videos, downloadable files, references, or other educational resources intended to support learning.</p>
+                <h3>3.8 Content</h3>
+                <p>Content refers to any material made available through Atomo Schola, including but not limited to courses, text, images, graphics, videos, documents, downloadable files, source references, and other educational resources published or uploaded to the platform.</p>
+            </section>
+
+            <!-- 4. Eligibility -->
+            <section class="terms-section" id="s4">
+                <h2>4. Eligibility</h2>
+                <h3>4.1 Account Requirements</h3>
+                <p>Access to publicly available courses on Atomo Schola does not require an account. To access features that require authentication, including those available to Editors and Creators, users must register an account by providing a valid email address and choosing a secure password. Users are responsible for maintaining the confidentiality of their account credentials and for all activity occurring under their account.</p>
+                <h3>4.2 Accounts for Minors</h3>
+                <p>Atomo Schola does not impose a minimum age requirement for creating an account. Some educational content may discuss topics intended for educational purposes that certain users, parents, or guardians may consider sensitive, including but not limited to human anatomy, reproductive health, or other age-sensitive subjects. Where appropriate, such content may include a warning before it is displayed. Parents and legal guardians are encouraged to supervise the online activities of younger users.</p>
+                <h3>4.3 Sensitive Educational Content</h3>
+                <p>Atomo Schola is an educational platform and may provide accurate, age-appropriate educational materials covering a wide range of academic subjects. The inclusion of sensitive topics is intended solely for educational purposes and should not be interpreted as promoting, encouraging, or endorsing any particular beliefs, behaviors, or viewpoints. Where reasonably possible, sensitive topics will be accompanied by an appropriate content warning to allow users to make an informed decision before viewing the material.</p>
+            </section>
+
+            <!-- 5. User Accounts -->
+            <section class="terms-section" id="s5">
+                <h2>5. User Accounts</h2>
+                <h3>5.1 Registration</h3>
+                <p>To create an account on Atomo Schola, users must provide a valid email address and choose a secure password. Users are responsible for ensuring that the information provided during registration is accurate and that they maintain access to the email address associated with their account. Each account is intended for use by a single individual and may not be shared with others.</p>
+                <h3>5.2 Guest Usernames</h3>
+                <p>Users are not required to provide their real name or any public display name when creating an account. If a user does not choose a display name, Atomo Schola will automatically assign a guest username (for example, User1234) for identification purposes within the platform. Usernames must not impersonate another person, organization, member of the Administration Team, or any other role within Atomo Schola.</p>
+                <h3>5.3 Account Security</h3>
+                <p>Users are solely responsible for maintaining the confidentiality of their password and for any activity that occurs under their account. If a user believes that their account has been accessed without authorization, they should notify the Administration Team as soon as reasonably possible.</p>
+                <h3>5.4 Account Responsibility</h3>
+                <p>Users must use their accounts in accordance with these Terms and all applicable laws. The Administration Team may suspend, restrict, or terminate access to an account if it is used in violation of these Terms or if continued access would pose a risk to the platform, its users, or its educational mission.</p>
+                <h3>5.5 Account Deletion</h3>
+                <p>Users may not delete their own accounts through the platform. If an account becomes inactive, is suspended, or is otherwise no longer used, any courses, edits, or other contributions associated with that account may remain on Atomo Schola to preserve the integrity, continuity, and attribution of educational content. The Administration Team reserves the right to retain account information as necessary for the continued operation of the platform and in accordance with applicable laws and our Privacy Policy.</p>
+            </section>
+
+            <!-- 6. User Roles & Permissions -->
+            <section class="terms-section" id="s6">
+                <h2>6. User Roles &amp; Permissions</h2>
+                <h3>6.1 Users</h3>
+                <p>Users may access and view publicly available educational content as well as use the tools and facilities on Atomo Schola. Users may not create, publish, or edit courses unless they have been granted the appropriate permissions by the Administration Team or the Councils of Creators and Editors.</p>
+                <h3>6.2 Editors</h3>
+                <p>Editors help edit and improve courses in the stages of being made public on the site. They decide if a course is to be published on the site. Editors are expected to:</p>
+                <ul>
+                    <li>Maintain factual accuracy.</li>
+                    <li>Preserve the educational purpose of the course.</li>
+                    <li>Help correct formatting, grammar, and organizational issues where appropriate.</li>
+                    <li>Respect the original intent of the course while helping improve its quality.</li>
+                </ul>
+                <p>Editors may not abuse their permissions or intentionally keep content from being published without proper justification.</p>
+                <h3>6.3 Creators</h3>
+                <p>Creators are authorized to create, publish, and maintain educational courses. Creators are responsible for ensuring that their courses:</p>
+                <ul>
+                    <li>Are educational in nature.</li>
+                    <li>Contain accurate information to the best of their knowledge.</li>
+                    <li>Include appropriate citations and sources where required.</li>
+                    <li>Use only properly licensed or authorized materials.</li>
+                    <li>Comply with the AI Content Policy and all other provisions of these Terms.</li>
+                </ul>
+                <h3>6.4 Promotion Process</h3>
+                <p>Promotion to the role of Editor or Creator is granted solely at the discretion of the Administration Team or the Councils of Creators and Editors. There is no automatic right to receive or retain either role. Eligibility may be determined based on factors including, but not limited to, knowledge, contributions, trustworthiness, and the needs of the platform.</p>
+                <h3>6.5 Demotion or Removal of Roles</h3>
+                <p>The Administration Team may suspend, revoke, or modify an individual's Editor or Creator permissions at any time. Such decisions may be made for reasons including, but not limited to:</p>
+                <ul>
+                    <li>Violations of these Terms.</li>
+                    <li>Repeated publication of inaccurate or misleading information.</li>
+                    <li>Failure to maintain expected educational standards.</li>
+                    <li>Copyright or licensing violations.</li>
+                    <li>Conduct that negatively affects the platform or its community.</li>
+                </ul>
+                <p>Removal of an Editor or Creator role does not automatically terminate the individual's user account unless separate moderation action is taken by the Administration Team.</p>
+            </section>
+
+            <!-- 7. Educational Content -->
+            <section class="terms-section" id="s7">
+                <h2>7. Educational Content</h2>
+                <h3>7.1 Purpose of Courses</h3>
+                <p>All courses published on Atomo Schola are intended solely for educational and informational purposes. Courses are created to promote learning and should not be interpreted as professional, legal, medical, financial, or other specialized advice unless explicitly stated by a qualified professional.</p>
+                <h3>7.2 Accuracy Expectations</h3>
+                <p>Creators and Editors are expected to make reasonable efforts to ensure that course content is accurate, current, and supported by reliable sources. Although Atomo Schola strives to maintain high educational standards, we do not guarantee that all information published on the platform is complete, current, or free from errors. Users are encouraged to consult additional reliable sources when appropriate.</p>
+                <h3>7.3 Sources and Citations</h3>
+                <p>Courses must clearly identify the sources used in their preparation whenever external information is referenced. Sources should be provided at the end of each course whenever reasonably possible and should include sufficient information, such as website links, publications, or other references, to allow users to verify the information. Creators are responsible for ensuring that all referenced materials are properly licensed or otherwise lawfully used.</p>
+                <h3>7.4 Course Updates</h3>
+                <p>To maintain the quality and accuracy of educational content, Atomo Schola reserves the right to review, edit, reorganize, update, or remove any course at any time. Such actions may be taken to correct inaccuracies, improve educational quality, comply with applicable laws, address copyright concerns, or otherwise support the operation of the platform.</p>
+                <h3>7.5 Attribution</h3>
+                <p>Atomo Schola automatically attributes every course to its original Creator. Where a course is modified by one or more Editors, the original Creator will continue to receive attribution for the course while the platform maintains a record of subsequent editorial contributions where applicable. Attribution does not limit the rights granted to Atomo Schola under these Terms regarding the hosting, editing, distribution, or continued publication of educational content.</p>
+            </section>
+
+            <!-- 8. AI-Generated Content -->
+            <section class="terms-section" id="s8">
+                <h2>8. AI-Generated Content</h2>
+                <h3>8.1 General Policy</h3>
+                <p>Atomo Schola recognizes that artificial intelligence ("AI") can be a useful tool when used responsibly. To preserve the quality and reliability of educational content, the use of AI is subject to the requirements set out in this section. Creators and Editors remain fully responsible for all content they publish, regardless of whether AI tools were used during its creation.</p>
+                <h3>8.2 AI-Generated Images</h3>
+                <p>AI-generated images may be included in courses, provided that:</p>
+                <ul>
+                    <li>Their use is clearly disclosed within the course.</li>
+                    <li>They do not infringe upon the intellectual property rights of others.</li>
+                    <li>They accurately represent the educational topic being discussed.</li>
+                    <li>They do not intentionally mislead users.</li>
+                </ul>
+                <p>The Administration Team may require the removal or replacement of AI-generated images that do not comply with these Terms.</p>
+                <h3>8.3 AI-Generated Text</h3>
+                <p>AI-generated text may not be published as part of any course or educational material on Atomo Schola. Creators and Editors are expected to produce original educational content. The use of AI to generate substantial portions of course text, explanations, summaries, or instructional material is prohibited. The Administration Team reserves the right to remove or require revisions to content reasonably believed to consist primarily of AI-generated text.</p>
+                <h3>8.4 Disclosure Requirements</h3>
+                <p>Where AI-generated images are used, the Creator or Editor must clearly indicate that such images were generated using artificial intelligence. Failure to provide the required disclosure may result in the content being edited, removed, or otherwise moderated until it complies with these Terms. Repeated or intentional violations of this policy may result in moderation actions, including the removal of Creator or Editor privileges or other enforcement measures deemed appropriate by the Administration Team.</p>
+            </section>
+
+            <!-- 9. User Content & Intellectual Property -->
+            <section class="terms-section" id="s9">
+                <h2>9. User Content &amp; Intellectual Property</h2>
+                <h3>9.1 Ownership of Submitted Content</h3>
+                <p>Except where otherwise provided by law or these Terms, Creators and Editors retain ownership of the intellectual property rights they hold in content they create. By submitting content to Atomo Schola, the submitting user grants Atomo Schola the rights described in Section 9.2.</p>
+                <h3>9.2 License Granted to Atomo Schola</h3>
+                <p>By submitting, publishing, or otherwise contributing content to Atomo Schola, Creators and Editors grant Atomo Schola a perpetual, worldwide, non-exclusive, irrevocable, royalty-free license to:</p>
+                <ul>
+                    <li>Host and store the content.</li>
+                    <li>Display and distribute the content through the platform.</li>
+                    <li>Edit, update, translate, adapt, and improve the content.</li>
+                    <li>Create derivative works where necessary to maintain or improve educational quality.</li>
+                    <li>Continue using and displaying the content even if the submitting user's account is suspended, removed, or otherwise inactive.</li>
+                </ul>
+                <p>This license exists solely for the operation, maintenance, improvement, and educational purposes of Atomo Schola.</p>
+                <h3>9.3 Redistribution Restrictions</h3>
+                <p>Unless expressly authorized by Atomo Schola, the educational content available on the platform may not be copied, redistributed, republished, sold, or otherwise made available outside the platform. Reasonable quotations, citations, and uses permitted by applicable copyright law remain unaffected by this provision. Requests for permission to redistribute content may be submitted using the contact information provided in these Terms.</p>
+                <h3>9.4 Copyright Compliance</h3>
+                <p>Creators and Editors are responsible for ensuring that all materials they upload, including text, images, videos, documents, and other media, are either:</p>
+                <ul>
+                    <li>Their own original work;</li>
+                    <li>Properly licensed for use; or</li>
+                    <li>Otherwise used in accordance with applicable copyright laws.</li>
+                </ul>
+                <p>Proper attribution alone does not grant permission to use copyrighted material where permission or a license is otherwise required.</p>
+                <h3>9.5 Copyright Reports</h3>
+                <p>If you believe that content published on Atomo Schola infringes your copyright or other intellectual property rights, you may contact the Administration Team using the contact information provided in these Terms. Upon receiving a sufficiently detailed report, we may investigate the matter and, where appropriate, remove, restrict access to, or modify the reported content while the issue is reviewed. The Administration Team reserves the right to take any action it considers appropriate to ensure compliance with applicable intellectual property laws.</p>
+            </section>
+
+            <!-- 10. Acceptable Use -->
+            <section class="terms-section" id="s10">
+                <h2>10. Acceptable Use</h2>
+                <h3>10.1 Permitted Uses</h3>
+                <p>Users may access and use Atomo Schola solely for lawful and educational purposes. Users are expected to use the platform respectfully and in a manner that supports its educational mission. Any use that interferes with the operation of the platform or the experience of other users may result in moderation action.</p>
+                <h3>10.2 Prohibited Conduct</h3>
+                <p>Users must not use Atomo Schola to:</p>
+                <ul>
+                    <li>Violate any applicable local, national, or international law.</li>
+                    <li>Upload or distribute malicious software, viruses, or other harmful code.</li>
+                    <li>Attempt to gain unauthorized access to accounts, systems, or data.</li>
+                    <li>Circumvent or interfere with the platform's security measures.</li>
+                    <li>Impersonate another individual, organization, or member of the Administration Team.</li>
+                    <li>Misrepresent their identity or authority within the platform.</li>
+                    <li>Submit content that infringes the intellectual property rights of others.</li>
+                    <li>Use automated tools, bots, or scripts in a manner that disrupts or abuses the platform.</li>
+                    <li>Intentionally interfere with the availability or proper functioning of Atomo Schola.</li>
+                </ul>
+                <h3>10.3 Academic Integrity</h3>
+                <p>Creators and Editors are expected to produce educational content in good faith. Educational materials should be based on reliable information and should not intentionally contain plagiarism, fabricated sources, or misleading academic claims. The use of properly licensed materials and accurate citations is required where applicable.</p>
+                <h3>10.4 Misinformation</h3>
+                <p>Users must not knowingly publish or repeatedly distribute false or misleading educational information. If inaccurate information is identified, the Administration Team may request corrections, edit the content, or remove it where necessary to preserve the educational quality of the platform. Repeated or intentional publication of misinformation may result in moderation measures, including the suspension or removal of Creator or Editor privileges and, where appropriate, additional enforcement actions.</p>
+            </section>
+
+            <!-- 11. Uploading Files -->
+            <section class="terms-section" id="s11">
+                <h2>11. Uploading Files</h2>
+                <h3>11.1 Permitted Uploads</h3>
+                <p>Creators and Editors may upload files to Atomo Schola when such files are necessary to support educational content. Permitted uploads may include, but are not limited to:</p>
+                <ul>
+                    <li>Images</li>
+                    <li>Documents</li>
+                    <li>PDF files</li>
+                    <li>Videos</li>
+                    <li>Audio files</li>
+                    <li>Other educational resources approved by the Administration Team</li>
+                </ul>
+                <p>The Administration Team may modify the types of files accepted by the platform at any time.</p>
+                <h3>11.2 File Restrictions</h3>
+                <p>All uploaded files must:</p>
+                <ul>
+                    <li>Be relevant to the educational content with which they are associated.</li>
+                    <li>Comply with all applicable laws.</li>
+                    <li>Respect the intellectual property rights of others.</li>
+                    <li>Be free of malicious software, viruses, or other harmful code.</li>
+                    <li>Not contain deceptive, illegal, or intentionally misleading material.</li>
+                </ul>
+                <p>Files that violate these requirements may be removed without prior notice.</p>
+                <h3>11.3 Responsibility for Uploaded Content</h3>
+                <p>Creators and Editors are solely responsible for the files they upload. By uploading a file, the submitting user represents that they have the legal right to upload and use the material and that doing so does not infringe the rights of any third party. The Administration Team reserves the right to review, edit, replace, restrict access to, or remove uploaded files at any time when necessary to maintain the quality, security, legality, or educational integrity of the platform.</p>
+            </section>
+
+            <!-- 12. Moderation & Enforcement -->
+            <section class="terms-section" id="s12">
+                <h2>12. Moderation &amp; Enforcement</h2>
+                <h3>12.1 Review of Content</h3>
+                <p>The Administration Team reserves the right to review any content published or submitted to Atomo Schola to ensure compliance with these Terms, maintain educational quality, and protect the integrity of the platform. Content may be reviewed before or after publication.</p>
+                <h3>12.2 Editing or Removing Content</h3>
+                <p>The Administration Team may edit, restrict access to, or remove any course, file, or other content at their discretion. Such actions may be taken for reasons including, but not limited to:</p>
+                <ul>
+                    <li>Violations of these Terms.</li>
+                    <li>Copyright or licensing concerns.</li>
+                    <li>Inaccurate or misleading information.</li>
+                    <li>Security or technical issues.</li>
+                    <li>Improving educational quality or consistency.</li>
+                    <li>Compliance with applicable laws.</li>
+                </ul>
+                <p>Where reasonably possible, moderation actions will be carried out fairly and in good faith.</p>
+                <h3>12.3 Suspension of Accounts</h3>
+                <p>The Administration Team may temporarily suspend an account if it reasonably believes that the account has violated these Terms or otherwise poses a risk to the platform or its users. Temporary suspension may limit access to some or all features of Atomo Schola for a period determined by the Administration Team.</p>
+                <h3>12.4 Permanent Bans</h3>
+                <p>The Administration Team may permanently restrict an account from accessing some or all features of Atomo Schola for serious or repeated violations of these Terms. A permanent ban applies only to the affected account unless otherwise determined by the Administration Team.</p>
+                <h3>12.5 Alternate Accounts</h3>
+                <p>Unless expressly prohibited as part of an individual moderation action, users whose accounts have been suspended or permanently banned may create a new account. The Administration Team reserves the right to impose additional restrictions where repeated abuse, malicious conduct, or attempts to circumvent moderation significantly interfere with the operation of the platform.</p>
+                <h3>12.6 Appeals</h3>
+                <p>Moderation decisions made by the Administration Team are final. Atomo Schola does not provide a formal appeals process for suspensions, role removals, or other moderation actions.</p>
+            </section>
+
+            <!-- 13. Service Availability -->
+            <section class="terms-section" id="s13">
+                <h2>13. Service Availability</h2>
+                <h3>13.1 Availability</h3>
+                <p>Atomo Schola is provided on an "as available" and "as is" basis. While we strive to keep the platform accessible and operational, we do not guarantee that the website or any of its features will be available at all times or without interruption.</p>
+                <h3>13.2 Maintenance</h3>
+                <p>The Administration Team may temporarily suspend access to all or part of the platform to perform maintenance, updates, security improvements, bug fixes, or other technical work. Whenever reasonably possible, planned maintenance may be announced in advance; however, emergency maintenance may occur without prior notice.</p>
+                <h3>13.3 Feature Changes</h3>
+                <p>Atomo Schola reserves the right to modify, add, replace, limit, or remove any feature, service, course, functionality, or part of the platform at any time. Such changes may be made to improve the platform, address technical or legal requirements, or support the educational mission of Atomo Schola. Users are not guaranteed continued access to any specific feature or functionality.</p>
+                <h3>13.4 Service Discontinuation</h3>
+                <p>The Administration Team reserves the right to suspend or permanently discontinue Atomo Schola, in whole or in part, at any time and for any reason. To the fullest extent permitted by applicable law, Atomo Schola shall not be liable for any loss, inconvenience, or damages resulting from the modification, suspension, or discontinuation of the platform or any of its services.</p>
+            </section>
+
+            <!-- 14. Privacy -->
+            <section class="terms-section" id="s14">
+                <h2>14. Privacy</h2>
+                <h3>14.1 Information We Collect</h3>
+                <p>To provide our services, Atomo Schola collects only the information necessary to operate user accounts. At the time of account creation, users are required to provide:</p>
+                <ul>
+                    <li>A valid email address.</li>
+                    <li>A password chosen by the user.</li>
+                </ul>
+                <p>Atomo Schola does not require users to provide their real name or any other personal identifying information when creating an account.</p>
+                <h3>14.2 Privacy Policy</h3>
+                <p>Our collection, use, storage, and protection of personal information are governed by our separate Privacy Policy, which forms an integral part of these Terms. By using Atomo Schola, you acknowledge that your personal information will be handled in accordance with the Privacy Policy. If there is any conflict between these Terms and the Privacy Policy regarding the processing of personal data, the Privacy Policy shall prevail to the extent required by applicable law.</p>
+                <h3>14.3 Security</h3>
+                <p>Atomo Schola takes reasonable technical and organizational measures to protect user information against unauthorized access, disclosure, alteration, or destruction. However, no method of transmitting or storing data over the Internet can be guaranteed to be completely secure. While we strive to protect user information, we cannot guarantee absolute security. Users are responsible for maintaining the confidentiality of their account credentials and should notify the Administration Team if they believe their account has been compromised.</p>
+            </section>
+
+            <!-- 15. Disclaimers -->
+            <section class="terms-section" id="s15">
+                <h2>15. Disclaimers</h2>
+                <h3>15.1 Educational Purpose</h3>
+                <p>The content available on Atomo Schola is provided solely for educational and informational purposes. Nothing published on the platform should be interpreted as professional legal, medical, financial, psychological, or other specialized advice. Users should consult a qualified professional where such advice is required.</p>
+                <h3>15.2 No Guarantee of Accuracy</h3>
+                <p>Although Atomo Schola, its Creators, Editors, and Administration Team make reasonable efforts to provide accurate and reliable educational content, we do not guarantee that any information published on the platform is complete, accurate, current, or free from errors. Users are encouraged to verify important information through additional reliable sources where appropriate.</p>
+                <h3>15.3 User Responsibility</h3>
+                <p>Users are responsible for evaluating how they use the information provided through Atomo Schola. Any decisions or actions taken based on information obtained from the platform are made at the user's own discretion and risk.</p>
+                <h3>15.4 Third-Party Resources</h3>
+                <p>Courses may contain references or links to third-party websites, publications, videos, or other external resources for educational purposes. Atomo Schola does not control, endorse, or assume responsibility for the content, availability, accuracy, security, or privacy practices of any third-party resource. Users access external resources at their own risk and should review the applicable terms and privacy policies of those third parties.</p>
+            </section>
+
+            <!-- 16. Limitation of Liability -->
+            <section class="terms-section" id="s16">
+                <h2>16. Limitation of Liability</h2>
+                <p>To the fullest extent permitted by applicable law, Atomo Schola, its Administration Team, the Councils of Creators and Editors, Editors, Creators, volunteers, and contributors shall not be liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages arising out of or relating to:</p>
+                <ul>
+                    <li>The use of or inability to use the platform.</li>
+                    <li>Errors, inaccuracies, or omissions in educational content.</li>
+                    <li>Interruptions, delays, or unavailability of the website.</li>
+                    <li>Loss of data, files, or account access.</li>
+                    <li>Actions taken by users based on information published on the platform.</li>
+                    <li>Content or services provided by third parties.</li>
+                </ul>
+                <p>Nothing in these Terms excludes or limits liability where such exclusion or limitation is prohibited by applicable law, including rights that cannot be waived under Romanian law, European Union law, or other applicable legal requirements.</p>
+                <p>Users acknowledge that they use Atomo Schola and its educational resources at their own risk and that the platform is provided as a free, non-profit educational service. Where liability cannot be excluded by law, Atomo Schola's liability shall be limited to the minimum extent permitted by applicable law.</p>
+            </section>
+
+            <!-- 17. Indemnification -->
+            <section class="terms-section" id="s17">
+                <h2>17. Indemnification</h2>
+                <p>Users agree to indemnify, defend, and hold harmless Atomo Schola, its Administration Team, the Councils of Creators and Editors, Editors, Creators, volunteers, and contributors from and against any claims, demands, actions, proceedings, liabilities, damages, losses, costs, or expenses, including reasonable legal fees where permitted by applicable law, arising out of or relating to:</p>
+                <ul>
+                    <li>The user's violation of these Terms.</li>
+                    <li>The user's violation of any applicable law or regulation.</li>
+                    <li>The user's infringement of the intellectual property or other rights of any third party.</li>
+                    <li>Content uploaded, published, or otherwise submitted by the user.</li>
+                    <li>Any misuse of the platform or its services by the user.</li>
+                </ul>
+                <p>This obligation applies only to the extent permitted by applicable law and does not require a user to indemnify Atomo Schola for losses resulting solely from Atomo Schola's own unlawful conduct or gross negligence where such protections are prohibited by law. Nothing in this section limits any legal rights or remedies available to Atomo Schola under applicable law.</p>
+            </section>
+
+            <!-- 18. Governing Law -->
+            <section class="terms-section" id="s18">
+                <h2>18. Governing Law</h2>
+                <p>These Terms of Use shall be governed by and interpreted in accordance with the laws of Romania. Where applicable, these Terms shall also be interpreted and applied in accordance with directly applicable European Union legislation, including laws relating to consumer protection, data protection, and digital services.</p>
+                <p>Nothing in these Terms is intended to limit, exclude, or override any rights or obligations that cannot lawfully be excluded under Romanian law, European Union law, or other applicable mandatory legal requirements.</p>
+                <p>If any dispute arises in connection with these Terms or the use of Atomo Schola, the parties are encouraged to attempt to resolve the matter amicably before seeking legal remedies. Where a dispute cannot be resolved amicably, it shall be subject to the jurisdiction of the competent courts of Romania, unless applicable law requires otherwise.</p>
+            </section>
+
+            <!-- 19. Severability -->
+            <section class="terms-section" id="s19">
+                <h2>19. Severability</h2>
+                <p>If any provision of these Terms of Use is found to be invalid, unlawful, or unenforceable by a court or other competent authority, that provision shall be enforced to the maximum extent permitted by applicable law, and the remaining provisions of these Terms shall remain in full force and effect.</p>
+                <p>Any invalid, unlawful, or unenforceable provision shall, where possible, be interpreted or modified in a manner that most closely reflects its original purpose while remaining legally valid. The invalidity or unenforceability of any individual provision shall not affect the validity or enforceability of the remaining provisions of these Terms.</p>
+            </section>
+
+            <!-- 20. Entire Agreement -->
+            <section class="terms-section" id="s20">
+                <h2>20. Entire Agreement</h2>
+                <p>These Terms of Use, together with our Privacy Policy and any other policies or guidelines expressly incorporated by reference, constitute the entire agreement between you and Atomo Schola regarding your access to and use of the platform. These Terms supersede all prior or contemporaneous agreements, communications, representations, or understandings, whether oral or written, relating to the subject matter of these Terms.</p>
+                <p>No failure or delay by Atomo Schola in exercising any right or enforcing any provision of these Terms shall constitute a waiver of that right or provision. Any waiver of a provision of these Terms shall be effective only if made expressly and in writing by the Administration Team.</p>
+                <p>Nothing in these Terms creates any partnership, employment relationship, agency, joint venture, or other legal relationship between Atomo Schola and any user beyond the use of the platform as described herein.</p>
+            </section>
+
+            <!-- 21. Contact Us -->
+            <section class="terms-section" id="s21">
+                <h2>21. Contact Us</h2>
+                <h3>21.1 General Contact</h3>
+                <p>If you have questions, feedback, or require assistance regarding Atomo Schola or these Terms of Use, you may contact the Administration Team using the contact information below.</p>
+                <div class="terms-contact-box"><strong>General Contact Email:</strong> <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a></div>
+                <p>We aim to respond to inquiries within a reasonable timeframe; however, response times may vary depending on the availability of our volunteer team.</p>
+                <h3>21.2 Legal &amp; Privacy Requests</h3>
+                <p>For matters relating to these Terms of Use, copyright, intellectual property, privacy, data protection, or other legal concerns, please use the following contact address:</p>
+                <div class="terms-contact-box"><strong>Legal &amp; Privacy Email:</strong> <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a></div>
+                <p>Where required by applicable law, we will review and respond to legitimate legal or privacy requests as promptly as reasonably possible.</p>
+                <h3>21.3 Reporting Violations</h3>
+                <p>If you believe that content or user activity violates these Terms of Use, infringes intellectual property rights, or otherwise presents a legal or security concern, you may submit a report using the Legal &amp; Privacy email listed above. When submitting a report, please include sufficient information to allow the Administration Team to identify and investigate the issue.</p>
+                <p>The Administration Team reserves the right to determine the appropriate response to any report, including requesting additional information, restricting access to content, or taking other moderation or administrative actions where appropriate.</p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-name">
+                    <i class="fas fa-atom"></i>
+                    Atomo Schola
+                </div>
+                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+                <div class="footer-social">
+                    <a href="https://discord.gg/hCQrmYccWf" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Explore</div>
+                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+                <a href="steam.html"><i class="fas fa-chevron-right"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+                <a href="search.html"><i class="fas fa-chevron-right"></i> Search</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Community</div>
+                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
+                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Platform</div>
+                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
+                <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
+                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
+                <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

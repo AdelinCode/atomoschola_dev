@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
@@ -284,11 +284,11 @@
                             <span class="stat-label">Lessons Edited</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-value" id="statRating">—</span>
+                            <span class="stat-value" id="statRating">�</span>
                             <span class="stat-label">Avg. Rating</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-value" id="statSince">—</span>
+                            <span class="stat-value" id="statSince">�</span>
                             <span class="stat-label">Member Since</span>
                         </div>
                     </div>
@@ -298,14 +298,14 @@
                             <div class="info-icon"><i class="fas fa-user-tag"></i></div>
                             <div class="info-content">
                                 <div class="info-label">Role</div>
-                                <div class="info-value" id="infoRole">—</div>
+                                <div class="info-value" id="infoRole">�</div>
                             </div>
                         </div>
                         <div class="info-item">
                             <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
                             <div class="info-content">
                                 <div class="info-label">Joined</div>
-                                <div class="info-value" id="infoJoined">—</div>
+                                <div class="info-value" id="infoJoined">�</div>
                             </div>
                         </div>
                     </div>
@@ -394,9 +394,9 @@
             // Calculate average rating if creator
             if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
                 const avgRating = calculateAverageRating(viewedUser.createdLessons);
-                document.getElementById('statRating').textContent = avgRating > 0 ? avgRating.toFixed(1) : '—';
+                document.getElementById('statRating').textContent = avgRating > 0 ? avgRating.toFixed(1) : '�';
             } else {
-                document.getElementById('statRating').textContent = '—';
+                document.getElementById('statRating').textContent = '�';
             }
             
             // Info grid
@@ -422,7 +422,7 @@
             const now = new Date();
             const monthsOld = (now.getFullYear() - joinDate.getFullYear()) * 12 + (now.getMonth() - joinDate.getMonth());
 
-            // ── Role badges ──────────────────────────────────────────
+            // -- Role badges ------------------------------------------
             const roleIconMap = {
                 owner:      'fa-crown',
                 staff:      'fa-shield-alt',
@@ -446,7 +446,7 @@
                 badges.push(makeBadge('badge-commission-editor', 'fa-balance-scale', 'Editor Commission', 'Member of the editor commission.'));
             }
 
-            // ── Content achievements ─────────────────────────────────
+            // -- Content achievements ---------------------------------
             if (created >= 1)  badges.push(makeBadge('badge-ach-author',   'fa-feather-alt',   'Author',       'Published a first lesson.'));
             if (created >= 5)  badges.push(makeBadge('badge-ach-prolific',  'fa-books',          'Prolific',     '5 lessons published.'));
             if (created >= 10) badges.push(makeBadge('badge-ach-scholar',   'fa-graduation-cap', 'Scholar',      '10 lessons published.'));
@@ -457,17 +457,17 @@
             if (edited >= 30)  badges.push(makeBadge('badge-ach-refiner',   'fa-gem',            'Refiner',      '30 edits approved.'));
 
             const avgRating = calculateAverageRating(viewedUser.createdLessons || []);
-            if (created >= 3 && avgRating >= 4.5) badges.push(makeBadge('badge-ach-quality',  'fa-star',  'Quality Creator', 'avg rating ≥ 4.5 on 3+ lessons.'));
-            if (created >= 3 && avgRating >= 4.8) badges.push(makeBadge('badge-ach-perfect',  'fa-award', 'Perfectionist',   'avg rating ≥ 4.8 on 3+ lessons.'));
+            if (created >= 3 && avgRating >= 4.5) badges.push(makeBadge('badge-ach-quality',  'fa-star',  'Quality Creator', 'avg rating = 4.5 on 3+ lessons.'));
+            if (created >= 3 && avgRating >= 4.8) badges.push(makeBadge('badge-ach-perfect',  'fa-award', 'Perfectionist',   'avg rating = 4.8 on 3+ lessons.'));
 
-            // ── Time achievements ────────────────────────────────────
+            // -- Time achievements ------------------------------------
             const launchDate = new Date('2026-07-20');
             if (joinDate < launchDate) {
                 badges.push(makeBadge('badge-ach-early', 'fa-rocket', 'Early Adopter', 'Joined before the official launch.'));
             }
             if (monthsOld >= 12) badges.push(makeBadge('badge-veteran', 'fa-history',  `${Math.floor(monthsOld/12)}yr Member`, 'Loyal member of the community.'));
 
-            // ── Verified ─────────────────────────────────────────────
+            // -- Verified ---------------------------------------------
             if (created > 0 || edited > 0) {
                 badges.push(makeBadge('badge-verified', 'fa-check-circle', 'Verified Contributor', 'Has published or edited content.'));
             }
@@ -623,6 +623,7 @@
                 <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
                 <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
                 <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
+                <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
                 <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
             </div>
         </div>
