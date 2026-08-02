@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .terms-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+        .terms-hero {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        .terms-hero h1 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+            color: var(--text-primary) !important;
+        }
+        .terms-hero p {
+            color: var(--text-secondary) !important;
+            font-size: 15px;
+        }
+        .terms-toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 48px;
+        }
+        .terms-toc h2 {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary) !important;
+            margin-bottom: 14px;
+        }
+        .terms-toc ol {
+            list-style: decimal;
+            padding-left: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+        }
+        .terms-toc li a {
+            color: var(--text-primary) !important;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .terms-toc li a:hover {
+            color: var(--accent-primary) !important;
+        }
+        .terms-section {
+            margin-bottom: 52px;
+        }
+        .terms-section h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary) !important;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        .terms-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+            margin: 22px 0 8px;
+        }
+        .terms-section p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary) !important;
+            margin-bottom: 12px;
+        }
+        .terms-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 16px;
+        }
+        .terms-section ul li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary) !important;
+            padding: 5px 0 5px 22px;
+            position: relative;
+        }
+        .terms-section ul li::before {
+            content: '–';
+            position: absolute;
+            left: 4px;
+            color: var(--text-muted);
+        }
+        .terms-contact-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-size: 15px;
+            color: var(--text-secondary) !important;
+        }
+        .terms-contact-box strong {
+            color: var(--text-primary);
+        }
+        .terms-contact-box a {
+            color: var(--accent-primary) !important;
+            text-decoration: none;
+        }
+        .terms-contact-box a:hover {
+            text-decoration: underline;
+        }
+        /* GDPR table */
+        .gdpr-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 14px;
+        }
+        .gdpr-table th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 12px 14px;
+            border: 1px solid var(--border-primary);
+            text-align: left;
+        }
+        .gdpr-table td {
+            padding: 11px 14px;
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            vertical-align: top;
+        }
+        .gdpr-table tr:nth-child(even) td {
+            background: var(--bg-secondary);
+        }
+        @media (max-width: 600px) {
+            .terms-toc ol { grid-template-columns: 1fr; }
+            .terms-hero h1 { font-size: 26px; }
+            .gdpr-table, .gdpr-table thead, .gdpr-table tbody, .gdpr-table th, .gdpr-table td, .gdpr-table tr {
+                display: block;
+            }
+            .gdpr-table thead { display: none; }
+            .gdpr-table td {
+                border: none;
+                border-bottom: 1px solid var(--border-primary);
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpeg" alt="Atomo Schola">
+                    <span>Atomo Schola</span>
+                </a>
+            </div>
+            <nav class="nav-menu" id="navMenu"></nav>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="terms-wrapper">
+
+            <div class="terms-hero">
+                <h1><i class="fas fa-shield-alt" style="margin-right:12px;"></i>Privacy Policy</h1>
+                <p>Effective Date: 30 July 2026 &nbsp;|&nbsp; Atomo Schola</p>
+                <p style="margin-top:8px; font-size:13px;">Issued in accordance with Regulation (EU) 2016/679 (GDPR) and Romanian Law No. 190/2018.</p>
+            </div>
+
+            <!-- Table of Contents -->
+            <nav class="terms-toc" aria-label="Table of Contents">
+                <h2>Table of Contents</h2>
+                <ol>
+                    <li><a href="#p1">Data Controller</a></li>
+                    <li><a href="#p2">What Personal Data We Collect</a></li>
+                    <li><a href="#p3">Purpose and Legal Basis (Art. 6 GDPR)</a></li>
+                    <li><a href="#p4">Recipients of Data</a></li>
+                    <li><a href="#p5">International Data Transfers</a></li>
+                    <li><a href="#p6">Data Retention</a></li>
+                    <li><a href="#p7">Your Rights Under the GDPR</a></li>
+                    <li><a href="#p8">Right to Lodge a Complaint</a></li>
+                    <li><a href="#p9">Cookies</a></li>
+                    <li><a href="#p10">Security Measures</a></li>
+                    <li><a href="#p11">Children's Data</a></li>
+                    <li><a href="#p12">Changes to This Policy</a></li>
+                    <li><a href="#p13">Contact Us</a></li>
+                </ol>
+            </nav>
+
+            <!-- Intro -->
+            <section class="terms-section">
+                <p>Atomo Schola ("we," "us," or "the Controller") operates <a href="https://atomoschola.vercel.app" target="_blank" rel="noopener">https://atomoschola.vercel.app</a> (the "Site"). This policy explains what personal data we collect, why, how we use it, and the rights you have under EU and Romanian law.</p>
+            </section>
+
+            <!-- 1. Data Controller -->
+            <section class="terms-section" id="p1">
+                <h2>1. Data Controller</h2>
+                <p>The data controller responsible for your personal data is:</p>
+                <div class="terms-contact-box">
+                    <strong>Atomo Schola</strong><br>
+                    <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a>
+                </div>
+            </section>
+
+            <!-- 2. What Personal Data We Collect -->
+            <section class="terms-section" id="p2">
+                <h2>2. What Personal Data We Collect</h2>
+                <p>We collect only the following categories of personal data:</p>
+                <ul>
+                    <li><strong>Email address</strong> — required to create an account and log in.</li>
+                    <li><strong>Password</strong> — required to secure your account. Passwords are stored only in encrypted (hashed) form and are never stored or displayed as plain text.</li>
+                    <li><strong>Username (optional)</strong> — if provided, may be displayed publicly on the Site.</li>
+                    <li><strong>Name (optional)</strong> — if provided, may be displayed publicly on the Site.</li>
+                </ul>
+                <p>We do not collect location data, payment data, browsing/tracking data, or data from third parties. We do not use tracking or advertising cookies (see Section 9).</p>
+            </section>
+
+            <!-- 3. Purpose and Legal Basis -->
+            <section class="terms-section" id="p3">
+                <h2>3. Purpose and Legal Basis for Processing (Art. 6 GDPR)</h2>
+                <table class="gdpr-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Purpose</th>
+                            <th>Legal Basis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Email, Password</td>
+                            <td>Account creation and authentication (log-in)</td>
+                            <td>Art. 6(1)(b) — necessary for performance of the contract (Terms of Use) between you and us</td>
+                        </tr>
+                        <tr>
+                            <td>Username, Name</td>
+                            <td>Display within the Site (e.g., public profile)</td>
+                            <td>Art. 6(1)(a) — your consent, given by voluntarily submitting this optional information</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>You may withdraw your consent to the optional data at any time by removing it from your profile, without affecting the lawfulness of processing carried out before withdrawal.</p>
+                <p>We do not use your personal data for marketing, profiling, or automated decision-making, and we do not sell or rent your data.</p>
+            </section>
+
+            <!-- 4. Recipients of Data -->
+            <section class="terms-section" id="p4">
+                <h2>4. Recipients of Data</h2>
+                <p>We do not share, sell, or disclose your personal data to third parties, except:</p>
+                <ul>
+                    <li>Hosting/infrastructure providers strictly necessary to operate the Site (acting as data processors under Art. 28 GDPR, bound by data processing agreements).</li>
+                    <li>Where required by Romanian or EU law, or in response to a valid request from a competent public authority.</li>
+                </ul>
+            </section>
+
+            <!-- 5. International Data Transfers -->
+            <section class="terms-section" id="p5">
+                <h2>5. International Data Transfers</h2>
+                <p>Your data is stored on servers located within the European Economic Area (EEA) and is not transferred outside the EEA.</p>
+            </section>
+
+            <!-- 6. Data Retention -->
+            <section class="terms-section" id="p6">
+                <h2>6. Data Retention</h2>
+                <p>We retain your personal data only for as long as your account is active. If you delete your account by contacting the Administration Team, your email, password, username, and name are erased from our active systems within 30 days, except where a longer retention period is required by law (e.g., for accounting, security incident records, or to establish/defend legal claims).</p>
+            </section>
+
+            <!-- 7. Your Rights -->
+            <section class="terms-section" id="p7">
+                <h2>7. Your Rights Under the GDPR</h2>
+                <p>As a data subject, you have the right to:</p>
+                <ul>
+                    <li><strong>Access your personal data (Art. 15)</strong> — obtain confirmation and a copy of the data we hold about you.</li>
+                    <li><strong>Rectification (Art. 16)</strong> — correct inaccurate or incomplete data, including via your account settings.</li>
+                    <li><strong>Erasure ("right to be forgotten") (Art. 17)</strong> — request deletion of your data, including by deleting your account.</li>
+                    <li><strong>Restriction of processing (Art. 18)</strong> — request that we limit how we use your data in certain circumstances.</li>
+                    <li><strong>Data portability (Art. 20)</strong> — receive your data in a structured, commonly used, machine-readable format.</li>
+                    <li><strong>Object to processing (Art. 21)</strong> — object to processing based on legitimate interest (not currently used) or withdraw consent for optional data.</li>
+                    <li><strong>Not be subject to automated individual decision-making, including profiling (Art. 22)</strong> — not applicable, as we do not use automated decision-making.</li>
+                </ul>
+                <p>To exercise any of these rights, contact us at <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a>. We will respond within one month, as required by Art. 12(3) GDPR (extendable by two further months for complex requests, with notice).</p>
+            </section>
+
+            <!-- 8. Right to Lodge a Complaint -->
+            <section class="terms-section" id="p8">
+                <h2>8. Right to Lodge a Complaint</h2>
+                <p>If you believe your data protection rights have been violated, you have the right to lodge a complaint with the Romanian supervisory authority:</p>
+                <div class="terms-contact-box">
+                    <strong>Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP)</strong><br>
+                    B-dul G-ral. Gheorghe Magheru nr. 28-30, Sector 1, București, cod poștal 010336, România<br>
+                    Website: <a href="https://www.dataprotection.ro" target="_blank" rel="noopener">www.dataprotection.ro</a><br>
+                    Email: <a href="mailto:anspdcp@dataprotection.ro">anspdcp@dataprotection.ro</a>
+                </div>
+                <p>You may also lodge a complaint with the supervisory authority of your own EU member state of residence or the place of the alleged infringement.</p>
+            </section>
+
+            <!-- 9. Cookies -->
+            <section class="terms-section" id="p9">
+                <h2>9. Cookies</h2>
+                <p>We use only strictly necessary cookies or equivalent technologies (e.g., a session/authentication token) required to keep you logged in. These do not require consent under Romanian Law No. 506/2004 on the processing of personal data in the electronic communications sector (transposing the ePrivacy Directive), as they are essential to the service you requested.</p>
+                <p>We do not use analytics, tracking, or advertising cookies.</p>
+            </section>
+
+            <!-- 10. Security Measures -->
+            <section class="terms-section" id="p10">
+                <h2>10. Security Measures</h2>
+                <p>In accordance with Art. 32 GDPR, we implement appropriate technical and organizational measures, including:</p>
+                <ul>
+                    <li>Hashing/encryption of passwords.</li>
+                    <li>Access controls limiting who can view stored data.</li>
+                    <li>Reasonable safeguards against unauthorized access, loss, or disclosure.</li>
+                </ul>
+                <p>In the event of a personal data breach likely to result in a risk to your rights and freedoms, we will notify ANSPDCP within 72 hours (Art. 33 GDPR) and, where required, notify you directly (Art. 34 GDPR).</p>
+            </section>
+
+            <!-- 11. Children's Data -->
+            <section class="terms-section" id="p11">
+                <h2>11. Children's Data</h2>
+                <p>In accordance with Romanian Law No. 190/2018, the processing of personal data of children under 16 years old based on consent is only lawful with the consent of a parent or legal guardian. Creation of accounts on the Site is not intended for children under 16, and we do not knowingly collect data from them without such consent. If you believe a child has provided us with data without appropriate consent, please contact us so we can delete it.</p>
+            </section>
+
+            <!-- 12. Changes to This Policy -->
+            <section class="terms-section" id="p12">
+                <h2>12. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy to reflect legal, technical, or operational changes. The "Effective Date" above will be updated accordingly. Material changes will be communicated via the Site or by email where appropriate.</p>
+            </section>
+
+            <!-- 13. Contact Us -->
+            <section class="terms-section" id="p13">
+                <h2>13. Contact Us</h2>
+                <p>For any questions or to exercise your rights, contact us at:</p>
+                <div class="terms-contact-box">
+                    <a href="mailto:atomoschola@gmail.com">atomoschola@gmail.com</a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-name">
+                    <i class="fas fa-atom"></i>
+                    Atomo Schola
+                </div>
+                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+                <div class="footer-social">
+                    <a href="https://discord.gg/hCQrmYccWf" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Explore</div>
+                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+                <a href="steam.html"><i class="fas fa-chevron-right"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+                <a href="search.html"><i class="fas fa-chevron-right"></i> Search</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Community</div>
+                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
+                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Platform</div>
+                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
+                <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
+                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
+                <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
+                <a href="privacy.html"><i class="fas fa-chevron-right"></i> Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
