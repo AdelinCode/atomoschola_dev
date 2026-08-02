@@ -16,7 +16,7 @@ async function loadCategoryData() {
     const currentPath = window.location.pathname;
     let majorCategory;
 
-    if (currentPath.includes('steam.html') || currentPath.includes('real.html')) {
+    if (currentPath.includes('stem.html') || currentPath.includes('real.html')) {
         majorCategory = 'STEAM';
     } else if (currentPath.includes('humanities.html') || currentPath.includes('uman.html')) {
         majorCategory = 'Humanities';

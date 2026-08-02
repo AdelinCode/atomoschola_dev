@@ -64,7 +64,7 @@ function renderGuestNav() {
             </button>
             <div class="dropdown-menu" id="coursesDropdown">
                 <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
-                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="stem.html"><i class="fas fa-atom"></i> STEM</a>
                 <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
             </div>
         </div>
@@ -123,7 +123,7 @@ function renderAuthenticatedNav() {
             </button>
             <div class="dropdown-menu" id="coursesDropdown">
                 <a href="index.html"><i class="fas fa-home"></i> Main Page</a>
-                <a href="steam.html"><i class="fas fa-atom"></i> STEM</a>
+                <a href="stem.html"><i class="fas fa-atom"></i> STEM</a>
                 <a href="humanities.html"><i class="fas fa-book-reader"></i> Humanities</a>
             </div>
         </div>
@@ -1117,7 +1117,7 @@ function buildMobilePanel(panel) {
     html += `
         <div class="mobile-nav-section-label">Courses</div>
         <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i> Main Page</a>
-        <a href="steam.html" class="mobile-nav-item"><i class="fas fa-atom"></i> STEM</a>
+        <a href="stem.html" class="mobile-nav-item"><i class="fas fa-atom"></i> STEM</a>
         <a href="humanities.html" class="mobile-nav-item"><i class="fas fa-book-reader"></i> Humanities</a>
     `;
 
