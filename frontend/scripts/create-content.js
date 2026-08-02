@@ -144,14 +144,6 @@ function setupEventListeners() {
         document.getElementById('lessonSlug').value = generateSlug(this.value);
     });
     
-    document.getElementById('domainName')?.addEventListener('input', function() {
-        document.getElementById('domainSlug').value = generateSlug(this.value);
-    });
-    
-    document.getElementById('categoryName')?.addEventListener('input', function() {
-        document.getElementById('categorySlug').value = generateSlug(this.value);
-    });
-    
     document.getElementById('subjectName')?.addEventListener('input', function() {
         document.getElementById('subjectSlug').value = generateSlug(this.value);
     });
@@ -421,7 +413,7 @@ async function handleDomainSubmit(e) {
         const subjectId = document.getElementById('domainSubject').value;
         const domainData = {
             name: document.getElementById('domainName').value,
-            slug: document.getElementById('domainSlug').value,
+            slug: generateSlug(document.getElementById('domainName').value),
             description: document.getElementById('domainDescription').value,
             subject: subjectId
         };
@@ -491,7 +483,7 @@ async function handleCategorySubmit(e) {
         const domainId = document.getElementById('categoryDomain').value;
         const categoryData = {
             name: document.getElementById('categoryName').value,
-            slug: document.getElementById('categorySlug').value,
+            slug: generateSlug(document.getElementById('categoryName').value),
             description: document.getElementById('categoryDescription').value,
             domain: domainId
         };

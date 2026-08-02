@@ -68,32 +68,35 @@ async function showNotificationsModal() {
     let notificationsHTML = '';
     
     if (notificationsData.length === 0) {
-        notificationsHTML = '<div style="text-align: center; padding: 40px; color: #999;">No notifications yet</div>';
+        notificationsHTML = '<div class="notif-empty"><i class="fas fa-bell-slash"></i>No notifications yet</div>';
     } else {
-        notificationsHTML = '<div style="display: flex; flex-direction: column; gap: 12px;">';
+        notificationsHTML = '<div style="display:flex;flex-direction:column;gap:10px;">';
         notificationsData.forEach(notification => {
             const icon = getNotificationIcon(notification.type);
             const color = getNotificationColor(notification.type);
             const isUnread = !notification.isRead;
-            
+            const url = getNotificationUrl(notification);
+
             notificationsHTML += `
-                <div class="notification-item ${isUnread ? 'unread' : ''}" style="padding: 16px; border-radius: 8px; background: ${isUnread ? '#f0f7ff' : '#f8f9fa'}; border-left: 4px solid ${color}; position: relative;">
-                    ${isUnread ? '<div style="position: absolute; top: 16px; right: 48px; width: 8px; height: 8px; background: #dc3545; border-radius: 50%;"></div>' : ''}
-                    <button onclick="deleteNotification('${notification._id}', event)" style="position: absolute; top: 12px; right: 12px; background: #dc3545; color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.3s ease;" title="Delete notification">
+                <div class="notification-item ${isUnread ? 'unread' : ''}" style="border-left-color:${color};">
+                    ${isUnread ? '<div class="notif-unread-dot"></div>' : ''}
+                    <button onclick="deleteNotification('${notification._id}', event)" class="notif-delete-btn" title="Delete notification">
                         <i class="fas fa-trash"></i>
                     </button>
-                    <div onclick="markAsRead('${notification._id}')" style="cursor: pointer; padding-right: 40px;">
-                        <div style="display: flex; align-items: start; gap: 12px;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: ${color}; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
-                                <i class="${icon}"></i>
-                            </div>
-                            <div style="flex: 1;">
-                                <div style="font-weight: 600; color: #333; margin-bottom: 4px;">${notification.title}</div>
-                                <div style="color: #666; font-size: 14px; margin-bottom: 8px;">${notification.message}</div>
-                                <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: #999;">
-                                    <span><i class="fas fa-clock"></i> ${formatNotificationTime(notification.createdAt)}</span>
-                                    ${notification.reviewedBy ? `<span><i class="fas fa-user"></i> ${notification.reviewedBy.username}</span>` : ''}
-                                </div>
+                    <div class="notif-body"
+                         data-notif-id="${notification._id}"
+                         data-notif-url="${url || ''}"
+                         onclick="handleNotificationClick(this)">
+                        <div class="notif-icon" style="background:${color};">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="notif-text">
+                            <div class="notif-title">${notification.title}</div>
+                            <div class="notif-message">${notification.message}</div>
+                            <div class="notif-meta">
+                                <span><i class="fas fa-clock"></i>${formatNotificationTime(notification.createdAt)}</span>
+                                ${notification.reviewedBy ? `<span><i class="fas fa-user"></i>${notification.reviewedBy.username}</span>` : ''}
+                                ${url ? '<span class="notif-link-hint"><i class="fas fa-arrow-right"></i>View</span>' : ''}
                             </div>
                         </div>
                     </div>
@@ -104,15 +107,15 @@ async function showNotificationsModal() {
     }
     
     modal.innerHTML = `
-        <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;">
-            <div class="modal-header" style="flex-shrink: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3><i class="fas fa-bell"></i> Notifications</h3>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    ${notificationsData.length > 0 && unreadCount > 0 ? '<button onclick="markAllAsRead()" style="background: #667eea; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Mark all read</button>' : ''}
+                <div style="display:flex;gap:10px;align-items:center;">
+                    ${notificationsData.length > 0 && unreadCount > 0 ? '<button onclick="markAllAsRead()" class="notif-mark-all-btn">Mark all read</button>' : ''}
                     <button class="modal-close" onclick="closeNotificationsModal()">&times;</button>
                 </div>
             </div>
-            <div class="modal-body" style="flex: 1; overflow-y: auto;">
+            <div class="modal-body">
                 ${notificationsHTML}
             </div>
         </div>
@@ -126,6 +129,27 @@ window.closeNotificationsModal = function() {
     const modal = document.getElementById('notificationsModal');
     if (modal) {
         modal.style.display = 'none';
+    }
+};
+
+// Handle notification click — mark as read then navigate
+window.handleNotificationClick = async function(el) {
+    const notificationId = el.dataset.notifId;
+    const url = el.dataset.notifUrl || null;
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        await fetch(`${apiUrl}/notifications/${notificationId}/read`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        await loadNotifications();
+    } catch (e) { /* ignore */ }
+
+    if (url) {
+        window.location.href = url;
+    } else {
+        showNotificationsModal();
     }
 };
 
@@ -201,6 +225,35 @@ window.deleteNotification = async function(notificationId, event) {
         alert('Error deleting notification');
     }
 };
+
+// Get notification navigation URL
+function getNotificationUrl(notification) {
+    const { type, relatedItem } = notification;
+
+    // Rejected notifications and password reset have no meaningful destination
+    if (!relatedItem || type.includes('rejected') || type === 'password_reset_request') return null;
+
+    // relatedItem may be a populated object or just an ID string (old notifications)
+    const itemId = relatedItem._id || relatedItem;
+
+    if (type === 'lesson_approved') {
+        return `lesson.html?id=${itemId}`;
+    }
+
+    if (type === 'domain_approved') {
+        const subjectSlug = relatedItem.subject?.slug;
+        if (subjectSlug) return `subject.html?subject=${subjectSlug}`;
+        return null;
+    }
+
+    if (type === 'category_approved') {
+        const subjectSlug = relatedItem.domain?.subject?.slug;
+        if (subjectSlug) return `subject.html?subject=${subjectSlug}`;
+        return null;
+    }
+
+    return null;
+}
 
 // Get notification icon
 function getNotificationIcon(type) {

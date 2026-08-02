@@ -347,6 +347,8 @@ body {
     transition: all 0.3s ease;
     cursor: pointer;
     border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
 }
 
 .subject-card:hover {
@@ -389,6 +391,7 @@ body {
     align-items: center;
     padding-top: 20px;
     border-top: 1px solid #e9ecef;
+    margin-top: auto;
 }
 
 .subject-stats span {

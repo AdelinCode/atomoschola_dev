@@ -64,3 +64,9 @@ html body.theme-steam .sidebar-item:hover i,
 html body.theme-humanities .sidebar-item:hover i {
     color: var(--cat-primary) !important;
 }
+
+/* Hero padding for STEM & Humanities pages */
+html body.theme-steam .hero,
+html body.theme-humanities .hero {
+    padding-bottom: 40px;
+}

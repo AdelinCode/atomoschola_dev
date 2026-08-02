@@ -1,5 +1,9 @@
 // Staff Dashboard functionality
 
+function generateSlug(text) {
+    return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 // Wait for DOM and API to be ready
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is staff
@@ -591,12 +595,13 @@ async function submitRename() {
     const itemId = document.getElementById('renameItemId').value;
     const subjectId = document.getElementById('renameSubjectId').value;
     const domainId = document.getElementById('renameDomainId').value;
+    const name = document.getElementById('renameNameInput').value.trim();
     const body = {
-        name: document.getElementById('renameNameInput').value.trim(),
-        slug: document.getElementById('renameSlugInput').value.trim(),
+        name,
+        slug: generateSlug(name),
         description: document.getElementById('renameDescInput').value.trim()
     };
-    if (!body.name || !body.slug) return alert('Name and slug are required.');
+    if (!body.name) return alert('Name is required.');
 
     const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
     const url = type === 'domain'

@@ -9,10 +9,28 @@ const router = express.Router();
 // @access  Private
 router.get('/', protect, async (req, res) => {
   try {
-    const notifications = await Notification.find({ user: req.user._id })
-      .populate('reviewedBy', 'username firstName lastName')
-      .sort('-createdAt')
-      .limit(50);
+    let notifications;
+    try {
+      notifications = await Notification.find({ user: req.user._id })
+        .populate('reviewedBy', 'username firstName lastName')
+        .populate({
+          path: 'relatedItem',
+          select: 'slug title name subject domain category',
+          populate: [
+            { path: 'subject', select: 'slug' },
+            { path: 'domain', select: 'slug subject', populate: { path: 'subject', select: 'slug' } },
+            { path: 'category', select: 'slug domain', populate: { path: 'domain', select: 'slug subject', populate: { path: 'subject', select: 'slug' } } }
+          ]
+        })
+        .sort('-createdAt')
+        .limit(50);
+    } catch (populateError) {
+      // Fallback without relatedItem populate if it fails
+      notifications = await Notification.find({ user: req.user._id })
+        .populate('reviewedBy', 'username firstName lastName')
+        .sort('-createdAt')
+        .limit(50);
+    }
 
     const unreadCount = await Notification.countDocuments({ 
       user: req.user._id, 
