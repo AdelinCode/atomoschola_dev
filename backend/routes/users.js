@@ -4,6 +4,37 @@ import { protect, authorize } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// @route   POST /api/users/heartbeat
+// @desc    Update lastSeen timestamp for the authenticated user
+// @access  Private
+router.post('/heartbeat', protect, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.user._id, { lastSeen: new Date() });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @route   GET /api/users/online-count
+// @desc    Get count of users active in last 5 min + peak in last 1h (owner only)
+// @access  Private/Owner
+router.get('/online-count', protect, authorize('owner'), async (req, res) => {
+  try {
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+
+    const [onlineCount, peakLastHour] = await Promise.all([
+      User.countDocuments({ lastSeen: { $gte: fiveMinutesAgo } }),
+      User.countDocuments({ lastSeen: { $gte: oneHourAgo } })
+    ]);
+
+    res.json({ success: true, data: { onlineCount, peakLastHour } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // @route   GET /api/users/staff
 // @desc    Get all staff members (owners, editors, creators)
 // @access  Public

@@ -1199,6 +1199,22 @@ function buildMobilePanel(panel) {
 
 window.closeMobileNav = closeMobileNav;
 
+// Heartbeat — keeps lastSeen updated every 30s for authenticated users
+function startHeartbeat() {
+    if (!window.API || !window.API.isAuthenticated()) return;
+    // Send immediately on load, then every 30 seconds
+    window.API.users.heartbeat().catch(() => {});
+    setInterval(() => {
+        if (window.API.isAuthenticated()) {
+            window.API.users.heartbeat().catch(() => {});
+        }
+    }, 30000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    startHeartbeat();
+});
+
 // Export functions for use in other scripts
 window.EduPlatform = {
     currentUser,

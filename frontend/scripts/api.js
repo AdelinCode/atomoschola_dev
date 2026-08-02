@@ -145,7 +145,9 @@ const usersAPI = {
   }),
   removeBookmark: (lessonId) => apiRequest(`/users/me/bookmark/${lessonId}`, {
     method: 'DELETE'
-  })
+  }),
+  heartbeat: () => apiRequest('/users/heartbeat', { method: 'POST' }),
+  getOnlineCount: () => apiRequest('/users/online-count')
 };
 
 // Invite Codes API
