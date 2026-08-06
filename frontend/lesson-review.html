@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
@@ -175,13 +175,13 @@ function renderCard(r) {
     const ld = r.lessonData || {};
     const panelSize = r.panel?.length || 0;
     const creatorName = r.creator?.firstName ? `${r.creator.firstName} ${r.creator.lastName}` : r.creator?.username || 'Unknown';
-    const isCreator = r.creator?._id === currentUser._id || r.creator === currentUser._id;
-    const inPanel = r.panel?.some(p => (p._id || p) === currentUser._id);
-    const isStaff = ['staff','owner'].includes(currentUser.userType);
+    const isCreator = r.creator?._id === lrCurrentUser._id || r.creator === lrCurrentUser._id;
+    const inPanel = r.panel?.some(p => (p._id || p) === lrCurrentUser._id);
+    const isStaff = ['staff','owner'].includes(lrCurrentUser.userType);
 
     // Current open session
     const openSession = r.voteSessions?.find(s => s.status === 'open');
-    const myVote = openSession?.votes?.find(v => (v.editor?._id || v.editor) === currentUser._id);
+    const myVote = openSession?.votes?.find(v => (v.editor?._id || v.editor) === lrCurrentUser._id);
 
     let sessionHtml = '';
     if (openSession) {
@@ -356,7 +356,7 @@ async function staffAction(reviewId, action) {
     </div>
     <div class="footer-bottom">
         <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
-        <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a></span>
+        <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazăr Andrei</a></span>
     </div>
 </footer>
 </body>
