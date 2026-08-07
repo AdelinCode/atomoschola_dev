@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
@@ -198,7 +198,7 @@ function renderCard(r) {
             <div class="session-box">
                 <div class="session-box-title"><i class="fas fa-vote-yea" style="color:#6f42c1;"></i> Vote Session Open</div>
                 <div style="font-size:13px; color:var(--text-secondary); margin-bottom:8px;">
-                    ${yes} YES Â· ${no} NO Â· ${total}/${panelSize} voted Â· Need 7 YES to approve
+                    ${yes} YES · ${no} NO · ${total}/${panelSize} voted · Need 7 YES to approve
                 </div>
                 <div class="vote-bar">${slots}</div>
                 ${inPanel && !myVote ? `
@@ -215,7 +215,7 @@ function renderCard(r) {
     if (!openSession && lastRejected) {
         sessionHtml = `<div class="session-box" style="border-left:3px solid #dc3545;">
             <div class="session-box-title" style="color:#dc3545;"><i class="fas fa-times-circle"></i> Last Vote: Rejected</div>
-            <div style="font-size:13px;color:var(--text-secondary);">${lastRejected.yesCount} YES Â· ${lastRejected.noCount} NO Â· Discussion can continue.</div>
+            <div style="font-size:13px;color:var(--text-secondary);">${lastRejected.yesCount} YES · ${lastRejected.noCount} NO · Discussion can continue.</div>
         </div>`;
     }
 
@@ -244,8 +244,8 @@ function renderCard(r) {
                     <span><i class="fas fa-user"></i> ${creatorName}</span>
                     <span><i class="fas fa-tag"></i> ${ld.type || 'text'}</span>
                     <span><i class="fas fa-calendar"></i> ${new Date(r.createdAt).toLocaleDateString()}</span>
-                    <span><i class="fas fa-language"></i> ${ld.language || 'â€”'}</span>
-                    <span><i class="fas fa-signal"></i> ${ld.level || 'â€”'}</span>
+                    <span><i class="fas fa-language"></i> ${ld.language || '—'}</span>
+                    <span><i class="fas fa-signal"></i> ${ld.level || '—'}</span>
                 </div>
             </div>
             <span class="status-badge status-${r.status}">${r.status.replace('_',' ')}</span>
@@ -305,7 +305,7 @@ async function castVote(reviewId, sessionId, vote) {
         const data = await res.json();
         if (!data.success) return alert(data.message);
         if (data.result === 'approved') alert('Lesson APPROVED! It is now published.');
-        else if (data.result === 'rejected') alert('Vote session closed â€” not enough YES votes. Discussion can continue.');
+        else if (data.result === 'rejected') alert('Vote session closed — not enough YES votes. Discussion can continue.');
         await loadReviews(currentTab);
     } catch (e) { alert('Error: ' + e.message); }
 }
@@ -333,7 +333,7 @@ async function staffAction(reviewId, action) {
             <div class="footer-brand-name"><i class="fas fa-atom"></i> Atomo Schola</div>
             <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
             <div class="footer-social">
-                <a href="https://discord.gg/NYx4HSQtWY" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://discord.gg/vM87v8mspN" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
                     <a href="https://www.instagram.com/atomoschola_official/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
@@ -356,8 +356,9 @@ async function staffAction(reviewId, action) {
     </div>
     <div class="footer-bottom">
         <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
-        <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">LazÄƒr Andrei</a></span>
+        <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
     </div>
 </footer>
 </body>
 </html>
+

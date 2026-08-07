@@ -1,7 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
 import Lesson from '../models/Lesson.js';
-import ApprovedEdit from '../models/ApprovedEdit.js';
 
 const router = express.Router();
 
@@ -97,39 +96,41 @@ router.get('/', async (req, res) => {
 
     const editorScores = await Promise.all(
       editors.map(async (user) => {
-        const approvedEdits = await ApprovedEdit.find({ proposedBy: user._id })
-          .populate('lesson', 'averageRating')
-          .select('approvedAt lesson');
+        // Use Lesson.editors field (same source as profile) instead of ApprovedEdit collection
+        const editedLessons = await Lesson.find({
+          editors: user._id,
+          status: 'published'
+        }).select('averageRating updatedAt');
 
-        const editsCount = approvedEdits.length;
+        const editsCount = editedLessons.length;
 
         // Calculate time periods
         const now = new Date();
         const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
         const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate());
 
-        // Filter edits by time period
-        const edits0to3months = approvedEdits.filter(e => new Date(e.approvedAt) >= threeMonthsAgo);
-        const edits3to12months = approvedEdits.filter(e => {
-          const date = new Date(e.approvedAt);
+        // Filter edits by time period (using updatedAt as proxy for edit date)
+        const edits0to3months = editedLessons.filter(l => new Date(l.updatedAt) >= threeMonthsAgo);
+        const edits3to12months = editedLessons.filter(l => {
+          const date = new Date(l.updatedAt);
           return date < threeMonthsAgo && date >= twelveMonthsAgo;
         });
-        const editsOver12months = approvedEdits.filter(e => new Date(e.approvedAt) < twelveMonthsAgo);
+        const editsOver12months = editedLessons.filter(l => new Date(l.updatedAt) < twelveMonthsAgo);
 
         // Calculate average ratings for each period (based on lesson ratings)
         const avg0to3 = edits0to3months.length > 0
-          ? edits0to3months.reduce((sum, e) => sum + (e.lesson?.averageRating || 0), 0) / edits0to3months.length
+          ? edits0to3months.reduce((sum, l) => sum + (l.averageRating || 0), 0) / edits0to3months.length
           : 0;
 
         const avg3to12 = edits3to12months.length > 0
-          ? edits3to12months.reduce((sum, e) => sum + (e.lesson?.averageRating || 0), 0) / edits3to12months.length
+          ? edits3to12months.reduce((sum, l) => sum + (l.averageRating || 0), 0) / edits3to12months.length
           : 0;
 
         const avgOver12 = editsOver12months.length > 0
-          ? editsOver12months.reduce((sum, e) => sum + (e.lesson?.averageRating || 0), 0) / editsOver12months.length
+          ? editsOver12months.reduce((sum, l) => sum + (l.averageRating || 0), 0) / editsOver12months.length
           : 0;
 
-        // New score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total edits)
+        // Score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total edits)
         const score = Math.round(
           15 * avg0to3 +
           10 * avg3to12 +

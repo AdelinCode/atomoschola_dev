@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
@@ -332,12 +332,12 @@
                 <h3><i class="fas fa-circle" style="color: #28a745; font-size: 14px;"></i> Online Users</h3>
                 <div style="display: flex; gap: 16px; margin-bottom: 20px;">
                     <div style="flex: 1; background: var(--bg-secondary, #f8f9fa); border-radius: 10px; padding: 16px 12px; text-align: center; border: 1px solid var(--border-primary, #e0e0e0);">
-                        <div id="onlineCount" style="font-size: 42px; font-weight: 800; color: #28a745; line-height: 1;">â€“</div>
+                        <div id="onlineCount" style="font-size: 42px; font-weight: 800; color: #28a745; line-height: 1;">–</div>
                         <div style="font-size: 12px; color: #888; margin-top: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Now online</div>
                         <div style="font-size: 11px; color: #aaa; margin-top: 2px;">last 5 min</div>
                     </div>
                     <div style="flex: 1; background: var(--bg-secondary, #f8f9fa); border-radius: 10px; padding: 16px 12px; text-align: center; border: 1px solid var(--border-primary, #e0e0e0);">
-                        <div id="peakCount" style="font-size: 42px; font-weight: 800; color: #667eea; line-height: 1;">â€“</div>
+                        <div id="peakCount" style="font-size: 42px; font-weight: 800; color: #667eea; line-height: 1;">–</div>
                         <div style="font-size: 12px; color: #888; margin-top: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Peak</div>
                         <div style="font-size: 11px; color: #aaa; margin-top: 2px;">last 1 hour</div>
                     </div>
@@ -501,8 +501,8 @@
                 const now = new Date();
                 lastUpdatedEl.textContent = 'Last updated: ' + now.toLocaleTimeString();
             } catch (e) {
-                countEl.textContent = 'â€“';
-                peakEl.textContent = 'â€“';
+                countEl.textContent = '–';
+                peakEl.textContent = '–';
                 lastUpdatedEl.textContent = 'Failed to load';
             } finally {
                 if (icon) icon.classList.remove('fa-spin');
@@ -524,7 +524,7 @@
                 </div>
                 <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
                 <div class="footer-social">
-                    <a href="https://discord.gg/NYx4HSQtWY" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://discord.gg/vM87v8mspN" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
                     <a href="https://www.instagram.com/atomoschola_official/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
@@ -548,9 +548,9 @@
             <div class="footer-col">
                 <div class="footer-col-title">Platform</div>
                 <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
-                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> Contribution</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> How AS Works</a>
                 <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
-                <a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a>
+                
                 <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
                 <a href="privacy.html"><i class="fas fa-chevron-right"></i> Privacy Policy</a>
                 <a href="register.html"><i class="fas fa-chevron-right"></i> Register</a>
@@ -559,8 +559,9 @@
 
         <div class="footer-bottom">
             <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
-            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">LazÄƒr Andrei</a></span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
         </div>
     </footer>
 </body>
 </html>
+
