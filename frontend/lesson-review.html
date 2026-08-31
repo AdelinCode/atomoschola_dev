@@ -63,6 +63,8 @@
         .empty-state i { font-size: 48px; margin-bottom: 16px; color: var(--border-secondary); }
         .discord-note { background: #5865F222; border: 1px solid #5865F2; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 10px; margin-top: 12px; }
         .discord-note i { color: #5865F2; font-size: 18px; flex-shrink: 0; }
+        .badge-translation { background: #fd7e14; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+        .translation-info { background: var(--bg-tertiary); border-left: 3px solid #fd7e14; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 13px; color: var(--text-secondary); display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
     </style>
 </head>
 <body>
@@ -198,7 +200,7 @@ function renderCard(r) {
             <div class="session-box">
                 <div class="session-box-title"><i class="fas fa-vote-yea" style="color:#6f42c1;"></i> Vote Session Open</div>
                 <div style="font-size:13px; color:var(--text-secondary); margin-bottom:8px;">
-                    ${yes} YES · ${no} NO · ${total}/${panelSize} voted · Need 7 YES to approve
+                    ${yes} YES ï¿½ ${no} NO ï¿½ ${total}/${panelSize} voted ï¿½ Need 7 YES to approve
                 </div>
                 <div class="vote-bar">${slots}</div>
                 ${inPanel && !myVote ? `
@@ -215,7 +217,7 @@ function renderCard(r) {
     if (!openSession && lastRejected) {
         sessionHtml = `<div class="session-box" style="border-left:3px solid #dc3545;">
             <div class="session-box-title" style="color:#dc3545;"><i class="fas fa-times-circle"></i> Last Vote: Rejected</div>
-            <div style="font-size:13px;color:var(--text-secondary);">${lastRejected.yesCount} YES · ${lastRejected.noCount} NO · Discussion can continue.</div>
+            <div style="font-size:13px;color:var(--text-secondary);">${lastRejected.yesCount} YES ï¿½ ${lastRejected.noCount} NO ï¿½ Discussion can continue.</div>
         </div>`;
     }
 
@@ -244,14 +246,22 @@ function renderCard(r) {
                     <span><i class="fas fa-user"></i> ${creatorName}</span>
                     <span><i class="fas fa-tag"></i> ${ld.type || 'text'}</span>
                     <span><i class="fas fa-calendar"></i> ${new Date(r.createdAt).toLocaleDateString()}</span>
-                    <span><i class="fas fa-language"></i> ${ld.language || '—'}</span>
-                    <span><i class="fas fa-signal"></i> ${ld.level || '—'}</span>
+                    <span><i class="fas fa-language"></i> ${ld.language || 'ï¿½'}</span>
+                    <span><i class="fas fa-signal"></i> ${ld.level || 'ï¿½'}</span>
                 </div>
             </div>
-            <span class="status-badge status-${r.status}">${r.status.replace('_',' ')}</span>
+        <span class="status-badge status-${r.status}">${r.status.replace('_',' ')}</span>
         </div>
+    </div>
 
-        ${ld.description ? `<p class="lesson-description">${ld.description}</p>` : ''}
+    ${r.isTranslation ? `
+    <div class="translation-info">
+        <span class="badge-translation"><i class="fas fa-language"></i> TRANSLATION</span>
+        <span><i class="fas fa-arrow-right" style="color:#fd7e14;"></i> Language: <strong>${ld.language || '?'}</strong> â†’ <strong>${r.targetLanguage || '?'}</strong></span>
+        ${r.originalLessonId ? `<a href="lesson.html?id=${r.originalLessonId._id || r.originalLessonId}" target="_blank" style="color:#fd7e14; font-weight:600;">View original lesson â†’</a>` : ''}
+    </div>` : ''}
+
+    ${ld.description ? `<p class="lesson-description">${ld.description}</p>` : ''}
 
         <div class="panel-info">
             <i class="fas fa-users" style="color:#17a2b8;"></i>
@@ -305,7 +315,7 @@ async function castVote(reviewId, sessionId, vote) {
         const data = await res.json();
         if (!data.success) return alert(data.message);
         if (data.result === 'approved') alert('Lesson APPROVED! It is now published.');
-        else if (data.result === 'rejected') alert('Vote session closed — not enough YES votes. Discussion can continue.');
+        else if (data.result === 'rejected') alert('Vote session closed ï¿½ not enough YES votes. Discussion can continue.');
         await loadReviews(currentTab);
     } catch (e) { alert('Error: ' + e.message); }
 }

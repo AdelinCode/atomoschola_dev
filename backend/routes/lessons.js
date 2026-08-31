@@ -81,6 +81,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET /api/lessons/languages
+// @desc    Get distinct languages from published lessons
+// @access  Public
+router.get('/languages', async (req, res) => {
+  try {
+    const languages = await Lesson.distinct('language', { status: 'published' });
+    res.json({ success: true, data: languages });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // @route   GET /api/lessons/:id
 // @desc    Get lesson by ID
 // @access  Public

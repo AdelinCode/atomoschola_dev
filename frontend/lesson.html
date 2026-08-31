@@ -89,6 +89,10 @@
                 </div>
                 
                 <div class="lesson-actions">
+                    <button class="btn btn-secondary" id="translateLessonBtn" style="display: none; background: #0d6efd; color: white;">
+                        <i class="fas fa-language"></i> 
+                        Translate lesson
+                    </button>
                     <button class="btn btn-secondary" id="bookmarkBtn">
                         <i class="far fa-bookmark"></i>
                         Bookmark
@@ -98,6 +102,13 @@
                         Report
                     </button>
                 </div>
+            </div>
+
+            <!-- Translation Banner (shown only for translated lessons) -->
+            <div class="translation-banner" id="translationBanner" style="display: none;">
+                <i class="fas fa-language"></i>
+                <span id="translationBannerText">This lesson is a translation.</span>
+                <a id="translationBannerLink" href="#" target="_blank">View original lesson <i class="fas fa-external-link-alt"></i></a>
             </div>
 
             <!-- Lesson Content -->

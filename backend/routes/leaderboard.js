@@ -53,12 +53,21 @@ router.get('/', async (req, res) => {
           ? lessonsOver12months.reduce((sum, l) => sum + (l.averageRating || 0), 0) / lessonsOver12months.length
           : 0;
 
-        // New score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total lessons)
+        // Translation bonus: min(translations in last 12 months, 10)
+        const translationsCount = await Lesson.countDocuments({
+          translatedBy: user._id,
+          status: 'published',
+          createdAt: { $gte: twelveMonthsAgo }
+        });
+        const translationBonus = Math.min(translationsCount, 10);
+
+        // New score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total lessons) + translation bonus
         const score = Math.round(
           15 * avg0to3 +
           10 * avg3to12 +
           7.5 * avgOver12 +
-          1 * lessonsCount
+          1 * lessonsCount +
+          translationBonus
         );
 
         // Overall average for display
@@ -130,12 +139,21 @@ router.get('/', async (req, res) => {
           ? editsOver12months.reduce((sum, l) => sum + (l.averageRating || 0), 0) / editsOver12months.length
           : 0;
 
-        // Score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total edits)
+        // Translation bonus: min(translations in last 12 months, 10)
+        const translationsCount = await Lesson.countDocuments({
+          translatedBy: user._id,
+          status: 'published',
+          createdAt: { $gte: twelveMonthsAgo }
+        });
+        const translationBonus = Math.min(translationsCount, 10);
+
+        // Score formula: 15*(0-3mo avg) + 10*(3-12mo avg) + 7.5*(>12mo avg) + 1*(total edits) + translation bonus
         const score = Math.round(
           15 * avg0to3 +
           10 * avg3to12 +
           7.5 * avgOver12 +
-          1 * editsCount
+          1 * editsCount +
+          translationBonus
         );
 
         return {

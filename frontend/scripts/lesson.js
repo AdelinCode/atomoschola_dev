@@ -197,6 +197,27 @@ function setupLessonEventListeners() {
     
     // Edit lesson functionality for creators/editors
     setupEditFunctionality();
+
+    // Translate button
+    setupTranslateButton();
+}
+
+function canTranslate(userType) {
+    return ['creator', 'editor', 'staff', 'owner'].includes(userType);
+}
+
+function setupTranslateButton() {
+    const translateBtn = document.getElementById('translateLessonBtn');
+    if (!translateBtn) return;
+
+    const user = window.API.getUser();
+    if (!user || !canTranslate(user.userType)) return;
+
+    translateBtn.style.display = 'inline-flex';
+    translateBtn.addEventListener('click', function () {
+        if (!currentLesson) return;
+        window.location.href = `create-content.html?type=translation&lessonId=${currentLesson._id}`;
+    });
 }
 
 function updateLessonHeader() {
@@ -296,6 +317,44 @@ function updateLessonHeader() {
 
     // Update bookmark button state
     updateBookmarkButton();
+
+    // Show translation banner if applicable
+    showTranslationBanner();
+}
+
+function showTranslationBanner() {
+    const banner = document.getElementById('translationBanner');
+    if (!banner || !currentLesson) return;
+
+    const hasTag = currentLesson.tags && currentLesson.tags.includes('tradus');
+    const hasOriginal = currentLesson.originalLesson;
+
+    if (!hasTag && !hasOriginal) return;
+
+    banner.style.display = 'flex';
+
+    if (hasOriginal) {
+        const originalId = typeof currentLesson.originalLesson === 'object'
+            ? currentLesson.originalLesson._id
+            : currentLesson.originalLesson;
+
+        const link = document.getElementById('translationBannerLink');
+        if (link) {
+            link.href = `lesson.html?id=${originalId}`;
+        }
+
+        // If we have the original lesson slug, use it
+        const originalSlug = typeof currentLesson.originalLesson === 'object'
+            ? currentLesson.originalLesson.slug
+            : null;
+        if (originalSlug && link) {
+            link.href = `lesson.html?id=${originalId}`;
+        }
+    } else {
+        // No original lesson ref — hide the link
+        const link = document.getElementById('translationBannerLink');
+        if (link) link.style.display = 'none';
+    }
 }
 
 function updateBreadcrumb() {

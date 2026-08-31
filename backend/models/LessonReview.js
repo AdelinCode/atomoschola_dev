@@ -42,7 +42,12 @@ const lessonReviewSchema = new mongoose.Schema({
   // Staff/owner override
   reviewedBy:   { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   reviewedAt:   { type: Date },
-  reviewNote:   { type: String }
+  reviewNote:   { type: String },
+
+  // Translation fields
+  isTranslation:    { type: Boolean, default: false },
+  originalLessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson', default: null },
+  targetLanguage:   { type: String, default: null }
 }, { timestamps: true });
 
 const LessonReview = mongoose.model('LessonReview', lessonReviewSchema);

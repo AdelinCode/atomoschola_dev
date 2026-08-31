@@ -555,3 +555,41 @@
     display: grid;
     gap: 10px;
 }
+
+/* Translation Banner */
+.translation-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 152, 0, 0.12);
+    border: 1px solid rgba(255, 152, 0, 0.4);
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #b45309;
+    flex-wrap: wrap;
+}
+
+.dark-mode .translation-banner {
+    background: rgba(255, 152, 0, 0.08);
+    border-color: rgba(255, 152, 0, 0.3);
+    color: #fbbf24;
+}
+
+.translation-banner i.fa-language {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.translation-banner a {
+    margin-left: auto;
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.translation-banner a:hover {
+    text-decoration: underline;
+}

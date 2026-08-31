@@ -46,7 +46,6 @@ const lessonSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    enum: ['română', 'english', 'français', 'deutsch', 'español', 'other'],
     default: 'română'
   },
   level: {
@@ -100,6 +99,16 @@ const lessonSchema = new mongoose.Schema({
   totalRatings: {
     type: Number,
     default: 0
+  },
+  originalLesson: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Lesson',
+    default: null
+  },
+  translatedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
   }
 }, {
   timestamps: true

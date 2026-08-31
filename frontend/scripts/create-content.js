@@ -1,8 +1,13 @@
 // Create Content Page
 let quill;
+let translationQuill;
 let subjectsData = [];
 let currentContentType = null;
 let attachments = []; // Array to store attachments
+
+// Translation state
+let translationOriginalLesson = null; // full lesson object
+let translationSearchTimeout = null;
 
 // Check authentication and permissions
 document.addEventListener('DOMContentLoaded', async function() {
@@ -29,6 +34,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
     
+    // Show translation button for eligible roles
+    if (['creator', 'editor', 'staff', 'owner'].includes(user.userType)) {
+        const translationBtn = document.getElementById('translationTypeBtn');
+        if (translationBtn) translationBtn.style.display = '';
+    }
+    
     // Initialize Quill editor with KaTeX support
     quill = new Quill('#editor', {
         theme: 'snow',
@@ -52,11 +63,42 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Add KaTeX rendering
     window.katex = katex;
     
+    // Initialize translation Quill editor
+    translationQuill = new Quill('#translationEditor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'align': [] }],
+                ['link', 'image', 'formula'],
+                ['code-block'],
+                ['clean']
+            ],
+            formula: true
+        }
+    });
+
     // Load subjects
     await loadSubjects();
     
     // Setup event listeners
     setupEventListeners();
+
+    // Handle ?type=translation&lessonId= URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('type') === 'translation') {
+        selectContentType('translation');
+        // loadTranslationLanguages is called inside selectContentType
+        const lessonId = urlParams.get('lessonId');
+        if (lessonId) {
+            await preloadTranslationLesson(lessonId);
+        }
+    }
 });
 
 // Load subjects from API
@@ -153,6 +195,50 @@ function setupEventListeners() {
     document.getElementById('createLessonForm').addEventListener('submit', handleLessonSubmit);
     document.getElementById('createDomainForm').addEventListener('submit', handleDomainSubmit);
     document.getElementById('createCategoryForm').addEventListener('submit', handleCategorySubmit);
+    document.getElementById('createTranslationForm').addEventListener('submit', handleTranslationSubmit);
+    
+    // Translation: original lesson search
+    const origSearch = document.getElementById('translationOriginalSearch');
+    if (origSearch) {
+        origSearch.addEventListener('input', function() {
+            clearTimeout(translationSearchTimeout);
+            const q = this.value.trim();
+            if (q.length < 2) {
+                document.getElementById('translationOriginalResults').style.display = 'none';
+                return;
+            }
+            translationSearchTimeout = setTimeout(() => searchOriginalLesson(q), 300);
+        });
+    }
+
+    // Translation: target language dropdown change
+    const targetLangSelect = document.getElementById('translationTargetLanguage');
+    if (targetLangSelect) {
+        targetLangSelect.addEventListener('change', function() {
+            const customGroup = document.getElementById('translationCustomLangGroup');
+            const customInput = document.getElementById('translationCustomLang');
+            if (this.value === '__other__') {
+                customGroup.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customGroup.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+            validateTranslationLanguage();
+        });
+    }
+
+    // Translation: custom language input change
+    const customLangInput = document.getElementById('translationCustomLang');
+    if (customLangInput) {
+        customLangInput.addEventListener('input', validateTranslationLanguage);
+    }
+
+    // Translation: title slug
+    document.getElementById('translationTitle')?.addEventListener('input', function() {
+        document.getElementById('translationSlug').value = generateSlug(this.value);
+    });
     
     // Attachment functionality
     document.getElementById('addAttachmentBtn')?.addEventListener('click', addAttachment);
@@ -184,6 +270,11 @@ function selectContentType(type) {
             alert('Only owners can create subjects');
             return;
         }
+    }
+
+    // Load language options when translation form is selected
+    if (type === 'translation') {
+        loadTranslationLanguages();
     }
 }
 
@@ -709,3 +800,232 @@ function getTags() {
 }
 
 window.removeTag = removeTag;
+
+// ── Translation feature ───────────────────────────────────────────────────────
+
+// Fetch languages from API and populate the target language dropdown
+async function loadTranslationLanguages() {
+    const select = document.getElementById('translationTargetLanguage');
+    if (!select) return;
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/lessons/languages`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const result = await response.json();
+
+        // Keep the default empty option, then append distinct languages
+        select.innerHTML = '<option value="">Select language...</option>';
+        if (result.success && Array.isArray(result.data)) {
+            result.data.forEach(lang => {
+                const opt = document.createElement('option');
+                opt.value = lang;
+                opt.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+                select.appendChild(opt);
+            });
+        }
+        // Always add "Other language..." option
+        const otherOpt = document.createElement('option');
+        otherOpt.value = '__other__';
+        otherOpt.textContent = 'Other language...';
+        select.appendChild(otherOpt);
+    } catch (err) {
+        console.error('Error loading languages:', err);
+    }
+}
+
+// Search for a published lesson by title
+async function searchOriginalLesson(query) {
+    const resultsEl = document.getElementById('translationOriginalResults');
+    if (!resultsEl) return;
+
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(
+            `${apiUrl}/lessons?status=published&search=${encodeURIComponent(query)}&limit=10`,
+            { headers: { 'Authorization': `Bearer ${window.API.getToken()}` } }
+        );
+        const result = await response.json();
+
+        resultsEl.innerHTML = '';
+        if (result.success && result.data && result.data.length > 0) {
+            result.data.forEach(lesson => {
+                const item = document.createElement('div');
+                item.style.cssText = 'padding:10px 14px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px;';
+                item.textContent = lesson.title + (lesson.language ? ` [${lesson.language}]` : '');
+                item.addEventListener('mouseenter', () => item.style.background = '#f8f9fa');
+                item.addEventListener('mouseleave', () => item.style.background = '');
+                item.addEventListener('click', () => selectOriginalLesson(lesson));
+                resultsEl.appendChild(item);
+            });
+            resultsEl.style.display = 'block';
+        } else {
+            resultsEl.innerHTML = '<div style="padding:10px 14px; color:#6c757d; font-size:14px;">Niciun curs găsit.</div>';
+            resultsEl.style.display = 'block';
+        }
+    } catch (err) {
+        console.error('Error searching lessons:', err);
+    }
+}
+
+// Set the selected original lesson and pre-populate form fields
+function selectOriginalLesson(lesson) {
+    translationOriginalLesson = lesson;
+
+    document.getElementById('translationOriginalId').value = lesson._id;
+    document.getElementById('translationOriginalSearch').value = '';
+    document.getElementById('translationOriginalResults').style.display = 'none';
+
+    const selectedEl = document.getElementById('translationOriginalSelected');
+    selectedEl.style.display = 'block';
+    selectedEl.innerHTML = `<i class="fas fa-check-circle"></i> <strong>${lesson.title}</strong>${lesson.language ? ` <span style="color:#6c757d;">(${lesson.language})</span>` : ''}
+        <button type="button" onclick="clearOriginalLesson()" style="margin-left:10px; background:none; border:none; color:#dc3545; cursor:pointer; font-size:13px;"><i class="fas fa-times"></i> Schimbă</button>`;
+
+    // Pre-populate title, description, content
+    const titleInput = document.getElementById('translationTitle');
+    const descInput = document.getElementById('translationDescription');
+    if (titleInput && !titleInput.value) titleInput.value = lesson.title;
+    if (titleInput) document.getElementById('translationSlug').value = generateSlug(titleInput.value);
+    if (descInput && !descInput.value) descInput.value = lesson.description || '';
+    if (translationQuill && lesson.content) {
+        translationQuill.root.innerHTML = lesson.content;
+    }
+
+    // Store the original lesson's category so the translation inherits it
+    const categoryIdField = document.getElementById('translationCategoryId');
+    if (categoryIdField) {
+        const catId = (lesson.category && typeof lesson.category === 'object') ? lesson.category._id : (lesson.category || '');
+        categoryIdField.value = catId;
+    }
+
+    // Validate language after selecting original
+    validateTranslationLanguage();
+}
+
+// Pre-load original lesson by ID (called from URL params)
+async function preloadTranslationLesson(lessonId) {
+    try {
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/lessons/${lessonId}`, {
+            headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+        });
+        const result = await response.json();
+        if (result.success && result.data) {
+            selectOriginalLesson(result.data);
+        }
+    } catch (err) {
+        console.error('Error pre-loading lesson:', err);
+    }
+}
+
+// Clear the selected original lesson
+function clearOriginalLesson() {
+    translationOriginalLesson = null;
+    document.getElementById('translationOriginalId').value = '';
+    document.getElementById('translationOriginalSelected').style.display = 'none';
+    document.getElementById('translationOriginalSearch').value = '';
+    document.getElementById('translationLangError').style.display = 'none';
+}
+window.clearOriginalLesson = clearOriginalLesson;
+
+// Get the effective target language value (select or custom input)
+function getTargetLanguage() {
+    const select = document.getElementById('translationTargetLanguage');
+    if (!select) return '';
+    if (select.value === '__other__') {
+        return (document.getElementById('translationCustomLang')?.value || '').trim();
+    }
+    return select.value;
+}
+
+// Validate that target language ≠ original language
+function validateTranslationLanguage() {
+    const errEl = document.getElementById('translationLangError');
+    if (!errEl) return true;
+
+    const targetLang = getTargetLanguage().toLowerCase();
+    const originalLang = (translationOriginalLesson?.language || '').toLowerCase();
+
+    if (targetLang && originalLang && targetLang === originalLang) {
+        errEl.style.display = 'block';
+        return false;
+    }
+    errEl.style.display = 'none';
+    return true;
+}
+
+// Handle translation form submission
+async function handleTranslationSubmit(e) {
+    e.preventDefault();
+
+    // Validate original lesson selected
+    const originalId = document.getElementById('translationOriginalId').value;
+    if (!originalId) {
+        alert('Te rugăm să selectezi cursul original.');
+        return;
+    }
+
+    // Validate target language
+    const targetLanguage = getTargetLanguage();
+    if (!targetLanguage) {
+        alert('Te rugăm să selectezi sau să introduci limba țintă.');
+        return;
+    }
+    if (!validateTranslationLanguage()) {
+        alert('The translation language must be different from the original lesson\'s language.');
+        return;
+    }
+
+    const loading = document.getElementById('loading');
+    loading.classList.add('active');
+
+    try {
+        const user = window.API.getUser();
+        const content = translationQuill ? translationQuill.root.innerHTML : '';
+
+        const lessonData = {
+            title: document.getElementById('translationTitle').value,
+            slug: document.getElementById('translationSlug').value || generateSlug(document.getElementById('translationTitle').value),
+            description: document.getElementById('translationDescription').value,
+            content: content,
+            type: 'text',
+            isPremium: false,
+            language: targetLanguage,
+            level: document.getElementById('translationLevel').value,
+            tags: [],
+            attachments: [],
+            creators: [user._id],
+            category: document.getElementById('translationCategoryId').value || undefined
+        };
+
+        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        const response = await fetch(`${apiUrl}/lesson-reviews`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.API.getToken()}`
+            },
+            body: JSON.stringify({
+                lessonData,
+                isTranslation: true,
+                originalLessonId: originalId,
+                targetLanguage
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Translation submitted for review! Editors can review it from the Review Dashboard.');
+            window.location.href = 'lesson-review.html';
+        } else {
+            alert('Error submitting translation: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error submitting translation:', error);
+        alert('Error submitting translation: ' + error.message);
+    } finally {
+        loading.classList.remove('active');
+    }
+}

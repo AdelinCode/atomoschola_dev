@@ -44,10 +44,39 @@ router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), asyn
       }
     }
 
+    // Translation fields
+    const { isTranslation, originalLessonId, targetLanguage } = req.body;
+
+    if (isTranslation) {
+      if (!originalLessonId) {
+        return res.status(400).json({ success: false, message: 'originalLessonId is required for translation submissions.' });
+      }
+      if (!targetLanguage || !targetLanguage.trim()) {
+        return res.status(400).json({ success: false, message: 'targetLanguage is required for translation submissions.' });
+      }
+
+      const originalLesson = await Lesson.findById(originalLessonId).select('language');
+      if (!originalLesson) {
+        return res.status(404).json({ success: false, message: 'Original lesson not found.' });
+      }
+
+      if (targetLanguage.trim().toLowerCase() === (originalLesson.language || '').trim().toLowerCase()) {
+        return res.status(400).json({
+          success: false,
+          message: 'The translation language must be different from the original lesson\'s language.'
+        });
+      }
+    }
+
     const review = await LessonReview.create({
       lessonData: req.body.lessonData,
       creator: user._id,
-      status: 'under_review'
+      status: 'under_review',
+      ...(isTranslation && {
+        isTranslation: true,
+        originalLessonId,
+        targetLanguage: targetLanguage.trim()
+      })
     });
 
     // Notify all editors/creators that a new lesson is up for review
@@ -259,6 +288,18 @@ router.post('/:id/vote/:sessionId', protect, authorize(...canReview), async (req
 
       // Create the actual lesson
       const lessonData = { ...review.lessonData, status: 'published' };
+
+      // If this is a translation, enrich the lesson data accordingly
+      if (review.isTranslation) {
+        lessonData.originalLesson = review.originalLessonId;
+        lessonData.translatedBy   = review.creator;
+        lessonData.language       = review.targetLanguage;
+        const existingTags = Array.isArray(lessonData.tags) ? lessonData.tags : [];
+        if (!existingTags.includes('tradus')) {
+          lessonData.tags = [...existingTags, 'tradus'];
+        }
+      }
+
       const lesson = await Lesson.create(lessonData);
 
       if (lessonData.category) {
@@ -319,6 +360,18 @@ router.put('/:id/staff-approve', protect, authorize('staff', 'owner'), async (re
     if (review.status !== 'under_review') return res.status(400).json({ success: false, message: 'Lesson is not under review.' });
 
     const lessonData = { ...review.lessonData, status: 'published' };
+
+    // If this is a translation, enrich the lesson data accordingly
+    if (review.isTranslation) {
+      lessonData.originalLesson = review.originalLessonId;
+      lessonData.translatedBy   = review.creator;
+      lessonData.language       = review.targetLanguage;
+      const existingTags = Array.isArray(lessonData.tags) ? lessonData.tags : [];
+      if (!existingTags.includes('tradus')) {
+        lessonData.tags = [...existingTags, 'tradus'];
+      }
+    }
+
     const lesson = await Lesson.create(lessonData);
     if (lessonData.category) {
       await Category.findByIdAndUpdate(lessonData.category, { $push: { lessons: lesson._id } });

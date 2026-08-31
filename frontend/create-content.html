@@ -254,6 +254,11 @@
                         <h3>Category</h3>
                         <p>Add a new category</p>
                     </div>
+                    <div class="type-btn" id="translationTypeBtn" data-type="translation" style="display:none;">
+                        <i class="fas fa-language"></i>
+                        <h3>Translation</h3>
+                        <p>Translate an existing lesson</p>
+                    </div>
                 </div>
             </div>
 
@@ -508,6 +513,88 @@
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
                         <button type="submit" class="btn btn-primary">Create Category</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Translation Form -->
+            <div class="content-form" id="translationForm">
+                <h2><i class="fas fa-language"></i> Translate an existing lesson</h2>
+
+                <!-- Informational badge -->
+                <div class="template-banner-sm" id="translationInfoBadge" style="background:#fff3cd; border-color:#ffc107;">
+                    <i class="fas fa-info-circle" style="color:#ffc107; font-size:18px;"></i>
+                    <span class="template-banner-sm-text" style="color:#856404;">
+                        This submission will be marked as a translation and will go through the same review process as a new lesson.
+                    </span>
+                </div>
+
+                <form id="createTranslationForm">
+                    <!-- Original lesson selector -->
+                    <div class="form-group">
+                        <label for="translationOriginalId">Original lesson *</label>
+                        <input type="text" id="translationOriginalSearch" placeholder="Search by title..." autocomplete="off">
+                        <input type="hidden" id="translationOriginalId" required>
+                        <div id="translationOriginalResults" style="border:1px solid #ddd; border-top:none; border-radius:0 0 6px 6px; max-height:200px; overflow-y:auto; display:none; background:white; position:relative; z-index:10;"></div>
+                        <div id="translationOriginalSelected" style="display:none; margin-top:8px; padding:10px 14px; background:#f0fdf4; border:1px solid #20c997; border-radius:6px; font-size:14px; color:#065f46;"></div>
+                        <small style="color:#6c757d;">Select the lesson you want to translate.</small>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="translationTitle">Title *</label>
+                        <input type="text" id="translationTitle" required placeholder="Translation title">
+                        <input type="hidden" id="translationSlug">
+                        <input type="hidden" id="translationCategoryId">
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="translationDescription">Description *</label>
+                        <textarea id="translationDescription" required placeholder="Translation description"></textarea>
+                    </div>
+
+                    <!-- Content editor -->
+                    <div class="form-group">
+                        <label>Content *</label>
+                        <div class="template-banner-sm">
+                            <i class="fas fa-file-word" style="color:#20c997; font-size:18px;"></i>
+                            <span class="template-banner-sm-text">Content pre-filled from the original lesson. Edit to translate.</span>
+                            <a href="docs_materials/Header.docx" download style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:#20c997; color:white; border-radius:6px; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap;">
+                                <i class="fas fa-download"></i> Template .docx
+                            </a>
+                        </div>
+                        <div id="translationEditor"></div>
+                    </div>
+
+                    <!-- Target language -->
+                    <div class="form-group">
+                        <label for="translationTargetLanguage">Target language *</label>
+                        <select id="translationTargetLanguage" required>
+                            <option value="">Select language...</option>
+                        </select>
+                        <div id="translationCustomLangGroup" style="display:none; margin-top:8px;">
+                            <input type="text" id="translationCustomLang" placeholder="Enter language (e.g. italiano, português)">
+                        </div>
+                        <div id="translationLangError" style="display:none; margin-top:6px; color:#dc3545; font-size:13px;">
+                            <i class="fas fa-exclamation-triangle"></i> The translation language must be different from the original lesson's language.
+                        </div>
+                        <small style="color:#6c757d;">Choose or enter the language you will translate the lesson into.</small>
+                    </div>
+
+                    <!-- Level -->
+                    <div class="form-group">
+                        <label for="translationLevel">Nivel *</label>
+                        <select id="translationLevel" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit translation</button>
                     </div>
                 </form>
             </div>

@@ -32,5 +32,10 @@
     "mongoose": "^8.0.0",
     "node-cron": "^4.6.0",
     "resend": "^6.17.2"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.5.0",
+    "fast-check": "^4.9.0",
+    "jest": "^30.5.0"
   }
 }
