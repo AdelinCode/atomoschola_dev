@@ -100,6 +100,28 @@ const lessonSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  // Problem archive fields
+  isOlympiad: {
+    type: Boolean,
+    default: false
+  },
+  olympiadName: {
+    type: String,
+    default: null
+  },
+  olympiadYear: {
+    type: Number,
+    default: null
+  },
+  problemYear: {
+    type: Number,
+    default: null
+  },
+  difficulty: {
+    type: String,
+    enum: ['easy', 'medium', 'hard', 'very_hard'],
+    default: null
+  },
   originalLesson: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Lesson',

@@ -280,6 +280,7 @@
 .banner-propose  { background: linear-gradient(135deg, #9b59b6 0%, #7d3c98 100%); }
 .banner-discord  { background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); }
 .banner-news     { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
+.banner-archive  { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); }
 .banner-team     { background: linear-gradient(135deg, #6c5ce7 0%, #5f4dd1 100%); }
 
 /* ============================================

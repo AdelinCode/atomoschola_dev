@@ -89,6 +89,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Setup event listeners
     setupEventListeners();
 
+    // Olympiad checkbox toggle
+    const olympiadCheckbox = document.getElementById('lessonIsOlympiad');
+    if (olympiadCheckbox) {
+        olympiadCheckbox.addEventListener('change', function () {
+            const fields = document.getElementById('olympiadFields');
+            if (fields) fields.style.display = this.checked ? '' : 'none';
+        });
+    }
+
     // Handle ?type=translation&lessonId= URL params
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('type') === 'translation') {
@@ -426,6 +435,7 @@ async function handleLessonSubmit(e) {
             content = quill.root.innerHTML;
         }
         
+        const isOlympiad = document.getElementById('lessonIsOlympiad')?.checked || false;
         const lessonData = {
             title: document.getElementById('lessonTitle').value,
             slug: document.getElementById('lessonSlug').value,
@@ -436,6 +446,11 @@ async function handleLessonSubmit(e) {
             isPremium: false,
             language: document.getElementById('lessonLanguage').value,
             level: document.getElementById('lessonLevel').value,
+            difficulty: document.getElementById('lessonDifficulty')?.value || null,
+            problemYear: parseInt(document.getElementById('lessonProblemYear')?.value) || null,
+            isOlympiad: isOlympiad,
+            olympiadName: isOlympiad ? (document.getElementById('lessonOlympiadName')?.value || null) : null,
+            olympiadYear: isOlympiad ? (parseInt(document.getElementById('lessonOlympiadYear')?.value) || null) : null,
             tags: getTags(),
             attachments: attachments.map(att => ({
                 name: att.name,

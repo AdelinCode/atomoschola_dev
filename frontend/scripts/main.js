@@ -1030,6 +1030,20 @@ async function loadHomepageData() {
         if (totalLessonsEl) totalLessonsEl.textContent = totalLessons;
         if (totalSubjectsEl) totalSubjectsEl.textContent = totalSubjects;
         if (totalDomainsEl) totalDomainsEl.textContent = totalDomains;
+
+        // Load archive problem count for the banner
+        const archiveCountEl = document.getElementById('archiveProblemCount');
+        if (archiveCountEl) {
+            try {
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                const archiveRes = await fetch(`${apiUrl}/lessons?status=published`);
+                const archiveData = await archiveRes.json();
+                if (archiveData.success) {
+                    const count = archiveData.data.length;
+                    archiveCountEl.textContent = `${count} problem${count !== 1 ? 's' : ''} available.`;
+                }
+            } catch (e) { /* silent */ }
+        }
         
     } catch (error) {
         console.error('Error loading homepage data:', error);

@@ -401,6 +401,38 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Difficulty (for problem archive)</label>
+                        <select id="lessonDifficulty">
+                            <option value="">— Not specified —</option>
+                            <option value="easy">Easy / Ușor</option>
+                            <option value="medium">Medium / Mediu</option>
+                            <option value="hard">Hard / Greu</option>
+                            <option value="very_hard">Very Hard / Foarte greu</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Year of problem (optional)</label>
+                        <input type="number" id="lessonProblemYear" placeholder="e.g. 2023" min="1900" max="2099">
+                    </div>
+
+                    <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="lessonIsOlympiad" style="width:18px; height:18px; cursor:pointer;">
+                        <label for="lessonIsOlympiad" style="cursor:pointer; font-weight:600; margin:0;">This is an olympiad problem</label>
+                    </div>
+
+                    <div id="olympiadFields" style="display:none;">
+                        <div class="form-group">
+                            <label>Olympiad name</label>
+                            <input type="text" id="lessonOlympiadName" placeholder="e.g. Olimpiada Națională de Fizică">
+                        </div>
+                        <div class="form-group">
+                            <label>Olympiad year</label>
+                            <input type="number" id="lessonOlympiadYear" placeholder="e.g. 2023" min="1900" max="2099">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label>Tags <small style="font-weight:400; color:#888;">(optional, press Enter to add)</small></label>
                         <div id="tagsContainer" style="display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:2px solid #e0e0e0; border-radius:8px; min-height:42px; cursor:text;" onclick="document.getElementById('tagInput').focus()">
                             <!-- tags inserted here -->

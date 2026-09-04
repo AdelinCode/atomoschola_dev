@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Archive - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/archive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpeg" alt="Atomo Schola">
+                    <span>Atomo Schola</span>
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <nav class="nav-menu" id="navMenu"></nav>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <div class="archive-header">
+                <div class="archive-header-text">
+                    <h1><i class="fas fa-layer-group"></i> Problem Archive</h1>
+                    <p>Browse competition problems by subject, difficulty, year, and type.</p>
+                </div>
+                <div class="archive-header-actions">
+                    <div class="archive-stats-row">
+                        <div class="archive-stat">
+                            <span class="archive-stat-num" id="statTotal">—</span>
+                            <span class="archive-stat-label">Total</span>
+                        </div>
+                        <div class="archive-stat">
+                            <span class="archive-stat-num" id="statSubjects">—</span>
+                            <span class="archive-stat-label">Subjects</span>
+                        </div>
+                    </div>
+                    <button class="archive-add-btn" id="addProblemBtn" style="display:none;">
+                        <i class="fas fa-plus"></i> Add Problem
+                    </button>
+                </div>
+            </div>
+
+            <div class="archive-layout">
+
+                <aside class="archive-filters" id="archiveFilters">
+                    <div class="filter-panel">
+                        <button class="filter-panel-header" id="filterPanelToggle">
+                            <span><i class="fas fa-sliders-h"></i> Filters</span>
+                            <span class="filter-toggle-icons">
+                                <span id="activeFilterCount" class="filter-active-count" style="display:none;"></span>
+                                <i class="fas fa-chevron-up filter-chevron" id="filterChevron"></i>
+                            </span>
+                        </button>
+
+                        <div class="filter-body" id="filterBody">
+                            <div class="filter-section">
+                                <label class="filter-label">Search</label>
+                                <div class="filter-search-wrap">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="filterSearch" placeholder="Title, keywords..." class="filter-input">
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <label class="filter-label">Subject</label>
+                                <div class="filter-chips" id="subjectChips">
+                                    <button class="filter-chip active" data-group="subject" data-value="all">All</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <label class="filter-label">Difficulty</label>
+                                <div class="diff-buttons">
+                                    <button class="diff-btn active" data-group="difficulty" data-value="all">All</button>
+                                    <button class="diff-btn diff-easy" data-group="difficulty" data-value="easy">
+                                        <span class="diff-dot"></span>Easy
+                                    </button>
+                                    <button class="diff-btn diff-medium" data-group="difficulty" data-value="medium">
+                                        <span class="diff-dot"></span>Medium
+                                    </button>
+                                    <button class="diff-btn diff-hard" data-group="difficulty" data-value="hard">
+                                        <span class="diff-dot"></span>Hard
+                                    </button>
+                                    <button class="diff-btn diff-vhard" data-group="difficulty" data-value="very_hard">
+                                        <span class="diff-dot"></span>Very Hard
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <label class="filter-label">Year</label>
+                                <div class="filter-year-row">
+                                    <input type="number" id="yearFrom" placeholder="From" class="filter-input filter-year" min="1900" max="2099">
+                                    <span class="filter-year-sep">—</span>
+                                    <input type="number" id="yearTo" placeholder="To" class="filter-input filter-year" min="1900" max="2099">
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <label class="filter-label">Language</label>
+                                <div class="filter-chips" id="languageChips">
+                                    <button class="filter-chip active" data-group="language" data-value="all">All</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <label class="filter-label">Type</label>
+                                <div class="filter-chips">
+                                    <button class="filter-chip active" data-group="olympiad" data-value="all">All</button>
+                                    <button class="filter-chip" data-group="olympiad" data-value="yes">Olympiad</button>
+                                    <button class="filter-chip" data-group="olympiad" data-value="no">Other</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-section" id="olympiadNameSection" style="display:none;">
+                                <label class="filter-label">Olympiad name</label>
+                                <input type="text" id="filterOlympiadName" placeholder="e.g. National Physics Olympiad" class="filter-input">
+                            </div>
+
+                            <div class="filter-section" id="olympiadYearSection" style="display:none;">
+                                <label class="filter-label">Olympiad year</label>
+                                <input type="number" id="filterOlympiadYear" placeholder="e.g. 2023" class="filter-input" min="1900" max="2099">
+                            </div>
+
+                            <div class="filter-section filter-section-reset">
+                                <button class="filter-reset-btn" id="resetFiltersBtn">
+                                    <i class="fas fa-undo"></i> Reset filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="archive-results">
+
+                    <div class="archive-toolbar">
+                        <div class="archive-count" id="archiveCount">Loading...</div>
+                        <div class="archive-toolbar-right">
+                            <select id="sortSelect" class="archive-sort-select">
+                                <option value="newest">Newest first</option>
+                                <option value="oldest">Oldest first</option>
+                                <option value="title">Title A–Z</option>
+                                <option value="year">Year</option>
+                            </select>
+                            <button class="archive-filter-toggle" id="filterToggleBtn">
+                                <i class="fas fa-sliders-h"></i> Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="active-filters" id="activeFilters"></div>
+
+                    <div class="archive-grid" id="archiveGrid">
+                        <div class="archive-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Loading problems...</span>
+                        </div>
+                    </div>
+
+                    <div class="archive-pagination" id="archivePagination"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="archive-modal-overlay" id="uploadModalOverlay" style="display:none;">
+        <div class="archive-modal" id="uploadModal">
+            <div class="archive-modal-header">
+                <h3><i class="fas fa-plus-circle"></i> <span id="uploadModalTitle">Add Problem</span></h3>
+                <button class="archive-modal-close" id="uploadModalClose">&times;</button>
+            </div>
+            <div class="archive-modal-body">
+                <div class="upload-form-grid">
+                    <div class="upload-form-group upload-span-2">
+                        <label>Title <span class="req">*</span></label>
+                        <input type="text" id="upTitle" placeholder="Problem title" class="upload-input">
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label>Description</label>
+                        <textarea id="upDesc" placeholder="Short description (optional)" class="upload-input upload-textarea" rows="2"></textarea>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Subject <span class="req">*</span></label>
+                        <input type="text" id="upSubject" placeholder="e.g. Physics" class="upload-input">
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Language <span class="req">*</span></label>
+                        <select id="upLanguage" class="upload-input">
+                            <option value="">Select language...</option>
+                            <option value="română">Română</option>
+                            <option value="english">English</option>
+                            <option value="français">Français</option>
+                            <option value="deutsch">Deutsch</option>
+                            <option value="español">Español</option>
+                        </select>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Difficulty <span class="req">*</span></label>
+                        <select id="upDifficulty" class="upload-input">
+                            <option value="">Select difficulty...</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="very_hard">Very Hard</option>
+                        </select>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Year</label>
+                        <input type="number" id="upYear" placeholder="e.g. 2023" class="upload-input" min="1900" max="2099">
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label class="upload-checkbox-label">
+                            <input type="checkbox" id="upIsOlympiad">
+                            <span>This is an olympiad problem</span>
+                        </label>
+                    </div>
+                    <div class="upload-olympiad-fields" id="upOlympiadFields" style="display:none;">
+                        <div class="upload-form-group">
+                            <label>Olympiad name</label>
+                            <input type="text" id="upOlympiadName" placeholder="e.g. National Physics Olympiad" class="upload-input">
+                        </div>
+                        <div class="upload-form-group">
+                            <label>Olympiad year</label>
+                            <input type="number" id="upOlympiadYear" placeholder="e.g. 2023" class="upload-input" min="1900" max="2099">
+                        </div>
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label>File URL <span class="upload-hint">(Google Drive, Dropbox, direct link…)</span></label>
+                        <input type="url" id="upFileUrl" placeholder="https://..." class="upload-input">
+                    </div>
+                    <div class="upload-form-group">
+                        <label>File type</label>
+                        <select id="upFileType" class="upload-input">
+                            <option value="pdf">PDF</option>
+                            <option value="image">Image</option>
+                            <option value="document">Document</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="upload-error" id="uploadError" style="display:none;"></div>
+            </div>
+            <div class="archive-modal-footer">
+                <button class="upload-cancel-btn" id="uploadCancelBtn">Cancel</button>
+                <button class="upload-submit-btn" id="uploadSubmitBtn">
+                    <i class="fas fa-upload"></i> Upload Problem
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-name">
+                    <i class="fas fa-atom"></i>
+                    Atomo Schola
+                </div>
+                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+                <div class="footer-social">
+                    <a href="https://discord.gg/vM87v8mspN" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.instagram.com/atomoschola_official/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Explore</div>
+                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+                <a href="stem.html"><i class="fas fa-chevron-right"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+                <a href="archive.html"><i class="fas fa-chevron-right"></i> Problem Archive</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Community</div>
+                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
+                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Platform</div>
+                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> How AS Works</a>
+                <a href="propose-edits.html"><i class="fas fa-chevron-right"></i> Propose Edits</a>
+                <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
+                <a href="privacy.html"><i class="fas fa-chevron-right"></i> Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/archive.js"></script>
+</body>
+</html>

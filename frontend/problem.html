@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/archive.css">
+    <link rel="stylesheet" href="styles/problem.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpeg" alt="Atomo Schola">
+                    <span>Atomo Schola</span>
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <nav class="nav-menu" id="navMenu"></nav>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <nav class="problem-breadcrumb" id="problemBreadcrumb">
+                <a href="archive.html"><i class="fas fa-layer-group"></i> Problem Archive</a>
+                <i class="fas fa-chevron-right"></i>
+                <span id="breadcrumbTitle">Loading...</span>
+            </nav>
+
+            <div id="problemLoading" class="problem-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Loading problem...</span>
+            </div>
+
+            <div id="problemError" class="problem-error" style="display:none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Problem not found</h3>
+                <p>This problem may have been deleted or the link is invalid.</p>
+                <a href="archive.html" class="problem-back-btn"><i class="fas fa-arrow-left"></i> Back to Archive</a>
+            </div>
+
+            <div id="problemMain" style="display:none;">
+
+                <div class="problem-detail-header">
+                    <div class="problem-detail-badges" id="detailBadges"></div>
+                    <div class="problem-detail-staff-actions" id="detailStaffActions" style="display:none;">
+                        <button class="card-staff-btn card-edit-btn" id="detailEditBtn" title="Edit">
+                            <i class="fas fa-pen"></i> Edit
+                        </button>
+                        <button class="card-staff-btn card-delete-btn" id="detailDeleteBtn" title="Delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="problem-detail-title" id="detailTitle"></h1>
+
+                <div class="problem-detail-meta" id="detailMeta"></div>
+
+                <div class="problem-detail-body">
+                    <div class="problem-detail-left">
+                        <div class="problem-detail-section" id="descSection" style="display:none;">
+                            <h2 class="problem-section-title"><i class="fas fa-align-left"></i> Description</h2>
+                            <p class="problem-detail-desc" id="detailDesc"></p>
+                        </div>
+
+                        <div class="problem-detail-section" id="tagsSection" style="display:none;">
+                            <h2 class="problem-section-title"><i class="fas fa-tags"></i> Tags</h2>
+                            <div class="problem-tags" id="detailTags"></div>
+                        </div>
+
+                        <div class="problem-detail-section">
+                            <h2 class="problem-section-title"><i class="fas fa-info-circle"></i> Details</h2>
+                            <div class="problem-detail-info-grid" id="detailInfoGrid"></div>
+                        </div>
+                    </div>
+
+                    <div class="problem-detail-right">
+                        <div class="problem-file-card" id="fileCard">
+                            <div class="problem-file-icon" id="fileIcon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="problem-file-info">
+                                <span class="problem-file-label">Attached file</span>
+                                <span class="problem-file-type" id="fileTypeLabel">PDF</span>
+                            </div>
+                            <a href="#" id="fileOpenBtn" target="_blank" rel="noopener noreferrer" class="problem-file-btn">
+                                <i class="fas fa-external-link-alt"></i> Open file
+                            </a>
+                        </div>
+
+                        <div class="problem-no-file" id="noFileCard" style="display:none;">
+                            <i class="fas fa-file-slash"></i>
+                            <span>No file attached</span>
+                        </div>
+
+                        <a href="archive.html" class="problem-back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Archive
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Edit Modal (reused from archive) -->
+    <div class="archive-modal-overlay" id="uploadModalOverlay" style="display:none;">
+        <div class="archive-modal" id="uploadModal">
+            <div class="archive-modal-header">
+                <h3><i class="fas fa-pen"></i> <span id="uploadModalTitle">Edit Problem</span></h3>
+                <button class="archive-modal-close" id="uploadModalClose">&times;</button>
+            </div>
+            <div class="archive-modal-body">
+                <div class="upload-form-grid">
+                    <div class="upload-form-group upload-span-2">
+                        <label>Title <span class="req">*</span></label>
+                        <input type="text" id="upTitle" class="upload-input">
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label>Description</label>
+                        <textarea id="upDesc" class="upload-input upload-textarea" rows="2"></textarea>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Subject <span class="req">*</span></label>
+                        <input type="text" id="upSubject" class="upload-input">
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Language <span class="req">*</span></label>
+                        <select id="upLanguage" class="upload-input">
+                            <option value="">Select language...</option>
+                            <option value="română">Română</option>
+                            <option value="english">English</option>
+                            <option value="français">Français</option>
+                            <option value="deutsch">Deutsch</option>
+                            <option value="español">Español</option>
+                        </select>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Difficulty <span class="req">*</span></label>
+                        <select id="upDifficulty" class="upload-input">
+                            <option value="">Select difficulty...</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="very_hard">Very Hard</option>
+                        </select>
+                    </div>
+                    <div class="upload-form-group">
+                        <label>Year</label>
+                        <input type="number" id="upYear" class="upload-input" min="1900" max="2099">
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label class="upload-checkbox-label">
+                            <input type="checkbox" id="upIsOlympiad">
+                            <span>This is an olympiad problem</span>
+                        </label>
+                    </div>
+                    <div class="upload-olympiad-fields" id="upOlympiadFields" style="display:none;">
+                        <div class="upload-form-group">
+                            <label>Olympiad name</label>
+                            <input type="text" id="upOlympiadName" class="upload-input">
+                        </div>
+                        <div class="upload-form-group">
+                            <label>Olympiad year</label>
+                            <input type="number" id="upOlympiadYear" class="upload-input" min="1900" max="2099">
+                        </div>
+                    </div>
+                    <div class="upload-form-group upload-span-2">
+                        <label>File URL</label>
+                        <input type="url" id="upFileUrl" class="upload-input">
+                    </div>
+                    <div class="upload-form-group">
+                        <label>File type</label>
+                        <select id="upFileType" class="upload-input">
+                            <option value="pdf">PDF</option>
+                            <option value="image">Image</option>
+                            <option value="document">Document</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="upload-error" id="uploadError" style="display:none;"></div>
+            </div>
+            <div class="archive-modal-footer">
+                <button class="upload-cancel-btn" id="uploadCancelBtn">Cancel</button>
+                <button class="upload-submit-btn" id="uploadSubmitBtn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-name"><i class="fas fa-atom"></i> Atomo Schola</div>
+                <p class="footer-brand-desc">A collaborative educational platform for quality STEM and Humanities content.</p>
+                <div class="footer-social">
+                    <a href="https://discord.gg/vM87v8mspN" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.instagram.com/atomoschola_official/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Explore</div>
+                <a href="index.html"><i class="fas fa-chevron-right"></i> Home</a>
+                <a href="stem.html"><i class="fas fa-chevron-right"></i> STEM</a>
+                <a href="humanities.html"><i class="fas fa-chevron-right"></i> Humanities</a>
+                <a href="archive.html"><i class="fas fa-chevron-right"></i> Problem Archive</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Community</div>
+                <a href="staff.html"><i class="fas fa-chevron-right"></i> Contributors</a>
+                <a href="team.html"><i class="fas fa-chevron-right"></i> Team</a>
+                <a href="social.html"><i class="fas fa-chevron-right"></i> Social</a>
+                <a href="events.html"><i class="fas fa-chevron-right"></i> Events</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Platform</div>
+                <a href="news.html"><i class="fas fa-chevron-right"></i> News</a>
+                <a href="how-it-works.html"><i class="fas fa-chevron-right"></i> How AS Works</a>
+                <a href="terms.html"><i class="fas fa-chevron-right"></i> Terms of Use</a>
+                <a href="privacy.html"><i class="fas fa-chevron-right"></i> Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-bottom-copy">&copy; 2025 Atomo Schola. All rights reserved.</span>
+            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/problem.js"></script>
+</body>
+</html>

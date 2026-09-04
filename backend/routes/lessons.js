@@ -133,7 +133,7 @@ router.get('/:id', async (req, res) => {
 // @access  Private
 router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), async (req, res) => {
   try {
-    const { title, slug, description, content, type, category, isPremium, attachments } = req.body;
+    const { title, slug, description, content, type, category, isPremium, attachments, language, level, difficulty, problemYear, isOlympiad, olympiadName, olympiadYear, tags } = req.body;
 
     const categoryExists = await Category.findById(category);
     if (!categoryExists) {
@@ -151,6 +151,14 @@ router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), asyn
       type,
       category,
       isPremium: isPremium || false,
+      language: language || 'română',
+      level: level || 'beginner',
+      difficulty: difficulty || null,
+      problemYear: problemYear || null,
+      isOlympiad: isOlympiad || false,
+      olympiadName: isOlympiad ? (olympiadName || null) : null,
+      olympiadYear: isOlympiad ? (olympiadYear || null) : null,
+      tags: tags || [],
       attachments: attachments || [],
       creators: [req.user._id],
       status: (req.user.userType === 'owner' || req.user.userType === 'staff') ? 'published' : 'pending_review'
