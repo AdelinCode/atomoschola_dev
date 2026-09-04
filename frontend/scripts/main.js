@@ -1036,10 +1036,10 @@ async function loadHomepageData() {
         if (archiveCountEl) {
             try {
                 const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-                const archiveRes = await fetch(`${apiUrl}/lessons?status=published`);
+                const archiveRes = await fetch(`${apiUrl}/problems`);
                 const archiveData = await archiveRes.json();
                 if (archiveData.success) {
-                    const count = archiveData.data.length;
+                    const count = archiveData.count ?? archiveData.data.length;
                     archiveCountEl.textContent = `${count} problem${count !== 1 ? 's' : ''} available.`;
                 }
             } catch (e) { /* silent */ }
