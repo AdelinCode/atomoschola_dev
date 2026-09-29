@@ -46,7 +46,7 @@ const lessonSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: 'română'
+    default: 'romanian'
   },
   level: {
     type: String,

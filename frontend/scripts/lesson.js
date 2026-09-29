@@ -298,11 +298,14 @@ function updateLessonHeader() {
     // Render tags (language, level, custom tags)
     const tagsEl = document.getElementById('lessonTags');
     if (tagsEl) {
-        const langColors = { română: '#3b82f6', english: '#10b981', français: '#f59e0b', deutsch: '#6366f1', español: '#ef4444', other: '#6b7280' };
+        const langColors = { romanian: '#3b82f6', english: '#10b981', french: '#f59e0b', german: '#6366f1', spanish: '#ef4444', portuguese: '#f97316', italian: '#ec4899', other: '#6b7280' };
+        const langLabels = { romanian: 'Romanian', english: 'English', french: 'French', german: 'German', spanish: 'Spanish', portuguese: 'Portuguese', italian: 'Italian', other: 'Other' };
         const levelColors = { beginner: '#22c55e', intermediate: '#f97316', advanced: '#dc2626' };
         let html = '';
         if (currentLesson.language) {
-            html += `<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${langColors[currentLesson.language] || '#6b7280'}22;color:${langColors[currentLesson.language] || '#6b7280'};border:1px solid ${langColors[currentLesson.language] || '#6b7280'}44;"><i class="fas fa-language"></i> ${currentLesson.language}</span>`;
+            const langKey = currentLesson.language.toLowerCase();
+            const langLabel = langLabels[langKey] || (currentLesson.language.charAt(0).toUpperCase() + currentLesson.language.slice(1));
+            html += `<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${langColors[langKey] || '#6b7280'}22;color:${langColors[langKey] || '#6b7280'};border:1px solid ${langColors[langKey] || '#6b7280'}44;"><i class="fas fa-language"></i> ${langLabel}</span>`;
         }
         if (currentLesson.level) {
             html += `<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${levelColors[currentLesson.level]}22;color:${levelColors[currentLesson.level]};border:1px solid ${levelColors[currentLesson.level]}44;"><i class="fas fa-signal"></i> ${currentLesson.level}</span>`;

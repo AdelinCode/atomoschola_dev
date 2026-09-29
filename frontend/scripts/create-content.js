@@ -4,6 +4,7 @@ let translationQuill;
 let subjectsData = [];
 let currentContentType = null;
 let attachments = []; // Array to store attachments
+let translationAttachments = []; // Array to store translation attachments
 
 // Translation state
 let translationOriginalLesson = null; // full lesson object
@@ -88,15 +89,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Setup event listeners
     setupEventListeners();
-
-    // Olympiad checkbox toggle
-    const olympiadCheckbox = document.getElementById('lessonIsOlympiad');
-    if (olympiadCheckbox) {
-        olympiadCheckbox.addEventListener('change', function () {
-            const fields = document.getElementById('olympiadFields');
-            if (fields) fields.style.display = this.checked ? '' : 'none';
-        });
-    }
 
     // Handle ?type=translation&lessonId= URL params
     const urlParams = new URLSearchParams(window.location.search);
@@ -252,8 +244,8 @@ function setupEventListeners() {
     // Attachment functionality
     document.getElementById('addAttachmentBtn')?.addEventListener('click', addAttachment);
 
-    // Tags functionality
-    setupTagInput();
+    // Translation attachment functionality
+    document.getElementById('addTranslationAttachmentBtn')?.addEventListener('click', addTranslationAttachment);
 }
 
 // Select content type
@@ -435,7 +427,6 @@ async function handleLessonSubmit(e) {
             content = quill.root.innerHTML;
         }
         
-        const isOlympiad = document.getElementById('lessonIsOlympiad')?.checked || false;
         const lessonData = {
             title: document.getElementById('lessonTitle').value,
             slug: document.getElementById('lessonSlug').value,
@@ -446,12 +437,7 @@ async function handleLessonSubmit(e) {
             isPremium: false,
             language: document.getElementById('lessonLanguage').value,
             level: document.getElementById('lessonLevel').value,
-            difficulty: document.getElementById('lessonDifficulty')?.value || null,
-            problemYear: parseInt(document.getElementById('lessonProblemYear')?.value) || null,
-            isOlympiad: isOlympiad,
-            olympiadName: isOlympiad ? (document.getElementById('lessonOlympiadName')?.value || null) : null,
-            olympiadYear: isOlympiad ? (parseInt(document.getElementById('lessonOlympiadYear')?.value) || null) : null,
-            tags: getTags(),
+            tags: [],
             attachments: attachments.map(att => ({
                 name: att.name,
                 url: att.url,
@@ -764,57 +750,61 @@ function getDomainFromUrl(url) {
 // Make removeAttachment available globally for onclick handlers
 window.removeAttachment = removeAttachment;
 
-// ── Tags ──────────────────────────────────────────────────────────────────────
+// ── Translation Attachments ───────────────────────────────────────────────────
 
-let currentTags = [];
+function addTranslationAttachment() {
+    const nameInput = document.getElementById('translationAttachmentName');
+    const urlInput = document.getElementById('translationAttachmentUrl');
+    const typeSelect = document.getElementById('translationAttachmentType');
 
-function setupTagInput() {
-    const input = document.getElementById('tagInput');
-    if (!input) return;
+    const name = nameInput.value.trim();
+    const url = urlInput.value.trim();
+    const type = typeSelect.value;
 
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ',') {
-            e.preventDefault();
-            addTag(this.value.trim());
-            this.value = '';
-        }
-        if (e.key === 'Backspace' && this.value === '' && currentTags.length > 0) {
-            removeTag(currentTags[currentTags.length - 1]);
-        }
-    });
+    if (!name || !url) {
+        alert('Please enter both file name and URL');
+        return;
+    }
+    try { new URL(url); } catch (e) {
+        alert('Please enter a valid URL');
+        return;
+    }
+
+    translationAttachments.push({ name, url, type, id: Date.now() });
+    nameInput.value = '';
+    urlInput.value = '';
+    typeSelect.value = 'document';
+    displayTranslationAttachments();
 }
 
-function addTag(text) {
-    if (!text || currentTags.includes(text) || currentTags.length >= 10) return;
-    currentTags.push(text);
-    renderTags();
+function removeTranslationAttachment(id) {
+    translationAttachments = translationAttachments.filter(a => a.id !== id);
+    displayTranslationAttachments();
 }
 
-function removeTag(tag) {
-    currentTags = currentTags.filter(t => t !== tag);
-    renderTags();
+function displayTranslationAttachments() {
+    const container = document.getElementById('translationAttachmentsList');
+    if (!container) return;
+    if (translationAttachments.length === 0) { container.innerHTML = ''; return; }
+    container.innerHTML = translationAttachments.map(att => `
+        <div class="attachment-item">
+            <div class="attachment-info">
+                <div class="attachment-icon" style="background: ${getAttachmentColor(att.type)};">
+                    <i class="${getAttachmentIcon(att.type)}"></i>
+                </div>
+                <div class="attachment-details">
+                    <h5>${att.name}</h5>
+                    <small>${att.type.charAt(0).toUpperCase() + att.type.slice(1)} • ${getDomainFromUrl(att.url)}</small>
+                </div>
+            </div>
+            <button type="button" class="attachment-remove" onclick="removeTranslationAttachment(${att.id})">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `).join('');
 }
 
-function renderTags() {
-    const container = document.getElementById('tagsContainer');
-    const input = document.getElementById('tagInput');
-    // Remove old tag pills
-    container.querySelectorAll('.tag-pill').forEach(el => el.remove());
-    // Re-insert before input
-    currentTags.forEach(tag => {
-        const pill = document.createElement('span');
-        pill.className = 'tag-pill';
-        pill.style.cssText = 'display:inline-flex; align-items:center; gap:5px; background:#e9ecef; color:#333; padding:4px 10px; border-radius:20px; font-size:13px; font-weight:500;';
-        pill.innerHTML = `${tag} <span onclick="removeTag('${tag}')" style="cursor:pointer; font-size:16px; line-height:1; color:#888;">&times;</span>`;
-        container.insertBefore(pill, input);
-    });
-}
-
-function getTags() {
-    return currentTags;
-}
-
-window.removeTag = removeTag;
+window.removeTranslationAttachment = removeTranslationAttachment;
 
 // ── Translation feature ───────────────────────────────────────────────────────
 
@@ -858,14 +848,15 @@ async function searchOriginalLesson(query) {
     try {
         const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
         const response = await fetch(
-            `${apiUrl}/lessons?status=published&search=${encodeURIComponent(query)}&limit=10`,
+            `${apiUrl}/search?q=${encodeURIComponent(query)}&limit=10`,
             { headers: { 'Authorization': `Bearer ${window.API.getToken()}` } }
         );
         const result = await response.json();
 
         resultsEl.innerHTML = '';
-        if (result.success && result.data && result.data.length > 0) {
-            result.data.forEach(lesson => {
+        const lessons = result.data?.lessons || [];
+        if (lessons.length > 0) {
+            lessons.forEach(lesson => {
                 const item = document.createElement('div');
                 item.style.cssText = 'padding:10px 14px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px;';
                 item.textContent = lesson.title + (lesson.language ? ` [${lesson.language}]` : '');
@@ -876,7 +867,7 @@ async function searchOriginalLesson(query) {
             });
             resultsEl.style.display = 'block';
         } else {
-            resultsEl.innerHTML = '<div style="padding:10px 14px; color:#6c757d; font-size:14px;">Niciun curs găsit.</div>';
+            resultsEl.innerHTML = '<div style="padding:10px 14px; color:#6c757d; font-size:14px;">No lessons found.</div>';
             resultsEl.style.display = 'block';
         }
     } catch (err) {
@@ -895,7 +886,7 @@ function selectOriginalLesson(lesson) {
     const selectedEl = document.getElementById('translationOriginalSelected');
     selectedEl.style.display = 'block';
     selectedEl.innerHTML = `<i class="fas fa-check-circle"></i> <strong>${lesson.title}</strong>${lesson.language ? ` <span style="color:#6c757d;">(${lesson.language})</span>` : ''}
-        <button type="button" onclick="clearOriginalLesson()" style="margin-left:10px; background:none; border:none; color:#dc3545; cursor:pointer; font-size:13px;"><i class="fas fa-times"></i> Schimbă</button>`;
+        <button type="button" onclick="clearOriginalLesson()" style="margin-left:10px; background:none; border:none; color:#dc3545; cursor:pointer; font-size:13px;"><i class="fas fa-times"></i> Change</button>`;
 
     // Pre-populate title, description, content
     const titleInput = document.getElementById('translationTitle');
@@ -949,7 +940,7 @@ function getTargetLanguage() {
     const select = document.getElementById('translationTargetLanguage');
     if (!select) return '';
     if (select.value === '__other__') {
-        return (document.getElementById('translationCustomLang')?.value || '').trim();
+        return (document.getElementById('translationCustomLang')?.value || '').trim().toLowerCase();
     }
     return select.value;
 }
@@ -977,14 +968,14 @@ async function handleTranslationSubmit(e) {
     // Validate original lesson selected
     const originalId = document.getElementById('translationOriginalId').value;
     if (!originalId) {
-        alert('Te rugăm să selectezi cursul original.');
+        alert('Please select the original lesson.');
         return;
     }
 
     // Validate target language
     const targetLanguage = getTargetLanguage();
     if (!targetLanguage) {
-        alert('Te rugăm să selectezi sau să introduci limba țintă.');
+        alert('Please select or enter a target language.');
         return;
     }
     if (!validateTranslationLanguage()) {
@@ -1007,9 +998,9 @@ async function handleTranslationSubmit(e) {
             type: 'text',
             isPremium: false,
             language: targetLanguage,
-            level: document.getElementById('translationLevel').value,
+            level: translationOriginalLesson?.level || 'beginner',
             tags: [],
-            attachments: [],
+            attachments: translationAttachments.map(({ name, url, type }) => ({ name, url, type })),
             creators: [user._id],
             category: document.getElementById('translationCategoryId').value || undefined
         };
@@ -1032,6 +1023,7 @@ async function handleTranslationSubmit(e) {
         const result = await response.json();
 
         if (result.success) {
+            translationAttachments = [];
             alert('Translation submitted for review! Editors can review it from the Review Dashboard.');
             window.location.href = 'lesson-review.html';
         } else {

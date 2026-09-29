@@ -284,7 +284,7 @@ async function openEditModal(lessonId) {
         document.getElementById('editType').value = l.type;
         document.getElementById('editStatus').value = l.status;
         document.getElementById('editIsPremium').checked = l.isPremium;
-        document.getElementById('editLanguage').value = l.language || 'română';
+        document.getElementById('editLanguage').value = l.language || 'romanian';
         document.getElementById('editLevel').value = l.level || 'beginner';
 
         // Load tags

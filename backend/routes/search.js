@@ -94,12 +94,14 @@ router.get('/', async (req, res) => {
           title: lesson.title,
           description: lesson.description,
           type: lesson.type,
+          language: lesson.language,
+          level: lesson.level,
+          category: lesson.category?._id || lesson.category,
           averageRating: lesson.averageRating,
           isPremium: lesson.isPremium,
           subject: lesson.category?.domain?.subject?.name || 'Unknown',
           subjectSlug: lesson.category?.domain?.subject?.slug || 'unknown',
           domain: lesson.category?.domain?.name || 'Unknown',
-          category: lesson.category?.name || 'Unknown',
           creators: lesson.creators
         })),
         subjects: subjects.map(subject => ({

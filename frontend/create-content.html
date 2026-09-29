@@ -382,11 +382,13 @@
                     <div class="form-group">
                         <label>Language *</label>
                         <select id="lessonLanguage" required>
-                            <option value="rom&#xE2;n&#x103;">Rom&#xE2;n&#x103;</option>
+                            <option value="romanian">Romanian</option>
                             <option value="english">English</option>
-                            <option value="fran&#xE7;ais">Fran&#xE7;ais</option>
-                            <option value="deutsch">Deutsch</option>
-                            <option value="espa&#xF1;ol">Espa&#xF1;ol</option>
+                            <option value="french">French</option>
+                            <option value="german">German</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="italian">Italian</option>
+                            <option value="portuguese">Portuguese</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
@@ -398,47 +400,6 @@
                             <option value="intermediate">Intermediate</option>
                             <option value="advanced">Advanced</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Difficulty (for problem archive)</label>
-                        <select id="lessonDifficulty">
-                            <option value="">— Not specified —</option>
-                            <option value="easy">Easy / Ușor</option>
-                            <option value="medium">Medium / Mediu</option>
-                            <option value="hard">Hard / Greu</option>
-                            <option value="very_hard">Very Hard / Foarte greu</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Year of problem (optional)</label>
-                        <input type="number" id="lessonProblemYear" placeholder="e.g. 2023" min="1900" max="2099">
-                    </div>
-
-                    <div class="form-group" style="display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" id="lessonIsOlympiad" style="width:18px; height:18px; cursor:pointer;">
-                        <label for="lessonIsOlympiad" style="cursor:pointer; font-weight:600; margin:0;">This is an olympiad problem</label>
-                    </div>
-
-                    <div id="olympiadFields" style="display:none;">
-                        <div class="form-group">
-                            <label>Olympiad name</label>
-                            <input type="text" id="lessonOlympiadName" placeholder="e.g. Olimpiada Națională de Fizică">
-                        </div>
-                        <div class="form-group">
-                            <label>Olympiad year</label>
-                            <input type="number" id="lessonOlympiadYear" placeholder="e.g. 2023" min="1900" max="2099">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tags <small style="font-weight:400; color:#888;">(optional, press Enter to add)</small></label>
-                        <div id="tagsContainer" style="display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:2px solid #e0e0e0; border-radius:8px; min-height:42px; cursor:text;" onclick="document.getElementById('tagInput').focus()">
-                            <!-- tags inserted here -->
-                            <input type="text" id="tagInput" placeholder="Add a tag..." style="border:none; outline:none; flex:1; min-width:100px; font-size:14px; background:transparent;">
-                        </div>
-                        <small style="color:#6c757d; margin-top:4px; display:block;">E.g. termodinamica, formule, bacalaureat</small>
                     </div>
 
                     <!-- Attachments section -->
@@ -606,7 +567,7 @@
                             <option value="">Select language...</option>
                         </select>
                         <div id="translationCustomLangGroup" style="display:none; margin-top:8px;">
-                            <input type="text" id="translationCustomLang" placeholder="Enter language (e.g. italiano, português)">
+                            <input type="text" id="translationCustomLang" placeholder="Enter language (e.g. Italian, Portuguese)">
                         </div>
                         <div id="translationLangError" style="display:none; margin-top:6px; color:#dc3545; font-size:13px;">
                             <i class="fas fa-exclamation-triangle"></i> The translation language must be different from the original lesson's language.
@@ -614,14 +575,36 @@
                         <small style="color:#6c757d;">Choose or enter the language you will translate the lesson into.</small>
                     </div>
 
-                    <!-- Level -->
+                    <!-- Attachments section -->
                     <div class="form-group">
-                        <label for="translationLevel">Nivel *</label>
-                        <select id="translationLevel" required>
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                        </select>
+                        <label>Attachments (Optional)</label>
+                        <div id="translationAttachmentsList" style="margin-bottom: 15px;"></div>
+                        <div style="display: flex; gap: 10px; align-items: end;">
+                            <div style="flex: 1;">
+                                <input type="text" id="translationAttachmentName" placeholder="File name (e.g., Course Notes.docx)" style="margin-bottom: 8px;">
+                                <input type="url" id="translationAttachmentUrl" placeholder="File URL (Google Drive, Dropbox, etc.)">
+                            </div>
+                            <div>
+                                <select id="translationAttachmentType" style="width: 140px;">
+                                    <option value="document">Document</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="spreadsheet">Spreadsheet</option>
+                                    <option value="presentation">Presentation</option>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" id="addTranslationAttachmentBtn" class="btn" style="background: #28a745; color: white; padding: 12px 16px;">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                        <small style="color: #6c757d; margin-top: 8px; display: block;">
+                            <i class="fas fa-paperclip"></i>
+                            Add links to files from Google Drive, Dropbox, OneDrive, etc.
+                        </small>
                     </div>
 
                     <div class="form-actions">

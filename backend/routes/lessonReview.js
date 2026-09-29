@@ -114,6 +114,7 @@ router.get('/', protect, authorize(...canReview), async (req, res) => {
     const reviews = await LessonReview.find(filter)
       .populate('creator', 'username firstName lastName')
       .populate('panel', 'username firstName lastName')
+      .populate('originalLessonId', 'language title')
       .sort('-createdAt');
 
     res.json({ success: true, data: reviews });
@@ -146,7 +147,8 @@ router.get('/:id', protect, authorize(...canReview), async (req, res) => {
     const review = await LessonReview.findById(req.params.id)
       .populate('creator', 'username firstName lastName')
       .populate('panel', 'username firstName lastName userType')
-      .populate('voteSessions.votes.editor', 'username');
+      .populate('voteSessions.votes.editor', 'username')
+      .populate('originalLessonId', 'language title');
 
     if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
     res.json({ success: true, data: review });

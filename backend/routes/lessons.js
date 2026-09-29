@@ -151,7 +151,7 @@ router.post('/', protect, authorize('creator', 'editor', 'staff', 'owner'), asyn
       type,
       category,
       isPremium: isPremium || false,
-      language: language || 'română',
+      language: language || 'romanian',
       level: level || 'beginner',
       difficulty: difficulty || null,
       problemYear: problemYear || null,

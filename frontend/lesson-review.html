@@ -181,6 +181,9 @@ function renderCard(r) {
     const inPanel = r.panel?.some(p => (p._id || p) === lrCurrentUser._id);
     const isStaff = ['staff','owner'].includes(lrCurrentUser.userType);
 
+    const langLabels = { romanian: 'Romanian', english: 'English', french: 'French', german: 'German', spanish: 'Spanish', portuguese: 'Portuguese', italian: 'Italian', other: 'Other' };
+    const capLang = val => val ? (langLabels[val.toLowerCase()] || (val.charAt(0).toUpperCase() + val.slice(1))) : '?';
+
     // Current open session
     const openSession = r.voteSessions?.find(s => s.status === 'open');
     const myVote = openSession?.votes?.find(v => (v.editor?._id || v.editor) === lrCurrentUser._id);
@@ -246,7 +249,7 @@ function renderCard(r) {
                     <span><i class="fas fa-user"></i> ${creatorName}</span>
                     <span><i class="fas fa-tag"></i> ${ld.type || 'text'}</span>
                     <span><i class="fas fa-calendar"></i> ${new Date(r.createdAt).toLocaleDateString()}</span>
-                    <span><i class="fas fa-language"></i> ${ld.language || '�'}</span>
+                    <span><i class="fas fa-language"></i> ${capLang(ld.language)}</span>
                     <span><i class="fas fa-signal"></i> ${ld.level || '�'}</span>
                 </div>
             </div>
@@ -257,7 +260,7 @@ function renderCard(r) {
     ${r.isTranslation ? `
     <div class="translation-info">
         <span class="badge-translation"><i class="fas fa-language"></i> TRANSLATION</span>
-        <span><i class="fas fa-arrow-right" style="color:#fd7e14;"></i> Language: <strong>${ld.language || '?'}</strong> → <strong>${r.targetLanguage || '?'}</strong></span>
+        <span><i class="fas fa-arrow-right" style="color:#fd7e14;"></i> Language: <strong>${capLang(r.originalLessonId?.language)}</strong> → <strong>${capLang(r.targetLanguage)}</strong></span>
         ${r.originalLessonId ? `<a href="lesson.html?id=${r.originalLessonId._id || r.originalLessonId}" target="_blank" style="color:#fd7e14; font-weight:600;">View original lesson →</a>` : ''}
     </div>` : ''}
 
@@ -341,4 +344,5 @@ async function staffAction(reviewId, action) {
     <script src="scripts/footer.js"></script>
 </body>
 </html>
+
 
