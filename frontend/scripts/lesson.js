@@ -323,13 +323,15 @@ function updateLessonHeader() {
 
     // Show translation banner if applicable
     showTranslationBanner();
+    // Show folder banner if lesson belongs to folders
+    loadFolderBanner();
 }
 
 function showTranslationBanner() {
     const banner = document.getElementById('translationBanner');
     if (!banner || !currentLesson) return;
 
-    const hasTag = currentLesson.tags && currentLesson.tags.includes('tradus');
+    const hasTag = currentLesson.tags && currentLesson.tags.includes('translated');
     const hasOriginal = currentLesson.originalLesson;
 
     if (!hasTag && !hasOriginal) return;
@@ -357,6 +359,31 @@ function showTranslationBanner() {
         // No original lesson ref — hide the link
         const link = document.getElementById('translationBannerLink');
         if (link) link.style.display = 'none';
+    }
+}
+
+async function loadFolderBanner() {
+    if (!currentLesson) return;
+    try {
+        const apiUrl = window.CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+        const creatorId = currentLesson.creators?.[0]?._id || currentLesson.creators?.[0];
+        if (!creatorId) return;
+        const res = await fetch(`${apiUrl}/folders?creatorId=${creatorId}`);
+        const data = await res.json();
+        if (!data.success) return;
+        const matching = data.data.filter(f =>
+            f.lessons?.some(l => (l._id || l) === currentLesson._id)
+        );
+        if (!matching.length) return;
+        const banner = document.getElementById('folderBanner');
+        const links = document.getElementById('folderBannerLinks');
+        if (!banner || !links) return;
+        links.innerHTML = matching.map(f =>
+            `<a href="folder.html?id=${f._id}">${f.title}</a>`
+        ).join('');
+        banner.style.display = 'flex';
+    } catch (e) {
+        console.error('Error loading folder banner:', e);
     }
 }
 

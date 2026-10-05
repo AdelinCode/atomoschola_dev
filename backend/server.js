@@ -22,6 +22,7 @@ import passwordResetRoutes from './routes/password-reset.js';
 import reportsRoutes from './routes/reports.js';
 import lessonReviewRoutes from './routes/lessonReview.js';
 import problemRoutes from './routes/problems.js';
+import folderRoutes from './routes/folders.js';
 import { runMonthlyCommissionRotation } from './utils/commissionRotation.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -66,6 +67,7 @@ app.use('/api/password-reset', passwordResetRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/lesson-reviews', lessonReviewRoutes);
 app.use('/api/problems', problemRoutes);
+app.use('/api/folders', folderRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

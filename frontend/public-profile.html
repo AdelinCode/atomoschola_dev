@@ -227,6 +227,13 @@
             justify-content: center;
             gap: 8px;
         }
+        .folder-card { display:flex; align-items:center; gap:14px; padding:14px 16px; background:#f8f9fa; border-radius:8px; cursor:pointer; border-left:3px solid #667eea; transition:all 0.2s; text-decoration:none; }
+        .folder-card:hover { background:#e9ecef; transform:translateX(3px); }
+        .folder-card-icon { width:38px; height:38px; background:linear-gradient(135deg,#6C3483,#9b59b6); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .folder-card-icon i { color:white; font-size:16px; }
+        .folder-card-info { flex:1; min-width:0; }
+        .folder-card-title { font-weight:600; color:#333; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .folder-card-meta { font-size:12px; color:#999; margin-top:2px; }
         .btn-report {
             background: white;
             color: #dc3545;
@@ -308,6 +315,12 @@
                                 <div class="info-value" id="infoJoined">?</div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Folders -->
+                    <div id="foldersSection" style="display:none;">
+                        <div class="section-title"><i class="fas fa-layer-group" style="color:#667eea;"></i> Folders</div>
+                        <div id="foldersList" style="display:grid; gap:12px;"></div>
                     </div>
 
                     <!-- Created Lessons -->
@@ -411,6 +424,7 @@
             
             if (viewedUser.userType === 'creator' || viewedUser.userType === 'editor' || viewedUser.userType === 'owner' || viewedUser.userType === 'staff') {
                 loadLessons();
+                loadFolders();
             }
         }
 
@@ -487,6 +501,29 @@
             if (withRatings.length === 0) return 0;
             const sum = withRatings.reduce((acc, l) => acc + l.averageRating, 0);
             return sum / withRatings.length;
+        }
+
+        async function loadFolders() {
+            try {
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                const res = await fetch(`${apiUrl}/folders?creatorId=${viewedUser._id}`);
+                const data = await res.json();
+                if (!data.success || !data.data.length) return;
+
+                document.getElementById('foldersSection').style.display = 'block';
+                document.getElementById('foldersList').innerHTML = data.data.map(f => `
+                    <a class="folder-card" href="folder.html?id=${f._id}">
+                        <div class="folder-card-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="folder-card-info">
+                            <div class="folder-card-title">${f.title}</div>
+                            <div class="folder-card-meta">${f.lessons?.length || 0} lesson${(f.lessons?.length || 0) !== 1 ? 's' : ''}${f.description ? ' · ' + f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : ''}</div>
+                        </div>
+                        <i class="fas fa-chevron-right" style="color:#ccc; font-size:13px;"></i>
+                    </a>
+                `).join('');
+            } catch (e) {
+                console.error('Error loading folders:', e);
+            }
         }
 
         async function loadLessons() {

@@ -131,6 +131,49 @@
             background: #e9ecef;
             transform: translateY(-2px);
         }
+
+        /* Folders management */
+        .folders-section { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; }
+        .folders-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .folders-header h3 { margin: 0; color: #333; }
+        .btn-new-folder { padding: 9px 18px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: background 0.2s; }
+        .btn-new-folder:hover { background: #5a67d8; }
+        .folder-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #667eea; }
+        .folder-row-icon { width: 36px; height: 36px; background: linear-gradient(135deg,#6C3483,#9b59b6); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .folder-row-icon i { color: white; font-size: 15px; }
+        .folder-row-info { flex: 1; min-width: 0; }
+        .folder-row-title { font-weight: 600; color: #333; }
+        .folder-row-meta { font-size: 12px; color: #999; margin-top: 2px; }
+        .folder-row-actions { display: flex; gap: 8px; }
+        .btn-folder-edit, .btn-folder-del { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-folder-edit { background: #e3f2fd; color: #1976d2; }
+        .btn-folder-edit:hover { background: #bbdefb; }
+        .btn-folder-del  { background: #fee2e2; color: #dc2626; }
+        .btn-folder-del:hover  { background: #fecaca; }
+
+        /* Modal */
+        .folder-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .folder-modal-overlay.open { display: flex; }
+        .folder-modal { background: white; border-radius: 14px; padding: 32px; width: 100%; max-width: 560px; max-height: 80vh; overflow-y: auto; }
+        .folder-modal h3 { margin: 0 0 24px; font-size: 20px; color: #333; }
+        .fm-group { margin-bottom: 18px; }
+        .fm-group label { display: block; font-weight: 600; font-size: 14px; color: #333; margin-bottom: 6px; }
+        .fm-group input, .fm-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        .fm-group textarea { min-height: 80px; resize: vertical; }
+        .fm-lesson-list { max-height: 220px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+        .fm-lesson-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #f3f4f6; font-size: 14px; cursor: pointer; }
+        .fm-lesson-item:last-child { border-bottom: none; }
+        .fm-lesson-item:hover { background: #f8f9fa; }
+        .fm-lesson-item input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .fm-selected-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .fm-selected-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 13px; }
+        .fm-selected-item .drag-handle { cursor: grab; color: #a5b4fc; }
+        .fm-selected-item span { flex: 1; }
+        .fm-selected-item .remove-sel { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 16px; padding: 0; }
+        .fm-modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+        .fm-btn-cancel { padding: 10px 20px; background: #f3f4f6; color: #333; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .fm-btn-save { padding: 10px 24px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .fm-btn-save:hover { background: #5a67d8; }
     </style>
 </head>
 <body>
@@ -201,6 +244,42 @@
             </div>
         </div>
 
+        <!-- Folders (visible to creators/staff/owner) -->
+        <div class="folders-section" id="foldersSection">
+            <div class="folders-header">
+                <h3><i class="fas fa-layer-group" style="color:#667eea; margin-right:8px;"></i>My Folders</h3>
+                <button class="btn-new-folder" onclick="openFolderModal()"><i class="fas fa-plus"></i> New Folder</button>
+            </div>
+            <div id="myFoldersList"><p style="color:#999; font-size:14px;">No folders yet.</p></div>
+        </div>
+
+        <!-- Folder Modal -->
+        <div class="folder-modal-overlay" id="folderModalOverlay">
+            <div class="folder-modal">
+                <h3 id="folderModalTitle">New Folder</h3>
+                <div class="fm-group">
+                    <label>Title *</label>
+                    <input type="text" id="fmTitle" placeholder="e.g. Introduction to Organic Chemistry" maxlength="100">
+                </div>
+                <div class="fm-group">
+                    <label>Description <small style="font-weight:400; color:#888;">(optional)</small></label>
+                    <textarea id="fmDesc" placeholder="Brief description of this folder..."></textarea>
+                </div>
+                <div class="fm-group">
+                    <label>Add lessons from your published lessons</label>
+                    <div class="fm-lesson-list" id="fmLessonList"><p style="padding:12px; color:#999; font-size:13px;">Loading your lessons...</p></div>
+                </div>
+                <div class="fm-group" id="fmSelectedGroup" style="display:none;">
+                    <label>Lesson order <small style="font-weight:400; color:#888;">(drag to reorder)</small></label>
+                    <div class="fm-selected-list" id="fmSelectedList"></div>
+                </div>
+                <div class="fm-modal-actions">
+                    <button class="fm-btn-cancel" onclick="closeFolderModal()">Cancel</button>
+                    <button class="fm-btn-save" onclick="saveFolder()"><i class="fas fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+
         <div class="profile-actions">
             <a href="settings.html" class="btn-profile btn-primary">
                 <i class="fas fa-cog"></i>
@@ -228,6 +307,7 @@
             }
             
             loadProfile();
+            initFolders();
         });
 
         function loadProfile() {
@@ -267,6 +347,205 @@
         function capitalizeFirst(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
+
+        // ── Folders ──────────────────────────────────────────────────────────
+        const API_BASE = window.CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+        let myLessons = [];
+        let editingFolderId = null;
+        let selectedLessonIds = []; // ordered
+
+        async function initFolders() {
+            const user = window.API.getUser();
+            if (!['creator','staff','owner'].includes(user?.userType)) return;
+            document.getElementById('foldersSection').style.display = 'block';
+            await loadMyLessons();
+            await loadMyFolders();
+        }
+
+        async function loadMyLessons() {
+            try {
+                const user = window.API.getUser();
+                const res = await fetch(`${API_BASE}/lessons?status=published`, {
+                    headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    myLessons = data.data.filter(l =>
+                        l.creators?.some(c => (c._id || c) === user._id)
+                    );
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadMyFolders() {
+            const user = window.API.getUser();
+            try {
+                const res = await fetch(`${API_BASE}/folders?creatorId=${user._id}`, {
+                    headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+                });
+                const data = await res.json();
+                const list = document.getElementById('myFoldersList');
+                if (!data.success || !data.data.length) {
+                    list.innerHTML = '<p style="color:#999; font-size:14px;">No folders yet.</p>';
+                    return;
+                }
+                list.innerHTML = data.data.map(f => `
+                    <div class="folder-row">
+                        <div class="folder-row-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="folder-row-info">
+                            <div class="folder-row-title">${f.title}</div>
+                            <div class="folder-row-meta">${f.lessons?.length || 0} lesson${(f.lessons?.length||0)!==1?'s':''}</div>
+                        </div>
+                        <div class="folder-row-actions">
+                            <button class="btn-folder-edit" onclick="editFolder('${f._id}')"><i class="fas fa-pen"></i> Edit</button>
+                            <button class="btn-folder-del" onclick="deleteFolder('${f._id}', '${f.title.replace(/'/g,"\\'")}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        function openFolderModal(folderId) {
+            editingFolderId = folderId || null;
+            selectedLessonIds = [];
+            document.getElementById('fmTitle').value = '';
+            document.getElementById('fmDesc').value = '';
+            document.getElementById('folderModalTitle').textContent = folderId ? 'Edit Folder' : 'New Folder';
+            renderLessonPicker();
+            document.getElementById('folderModalOverlay').classList.add('open');
+        }
+
+        function closeFolderModal() {
+            document.getElementById('folderModalOverlay').classList.remove('open');
+            editingFolderId = null;
+        }
+
+        async function editFolder(folderId) {
+            try {
+                const res = await fetch(`${API_BASE}/folders/${folderId}`);
+                const data = await res.json();
+                if (!data.success) return;
+                const f = data.data;
+                editingFolderId = folderId;
+                selectedLessonIds = (f.lessons || []).map(l => l._id || l);
+                document.getElementById('fmTitle').value = f.title;
+                document.getElementById('fmDesc').value = f.description || '';
+                document.getElementById('folderModalTitle').textContent = 'Edit Folder';
+                renderLessonPicker();
+                document.getElementById('folderModalOverlay').classList.add('open');
+            } catch (e) { console.error(e); }
+        }
+
+        function renderLessonPicker() {
+            const listEl = document.getElementById('fmLessonList');
+            if (!myLessons.length) {
+                listEl.innerHTML = '<p style="padding:12px; color:#999; font-size:13px;">No published lessons found.</p>';
+                renderSelectedList();
+                return;
+            }
+            listEl.innerHTML = myLessons.map(l => `
+                <label class="fm-lesson-item">
+                    <input type="checkbox" value="${l._id}" ${selectedLessonIds.includes(l._id) ? 'checked' : ''}
+                        onchange="toggleLessonSelection('${l._id}', '${l.title.replace(/'/g,"\\'")}', this.checked)">
+                    <span>${l.title}</span>
+                </label>
+            `).join('');
+            renderSelectedList();
+        }
+
+        function toggleLessonSelection(id, title, checked) {
+            if (checked) {
+                if (!selectedLessonIds.includes(id)) selectedLessonIds.push(id);
+            } else {
+                selectedLessonIds = selectedLessonIds.filter(x => x !== id);
+            }
+            renderSelectedList();
+        }
+
+        function renderSelectedList() {
+            const group = document.getElementById('fmSelectedGroup');
+            const listEl = document.getElementById('fmSelectedList');
+            if (!selectedLessonIds.length) { group.style.display = 'none'; return; }
+            group.style.display = 'block';
+            listEl.innerHTML = selectedLessonIds.map((id, i) => {
+                const lesson = myLessons.find(l => l._id === id);
+                const title = lesson ? lesson.title : id;
+                return `
+                    <div class="fm-selected-item" data-id="${id}">
+                        <span class="drag-handle"><i class="fas fa-grip-lines"></i></span>
+                        <span>${i + 1}. ${title}</span>
+                        <button class="remove-sel" onclick="removeLessonFromSelected('${id}')">&times;</button>
+                    </div>`;
+            }).join('');
+            initDragSort();
+        }
+
+        function removeLessonFromSelected(id) {
+            selectedLessonIds = selectedLessonIds.filter(x => x !== id);
+            // Uncheck in picker
+            const cb = document.querySelector(`#fmLessonList input[value="${id}"]`);
+            if (cb) cb.checked = false;
+            renderSelectedList();
+        }
+
+        function initDragSort() {
+            const list = document.getElementById('fmSelectedList');
+            let dragging = null;
+            list.querySelectorAll('.fm-selected-item').forEach(item => {
+                item.draggable = true;
+                item.addEventListener('dragstart', () => { dragging = item; item.style.opacity = '0.5'; });
+                item.addEventListener('dragend', () => { dragging = null; item.style.opacity = ''; });
+                item.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    if (!dragging || dragging === item) return;
+                    const rect = item.getBoundingClientRect();
+                    const mid = rect.top + rect.height / 2;
+                    if (e.clientY < mid) list.insertBefore(dragging, item);
+                    else list.insertBefore(dragging, item.nextSibling);
+                });
+                item.addEventListener('drop', () => {
+                    selectedLessonIds = [...list.querySelectorAll('.fm-selected-item')].map(el => el.dataset.id);
+                    renderSelectedList();
+                });
+            });
+        }
+
+        async function saveFolder() {
+            const title = document.getElementById('fmTitle').value.trim();
+            if (!title) { alert('Please enter a title.'); return; }
+            const body = { title, description: document.getElementById('fmDesc').value.trim(), lessonIds: selectedLessonIds };
+            try {
+                const url = editingFolderId ? `${API_BASE}/folders/${editingFolderId}` : `${API_BASE}/folders`;
+                const method = editingFolderId ? 'PUT' : 'POST';
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${window.API.getToken()}` },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message);
+                closeFolderModal();
+                await loadMyFolders();
+            } catch (e) { alert('Error saving folder: ' + e.message); }
+        }
+
+        async function deleteFolder(id, title) {
+            if (!confirm(`Delete folder "${title}"? This cannot be undone.`)) return;
+            try {
+                const res = await fetch(`${API_BASE}/folders/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${window.API.getToken()}` }
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message);
+                await loadMyFolders();
+            } catch (e) { alert('Error: ' + e.message); }
+        }
+
+        // Close modal on overlay click
+        document.getElementById('folderModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeFolderModal();
+        });
     </script>
     <!-- Footer -->
     <div id="site-footer"></div>

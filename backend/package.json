@@ -11,6 +11,7 @@
     "start": "node server.js",
     "migrate:subjects": "node scripts/migrate-subjects-category.js",
     "migrate:languages": "node scripts/migrate-languages.js",
+    "migrate:tags": "node scripts/migrate-tags.js",
     "seed:uman": "node scripts/seed-uman-subjects.js",
     "cleanup": "node scripts/cleanup-romanian-subjects.js",
     "check": "node scripts/check-subjects.js",
