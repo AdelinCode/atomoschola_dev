@@ -60,7 +60,7 @@ function openReportModal(targetType, targetId) {
 
     // targetId can be passed directly, or derived from context
     if (!targetId) {
-        if (targetType === 'lesson') {
+        if (targetType === 'lesson' || targetType === 'problem') {
             const urlParams = new URLSearchParams(window.location.search);
             targetId = urlParams.get('id');
         }
@@ -71,7 +71,8 @@ function openReportModal(targetType, targetId) {
         return;
     }
 
-    typeLabel.textContent = targetType === 'lesson' ? 'Lesson' : 'User';
+    const typeLabels = { lesson: 'Lesson', user: 'User', problem: 'Problem' };
+    typeLabel.textContent = typeLabels[targetType] || targetType;
     document.getElementById('reportTargetId').value = targetId;
     document.getElementById('reportReason').value = 'inappropriate_content';
     document.getElementById('reportDescription').value = '';

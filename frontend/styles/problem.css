@@ -329,3 +329,34 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Problem actions (report button) */
+.problem-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.problem-title-row .problem-detail-title {
+    flex: 1;
+    margin: 0;
+}
+
+.problem-report-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.problem-report-btn:hover { opacity: 0.85; }

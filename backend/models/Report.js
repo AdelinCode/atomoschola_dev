@@ -8,7 +8,7 @@ const reportSchema = new mongoose.Schema({
   },
   targetType: {
     type: String,
-    enum: ['lesson', 'user'],
+    enum: ['lesson', 'user', 'problem'],
     required: true
   },
   targetId: {
@@ -18,7 +18,7 @@ const reportSchema = new mongoose.Schema({
   },
   targetModel: {
     type: String,
-    enum: ['Lesson', 'User'],
+    enum: ['Lesson', 'User', 'Problem'],
     required: true
   },
   reason: {

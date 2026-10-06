@@ -70,7 +70,12 @@
                     </div>
                 </div>
 
-                <h1 class="problem-detail-title" id="detailTitle"></h1>
+                <div class="problem-title-row">
+                    <h1 class="problem-detail-title" id="detailTitle"></h1>
+                    <button class="btn btn-secondary problem-report-btn" id="reportProblemBtn" onclick="openReportModal('problem')" style="background: #dc3545; color: white;">
+                        <i class="fas fa-flag"></i> Report
+                    </button>
+                </div>
 
                 <div class="problem-detail-meta" id="detailMeta"></div>
 
@@ -221,6 +226,7 @@
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/problem.js"></script>
+    <script src="scripts/report.js"></script>
     <script src="scripts/footer.js"></script>
 </body>
 </html>

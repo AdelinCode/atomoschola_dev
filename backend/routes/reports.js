@@ -3,6 +3,7 @@ import Report from '../models/Report.js';
 import Notification from '../models/Notification.js';
 import User from '../models/User.js';
 import Lesson from '../models/Lesson.js';
+import Problem from '../models/Problem.js';
 import { protect, authorize } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -14,7 +15,7 @@ router.post('/', protect, async (req, res) => {
   try {
     const { targetType, targetId, reason, description } = req.body;
 
-    if (!['lesson', 'user'].includes(targetType)) {
+    if (!['lesson', 'user', 'problem'].includes(targetType)) {
       return res.status(400).json({ 
         success: false, 
         message: 'Invalid target type' 
@@ -22,7 +23,9 @@ router.post('/', protect, async (req, res) => {
     }
 
     // Verify target exists
-    const targetModel = targetType === 'lesson' ? Lesson : User;
+    const targetModelMap = { lesson: Lesson, user: User, problem: Problem };
+    const targetModelNameMap = { lesson: 'Lesson', user: 'User', problem: 'Problem' };
+    const targetModel = targetModelMap[targetType];
     const target = await targetModel.findById(targetId);
     if (!target) {
       return res.status(404).json({ 
@@ -35,21 +38,21 @@ router.post('/', protect, async (req, res) => {
       reportedBy: req.user._id,
       targetType,
       targetId,
-      targetModel: targetType === 'lesson' ? 'Lesson' : 'User',
+      targetModel: targetModelNameMap[targetType],
       reason,
       description
     });
 
     // Notify all staff and owner members
     const staffUsers = await User.find({ userType: { $in: ['staff', 'owner'] } });
-    const targetName = targetType === 'lesson' ? target.title : target.username;
+    const targetName = targetType === 'user' ? target.username : target.title;
     
     const notificationPromises = staffUsers.map(staff => 
       Notification.create({
         user: staff._id,
         type: 'report',
         title: `New ${targetType} report`,
-        message: `${req.user.username} reported ${targetType === 'lesson' ? 'lesson' : 'user'} "${targetName}" — reason: ${reason}`,
+        message: `${req.user.username} reported ${targetType} "${targetName}" — reason: ${reason}`,
         relatedItem: report._id,
         relatedModel: 'Report'
       })
