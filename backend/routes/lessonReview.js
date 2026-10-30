@@ -157,6 +157,56 @@ router.get('/:id', protect, authorize(...canReview), async (req, res) => {
   }
 });
 
+// Edit an own submission before publication, outside an active vote session.
+router.put('/:id', protect, authorize(...canReview), async (req, res) => {
+  try {
+    const review = await LessonReview.findById(req.params.id);
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+    if (review.creator.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: 'You can only edit your own submissions.' });
+    }
+    if (review.status !== 'under_review') {
+      return res.status(400).json({ success: false, message: 'Only submissions under review can be edited.' });
+    }
+    if (review.voteSessions.some(session => session.status === 'open')) {
+      return res.status(409).json({ success: false, message: 'You cannot edit a submission while a vote session is open.' });
+    }
+
+    const changes = req.body.lessonData;
+    if (!changes || typeof changes !== 'object' || Array.isArray(changes)) {
+      return res.status(400).json({ success: false, message: 'Lesson data is required.' });
+    }
+    const lessonData = { ...review.lessonData };
+    const editableFields = ['title', 'slug', 'description', 'content', 'type', 'language', 'level', 'tags', 'attachments'];
+    for (const field of editableFields) {
+      if (Object.prototype.hasOwnProperty.call(changes, field)) lessonData[field] = changes[field];
+    }
+    for (const field of ['title', 'slug', 'description', 'content', 'language']) {
+      if (typeof lessonData[field] !== 'string' || !lessonData[field].trim()) {
+        return res.status(400).json({ success: false, message: `${field} is required.` });
+      }
+    }
+    // A translation keeps the language selected when it was submitted.
+    if (review.isTranslation) lessonData.language = review.targetLanguage;
+    const validation = new Lesson(lessonData).validateSync();
+    if (validation) return res.status(400).json({ success: false, message: validation.message });
+
+    const updated = await LessonReview.findOneAndUpdate({
+      _id: review._id,
+      creator: req.user._id,
+      status: 'under_review',
+      updatedAt: review.updatedAt,
+      'voteSessions.status': { $ne: 'open' }
+    }, { $set: { lessonData } }, { new: true, runValidators: true });
+    if (!updated) {
+      return res.status(409).json({ success: false, message: 'The review changed. Reload it before saving again.' });
+    }
+    res.json({ success: true, data: updated });
+  } catch (err) {
+    res.status(err.name === 'CastError' ? 400 : 500).json({ success: false, message: err.message });
+  }
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // POST /api/lesson-reviews/:id/join
 // Join or leave review panel (editor+)
