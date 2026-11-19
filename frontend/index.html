@@ -16,7 +16,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="home-page">
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -45,64 +45,88 @@
         </div>
     </header>
 
-    <!-- Mobile nav overlay + panel (injected by JS) -->
-
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
 
-            <!-- Hero -->
-            <section class="hero hero-main" style="background-image: url('photo_background/banner_as.jpeg') !important; background-size: contain !important; background-position: center center; background-repeat: no-repeat; background-color: #f8f9fa;">
-                <div class="hero-quick-links">
-                    <a href="social.html" class="hero-quick-btn hero-btn-social">
-                        <div class="hero-btn-icon">
-                            <i class="fas fa-hashtag"></i>
+            <!-- ══════════════════════════════════════
+                 HERO
+            ══════════════════════════════════════ -->
+            <section class="home-hero" aria-labelledby="homeHeroTitle">
+                <div class="home-hero-left">
+                    <h1 id="homeHeroTitle"><span class="hero-title-welcome">Welcome to...</span><br><span class="hero-title-atomo">Atomo</span> <span class="hero-title-schola">Schola</span></h1>
+                    <p>A home for curious minds, thoughtful lessons, and the people who make learning clearer.</p>
+                    <div class="home-hero-actions">
+                        <a class="home-hero-cta-primary" href="#categories" id="heroExploreCta">
+                            <i class="fas fa-book-open"></i> Explore Categories
+                        </a>
+                        <a class="home-hero-cta-secondary" href="#archiveCard" id="heroArchiveCta">
+                            <i class="fas fa-layer-group"></i> View Archive
+                        </a>
+                        <a class="home-hero-cta-secondary" href="#proposeCard" id="heroContributeCta">
+                            <i class="fas fa-edit"></i> Contribute
+                        </a>
+                    </div>
+                </div>
+                <div class="home-hero-right">
+                    <div class="home-hero-stat-card">
+                        <div class="hero-stat-row">
+                            <div class="hero-stat-item">
+                                <span class="hero-stat-num stem-accent" id="steamLessonsHero">—</span>
+                                <span class="hero-stat-label">STEM Lessons</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat-item">
+                                <span class="hero-stat-num humanities-accent" id="humanitiesLessonsHero">—</span>
+                                <span class="hero-stat-label">Humanities Lessons</span>
+                            </div>
                         </div>
-                        <div class="hero-btn-text">
-                            <span class="hero-btn-label">Social</span>
-                            <span class="hero-btn-sub">Community &amp; discussions</span>
+                        <div class="hero-quick-links" aria-label="Discover Atomo Schola">
+                            <a href="social.html" class="hero-quick-btn hero-btn-social">
+                                <div class="hero-btn-icon"><i class="fas fa-hashtag"></i></div>
+                                <div class="hero-btn-text">
+                                    <span class="hero-btn-label">Social</span>
+                                    <span class="hero-btn-sub">Community &amp; discussions</span>
+                                </div>
+                            </a>
+                            <a href="how-it-works.html" class="hero-quick-btn hero-btn-contribution">
+                                <div class="hero-btn-icon"><i class="fas fa-cog"></i></div>
+                                <div class="hero-btn-text">
+                                    <span class="hero-btn-label">How AS Works</span>
+                                    <span class="hero-btn-sub">Create &amp; edit content</span>
+                                </div>
+                            </a>
+                            <a href="news.html" class="hero-quick-btn hero-btn-news">
+                                <div class="hero-btn-icon"><i class="fas fa-newspaper"></i></div>
+                                <div class="hero-btn-text">
+                                    <span class="hero-btn-label">News</span>
+                                    <span class="hero-btn-sub">Updates &amp; announcements</span>
+                                </div>
+                            </a>
+                            <a href="team.html" class="hero-quick-btn hero-btn-team">
+                                <div class="hero-btn-icon"><i class="fas fa-users"></i></div>
+                                <div class="hero-btn-text">
+                                    <span class="hero-btn-label">Our Team</span>
+                                    <span class="hero-btn-sub">The people behind Atomo</span>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-
-                    <a href="how-it-works.html" class="hero-quick-btn hero-btn-contribution">
-                        <div class="hero-btn-icon">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <div class="hero-btn-text">
-                            <span class="hero-btn-label">How AS Works</span>
-                            <span class="hero-btn-sub">Create &amp; edit content</span>
-                        </div>
-                    </a>
-
-                    <a href="news.html" class="hero-quick-btn hero-btn-news">
-                        <div class="hero-btn-icon">
-                            <i class="fas fa-newspaper"></i>
-                        </div>
-                        <div class="hero-btn-text">
-                            <span class="hero-btn-label">News</span>
-                            <span class="hero-btn-sub">Updates &amp; announcements</span>
-                        </div>
-                    </a>
-
-                    <a href="team.html" class="hero-quick-btn hero-btn-team">
-                        <div class="hero-btn-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="hero-btn-text">
-                            <span class="hero-btn-label">Our Team</span>
-                            <span class="hero-btn-sub">The people behind Atomo</span>
-                        </div>
-                    </a>
+                    </div>
                 </div>
             </section>
 
-            <!-- Category Cards -->
-            <section class="featured-subjects" style="margin-top: 40px; margin-bottom: 60px;">
-                <h2 style="text-align: center; margin-bottom: 40px;">Explore Our Categories</h2>
+            <!-- ══════════════════════════════════════
+                 CATEGORIES
+            ══════════════════════════════════════ -->
+            <section class="home-section" id="categories" aria-label="Browse categories">
+                <div class="home-section-header">
+                    <h2 class="home-section-title">Browse Categories</h2>
+                    <p class="home-section-sub">Pick a field and start exploring curated lessons.</p>
+                </div>
 
                 <div class="category-cards-grid">
                     <!-- STEM Card -->
-                    <div class="category-major-card" onclick="location.href='stem.html'">
+                    <div class="category-major-card" onclick="location.href='stem.html'" role="button" tabindex="0">
                         <div class="card-icon stem-accent">
                             <i class="fas fa-atom"></i>
                         </div>
@@ -122,10 +146,11 @@
                                 <div class="stat-label">Domains</div>
                             </div>
                         </div>
+                        <span class="card-cta-hint">Explore STEM <i class="fas fa-arrow-right"></i></span>
                     </div>
 
                     <!-- Humanities Card -->
-                    <div class="category-major-card" onclick="location.href='humanities.html'">
+                    <div class="category-major-card" onclick="location.href='humanities.html'" role="button" tabindex="0">
                         <div class="card-icon humanities-accent">
                             <i class="fas fa-book-reader"></i>
                         </div>
@@ -145,108 +170,86 @@
                                 <div class="stat-label">Domains</div>
                             </div>
                         </div>
+                        <span class="card-cta-hint">Explore Humanities <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
+            </section>
 
-                <!-- Problem Archive Banner -->
-                <div class="info-cards-section" style="margin-top: 20px; margin-bottom: 0;">
-                    <div class="banner-card banner-archive">
-                        <div class="banner-card-inner">
-                            <div class="banner-card-content">
-                                <div class="banner-card-title-row">
-                                    <div class="banner-card-icon">
-                                        <i class="fas fa-layer-group"></i>
-                                    </div>
-                                    <h3>Problem Archive</h3>
-                                </div>
-                                <p>Competition &amp; olympiad problems. <span id="archiveProblemCount"></span></p>
-                            </div>
-                            <div class="banner-card-action">
-                                <a href="archive.html" class="banner-btn">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Browse Archive
-                                </a>
+            <!-- ══════════════════════════════════════
+                 QUICK ACCESS ROW
+            ══════════════════════════════════════ -->
+            <section class="home-section home-quick-row" aria-label="Quick access">
+                <!-- Problem Archive -->
+                <div class="quick-access-card qa-archive" id="archiveCard">
+                    <div class="qa-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="qa-body">
+                        <h3>Problem Archive</h3>
+                        <p>Competition &amp; olympiad problems. <span id="archiveProblemCount"></span></p>
+                    </div>
+                    <a href="archive.html" class="qa-btn">Browse <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Propose Edits -->
+                <div class="quick-access-card qa-propose" id="proposeCard">
+                    <div class="qa-icon"><i class="fas fa-edit"></i></div>
+                    <div class="qa-body">
+                        <h3>Propose an Edit</h3>
+                        <p>Spotted an error or room for improvement? Help us keep content accurate.</p>
+                    </div>
+                    <a href="propose-edits.html" class="qa-btn">Propose <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════
+                 PARTNERSHIP
+            ══════════════════════════════════════ -->
+            <section class="home-section" aria-label="Partnership">
+                <div class="partnership-card">
+                    <div class="partnership-inner">
+                        <div class="partnership-logo-wrap">
+                            <div class="partnership-logo-circle">
+                                <img src="photo_background/logo-main.png" alt="Net2077 Logo" class="partnership-logo-img">
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Propose Edits Banner -->
-                <div class="info-cards-section" style="margin-top: 20px; margin-bottom: 0;">
-                    <div class="banner-card banner-propose">
-                        <div class="banner-card-inner">
-                            <div class="banner-card-content">
-                                <div class="banner-card-title-row">
-                                    <div class="banner-card-icon">
-                                        <i class="fas fa-edit"></i>
-                                    </div>
-                                    <h3>See room for improvement?</h3>
-                                </div>
-                                <p>Spotted something that could be improved? Propose edits to existing lessons and help us maintain high quality educational content.</p>
-                            </div>
-                            <div class="banner-card-action">
-                                <a href="propose-edits.html" class="banner-btn">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Go to Propose Edits
-                                </a>
-                            </div>
+                        <div class="partnership-content">
+                            <div class="partnership-label">Partnership</div>
+                            <h3 class="partnership-title">Net2077</h3>
+                            <p class="partnership-desc">
+                                Networking, Linux, and debugging made concrete — built for AcadNet prep and beyond.
+                            </p>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Partnership Banner � Net2077 -->
-                <div class="info-cards-section" style="margin-top: 20px; margin-bottom: 0;">
-                    <div class="partnership-card">
-                        <div class="partnership-glow"></div>
-                        <div class="partnership-inner">
-                            <div class="partnership-logo-wrap">
-                                <div class="partnership-logo-circle">
-                                    <img src="photo_background/logo-main.png" alt="Net2077 Logo" class="partnership-logo-img">
-                                </div>
-                            </div>
-                            <div class="partnership-content">
-                                <div class="partnership-label">Partnership</div>
-                                <h3 class="partnership-title">Net2077</h3>
-                                <p class="partnership-desc">
-                                    Looking to sharpen your technical edge? Net2077 is where networking, Linux, and debugging stop being abstract and start making sense. Whether you're prepping for AcadNet or just trying to level up, it's built for the way you actually learn.
-                                </p>
-                            </div>
-                            <div class="partnership-action">
-                                <a href="https://net2077.vercel.app/" target="_blank" rel="noopener noreferrer" class="partnership-btn">
-                                    <span>Visit Net2077</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
+                        <div class="partnership-action">
+                            <a href="https://net2077.vercel.app/" target="_blank" rel="noopener noreferrer" class="partnership-btn">
+                                Visit Net2077 <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Platform Information Section -->
-            <section>
-                <div class="info-cards-section">
-
-                    <!-- Call to Action -->
-                    <div class="cta-section" id="ctaSection">
-                        <h3>Ready to Start Learning?</h3>
-                        <p>Join thousands of learners exploring quality educational content</p>
-                        <div class="cta-buttons">
-                            <a href="register.html" class="cta-btn cta-btn-primary">
-                                <i class="fas fa-user-plus"></i>
-                                Create Account
-                            </a>
-                            <a href="subject.html?subject=physics" class="cta-btn cta-btn-success">
-                                <i class="fas fa-play"></i>
-                                Start Learning
-                            </a>
-                        </div>
+            <!-- ══════════════════════════════════════
+                 CTA (guests only)
+            ══════════════════════════════════════ -->
+            <section class="home-section" id="ctaSection" aria-label="Get started">
+                <div class="home-cta-block">
+                    <div class="home-cta-copy">
+                        <h3>Ready to start learning?</h3>
+                        <p>Create a free account and unlock the full library — lessons, problems, discussions and more.</p>
                     </div>
-
+                    <div class="home-cta-actions">
+                        <a href="register.html" class="cta-btn cta-btn-primary">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </a>
+                        <a href="subject.html?subject=physics" class="cta-btn cta-btn-success">
+                            <i class="fas fa-play"></i> Start Learning
+                        </a>
+                    </div>
                 </div>
             </section>
 
         </div>
     </main>
+
     <!-- Footer -->
     <div id="site-footer"></div>
 
@@ -257,11 +260,49 @@
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
     <style>
-        @keyframes fadeOut {
-            to { opacity: 0; }
-        }
+        @keyframes fadeOut { to { opacity: 0; } }
     </style>
     <script src="scripts/footer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ── Sync hero lesson counters with category card counters ──
+            function syncHeroStat(sourceId, targetId) {
+                const source = document.getElementById(sourceId);
+                const target = document.getElementById(targetId);
+                if (!source || !target) return;
+                const observer = new MutationObserver(function () {
+                    target.textContent = source.textContent;
+                });
+                observer.observe(source, { childList: true, subtree: true, characterData: true });
+                target.textContent = source.textContent || '—';
+            }
+            syncHeroStat('steamLessons', 'steamLessonsHero');
+            syncHeroStat('humanitiesLessons', 'humanitiesLessonsHero');
+
+            // ── Smooth-scroll hero CTA buttons ──
+            const HEADER_H = 88; // px offset for fixed header
+
+            function smoothScrollTo(targetEl) {
+                if (!targetEl) return;
+                const y = targetEl.getBoundingClientRect().top + window.scrollY - HEADER_H;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+
+            document.getElementById('heroExploreCta')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                smoothScrollTo(document.getElementById('categories'));
+            });
+
+            document.getElementById('heroArchiveCta')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                smoothScrollTo(document.getElementById('archiveCard'));
+            });
+
+            document.getElementById('heroContributeCta')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                smoothScrollTo(document.getElementById('proposeCard'));
+            });
+        });
+    </script>
 </body>
 </html>
-

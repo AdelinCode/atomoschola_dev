@@ -4,26 +4,27 @@
 
 :root {
     /* Light Theme (Default) */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --bg-tertiary: #f5f5f5;
-    --bg-accent: #e9ecef;
+    --bg-primary: #f4f5f8;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #eceef3;
+    --bg-accent: #e1e5ee;
     
-    --text-primary: #212529;
-    --text-secondary: #6c757d;
-    --text-muted: #495057;
+    --text-primary: #171b27;
+    --text-secondary: #6b7180;
+    --text-muted: #42495a;
     
-    --border-primary: #e0e0e0;
-    --border-secondary: #dee2e6;
+    --border-primary: #e1e4eb;
+    --border-secondary: #d3d8e3;
     
-    --accent-primary: #000000;
-    --accent-secondary: #333333;
-    --accent-hover: #666666;
+    --accent-primary: #465fd1;
+    --accent-secondary: #657be5;
+    --accent-hover: #354bb7;
+    --accent-warm: #d18a63;
     
     /* Interactive colors */
-    --interactive-bg: #f8f9fa;
-    --interactive-hover: #e9ecef;
-    --interactive-active: #dee2e6;
+    --interactive-bg: #eceef4;
+    --interactive-hover: #e5e8f1;
+    --interactive-active: #dbe0ee;
     
     /* Shadow */
     --shadow-light: rgba(0, 0, 0, 0.1);
@@ -33,29 +34,30 @@
 
 /* Dark Theme Variables */
 :root.dark-mode {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #242424;
-    --bg-tertiary: #2d2d2d;
-    --bg-accent: #404040;
-    
-    --text-primary: #f1f3f4;
-    --text-secondary: #9aa0a6;
-    --text-muted: #bdc1c6;
-    
-    --border-primary: #404040;
-    --border-secondary: #5f6368;
-    
-    --accent-primary: #ffffff;
-    --accent-secondary: #e8eaed;
-    --accent-hover: #dadce0;
-    
-    --interactive-bg: #2d2d2d;
-    --interactive-hover: #404040;
-    --interactive-active: #5f6368;
-    
-    --shadow-light: rgba(0, 0, 0, 0.3);
-    --shadow-medium: rgba(0, 0, 0, 0.4);
-    --shadow-heavy: rgba(0, 0, 0, 0.5);
+    --bg-primary: #111214;
+    --bg-secondary: #18191e;
+    --bg-tertiary: #1f2026;
+    --bg-accent: #27292f;
+
+    --text-primary: #e8e9ed;
+    --text-secondary: #8b8f9e;
+    --text-muted: #b4b7c4;
+
+    --border-primary: #2a2b31;
+    --border-secondary: #35373f;
+
+    --accent-primary: #9ba8f0;
+    --accent-secondary: #7a89e8;
+    --accent-hover: #b8c2f7;
+    --accent-warm: #d4906a;
+
+    --interactive-bg: #1f2026;
+    --interactive-hover: #22242b;
+    --interactive-active: #2a2d38;
+
+    --shadow-light: rgba(0, 0, 0, 0.28);
+    --shadow-medium: rgba(0, 0, 0, 0.42);
+    --shadow-heavy: rgba(0, 0, 0, 0.58);
 }
 
 /* ============================================
@@ -85,12 +87,11 @@ body {
     font-weight: 500;
     white-space: nowrap;
     margin-right: 8px;
-    transition: background 0.2s ease, padding 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .theme-toggle-btn:hover {
     background: var(--interactive-hover);
-    padding: 10px 18px;
 }
 
 .theme-toggle-btn i {
@@ -135,19 +136,17 @@ body {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Navigation */
+/* Navigation — these are overridden specifically for the dark header below */
 .nav-item {
     color: var(--text-primary) !important;
     font-weight: 500 !important;
     background: transparent !important;
-    transition: background 0.2s ease, padding 0.2s ease !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
 }
 
 .nav-item:hover {
     background: var(--interactive-hover) !important;
     color: var(--accent-primary) !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
 }
 
 .nav-item i {
@@ -160,14 +159,12 @@ body {
     color: var(--text-primary) !important;
     border: none !important;
     font-weight: 500 !important;
-    transition: background 0.2s ease, padding 0.2s ease !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
 }
 
 .account-btn:hover {
     background: var(--interactive-hover) !important;
     border: none !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
 }
 
 .account-btn i {
@@ -176,41 +173,119 @@ body {
 
 /* Account dropdown button — special styling for logged-in user */
 #accountBtn {
-    background: var(--bg-primary) !important;
-    border: 2px solid var(--border-secondary) !important;
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
     border-radius: 8px !important;
     padding: 8px 14px !important;
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+    transition: background 0.2s ease, border-color 0.2s ease !important;
 }
 
 #accountBtn:hover {
-    background: var(--bg-secondary) !important;
-    border-color: var(--text-muted) !important;
-    box-shadow: 0 2px 8px var(--shadow-light) !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
+    background: rgba(255,255,255,0.14) !important;
+    border-color: rgba(255,255,255,0.28) !important;
+}
+
+#accountBtn span {
+    color: rgba(255,255,255,0.82) !important;
+    font-weight: 600 !important;
+}
+
+#accountBtn i {
+    color: rgba(255,255,255,0.55) !important;
 }
 
 /* ============================================
    HEADER & NAVIGATION
    ============================================ */
 
-/* Header Override */
+/* Header — dark background in both light and dark themes */
 .header {
-    background: var(--bg-primary) !important;
-    border-bottom: 2px solid var(--border-primary) !important;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    background: #0f1119 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    transition: background-color 0.3s ease;
 }
 
+/* Logo */
 .logo a {
-    color: var(--accent-primary) !important;
+    color: #ffffff !important;
 }
-
+.logo a:hover {
+    color: rgba(255,255,255,0.65) !important;
+}
 .logo i {
-    color: var(--accent-primary) !important;
+    color: #ffffff !important;
 }
 
-/* Search Bar */
+/* Search bar on dark header */
+.header-content .search-bar {
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+}
+.header-content .search-bar input {
+    color: #e8eaf0 !important;
+}
+.header-content .search-bar input::placeholder {
+    color: rgba(255,255,255,0.35) !important;
+}
+.header-content .search-bar:focus-within {
+    border-color: rgba(255,255,255,0.26) !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.05) !important;
+}
+
+/* Nav items on dark header — override all general nav rules */
+.nav-menu .nav-item,
+.nav-menu .account-btn,
+.nav-menu .theme-toggle-btn {
+    color: rgba(255,255,255,0.68) !important;
+    background: transparent !important;
+}
+.nav-menu .nav-item:hover,
+.nav-menu .account-btn:hover,
+.nav-menu .theme-toggle-btn:hover {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.08) !important;
+}
+.nav-menu .nav-item i,
+.nav-menu .account-btn i:first-child {
+    color: rgba(255,255,255,0.42) !important;
+}
+.nav-menu .account-btn i:last-child {
+    color: rgba(255,255,255,0.35) !important;
+}
+.nav-menu .theme-toggle-btn {
+    border-color: rgba(255,255,255,0.13) !important;
+}
+
+/* Logged-in account button pill */
+#accountBtn {
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    transition: background 0.2s ease, border-color 0.2s ease !important;
+}
+#accountBtn:hover {
+    background: rgba(255,255,255,0.13) !important;
+    border-color: rgba(255,255,255,0.26) !important;
+}
+#accountBtn span {
+    color: rgba(255,255,255,0.82) !important;
+    font-weight: 600 !important;
+}
+#accountBtn i {
+    color: rgba(255,255,255,0.5) !important;
+}
+
+/* Hamburger */
+.nav-hamburger span {
+    background: rgba(255,255,255,0.78) !important;
+}
+.nav-hamburger {
+    border-color: rgba(255,255,255,0.13) !important;
+    background: rgba(255,255,255,0.06) !important;
+}
+
+/* Search Bar — generic (overridden by .header-content .search-bar above for header) */
 .search-bar {
     background: var(--bg-secondary) !important;
     border: 2px solid var(--border-primary) !important;
@@ -236,15 +311,6 @@ body {
 
 .search-btn:hover {
     background: var(--accent-secondary) !important;
-}
-
-#accountBtn span {
-    color: var(--text-primary) !important;
-    font-weight: 600 !important;
-}
-
-#accountBtn i {
-    color: var(--text-primary) !important;
 }
 
 /* ============================================
@@ -302,6 +368,70 @@ body {
     border-top: 1px solid var(--border-primary) !important;
     margin: 4px 0 !important;
 }
+
+/* Site-wide theme-aware header and navigation */
+.header {
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    box-shadow: 0 8px 30px rgba(27, 44, 39, .045);
+}
+.header .logo a,
+.header .logo a:hover,
+.header .logo i { color: var(--text-primary) !important; }
+.header-content .search-bar {
+    background: var(--bg-primary) !important;
+    border-color: var(--border-primary) !important;
+}
+.header-content .search-bar input { color: var(--text-primary) !important; }
+.header-content .search-bar input::placeholder { color: var(--text-secondary) !important; }
+.header .nav-menu .nav-item,
+.header .nav-menu .account-btn,
+.header .nav-menu .theme-toggle-btn {
+    color: var(--text-primary) !important;
+    background: transparent !important;
+}
+.header .nav-menu .nav-item i,
+.header .nav-menu .account-btn i { color: var(--text-secondary) !important; }
+.header .nav-menu .theme-toggle-btn { border-color: var(--border-primary) !important; }
+.header .nav-menu .nav-item:hover,
+.header .nav-menu .account-btn:hover,
+.header .nav-menu .theme-toggle-btn:hover { background: var(--interactive-hover) !important; }
+.header #accountBtn {
+    background: var(--interactive-bg) !important;
+    border-color: var(--border-primary) !important;
+}
+.header #accountBtn span { color: var(--text-primary) !important; }
+.nav-hamburger {
+    background: var(--interactive-bg) !important;
+    border-color: var(--border-primary) !important;
+}
+.nav-hamburger span { background: var(--text-primary) !important; }
+
+.dark-mode {
+    --nav-accent: #a2a5ad;
+    --nav-hover: #38393e;
+}
+.dark-mode .header {
+    background: color-mix(in srgb, #292a2e 94%, transparent) !important;
+    border-bottom-color: #303136 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .16);
+}
+.dark-mode .header .nav-menu .nav-item,
+.dark-mode .header .nav-menu .account-btn,
+.dark-mode .header .nav-menu .theme-toggle-btn { color: #c4c6cc !important; }
+.dark-mode .header .nav-menu .nav-item i,
+.dark-mode .header .nav-menu .account-btn i { color: var(--nav-accent) !important; }
+.dark-mode .header .nav-menu .nav-item:hover,
+.dark-mode .header .nav-menu .account-btn:hover,
+.dark-mode .header .nav-menu .theme-toggle-btn:hover {
+    color: #f0f0f1 !important;
+    background: var(--nav-hover) !important;
+}
+.dark-mode .header .nav-menu .theme-toggle-btn { border-color: #42434a !important; }
+.dark-mode .header #accountBtn { background: #34353a !important; border-color: #42434a !important; }
+.dark-mode .header #accountBtn span { color: #dedfe2 !important; }
+.dark-mode .nav-hamburger { background: #34353a !important; border-color: #42434a !important; }
+.dark-mode .nav-hamburger span { background: #c4c6cc !important; }
 
 /* ============================================
    BUTTONS
