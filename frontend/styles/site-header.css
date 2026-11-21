@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@500;650&display=swap");
+
+.atomo-site-header {
+    --nav-paper: #f8f4e9;
+    --nav-panel: #fffaf0;
+    --nav-ink: #202c27;
+    --nav-rule: #b9bdab;
+    --nav-focus: #913722;
+    font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.dark-mode .atomo-site-header {
+    color-scheme: dark;
+    --nav-paper: #191c20;
+    --nav-panel: #21252a;
+    --nav-ink: #f5eedf;
+    --nav-rule: #595e58;
+    --nav-focus: #ffad8e;
+}
+
+.header.atomo-site-header {
+    background: var(--nav-panel) !important;
+    border-bottom: 1px solid var(--nav-rule) !important;
+    box-shadow: none;
+}
+
+.atomo-site-header .header-content {
+    max-width: 1360px;
+}
+
+.atomo-site-header .header-content .logo a {
+    font-family: 'Fraunces', Georgia, serif;
+    color: var(--nav-ink);
+    letter-spacing: -.025em;
+}
+
+.atomo-site-header .header-content .logo a img { border-radius: 6px; }
+
+.atomo-site-header .header-content .search-bar {
+    border-radius: 5px;
+    border-color: var(--nav-rule) !important;
+    background: var(--nav-paper) !important;
+}
+
+.atomo-site-header .header-content .search-bar input,
+.atomo-site-header .nav-menu .account-btn,
+.atomo-site-header .nav-menu .nav-item,
+.atomo-site-header .nav-menu .theme-toggle-btn,
+.atomo-site-header .nav-menu .dropdown-menu a { color: var(--nav-ink); }
+
+.atomo-site-header .nav-menu .dropdown-menu { background: var(--nav-panel); }
+
+.header.atomo-site-header :is(a, button):focus-visible {
+    outline: 3px solid var(--nav-focus);
+    outline-offset: 4px;
+}
+
+.mobile-nav-panel { font-family: 'DM Sans', system-ui, sans-serif; }

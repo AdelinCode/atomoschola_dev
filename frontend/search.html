@@ -10,49 +10,12 @@
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/search.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"></head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/site-header.css">
+</head>
 <body>
     <!-- Header -->
-    <header class="header">
-    
-        <div class="header-content">
-                <div class="logo">
-                    <a href="index.html">
-                        <img src="logo.jpeg" alt="Atomo Schola" style="height: 50px; vertical-align: middle;">
-                        <span>Atomo Schola</span>
-                    </a>
-                </div>
-                
-                <div class="search-bar">
-                    <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
-                <nav class="nav-menu">
-                    <a href="events.html" class="nav-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        Events
-                        <span class="badge">Coming Soon</span>
-                    </a>
-                    <div class="account-dropdown">
-                        <button class="account-btn" id="accountBtn">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Account</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu" id="accountDropdown">
-                            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
-                            <a href="settings.html"><i class="fas fa-crown"></i> Account Type: <span id="accountType">User</span></a>
-                            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                        </div>
-                    </div>
-                </nav>
-                    </div>
-    </header>
+    <script src="scripts/site-header.js"></script>
 
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" id="sidebarToggle">
@@ -139,8 +102,10 @@
         </div>
     </main>
 
+    <script src="scripts/config.js"></script>
     <script src="scripts/api.js"></script>
     <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>    <!-- Footer -->
     <div id="site-footer"></div>

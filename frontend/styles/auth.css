@@ -17,15 +17,18 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
 
-/* Hide theme toggle button on auth pages */
-.auth-theme-toggle {
-    display: none !important;
-}
-
 .auth-container {
     width: 100%;
     max-width: 600px;
     padding: 20px;
+}
+
+.auth-body:has(> .atomo-site-header) {
+    padding-top: 98px;
+}
+
+@media (max-width: 768px) {
+    .auth-body:has(> .atomo-site-header) { padding-top: 78px; }
 }
 
 .auth-card {

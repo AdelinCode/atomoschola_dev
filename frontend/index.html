@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atomo Schola</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/theme.css">
@@ -14,52 +16,22 @@
     <link rel="stylesheet" href="styles/notifications.css">
     <link rel="stylesheet" href="styles/home.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/site-header.css">
 </head>
 
 <body class="home-page">
     <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.jpeg" alt="Atomo Schola">
-                    <span>Atomo Schola</span>
-                </a>
-            </div>
-
-            <div class="search-bar">
-                <input type="text" placeholder="Search for lessons, topics..." id="searchInput">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-
-            <nav class="nav-menu" id="navMenu">
-                <!-- Dynamic navigation will be inserted here -->
-            </nav>
-
-            <!-- Hamburger (mobile) -->
-            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </header>
+    <script src="scripts/site-header.js"></script>
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
 
-            <!-- ══════════════════════════════════════
-                 HERO
-            ══════════════════════════════════════ -->
             <section class="home-hero" aria-labelledby="homeHeroTitle">
                 <div class="home-hero-left">
                     <h1 id="homeHeroTitle"><span class="hero-title-welcome">Welcome to...</span><br><span class="hero-title-atomo">Atomo</span> <span class="hero-title-schola">Schola</span></h1>
                     <p>A home for curious minds, thoughtful lessons, and the people who make learning clearer.</p>
                     <div class="home-hero-actions">
-                        <a class="home-hero-cta-primary" href="#categories" id="heroExploreCta">
-                            <i class="fas fa-book-open"></i> Explore Categories
-                        </a>
                         <a class="home-hero-cta-secondary" href="#archiveCard" id="heroArchiveCta">
                             <i class="fas fa-layer-group"></i> View Archive
                         </a>
@@ -67,57 +39,49 @@
                             <i class="fas fa-edit"></i> Contribute
                         </a>
                     </div>
-                </div>
-                <div class="home-hero-right">
-                    <div class="home-hero-stat-card">
-                        <div class="hero-stat-row">
-                            <div class="hero-stat-item">
-                                <span class="hero-stat-num stem-accent" id="steamLessonsHero">—</span>
-                                <span class="hero-stat-label">STEM Lessons</span>
-                            </div>
-                            <div class="hero-stat-divider"></div>
-                            <div class="hero-stat-item">
-                                <span class="hero-stat-num humanities-accent" id="humanitiesLessonsHero">—</span>
-                                <span class="hero-stat-label">Humanities Lessons</span>
-                            </div>
+                    <div class="hero-stat-row">
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-num home-stem-ink" id="steamLessonsHero">—</span>
+                            <span class="hero-stat-label">STEM Lessons</span>
                         </div>
-                        <div class="hero-quick-links" aria-label="Discover Atomo Schola">
-                            <a href="social.html" class="hero-quick-btn hero-btn-social">
-                                <div class="hero-btn-icon"><i class="fas fa-hashtag"></i></div>
-                                <div class="hero-btn-text">
-                                    <span class="hero-btn-label">Social</span>
-                                    <span class="hero-btn-sub">Community &amp; discussions</span>
-                                </div>
-                            </a>
-                            <a href="how-it-works.html" class="hero-quick-btn hero-btn-contribution">
-                                <div class="hero-btn-icon"><i class="fas fa-cog"></i></div>
-                                <div class="hero-btn-text">
-                                    <span class="hero-btn-label">How AS Works</span>
-                                    <span class="hero-btn-sub">Create &amp; edit content</span>
-                                </div>
-                            </a>
-                            <a href="news.html" class="hero-quick-btn hero-btn-news">
-                                <div class="hero-btn-icon"><i class="fas fa-newspaper"></i></div>
-                                <div class="hero-btn-text">
-                                    <span class="hero-btn-label">News</span>
-                                    <span class="hero-btn-sub">Updates &amp; announcements</span>
-                                </div>
-                            </a>
-                            <a href="team.html" class="hero-quick-btn hero-btn-team">
-                                <div class="hero-btn-icon"><i class="fas fa-users"></i></div>
-                                <div class="hero-btn-text">
-                                    <span class="hero-btn-label">Our Team</span>
-                                    <span class="hero-btn-sub">The people behind Atomo</span>
-                                </div>
-                            </a>
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-num home-humanities-ink" id="humanitiesLessonsHero">—</span>
+                            <span class="hero-stat-label">Humanities Lessons</span>
                         </div>
                     </div>
                 </div>
+                <nav class="hero-quick-links" aria-label="Discover Atomo Schola">
+                    <a href="social.html" class="hero-quick-btn">
+                        <div class="hero-btn-icon"><i class="fas fa-hashtag"></i></div>
+                        <div class="hero-btn-text">
+                            <span class="hero-btn-label">Social</span>
+                            <span class="hero-btn-sub">Community &amp; discussions</span>
+                        </div>
+                    </a>
+                    <a href="how-it-works.html" class="hero-quick-btn">
+                        <div class="hero-btn-icon"><i class="fas fa-cog"></i></div>
+                        <div class="hero-btn-text">
+                            <span class="hero-btn-label">How AS Works</span>
+                            <span class="hero-btn-sub">Create &amp; edit content</span>
+                        </div>
+                    </a>
+                    <a href="news.html" class="hero-quick-btn">
+                        <div class="hero-btn-icon"><i class="fas fa-newspaper"></i></div>
+                        <div class="hero-btn-text">
+                            <span class="hero-btn-label">News</span>
+                            <span class="hero-btn-sub">Updates &amp; announcements</span>
+                        </div>
+                    </a>
+                    <a href="team.html" class="hero-quick-btn">
+                        <div class="hero-btn-icon"><i class="fas fa-users"></i></div>
+                        <div class="hero-btn-text">
+                            <span class="hero-btn-label">Our Team</span>
+                            <span class="hero-btn-sub">The people behind Atomo</span>
+                        </div>
+                    </a>
+                </nav>
             </section>
 
-            <!-- ══════════════════════════════════════
-                 CATEGORIES
-            ══════════════════════════════════════ -->
             <section class="home-section" id="categories" aria-label="Browse categories">
                 <div class="home-section-header">
                     <h2 class="home-section-title">Browse Categories</h2>
@@ -126,58 +90,59 @@
 
                 <div class="category-cards-grid">
                     <!-- STEM Card -->
-                    <div class="category-major-card" onclick="location.href='stem.html'" role="button" tabindex="0">
-                        <div class="card-icon stem-accent">
-                            <i class="fas fa-atom"></i>
+                    <a href="stem.html" class="home-category-card category-stem">
+                        <div class="home-category-cover" aria-hidden="true">
+                            <img src="photo_background/stem.jpeg" alt="" decoding="async">
                         </div>
-                        <h2>STEM</h2>
-                        <p class="card-description">Science, Technology, Engineering &amp; Mathematics</p>
-                        <div class="category-stats-grid">
-                            <div class="category-stat-item">
-                                <div class="stat-value stem-accent" id="steamLessons">0</div>
-                                <div class="stat-label">Lessons</div>
+                        <div class="home-category-copy">
+                            <h3>STEM</h3>
+                            <p class="card-description">Science, Technology, Engineering &amp; Mathematics</p>
+                            <div class="category-stats-grid">
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-stem-ink" id="steamLessons">0</div>
+                                    <div class="stat-label">Lessons</div>
+                                </div>
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-stem-ink" id="steamSubjects">0</div>
+                                    <div class="stat-label">Subjects</div>
+                                </div>
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-stem-ink" id="steamDomains">0</div>
+                                    <div class="stat-label">Domains</div>
+                                </div>
                             </div>
-                            <div class="category-stat-item">
-                                <div class="stat-value stem-accent" id="steamSubjects">0</div>
-                                <div class="stat-label">Subjects</div>
-                            </div>
-                            <div class="category-stat-item">
-                                <div class="stat-value stem-accent" id="steamDomains">0</div>
-                                <div class="stat-label">Domains</div>
-                            </div>
+                            <span class="card-cta-hint">Explore STEM <i class="fas fa-arrow-right"></i></span>
                         </div>
-                        <span class="card-cta-hint">Explore STEM <i class="fas fa-arrow-right"></i></span>
-                    </div>
+                    </a>
 
                     <!-- Humanities Card -->
-                    <div class="category-major-card" onclick="location.href='humanities.html'" role="button" tabindex="0">
-                        <div class="card-icon humanities-accent">
-                            <i class="fas fa-book-reader"></i>
+                    <a href="humanities.html" class="home-category-card category-humanities">
+                        <div class="home-category-cover" aria-hidden="true">
+                            <img src="photo_background/humanites..jpeg" alt="" decoding="async">
                         </div>
-                        <h2>Humanities</h2>
-                        <p class="card-description">History, Literature, Philosophy, Languages &amp; Social Sciences</p>
-                        <div class="category-stats-grid">
-                            <div class="category-stat-item">
-                                <div class="stat-value humanities-accent" id="humanitiesLessons">0</div>
-                                <div class="stat-label">Lessons</div>
+                        <div class="home-category-copy">
+                            <h3>Humanities</h3>
+                            <p class="card-description">History, Literature, Philosophy, Languages &amp; Social Sciences</p>
+                            <div class="category-stats-grid">
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-humanities-ink" id="humanitiesLessons">0</div>
+                                    <div class="stat-label">Lessons</div>
+                                </div>
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-humanities-ink" id="humanitiesSubjects">0</div>
+                                    <div class="stat-label">Subjects</div>
+                                </div>
+                                <div class="home-category-stat">
+                                    <div class="home-stat-value home-humanities-ink" id="humanitiesDomains">0</div>
+                                    <div class="stat-label">Domains</div>
+                                </div>
                             </div>
-                            <div class="category-stat-item">
-                                <div class="stat-value humanities-accent" id="humanitiesSubjects">0</div>
-                                <div class="stat-label">Subjects</div>
-                            </div>
-                            <div class="category-stat-item">
-                                <div class="stat-value humanities-accent" id="humanitiesDomains">0</div>
-                                <div class="stat-label">Domains</div>
-                            </div>
+                            <span class="card-cta-hint">Explore Humanities <i class="fas fa-arrow-right"></i></span>
                         </div>
-                        <span class="card-cta-hint">Explore Humanities <i class="fas fa-arrow-right"></i></span>
-                    </div>
+                    </a>
                 </div>
             </section>
 
-            <!-- ══════════════════════════════════════
-                 QUICK ACCESS ROW
-            ══════════════════════════════════════ -->
             <section class="home-section home-quick-row" aria-label="Quick access">
                 <!-- Problem Archive -->
                 <div class="quick-access-card qa-archive" id="archiveCard">
@@ -200,36 +165,20 @@
                 </div>
             </section>
 
-            <!-- ══════════════════════════════════════
-                 PARTNERSHIP
-            ══════════════════════════════════════ -->
-            <section class="home-section" aria-label="Partnership">
-                <div class="partnership-card">
-                    <div class="partnership-inner">
-                        <div class="partnership-logo-wrap">
-                            <div class="partnership-logo-circle">
-                                <img src="photo_background/logo-main.png" alt="Net2077 Logo" class="partnership-logo-img">
-                            </div>
-                        </div>
-                        <div class="partnership-content">
-                            <div class="partnership-label">Partnership</div>
-                            <h3 class="partnership-title">Net2077</h3>
-                            <p class="partnership-desc">
-                                Networking, Linux, and debugging made concrete — built for AcadNet prep and beyond.
-                            </p>
-                        </div>
-                        <div class="partnership-action">
-                            <a href="https://net2077.vercel.app/" target="_blank" rel="noopener noreferrer" class="partnership-btn">
-                                Visit Net2077 <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+            <section class="home-section home-partnership" aria-labelledby="net2077-title">
+                <div class="partnership-logo-wrap">
+                    <img src="photo_background/logo-main.png" alt="Net2077 Logo" class="partnership-logo-img">
                 </div>
+                <div class="partnership-content">
+                    <div class="partnership-label">Partnership</div>
+                    <h2 id="net2077-title" class="partnership-title">Net2077</h2>
+                    <p class="partnership-desc">Networking, Linux, and debugging made concrete — built for AcadNet prep and beyond.</p>
+                </div>
+                <a href="https://net2077.vercel.app/" target="_blank" rel="noopener noreferrer" class="partnership-btn">
+                    Visit Net2077 <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
             </section>
 
-            <!-- ══════════════════════════════════════
-                 CTA (guests only)
-            ══════════════════════════════════════ -->
             <section class="home-section" id="ctaSection" aria-label="Get started">
                 <div class="home-cta-block">
                     <div class="home-cta-copy">
@@ -237,10 +186,10 @@
                         <p>Create a free account and unlock the full library — lessons, problems, discussions and more.</p>
                     </div>
                     <div class="home-cta-actions">
-                        <a href="register.html" class="cta-btn cta-btn-primary">
+                        <a href="register.html" class="cta-btn home-signup-link">
                             <i class="fas fa-user-plus"></i> Create Account
                         </a>
-                        <a href="subject.html?subject=physics" class="cta-btn cta-btn-success">
+                        <a href="subject.html?subject=physics" class="cta-btn home-learning-link">
                             <i class="fas fa-play"></i> Start Learning
                         </a>
                     </div>
@@ -278,30 +227,6 @@
             }
             syncHeroStat('steamLessons', 'steamLessonsHero');
             syncHeroStat('humanitiesLessons', 'humanitiesLessonsHero');
-
-            // ── Smooth-scroll hero CTA buttons ──
-            const HEADER_H = 88; // px offset for fixed header
-
-            function smoothScrollTo(targetEl) {
-                if (!targetEl) return;
-                const y = targetEl.getBoundingClientRect().top + window.scrollY - HEADER_H;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            }
-
-            document.getElementById('heroExploreCta')?.addEventListener('click', function (e) {
-                e.preventDefault();
-                smoothScrollTo(document.getElementById('categories'));
-            });
-
-            document.getElementById('heroArchiveCta')?.addEventListener('click', function (e) {
-                e.preventDefault();
-                smoothScrollTo(document.getElementById('archiveCard'));
-            });
-
-            document.getElementById('heroContributeCta')?.addEventListener('click', function (e) {
-                e.preventDefault();
-                smoothScrollTo(document.getElementById('proposeCard'));
-            });
         });
     </script>
 </body>
