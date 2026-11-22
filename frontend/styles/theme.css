@@ -914,12 +914,6 @@ a:hover {
     color: var(--text-secondary) !important;
 }
 
-/* Hero quick buttons */
-.dark-mode .hero-quick-btn {
-    background: rgba(36, 36, 36, 0.95) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-}
-
 /* Breadcrumb */
 .dark-mode .breadcrumb {
     background: var(--bg-secondary) !important;
