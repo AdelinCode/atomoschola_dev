@@ -76,6 +76,14 @@
         .review-edit-attachment { border: 1px solid var(--border-primary); border-radius: 8px; padding: 12px; margin: 10px 0; }
         .review-edit-dialog button:disabled { opacity: 0.6; cursor: not-allowed; }
         #submissionEditError { color: #dc3545; margin-top: 12px; }
+        .submission-preview { margin: auto; width: min(900px, calc(100% - 32px)); border: 1px solid var(--border-primary); max-height: 88vh; }
+        .submission-preview::backdrop { background: #0009; }
+        .submission-preview-header { display: flex; justify-content: space-between; align-items: start; gap: 16px; margin-bottom: 16px; }
+        .submission-preview-header h2, .submission-preview .ql-editor { overflow-wrap: anywhere; }
+        .submission-preview .ql-editor { padding: 12px 0; }
+        .submission-preview .ql-editor iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+        .submission-preview-attachments { margin-top: 16px; }
+        .submission-preview-attachments ul { padding-inline-start: 24px; overflow-wrap: anywhere; }
     </style>
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/site-header.css">
@@ -103,6 +111,18 @@
         <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>
     </div>
 </main>
+
+<dialog id="submissionPreview" class="review-edit-dialog submission-preview" aria-labelledby="submissionPreviewTitle">
+    <div class="submission-preview-header">
+        <h2 id="submissionPreviewTitle"></h2>
+        <form method="dialog"><button class="btn-leave" autofocus>Close</button></form>
+    </div>
+    <div id="submissionPreviewContent" class="ql-editor"></div>
+    <section id="submissionPreviewAttachments" class="submission-preview-attachments" hidden>
+        <h3>Attachments</h3>
+        <ul></ul>
+    </section>
+</dialog>
 
 <div id="submissionEditModal" class="review-edit-overlay" hidden>
     <section class="review-edit-dialog" role="dialog" aria-modal="true" aria-labelledby="submissionEditHeading">
@@ -264,7 +284,9 @@ function renderCard(r) {
         </div>`;
     }
 
-    const actions = [];
+    const actions = [
+        `<button type="button" class="btn-leave" onclick="previewSubmission('${r._id}')"><i class="fas fa-eye" aria-hidden="true"></i> View lesson</button>`
+    ];
     if (r.status === 'under_review') {
         if (isCreator) {
             actions.push(`<button class="btn-join" onclick="editSubmission('${r._id}')" ${openSession ? 'disabled title="Editing is unavailable while a vote session is open."' : ''}><i class="fas fa-pen"></i> Edit submission</button>`);
@@ -382,6 +404,7 @@ async function staffAction(reviewId, action) {
 }
 </script>
 <script src="scripts/review-edit.js"></script>
+<script src="scripts/review-preview.js"></script>
 
 <div id="site-footer"></div>
     <script src="scripts/footer.js"></script>
