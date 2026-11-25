@@ -1,163 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atomo Schola</title>
+    <title>Contributors - Atomo Schola</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        .staff-container {
-            max-width: 1200px;
-            margin: 80px auto 40px;
-            padding: 20px;
-        }
-        .staff-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .staff-header h1 {
-            font-size: 48px;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .staff-header p {
-            font-size: 18px;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .role-section {
-            margin-bottom: 60px;
-        }
-        .role-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid;
-        }
-        .role-header.owner { border-color: #dc3545; }
-        .role-header.editor { border-color: #17a2b8; }
-        .role-header.creator { border-color: #ffc107; }
-        .role-header.staff { border-color: #6f42c1; }
-        .role-header.commission { border-color: #6f42c1; }
-        .role-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-size: 24px;
-            color: white;
-        }
-        .role-icon.owner { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); }
-        .role-icon.editor { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
-        .role-icon.creator { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); }
-        .role-icon.staff { background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); }
-        .role-icon.commission { background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); }
-        .role-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #2d3748;
-        }
-        .role-count {
-            margin-left: auto;
-            font-size: 18px;
-            color: #718096;
-            font-weight: 600;
-        }
-        .staff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        .staff-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            text-align: center;
-            border: 2px solid transparent;
-        }
-        .staff-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-        .staff-card.owner:hover { border-color: #dc3545; }
-        .staff-card.editor:hover { border-color: #17a2b8; }
-        .staff-card.creator:hover { border-color: #ffc107; }
-        .staff-card.staff:hover { border-color: #6f42c1; }
-        .staff-card.commission:hover { border-color: #6f42c1; }
-        .staff-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: white;
-            font-weight: 700;
-        }
-        .staff-avatar.owner { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); }
-        .staff-avatar.editor { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
-        .staff-avatar.creator { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); }
-        .staff-avatar.staff { background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); }
-        .staff-avatar.commission { background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); }
-        .staff-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 8px;
-        }
-        .staff-role {
-            font-size: 14px;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        .staff-role.owner { background: #fee; color: #dc3545; }
-        .staff-role.editor { background: #e7f6f8; color: #17a2b8; }
-        .staff-role.creator { background: #fff8e1; color: #ffc107; }
-        .staff-role.staff { background: #f3e5f5; color: #6f42c1; }
-        .staff-role.commission { background: #f3e5f5; color: #6f42c1; }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 30px;
-            transition: color 0.3s ease;
-        }
-        .back-link:hover {
-            color: #764ba2;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-            font-style: italic;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
     <link rel="stylesheet" href="styles/site-header.css">
 </head>
-<body>
+<body class="contributors-page">
     <!-- Header -->
     <script src="scripts/site-header.js"></script>
 
@@ -168,79 +25,80 @@
             Back to Home
         </a>
         
-        <div class="staff-header">
-            <h1><i class="fas fa-users-cog"></i> Platform Contributors</h1>
-            <p>Meet the dedicated team members who manage, create, and maintain quality educational content on Atomo Schola.</p>
-        </div>
+        <header class="contributors-header">
+            <div>
+                <h1>Platform Contributors</h1>
+                <p>Meet the people who create, edit, and maintain Atomo Schola’s lessons.</p>
+            </div>
+            <button type="button" class="contributors-button" onclick="showLeaderboardModal()">
+                <i class="fas fa-trophy" aria-hidden="true"></i> Leaderboard
+            </button>
+        </header>
 
-        <!-- Editor Section -->
-        <div class="role-section">
-            <div class="role-header editor">
-                <div class="role-icon editor">
-                    <i class="fas fa-pen-fancy"></i>
+        <div class="contributors-groups">
+            <!-- Editor Section -->
+            <section class="contributors-group accent-editor">
+                <div class="contributors-group-heading">
+                    <div class="contributors-role-icon" aria-hidden="true">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h2>Editors</h2>
+                    <span class="contributors-count" id="editorCount">0</span>
                 </div>
-                <h2 class="role-title">Editors</h2>
-                <span class="role-count" id="editorCount">0</span>
-            </div>
-            <div class="staff-grid" id="editorGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
-        </div>
+                <div class="contributors-list" id="editorGrid">
+                    <p class="contributors-state">Loading...</p>
+                </div>
+            </section>
 
-        <!-- Creator Section -->
-        <div class="role-section">
-            <div class="role-header creator">
-                <div class="role-icon creator">
-                    <i class="fas fa-edit"></i>
+            <!-- Creator Section -->
+            <section class="contributors-group accent-creator">
+                <div class="contributors-group-heading">
+                    <div class="contributors-role-icon" aria-hidden="true">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2>Creators</h2>
+                    <span class="contributors-count" id="creatorCount">0</span>
                 </div>
-                <h2 class="role-title">Creators</h2>
-                <span class="role-count" id="creatorCount">0</span>
-            </div>
-            <div class="staff-grid" id="creatorGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
-        </div>
+                <div class="contributors-list" id="creatorGrid">
+                    <p class="contributors-state">Loading...</p>
+                </div>
+            </section>
 
-        <!-- Staff Section -->
-        <div class="role-section" id="staffSection" style="display: none;">
-            <div class="role-header staff">
-                <div class="role-icon staff">
-                    <i class="fas fa-user-shield"></i>
+            <!-- Staff Section -->
+            <section class="contributors-group accent-staff" id="staffSection" hidden>
+                <div class="contributors-group-heading">
+                    <div class="contributors-role-icon" aria-hidden="true">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h2>Staff</h2>
+                    <span class="contributors-count" id="staffCount">0</span>
                 </div>
-                <h2 class="role-title">Staff</h2>
-                <span class="role-count" id="staffCount">0</span>
-            </div>
-            <div class="staff-grid" id="staffGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
-        </div>
+                <div class="contributors-list" id="staffGrid"></div>
+            </section>
 
-        <!-- Creator Commission Section -->
-        <div class="role-section" id="creatorCommissionSection" style="display: none;">
-            <div class="role-header commission">
-                <div class="role-icon commission">
-                    <i class="fas fa-gavel"></i>
+            <!-- Creator Commission Section -->
+            <section class="contributors-group accent-commission" id="creatorCommissionSection" hidden>
+                <div class="contributors-group-heading">
+                    <div class="contributors-role-icon" aria-hidden="true">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h2>Creator Commission</h2>
+                    <span class="contributors-count" id="creatorCommissionCount">0</span>
                 </div>
-                <h2 class="role-title">Creator Commission Members</h2>
-                <span class="role-count" id="creatorCommissionCount">0</span>
-            </div>
-            <div class="staff-grid" id="creatorCommissionGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
-        </div>
+                <div class="contributors-list" id="creatorCommissionGrid"></div>
+            </section>
 
-        <!-- Editor Commission Section -->
-        <div class="role-section" id="editorCommissionSection" style="display: none;">
-            <div class="role-header commission">
-                <div class="role-icon commission">
-                    <i class="fas fa-balance-scale"></i>
+            <!-- Editor Commission Section -->
+            <section class="contributors-group accent-commission" id="editorCommissionSection" hidden>
+                <div class="contributors-group-heading">
+                    <div class="contributors-role-icon" aria-hidden="true">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h2>Editor Commission</h2>
+                    <span class="contributors-count" id="editorCommissionCount">0</span>
                 </div>
-                <h2 class="role-title">Editor Commission Members</h2>
-                <span class="role-count" id="editorCommissionCount">0</span>
-            </div>
-            <div class="staff-grid" id="editorCommissionGrid">
-                <div class="empty-state">Loading...</div>
-            </div>
+                <div class="contributors-list" id="editorCommissionGrid"></div>
+            </section>
         </div>
     </main>
 
@@ -249,140 +107,58 @@
     <script src="scripts/search.js"></script>
     <script src="scripts/notifications.js"></script>
     <script src="scripts/theme.js"></script>
-    <script src="scripts/main.js"></script>    <script>
-        // Load staff members
-        async function loadStaff() {
-            try {
-                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-                const response = await fetch(`${apiUrl}/users/staff`);
-                const data = await response.json();
+    <script src="scripts/main.js"></script>
+    <script>
+        function renderContributors(role, users, emptyMessage = 'No contributors yet.') {
+            const grid = document.getElementById(role + 'Grid');
+            document.getElementById(role + 'Count').textContent = users.length;
+            grid.replaceChildren();
 
-                if (data.success) {
-                    displayStaff(data.data);
-                } else {
-                    showError();
-                }
-            } catch (error) {
-                console.error('Error loading staff:', error);
-                showError();
-            }
-        }
-
-        function displayStaff(staff) {
-            const owners = staff.filter(u => u.userType === 'owner');
-            const editors = staff.filter(u => u.userType === 'editor');
-            const creators = staff.filter(u => u.userType === 'creator');
-            const staffMembers = staff.filter(u => u.userType === 'staff');
-
-            displayRole('editor', editors);
-            displayRole('creator', creators);
-            
-            // Show staff section if there are staff members
-            if (staffMembers.length > 0) {
-                document.getElementById('staffSection').style.display = 'block';
-                displayRole('staff', staffMembers);
-            }
-            
-            // Load and display commission members
-            loadCommissionMembers();
-        }
-
-        function displayRole(role, users) {
-            const grid = document.getElementById(`${role}Grid`);
-            const count = document.getElementById(`${role}Count`);
-            
-            count.textContent = users.length;
-
-            if (users.length === 0) {
-                grid.innerHTML = '<div class="empty-state">No ' + role + 's yet</div>';
+            if (!users.length) {
+                const message = document.createElement('p');
+                message.className = 'contributors-state';
+                message.textContent = emptyMessage;
+                grid.append(message);
                 return;
             }
 
-            grid.innerHTML = users.map(user => {
-                const initials = getInitials(user.username || user.email);
-                const name = user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username;
-                return `
-                    <div class="staff-card ${role}" style="cursor:pointer;" onclick="window.location.href='public-profile.html?id=${user._id}'">
-                        <div class="staff-avatar ${role}">${initials}</div>
-                        <div class="staff-name">${name}</div>
-                        <div class="staff-role ${role}">${role.charAt(0).toUpperCase() + role.slice(1)}</div>
-                        <div style="margin-top: 12px; font-size: 13px; color: #999;">
-                            <i class="fas fa-user"></i> View Profile
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            const group = document.getElementById(role + 'Section');
+            if (group) group.hidden = false;
+
+            for (const user of users) {
+                const name = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username || 'Contributor';
+                const link = document.createElement('a');
+                link.className = 'contributors-person';
+                link.href = 'public-profile.html?id=' + encodeURIComponent(user._id);
+                link.innerHTML = '<span class="contributors-avatar" aria-hidden="true"></span><span class="contributors-name"></span><i class="fas fa-chevron-right" aria-hidden="true"></i>';
+                link.querySelector('.contributors-avatar').textContent = (user.username || name).slice(0, 2).toUpperCase();
+                link.querySelector('.contributors-name').textContent = name;
+                grid.append(link);
+            }
         }
 
-        function getInitials(name) {
-            return name.split(/[\s@]/).slice(0, 2).map(n => n[0]).join('').toUpperCase();
+        async function fetchContributors(path) {
+            const response = await fetch(window.CONFIG.API_BASE_URL + path);
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error('Could not load contributors.');
+            return result.data;
         }
 
-        function showError() {
-            ['editor', 'creator'].forEach(role => {
-                document.getElementById(`${role}Grid`).innerHTML = 
-                    '<div class="empty-state" style="color: #dc3545;">Error loading staff</div>';
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchContributors('/users/staff').then(users => {
+                for (const role of ['editor', 'creator', 'staff']) {
+                    renderContributors(role, users.filter(user => user.userType === role));
+                }
+            }).catch(() => {
+                for (const role of ['editor', 'creator']) renderContributors(role, [], 'Could not load contributors.');
             });
-        }
-        
-        // Load commission members
-        async function loadCommissionMembers() {
-            try {
-                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-                const response = await fetch(`${apiUrl}/commission/members`);
-                const data = await response.json();
 
-                if (data.success && data.data.length > 0) {
-                    // Separate creator and editor commission members
-                    const creatorCommission = data.data.filter(u => u.commissionType === 'creator');
-                    const editorCommission = data.data.filter(u => u.commissionType === 'editor');
-
-                    // Display creator commission
-                    if (creatorCommission.length > 0) {
-                        document.getElementById('creatorCommissionSection').style.display = 'block';
-                        displayCommissionRole('creatorCommission', creatorCommission);
-                    }
-
-                    // Display editor commission
-                    if (editorCommission.length > 0) {
-                        document.getElementById('editorCommissionSection').style.display = 'block';
-                        displayCommissionRole('editorCommission', editorCommission);
-                    }
+            fetchContributors('/commission/members').then(users => {
+                for (const role of ['creator', 'editor']) {
+                    renderContributors(role + 'Commission', users.filter(user => user.commissionType === role));
                 }
-            } catch (error) {
-                console.error('Error loading commission:', error);
-            }
-        }
-
-        function displayCommissionRole(role, users) {
-            const grid = document.getElementById(`${role}Grid`);
-            const count = document.getElementById(`${role}Count`);
-            
-            count.textContent = users.length;
-
-            if (users.length === 0) {
-                grid.innerHTML = '<div class="empty-state">No commission members yet</div>';
-                return;
-            }
-
-            grid.innerHTML = users.map(user => {
-                const initials = getInitials(user.username || user.email);
-                const name = user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.username;
-                return `
-                    <div class="staff-card commission" style="cursor:pointer;" onclick="window.location.href='public-profile.html?id=${user._id}'">
-                        <div class="staff-avatar commission">${initials}</div>
-                        <div class="staff-name">${name}</div>
-                        <div class="staff-role commission">Commission Member</div>
-                        <div style="margin-top: 12px; font-size: 13px; color: #999;">
-                            <i class="fas fa-user"></i> View Profile
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Load on page load
-        document.addEventListener('DOMContentLoaded', loadStaff);
+            }).catch(error => console.error('Error loading commission members:', error));
+        });
     </script>
     <!-- Footer -->
     <div id="site-footer"></div>

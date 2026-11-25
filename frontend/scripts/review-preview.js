@@ -1,6 +1,7 @@
 (function () {
     const dialog = document.getElementById('submissionPreview');
     const title = document.getElementById('submissionPreviewTitle');
+    const details = document.getElementById('submissionPreviewDetails');
     const content = document.getElementById('submissionPreviewContent');
     const attachments = document.getElementById('submissionPreviewAttachments');
     const attachmentList = attachments.querySelector('ul');
@@ -66,7 +67,7 @@
         target.append(element);
     }
 
-    function renderLesson(lesson) {
+    function renderLesson({ lessonData: lesson, catalog }) {
         title.textContent = lesson.title || 'Untitled lesson';
         const template = document.createElement('template');
         template.innerHTML = typeof lesson.content === 'string' ? lesson.content : '';
@@ -89,6 +90,11 @@
             attachmentList.append(item);
         }
         attachments.hidden = !attachmentList.childElementCount;
+        document.getElementById('submissionPreviewSubject').textContent = catalog?.subject || 'Unavailable';
+        document.getElementById('submissionPreviewDomain').textContent = catalog?.domain || 'Unavailable';
+        document.getElementById('submissionPreviewCategory').textContent = catalog?.category || 'Unavailable';
+        document.getElementById('submissionPreviewDescription').textContent = lesson.description || 'No description provided.';
+        details.hidden = false;
     }
 
     let request;
@@ -103,6 +109,7 @@
         const controller = new AbortController();
         request = controller;
         title.textContent = 'Lesson preview';
+        details.hidden = true;
         content.textContent = 'Loading lesson…';
         attachmentList.replaceChildren();
         attachments.hidden = true;
@@ -115,7 +122,7 @@
             });
             const result = await response.json();
             if (!response.ok || !result.success || !result.data?.lessonData) throw new Error(result.message || 'Could not load the lesson.');
-            if (dialog.open && request === controller) renderLesson(result.data.lessonData);
+            if (dialog.open && request === controller) renderLesson(result.data);
         } catch (error) {
             if (dialog.open && request === controller && error.name !== 'AbortError') content.textContent = error.message;
         }

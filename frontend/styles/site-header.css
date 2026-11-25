@@ -60,8 +60,8 @@
 }
 
 html:not(.dark-mode) .header.atomo-site-header .nav-menu #accountBtn .fa-user-circle,
-html:not(.dark-mode) .header.atomo-site-header .nav-menu a[href="profile.html"] .fa-user,
-html:not(.dark-mode) .mobile-nav-panel a[href="profile.html"] .fa-user {
+html:not(.dark-mode) .header.atomo-site-header .nav-menu .nav-profile-link .fa-user,
+html:not(.dark-mode) .mobile-nav-panel .nav-profile-link .fa-user {
     color: #000 !important;
 }
 

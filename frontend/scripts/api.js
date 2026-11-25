@@ -146,6 +146,10 @@ const usersAPI = {
   removeBookmark: (lessonId) => apiRequest(`/users/me/bookmark/${lessonId}`, {
     method: 'DELETE'
   }),
+  setLessonCompleted: (lessonId, completed) => apiRequest(`/users/me/completed-lessons/${encodeURIComponent(lessonId)}`, {
+    method: 'PUT',
+    body: JSON.stringify({ completed })
+  }),
   heartbeat: () => apiRequest('/users/heartbeat', { method: 'POST' }),
   getOnlineCount: () => apiRequest('/users/online-count')
 };

@@ -80,6 +80,11 @@
         .submission-preview::backdrop { background: #0009; }
         .submission-preview-header { display: flex; justify-content: space-between; align-items: start; gap: 16px; margin-bottom: 16px; }
         .submission-preview-header h2, .submission-preview .ql-editor { overflow-wrap: anywhere; }
+        .submission-preview-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 12px 16px; padding: 14px; margin-bottom: 12px; border: 1px solid var(--border-primary); border-radius: 8px; background: var(--bg-tertiary); }
+        .submission-preview-details[hidden] { display: none; }
+        .submission-preview-details dt { font-weight: 700; }
+        .submission-preview-details dd { margin: 2px 0 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+        .submission-preview-description { grid-column: 1 / -1; }
         .submission-preview .ql-editor { padding: 12px 0; }
         .submission-preview .ql-editor iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
         .submission-preview-attachments { margin-top: 16px; }
@@ -117,6 +122,12 @@
         <h2 id="submissionPreviewTitle"></h2>
         <form method="dialog"><button class="btn-leave" autofocus>Close</button></form>
     </div>
+    <dl class="submission-preview-details" id="submissionPreviewDetails" hidden>
+        <div><dt>Subject</dt><dd id="submissionPreviewSubject"></dd></div>
+        <div><dt>Domain</dt><dd id="submissionPreviewDomain"></dd></div>
+        <div><dt>Category</dt><dd id="submissionPreviewCategory"></dd></div>
+        <div class="submission-preview-description"><dt>Description</dt><dd id="submissionPreviewDescription"></dd></div>
+    </dl>
     <div id="submissionPreviewContent" class="ql-editor"></div>
     <section id="submissionPreviewAttachments" class="submission-preview-attachments" hidden>
         <h3>Attachments</h3>

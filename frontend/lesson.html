@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/notifications.css">
     <link rel="stylesheet" href="styles/site-header.css">
 </head>
-<body>
+<body class="lesson-page">
     <!-- Background -->
     <div class="subject-page-background" id="subjectBackground"></div>
     
@@ -46,7 +46,7 @@
             </div>
             <div id="lessonDetails" hidden>
             <!-- Breadcrumb -->
-            <nav class="breadcrumb" id="breadcrumb">
+            <nav class="breadcrumb" id="breadcrumb" aria-label="Lesson breadcrumb">
                 <!-- Populated by JavaScript -->
             </nav>
 
@@ -80,20 +80,24 @@
                                 <span>Published: <strong id="lessonDate"></strong></span>
                             </div>
                         </div>
-                        <div id="lessonTags" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;"></div>
+                        <div class="lesson-tags" id="lessonTags"></div>
                     </div>
                 </div>
                 
                 <div class="lesson-actions">
-                    <button class="btn btn-secondary" id="translateLessonBtn" style="display: none; background: #0d6efd; color: white;">
+                    <button type="button" class="btn btn-secondary" id="completeLessonBtn" aria-pressed="false" hidden>
+                        <i class="fas fa-check" aria-hidden="true"></i>
+                        <span>Mark as completed</span>
+                    </button>
+                    <button class="btn btn-secondary" id="translateLessonBtn" style="display: none;">
                         <i class="fas fa-language"></i> 
                         Translate lesson
                     </button>
-                    <button class="btn btn-secondary" id="bookmarkBtn">
+                    <button class="btn btn-secondary" id="bookmarkBtn" aria-pressed="false">
                         <i class="far fa-bookmark"></i>
                         Bookmark
                     </button>
-                    <button class="btn btn-secondary" id="reportLessonBtn" style="background: #dc3545; color: white;" onclick="openReportModal('lesson')">
+                    <button class="btn btn-secondary" id="reportLessonBtn" onclick="openReportModal('lesson')">
                         <i class="fas fa-flag"></i>
                         Report
                     </button>

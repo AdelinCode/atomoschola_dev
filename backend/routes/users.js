@@ -1,4 +1,6 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import Lesson from '../models/Lesson.js';
 import User from '../models/User.js';
 import { protect, authorize } from '../middleware/auth.js';
 
@@ -81,9 +83,14 @@ router.get('/me', protect, async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-      .select('username firstName lastName userType createdLessons editedLessons createdAt isCreatorCommissionMember isEditorCommissionMember')
+      .select('username firstName lastName userType createdLessons editedLessons completedLessons createdAt isCreatorCommissionMember isEditorCommissionMember')
       .populate('createdLessons', 'title type averageRating status')
-      .populate('editedLessons', 'title type averageRating status');
+      .populate('editedLessons', 'title type averageRating status')
+      .populate({
+        path: 'completedLessons',
+        match: { status: 'published' },
+        select: 'title type averageRating status'
+      });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -206,6 +213,33 @@ router.delete('/me/bookmark/:lessonId', protect, async (req, res) => {
       success: true,
       message: 'Bookmark removed'
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @route   PUT /api/users/me/completed-lessons/:lessonId
+// @desc    Set lesson completion for the authenticated user
+router.put('/me/completed-lessons/:lessonId', protect, async (req, res) => {
+  const { lessonId } = req.params;
+  const completed = req.body?.completed;
+  if (!mongoose.isObjectIdOrHexString(lessonId) || typeof completed !== 'boolean') {
+    return res.status(400).json({ success: false, message: 'A valid lesson ID and completion status are required' });
+  }
+
+  try {
+    if (completed && !await Lesson.exists({ _id: lessonId, status: 'published' })) {
+      return res.status(404).json({ success: false, message: 'Published lesson not found' });
+    }
+
+    const result = await User.updateOne(
+      { _id: req.user._id },
+      completed
+        ? { $addToSet: { completedLessons: lessonId } }
+        : { $pull: { completedLessons: lessonId } }
+    );
+    if (!result.matchedCount) return res.status(404).json({ success: false, message: 'User not found' });
+    res.json({ success: true, data: { completed } });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

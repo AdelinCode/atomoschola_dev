@@ -1100,11 +1100,6 @@ a:hover {
     border-color: var(--border-primary) !important;
 }
 
-/* Leaderboard modal dark mode */
-.dark-mode #leaderboardModal > div {
-    background: var(--bg-secondary) !important;
-}
-
 /* Upgrade modal dark mode */
 .dark-mode #userUpgradeModal > div {
     background: var(--bg-secondary) !important;
@@ -1323,23 +1318,6 @@ a:hover {
 .dark-mode .error-message {
     background: #3a1a1a !important;
     color: #fca5a5 !important;
-}
-
-/* ---- leaderboard modal (main.js inline HTML) ---- */
-.dark-mode #leaderboardModal > div > div {
-    background: var(--bg-secondary) !important;
-}
-.dark-mode .lb-row {
-    background: var(--bg-secondary) !important;
-    border-bottom-color: var(--border-primary) !important;
-}
-.dark-mode .lb-row:hover {
-    background: var(--bg-tertiary) !important;
-}
-.dark-mode #lbScorePopup {
-    background: var(--bg-tertiary) !important;
-    border-color: var(--border-primary) !important;
-    color: var(--text-secondary) !important;
 }
 
 /* ---- lesson attachment card (lesson.js renders it) ---- */

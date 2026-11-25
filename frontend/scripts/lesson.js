@@ -151,14 +151,8 @@ async function initializeLessonPage() {
         
         currentLesson = data.data;
         
-        // Store full objects for breadcrumb
         currentLesson.id = currentLesson._id;
         currentLesson.subjectSlug = currentLesson.category?.domain?.subject?.slug || 'unknown';
-        currentLesson.subjectName = currentLesson.category?.domain?.subject?.name || 'Unknown';
-        currentLesson.domainSlug = currentLesson.category?.domain?.slug || 'unknown';
-        currentLesson.domainName = currentLesson.category?.domain?.name || 'Unknown';
-        currentLesson.categorySlug = currentLesson.category?.slug || 'unknown';
-        currentLesson.categoryName = currentLesson.category?.name || 'Unknown';
         
         // Update page content
         updateLessonHeader();
@@ -193,6 +187,8 @@ function setupLessonEventListeners() {
     if (bookmarkBtn) {
         bookmarkBtn.addEventListener('click', toggleBookmark);
     }
+
+    document.getElementById('completeLessonBtn').addEventListener('click', toggleLessonCompletion);
     
     // Rating stars
     setupRatingSystem();
@@ -300,28 +296,32 @@ function updateLessonHeader() {
     // Render tags (language, level, custom tags)
     const tagsEl = document.getElementById('lessonTags');
     if (tagsEl) {
-        const langColors = { romanian: '#3b82f6', english: '#10b981', french: '#f59e0b', german: '#6366f1', spanish: '#ef4444', portuguese: '#f97316', italian: '#ec4899', other: '#6b7280' };
         const langLabels = { romanian: 'Romanian', english: 'English', french: 'French', german: 'German', spanish: 'Spanish', portuguese: 'Portuguese', italian: 'Italian', other: 'Other' };
-        const levelColors = { beginner: '#22c55e', intermediate: '#f97316', advanced: '#dc2626' };
-        let html = '';
+        tagsEl.replaceChildren();
+        const appendTag = (label, icon) => {
+            const tag = document.createElement('span');
+            if (icon) {
+                tag.className = 'lesson-tag-highlight';
+                const symbol = document.createElement('i');
+                symbol.className = `fas ${icon}`;
+                symbol.setAttribute('aria-hidden', 'true');
+                tag.append(symbol);
+            }
+            tag.append(label);
+            tagsEl.append(tag);
+        };
         if (currentLesson.language) {
             const langKey = currentLesson.language.toLowerCase();
             const langLabel = langLabels[langKey] || (currentLesson.language.charAt(0).toUpperCase() + currentLesson.language.slice(1));
-            html += `<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${langColors[langKey] || '#6b7280'}22;color:${langColors[langKey] || '#6b7280'};border:1px solid ${langColors[langKey] || '#6b7280'}44;"><i class="fas fa-language"></i> ${langLabel}</span>`;
+            appendTag(langLabel, 'fa-language');
         }
         if (currentLesson.level) {
-            html += `<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${levelColors[currentLesson.level]}22;color:${levelColors[currentLesson.level]};border:1px solid ${levelColors[currentLesson.level]}44;"><i class="fas fa-signal"></i> ${currentLesson.level}</span>`;
+            appendTag(currentLesson.level, 'fa-signal');
         }
-        if (currentLesson.tags && currentLesson.tags.length > 0) {
-            currentLesson.tags.forEach(tag => {
-                html += `<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;">${tag}</span>`;
-            });
-        }
-        tagsEl.innerHTML = html;
+        currentLesson.tags?.forEach(tag => appendTag(tag));
     }
 
-    // Update bookmark button state
-    updateBookmarkButton();
+    loadLessonProgress();
 
     // Show translation banner if applicable
     showTranslationBanner();
@@ -392,18 +392,36 @@ async function loadFolderBanner() {
 function updateBreadcrumb() {
     const breadcrumb = document.getElementById('breadcrumb');
     if (!breadcrumb || !currentLesson) return;
-    
-    breadcrumb.innerHTML = `
-        <a href="index.html" class="breadcrumb-item">Home</a>
-        <span class="breadcrumb-separator">/</span>
-        <a href="subject.html?subject=${currentLesson.subjectSlug}" class="breadcrumb-item">${currentLesson.subjectName}</a>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-item">${currentLesson.domainName}</span>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-item">${currentLesson.categoryName}</span>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-item active">${currentLesson.title}</span>
-    `;
+
+    const category = currentLesson.category;
+    const domain = category?.domain;
+    const subject = domain?.subject;
+    const crumbs = [{ label: 'Home', href: 'index.html' }];
+    const query = new URLSearchParams();
+
+    for (const [key, item] of [['subject', subject], ['domain', domain], ['category', category]]) {
+        if (!item?.slug || !item.name) break;
+        query.set(key, item.slug);
+        crumbs.push({ label: item.name, href: `subject.html?${query}` });
+    }
+    crumbs.push({ label: currentLesson.title });
+
+    breadcrumb.replaceChildren();
+    crumbs.forEach(({ label, href }, index) => {
+        if (index > 0) {
+            const separator = document.createElement('span');
+            separator.className = 'breadcrumb-separator';
+            separator.setAttribute('aria-hidden', 'true');
+            separator.textContent = '/';
+            breadcrumb.append(separator);
+        }
+        const crumb = document.createElement(href ? 'a' : 'span');
+        crumb.className = href ? 'breadcrumb-item' : 'breadcrumb-item active';
+        crumb.textContent = label;
+        if (href) crumb.href = href;
+        else crumb.setAttribute('aria-current', 'page');
+        breadcrumb.append(crumb);
+    });
 }
 
 function loadLessonContent() {
@@ -420,7 +438,7 @@ function loadLessonContent() {
             </div>
         `;
     } else {
-        html += '<p style="text-align: center; color: #999; padding: 40px;">No content available for this lesson.</p>';
+        html += '<p class="lesson-empty">No content available for this lesson.</p>';
     }
     
     // Add attachments if they exist
@@ -440,14 +458,11 @@ function loadLessonContent() {
 
 function createAttachmentHTML(attachment) {
     const icon = getAttachmentIcon(attachment.type);
-    const color = getAttachmentColor(attachment.type);
     const domain = getDomainFromUrl(attachment.url);
     
     return `
-        <a href="${attachment.url}" target="_blank" class="attachment-link" 
-           onmouseover="this.classList.add('attachment-link-hover')" 
-           onmouseout="this.classList.remove('attachment-link-hover')">
-            <div class="attachment-link-icon" style="background: ${color};">
+        <a href="${attachment.url}" target="_blank" rel="noopener noreferrer" class="attachment-link">
+            <div class="attachment-link-icon">
                 <i class="${icon}"></i>
             </div>
             <div class="attachment-link-body">
@@ -471,19 +486,6 @@ function getAttachmentIcon(type) {
         other: 'fas fa-file'
     };
     return icons[type] || 'fas fa-file';
-}
-
-function getAttachmentColor(type) {
-    const colors = {
-        document: '#2b579a',
-        pdf: '#dc3545',
-        spreadsheet: '#107c41',
-        presentation: '#d24726',
-        image: '#6f42c1',
-        video: '#fd7e14',
-        other: '#6c757d'
-    };
-    return colors[type] || '#6c757d';
 }
 
 function getDomainFromUrl(url) {
@@ -570,7 +572,7 @@ function loadRelatedLessons() {
     );
     
     if (relatedLessons.length === 0) {
-        relatedGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #6c757d;">No related lessons found.</p>';
+        relatedGrid.innerHTML = '<p class="lesson-empty">No related lessons found.</p>';
         return;
     }
     
@@ -706,15 +708,21 @@ function startLesson() {
     }
 }
 
-async function updateBookmarkButton() {
+async function loadLessonProgress() {
     const user = window.API.getUser();
     const bookmarkBtn = document.getElementById('bookmarkBtn');
+    const completionBtn = document.getElementById('completeLessonBtn');
     
     if (!bookmarkBtn || !user || !currentLesson) return;
     
     try {
         // Get user profile to check bookmarks
         const response = await window.API.users.getProfile();
+        if (response.success && currentLesson.status === 'published') {
+            const completed = response.data.completedLessons?.includes(currentLesson._id) ?? false;
+            renderLessonCompletion(completionBtn, completed);
+            completionBtn.hidden = false;
+        }
         if (response.success && response.data.bookmarkedLessons) {
             const isBookmarked = response.data.bookmarkedLessons.some(
                 lesson => (lesson._id || lesson) === currentLesson._id
@@ -722,14 +730,37 @@ async function updateBookmarkButton() {
             
             if (isBookmarked) {
                 bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmarked';
-                bookmarkBtn.style.background = '#333';
+                bookmarkBtn.setAttribute('aria-pressed', 'true');
             } else {
                 bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
-                bookmarkBtn.style.background = '';
+                bookmarkBtn.setAttribute('aria-pressed', 'false');
             }
         }
     } catch (error) {
-        console.error('Error checking bookmark status:', error);
+        console.error('Error loading lesson progress:', error);
+    }
+}
+
+function renderLessonCompletion(button, completed) {
+    button.setAttribute('aria-pressed', String(completed));
+    button.querySelector('span').textContent = completed ? 'Completed' : 'Mark as completed';
+    if (completed) button.title = 'Click to mark as incomplete';
+    else button.removeAttribute('title');
+}
+
+async function toggleLessonCompletion(event) {
+    const button = event.currentTarget;
+    const completed = button.getAttribute('aria-pressed') !== 'true';
+    button.disabled = true;
+
+    try {
+        const result = await window.API.users.setLessonCompleted(currentLesson._id, completed);
+        renderLessonCompletion(button, result.data.completed);
+        showToast(result.data.completed ? 'Lesson marked as completed' : 'Lesson marked as incomplete', 'success');
+    } catch (error) {
+        showToast(error.message || 'Could not update lesson completion', 'error');
+    } finally {
+        button.disabled = false;
     }
 }
 
@@ -752,14 +783,14 @@ async function toggleBookmark() {
             response = await window.API.users.removeBookmark(currentLesson._id);
             if (response.success) {
                 bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
-                bookmarkBtn.style.background = '';
+                bookmarkBtn.setAttribute('aria-pressed', 'false');
                 showToast('Removed from bookmarks', 'info');
             }
         } else {
             response = await window.API.users.bookmarkLesson(currentLesson._id);
             if (response.success) {
                 bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmarked';
-                bookmarkBtn.style.background = '#333';
+                bookmarkBtn.setAttribute('aria-pressed', 'true');
                 showToast('Added to bookmarks!', 'success');
             }
         }

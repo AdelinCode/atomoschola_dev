@@ -39,7 +39,7 @@ function initializeApp() {
         // Only redirect to login for protected pages
         const currentPath = window.location.pathname;
         const protectedPages = ['dashboard.html', 'profile.html', 'settings.html'];
-        const isProtected = protectedPages.some(page => currentPath.includes(page));
+        const isProtected = protectedPages.includes(currentPath.split('/').pop());
         
         if (isProtected) {
             alert('Please login to access this page');
@@ -203,7 +203,7 @@ function renderAuthenticatedNav() {
                     <i class="fas fa-envelope"></i> Inbox
                     <span id="notificationBadge" style="display: none; position: absolute; top: 50%; right: 12px; transform: translateY(-50%); background: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; align-items: center; justify-content: center;">0</span>
                 </a>
-                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="public-profile.html?id=${encodeURIComponent(currentUser._id)}" class="nav-profile-link"><i class="fas fa-user"></i> Profile</a>
                 <a href="#" id="bookmarksBtn"><i class="fas fa-bookmark"></i> My Bookmarks</a>
                 <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
                 ${currentUser.userType === 'user' ? '<a href="#" id="useCodeBtn"><i class="fas fa-key"></i> Use Invite Code</a>' : ''}
@@ -391,73 +391,58 @@ function setupHoverDropdowns() {
 function showLeaderboardModal() {
     let modal = document.getElementById('leaderboardModal');
     if (!modal) {
-        modal = document.createElement('div');
+        modal = document.createElement('dialog');
         modal.id = 'leaderboardModal';
-        modal.style.cssText = `
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.65); display: flex;
-            align-items: center; justify-content: center; z-index: 10000;
-            backdrop-filter: blur(3px);
-        `;
+        modal.className = 'contributors-leaderboard';
+        modal.setAttribute('aria-labelledby', 'lbTitle');
         modal.innerHTML = `
-            <style>
-                .lb-row { transition: background 0.15s; cursor: default; }
-                .lb-row:hover { background: #f9f9f9 !important; }
-                .lb-avatar { transition: transform 0.15s; }
-                .lb-row:hover .lb-avatar { transform: scale(1.08); }
-            </style>
-            <div style="background:#fff; border-radius:16px; width:92%; max-width:520px; max-height:88vh; display:flex; flex-direction:column; box-shadow:0 12px 40px rgba(0,0,0,0.15); overflow:hidden; font-family:'Inter',system-ui,sans-serif;">
-                <div style="padding:28px 28px 0;">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-                        <div>
-                            <div style="font-size:22px; font-weight:800; color:#111; letter-spacing:-0.5px;">Leaderboard</div>
-                            <div style="font-size:13px; color:#aaa; margin-top:4px;">Top contributors by score</div>
-                            <div id="lbTimer" style="margin-top:6px; font-size:12px; color:#888; display:flex; align-items:center; gap:5px;">
-                                <i class="fas fa-clock" style="font-size:11px;"></i>
-                                <span id="lbTimerText">Loading...</span>
-                            </div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <button onclick="toggleScoreInfo()" style="background:#f5f5f5; border:none; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; color:#666; display:flex; align-items:center; gap:5px;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f5f5f5'">
-                                <i class="fas fa-info-circle" style="font-size:11px;"></i> How rating works
-                            </button>
-                            <button onclick="document.getElementById('leaderboardModal').style.display='none'" style="background:#f5f5f5; border:none; width:32px; height:32px; border-radius:8px; font-size:18px; cursor:pointer; color:#888; display:flex; align-items:center; justify-content:center;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f5f5f5'">&times;</button>
-                        </div>
-                    </div>
-                    <div id="lbScorePopup" style="display:none; background:#f9f9f9; border:1px solid #e9e9e9; border-radius:10px; padding:16px 18px; margin-bottom:16px; font-size:13px; color:#444; line-height:1.7;">
-                        <div style="font-weight:700; margin-bottom:8px; color:#111;">Score formula</div>
-                        <div style="display:flex; flex-direction:column; gap:4px;">
-                            <div><span style="display:inline-block; width:14px; height:14px; background:#4ade80; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×15</strong> &nbsp;avg rating on lessons from the last 3 months</div>
-                            <div><span style="display:inline-block; width:14px; height:14px; background:#facc15; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×10</strong> &nbsp;avg rating on lessons from 3–12 months ago</div>
-                            <div><span style="display:inline-block; width:14px; height:14px; background:#fb923c; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×7.5</strong> &nbsp;avg rating on lessons older than 12 months</div>
-                            <div><span style="display:inline-block; width:14px; height:14px; background:#94a3b8; border-radius:3px; margin-right:8px; vertical-align:middle;"></span><strong>×1</strong> &nbsp;total number of published lessons / approved edits</div>
-                        </div>
-                        <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e9e9e9; color:#999; font-size:12px;">Recent content weighs more to reward active contributors.</div>
-                    </div>
-                    <div style="display:flex; gap:4px; border-bottom:1px solid #f0f0f0;">
-                        <button id="lbTabCreators" onclick="switchLbTab('creators')" style="padding:10px 18px 11px; border:none; border-bottom:2px solid #111; margin-bottom:-1px; background:none; font-weight:700; font-size:14px; cursor:pointer; color:#111; letter-spacing:0.1px; transition:all 0.15s;">
-                            Creators
-                        </button>
-                        <button id="lbTabEditors" onclick="switchLbTab('editors')" style="padding:10px 18px 11px; border:none; border-bottom:2px solid transparent; margin-bottom:-1px; background:none; font-weight:700; font-size:14px; cursor:pointer; color:#bbb; letter-spacing:0.1px; transition:all 0.15s;">
-                            Editors
-                        </button>
-                    </div>
+            <header class="lb-heading">
+                <div>
+                    <h2 id="lbTitle">Leaderboard</h2>
+                    <p class="lb-timer"><i class="fas fa-clock" aria-hidden="true"></i> <span id="lbTimerText">Loading...</span></p>
                 </div>
-                <div style="overflow-y:auto; flex:1;">
-                    <div id="lbCreators" style="padding:4px 0;"></div>
-                    <div id="lbEditors" style="display:none; padding:4px 0;"></div>
-                </div>
+                <form method="dialog"><button class="contributors-button" autofocus aria-label="Close leaderboard">&times;</button></form>
+            </header>
+            <details class="lb-score-info">
+                <summary>How rating works</summary>
+                <ul>
+                    <li><strong>×15</strong> Average rating on lessons from the last 3 months</li>
+                    <li><strong>×10</strong> Average rating on lessons from 3–12 months ago</li>
+                    <li><strong>×7.5</strong> Average rating on lessons older than 12 months</li>
+                    <li><strong>×1</strong> Total published lessons or approved edits</li>
+                </ul>
+            </details>
+            <div class="lb-columns">
+                <section class="contributors-group accent-creator">
+                    <div class="contributors-group-heading"><span class="contributors-role-icon" aria-hidden="true"><i class="fas fa-edit"></i></span><h3>Creators</h3></div>
+                    <ol class="lb-list" id="lbCreators" aria-live="polite"></ol>
+                </section>
+                <section class="contributors-group accent-editor">
+                    <div class="contributors-group-heading"><span class="contributors-role-icon" aria-hidden="true"><i class="fas fa-pen-fancy"></i></span><h3>Editors</h3></div>
+                    <ol class="lb-list" id="lbEditors" aria-live="polite"></ol>
+                </section>
             </div>
         `;
-        document.body.appendChild(modal);
+
+        modal.addEventListener('click', event => {
+            if (event.target !== modal) return;
+            const bounds = modal.getBoundingClientRect();
+            if (event.clientX < bounds.left || event.clientX > bounds.right ||
+                event.clientY < bounds.top || event.clientY > bounds.bottom) modal.close();
+        });
+        modal.addEventListener('close', () => {
+            if (modal.open) return;
+            clearInterval(_lbTimerInterval);
+            leaderboardRequest?.abort();
+        });
+        document.body.append(modal);
     }
-    modal.style.display = 'flex';
+
+    if (modal.open) return;
+    modal.showModal();
+    modal.scrollTop = 0;
     loadLeaderboard();
     startLbTimer();
-
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) modal.style.display = 'none';
-    });
 }
 
 // Countdown timer until next commission rotation (1st of next month)
@@ -497,120 +482,69 @@ function startLbTimer() {
     _lbTimerInterval = setInterval(tick, 1000);
 }
 
-window.switchLbTab = function(tab) {
-    const creatorsEl = document.getElementById('lbCreators');
-    const editorsEl  = document.getElementById('lbEditors');
-    const tabC = document.getElementById('lbTabCreators');
-    const tabE = document.getElementById('lbTabEditors');
+let leaderboardRequest;
 
-    if (tab === 'creators') {
-        creatorsEl.style.display = 'block';
-        editorsEl.style.display  = 'none';
-        tabC.style.borderBottomColor = '#111';
-        tabC.style.color = '#111';
-        tabE.style.borderBottomColor = 'transparent';
-        tabE.style.color = '#bbb';
-    } else {
-        creatorsEl.style.display = 'none';
-        editorsEl.style.display  = 'block';
-        tabE.style.borderBottomColor = '#111';
-        tabE.style.color = '#111';
-        tabC.style.borderBottomColor = 'transparent';
-        tabC.style.color = '#bbb';
-    }
-};
+function setLeaderboardMessage(list, message) {
+    const item = document.createElement('li');
+    item.className = 'contributors-state';
+    item.textContent = message;
+    list.replaceChildren(item);
+}
 
 async function loadLeaderboard() {
-    const creatorsEl = document.getElementById('lbCreators');
-    const editorsEl = document.getElementById('lbEditors');
-
-    creatorsEl.innerHTML = '<p style="text-align:center;color:#bbb;padding:40px 0;font-size:14px;">Loading...</p>';
+    const creators = document.getElementById('lbCreators');
+    const editors = document.getElementById('lbEditors');
+    setLeaderboardMessage(creators, 'Loading...');
+    setLeaderboardMessage(editors, 'Loading...');
+    leaderboardRequest?.abort();
+    const controller = new AbortController();
+    leaderboardRequest = controller;
 
     try {
-        const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-        const response = await fetch(`${apiUrl}/leaderboard`);
-        const data = await response.json();
-
-        if (data.success) {
-            creatorsEl.innerHTML = renderLeaderboardList(data.data.creators, 'creator');
-            editorsEl.innerHTML = renderLeaderboardList(data.data.editors, 'editor');
-        } else {
-            throw new Error('API error');
-        }
-    } catch (e) {
-        const err = '<p style="text-align:center;color:#dc3545;padding:40px 0;font-size:14px;">Could not load leaderboard.</p>';
-        creatorsEl.innerHTML = err;
-        editorsEl.innerHTML = err;
+        const apiUrl = window.CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+        const response = await fetch(apiUrl + '/leaderboard', { signal: controller.signal });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error('Could not load leaderboard.');
+        if (controller.signal.aborted) return;
+        renderLeaderboardList(creators, result.data.creators, 'creator');
+        renderLeaderboardList(editors, result.data.editors, 'editor');
+    } catch (error) {
+        if (controller.signal.aborted) return;
+        setLeaderboardMessage(creators, 'Could not load leaderboard.');
+        setLeaderboardMessage(editors, 'Could not load leaderboard.');
     }
 }
 
-function renderScoreInfo(type) {
-    return '';
-}
-
-window.toggleScoreInfo = function() {
-    const popup = document.getElementById('lbScorePopup');
-    if (!popup) return;
-    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-};
-
-function renderLeaderboardList(users, type) {
-    if (!users || users.length === 0) {
-        return '<p style="text-align:center;color:#bbb;padding:48px 0;font-size:15px;">No entries yet.</p>';
+function renderLeaderboardList(list, users, type) {
+    if (!users?.length) {
+        setLeaderboardMessage(list, 'No entries yet.');
+        return;
     }
 
-    const statLabel = type === 'creator' ? 'lessons' : 'edits';
-    const statKey   = type === 'creator' ? 'lessonsCount' : 'editsCount';
-
-    // Top 3: gold / silver / bronze gradient avatars
-    const top3 = [
-        { grad: 'linear-gradient(135deg,#f6d365,#c9922a)', label: '1', textColor: '#7a4800' },
-        { grad: 'linear-gradient(135deg,#d4d4d4,#8e8e8e)', label: '2', textColor: '#444'    },
-        { grad: 'linear-gradient(135deg,#e8a87c,#a0522d)', label: '3', textColor: '#5c2700' },
-    ];
-
-    return users.map((u, i) => {
-        const isTop3   = i < 3;
-        const initials = (u.username || '?').slice(0, 2).toUpperCase();
-        const name     = u.displayName || u.username;
-
-        const avatarStyle = isTop3
-            ? `background:${top3[i].grad}; color:${top3[i].textColor};`
-            : 'background:#f0eeff; color:#7c5cbf;';
-
-        const rankBadge = isTop3
-            ? `<div style="width:20px; height:20px; border-radius:50%; background:${top3[i].grad}; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:${top3[i].textColor}; position:absolute; bottom:-3px; right:-3px; box-shadow:0 1px 4px rgba(0,0,0,0.2);">${top3[i].label}</div>`
-            : '';
-
-        const ratingBit = type === 'creator' && u.avgRating > 0
-            ? `<span style="font-size:12px; color:#f59e0b; font-weight:600;">&#9733; ${u.avgRating.toFixed(1)}</span>`
-            : '';
-
-        const rowBg = isTop3 ? '#fdfbff' : '#fff';
-
-        return `
-            <div class="lb-row" style="display:flex; align-items:center; gap:16px; padding:16px 24px; background:${rowBg}; border-bottom:1px solid #f2f2f2;">
-                <div style="width:18px; text-align:right; font-size:12px; font-weight:700; color:#ccc; flex-shrink:0;">${isTop3 ? '' : '#' + u.rank}</div>
-                <div style="position:relative; flex-shrink:0;">
-                    <div class="lb-avatar" style="width:44px; height:44px; border-radius:50%; ${avatarStyle} display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;">${initials}</div>
-                    ${rankBadge}
-                </div>
-                <div style="flex:1; min-width:0;">
-                    <div style="font-weight:700; font-size:17px; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                        <a href="public-profile.html?id=${u._id}" style="color:#111; text-decoration:none;" onmouseover="this.style.color='#555'" onmouseout="this.style.color='#111'">${name}</a>
-                    </div>
-                    <div style="font-size:12px; color:#bbb; margin-top:3px; display:flex; align-items:center; gap:8px;">
-                        <span>${u[statKey] ?? 0} ${statLabel}</span>
-                        ${ratingBit}
-                    </div>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div style="font-size:20px; font-weight:800; color:#111; letter-spacing:-0.5px;">${u.score ?? 0}</div>
-                    <div style="font-size:10px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">pts</div>
-                </div>
-            </div>
+    list.replaceChildren();
+    const isCreator = type === 'creator';
+    const medals = ['gold', 'silver', 'bronze'];
+    for (const user of users) {
+        const item = document.createElement('li');
+        item.className = 'lb-entry';
+        const medal = medals[user.rank - 1];
+        if (medal) item.classList.add('lb-' + medal);
+        item.innerHTML = `
+            <a class="lb-person">
+                <span class="lb-rank"></span>
+                <span class="lb-identity"><strong></strong><span class="lb-meta"></span></span>
+                <span class="lb-score"><strong></strong><small>pts</small></span>
+            </a>
         `;
-    }).join('');
+        item.firstElementChild.href = 'public-profile.html?id=' + encodeURIComponent(user._id);
+        item.querySelector('.lb-rank').textContent = user.rank;
+        item.querySelector('.lb-identity strong').textContent = user.displayName || user.username || 'Contributor';
+        const activity = isCreator ? (user.lessonsCount ?? 0) + ' lessons' : (user.editsCount ?? 0) + ' edits';
+        const rating = isCreator && user.avgRating > 0 ? ' · ★ ' + user.avgRating.toFixed(1) : '';
+        item.querySelector('.lb-meta').textContent = activity + rating;
+        item.querySelector('.lb-score strong').textContent = user.score ?? 0;
+        list.append(item);
+    }
 }
 
 // Show bookmarks modal
@@ -1172,7 +1106,7 @@ function buildMobilePanel(panel) {
                 <button class="mobile-nav-item" onclick="showNotificationsModal(); closeMobileNav();">
                     <i class="fas fa-envelope"></i> Inbox
                 </button>
-                <a href="profile.html" class="mobile-nav-item"><i class="fas fa-user"></i> Profile</a>
+                <a href="public-profile.html?id=${encodeURIComponent(currentUser._id)}" class="mobile-nav-item nav-profile-link"><i class="fas fa-user"></i> Profile</a>
                 <a href="settings.html" class="mobile-nav-item"><i class="fas fa-cog"></i> Settings</a>
                 <button class="mobile-nav-item" style="color:#dc3545;" onclick="localStorage.removeItem('token');localStorage.removeItem('user');window.location.href='index.html';">
                     <i class="fas fa-sign-out-alt" style="color:#dc3545;"></i> Logout

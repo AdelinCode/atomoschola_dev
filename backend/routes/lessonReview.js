@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import LessonReview from '../models/LessonReview.js';
 import Lesson from '../models/Lesson.js';
 import User from '../models/User.js';
@@ -151,7 +152,27 @@ router.get('/:id', protect, authorize(...canReview), async (req, res) => {
       .populate('originalLessonId', 'language title');
 
     if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
-    res.json({ success: true, data: review });
+
+    const categoryId = review.lessonData?.category?._id ?? review.lessonData?.category;
+    const category = mongoose.isObjectIdOrHexString(categoryId)
+      ? await Category.findById(categoryId).select('name domain').populate({
+          path: 'domain',
+          select: 'name subject',
+          populate: { path: 'subject', select: 'name' }
+        }).lean()
+      : null;
+
+    res.json({
+      success: true,
+      data: {
+        ...review.toObject(),
+        catalog: {
+          subject: category?.domain?.subject?.name ?? null,
+          domain: category?.domain?.name ?? null,
+          category: category?.name ?? null
+        }
+      }
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

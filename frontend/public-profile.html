@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
@@ -9,329 +9,79 @@
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        .profile-container {
-            max-width: 800px;
-            margin: 100px auto 40px;
-            padding: 20px;
-        }
-        .profile-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-            overflow: hidden;
-        }
-        .profile-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 180px;
-            position: relative;
-        }
-        .profile-main {
-            padding: 0 40px 40px;
-            position: relative;
-        }
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            border: 5px solid white;
-            position: absolute;
-            top: -60px;
-            left: 40px;
-            color: #667eea;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        .profile-info {
-            padding-top: 70px;
-        }
-        .profile-name {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #1a1a1a;
-        }
-        .profile-username {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 12px;
-        }
-        .badges {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .badge {
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        .badge:hover {
-            transform: translateY(-1px);
-        }
-        .badge-role {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        .badge-commission {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-        .badge-verified {
-            background: #e8f5e9;
-            color: #388e3c;
-        }
-        .profile-bio {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-            padding: 24px 0;
-            margin: 24px 0;
-            border-top: 1px solid #e9ecef;
-            border-bottom: 1px solid #e9ecef;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            display: block;
-        }
-        .stat-label {
-            font-size: 13px;
-            color: #999;
-            margin-top: 4px;
-            display: block;
-        }
-        .info-grid {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        .info-item {
-            display: flex;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-        .info-icon {
-            width: 36px;
-            height: 36px;
-            background: #667eea;
-            color: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        .info-content {
-            flex: 1;
-        }
-        .info-label {
-            font-size: 12px;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-        }
-        .info-value {
-            font-size: 15px;
-            color: #333;
-            font-weight: 500;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 30px 0 16px;
-            color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .lessons-grid {
-            display: grid;
-            gap: 12px;
-        }
-        .lesson-card {
-            padding: 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-left: 3px solid #667eea;
-        }
-        .lesson-card:hover {
-            background: #e9ecef;
-            transform: translateX(3px);
-        }
-        .lesson-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
-        }
-        .lesson-meta {
-            font-size: 13px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-        .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-            padding-top: 24px;
-            border-top: 1px solid #e9ecef;
-        }
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .folder-card { display:flex; align-items:center; gap:14px; padding:14px 16px; background:#f8f9fa; border-radius:8px; cursor:pointer; border-left:3px solid #667eea; transition:all 0.2s; text-decoration:none; }
-        .folder-card:hover { background:#e9ecef; transform:translateX(3px); }
-        .folder-card-icon { width:38px; height:38px; background:linear-gradient(135deg,#6C3483,#9b59b6); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .folder-card-icon i { color:white; font-size:16px; }
-        .folder-card-info { flex:1; min-width:0; }
-        .folder-card-title { font-weight:600; color:#333; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .folder-card-meta { font-size:12px; color:#999; margin-top:2px; }
-        .btn-report {
-            background: white;
-            color: #dc3545;
-            border: 2px solid #dc3545;
-        }
-        .btn-report:hover {
-            background: #dc3545;
-            color: white;
-        }
-        .btn-back {
-            background: #f8f9fa;
-            color: #333;
-        }
-        .btn-back:hover {
-            background: #e9ecef;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/public-profile.css">
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
     <link rel="stylesheet" href="styles/site-header.css">
 </head>
-<body>
+<body class="public-profile-page">
     <!-- Header -->
     <script src="scripts/site-header.js"></script>
 
     <!-- Profile Content -->
-    <main class="profile-container">
-        <div class="profile-card">
-            <div class="profile-header"></div>
-            <div class="profile-main">
-                <div class="profile-avatar" id="profileAvatar">?</div>
-                <div class="profile-info">
-                    <div class="profile-name" id="profileName">Loading...</div>
-                    <div class="profile-username" id="profileUsername"></div>
-                    <div class="badges" id="profileBadges"></div>
-
-                    <div class="profile-stats">
-                        <div class="stat">
-                            <span class="stat-value" id="statCreated">0</span>
-                            <span class="stat-label">Lessons Created</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="statEdited">0</span>
-                            <span class="stat-label">Lessons Edited</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="statRating">?</span>
-                            <span class="stat-label">Avg. Rating</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="statSince">?</span>
-                            <span class="stat-label">Member Since</span>
-                        </div>
+    <main class="pp-profile-container">
+        <div class="pp-profile-card">
+            <header class="pp-profile-hero">
+                <div class="pp-profile-avatar" id="profileAvatar">?</div>
+                <div class="pp-profile-info">
+                    <h1 class="pp-profile-name" id="profileName">Loading...</h1>
+                    <div class="pp-profile-username" id="profileUsername"></div>
+                    <div class="pp-badges" id="profileBadges"></div>
+                </div>
+            </header>
+            <div class="pp-profile-main">
+                <div class="pp-profile-stats">
+                    <div class="pp-stat">
+                        <span class="pp-stat-value" id="statCreated">0</span>
+                        <span class="pp-stat-label">Lessons Created</span>
                     </div>
-
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-icon"><i class="fas fa-user-tag"></i></div>
-                            <div class="info-content">
-                                <div class="info-label">Role</div>
-                                <div class="info-value" id="infoRole">?</div>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
-                            <div class="info-content">
-                                <div class="info-label">Joined</div>
-                                <div class="info-value" id="infoJoined">?</div>
-                            </div>
-                        </div>
+                    <div class="pp-stat">
+                        <span class="pp-stat-value" id="statEdited">0</span>
+                        <span class="pp-stat-label">Lessons Edited</span>
                     </div>
-
-                    <!-- Folders -->
-                    <div id="foldersSection" style="display:none;">
-                        <div class="section-title"><i class="fas fa-layer-group" style="color:#667eea;"></i> Folders</div>
-                        <div id="foldersList" style="display:grid; gap:12px;"></div>
+                    <div class="pp-stat">
+                        <span class="pp-stat-value" id="statRating">?</span>
+                        <span class="pp-stat-label">Avg. Rating</span>
                     </div>
-
-                    <!-- Created Lessons -->
-                    <div id="createdSection" style="display:none;">
-                        <div class="section-title"><i class="fas fa-book" style="color:#667eea;"></i> Created Lessons</div>
-                        <div class="lessons-grid" id="createdLessons"></div>
+                    <div class="pp-stat">
+                        <span class="pp-stat-value pp-stat-date" id="infoJoined">—</span>
+                        <span class="pp-stat-label">Member Since</span>
                     </div>
+                </div>
 
-                    <!-- Edited Lessons -->
-                    <div id="editedSection" style="display:none;">
-                        <div class="section-title"><i class="fas fa-edit" style="color:#667eea;"></i> Edited Lessons</div>
-                        <div class="lessons-grid" id="editedLessons"></div>
-                    </div>
+                <!-- Folders -->
+                <div id="foldersSection" style="display:none;">
+                    <h2 class="pp-section-title"><i class="fas fa-layer-group" aria-hidden="true"></i> Folders</h2>
+                    <div class="pp-lessons-grid" id="foldersList"></div>
+                </div>
 
-                    <div class="actions">
-                        <button class="btn btn-report" onclick="openReportModal('user')">
-                            <i class="fas fa-flag"></i> Report User
-                        </button>
-                        <button class="btn btn-back" onclick="history.back()">
-                            <i class="fas fa-arrow-left"></i> Back
-                        </button>
+                <!-- Created Lessons -->
+                <div id="createdSection" style="display:none;">
+                    <h2 class="pp-section-title"><i class="fas fa-book" aria-hidden="true"></i> Created Lessons</h2>
+                    <div class="pp-lessons-grid" id="createdLessons"></div>
+                </div>
+
+                <!-- Edited Lessons -->
+                <div id="editedSection" style="display:none;">
+                    <h2 class="pp-section-title"><i class="fas fa-edit" aria-hidden="true"></i> Edited Lessons</h2>
+                    <div class="pp-lessons-grid" id="editedLessons"></div>
+                </div>
+
+                <section id="completedSection" hidden>
+                    <h2 class="pp-section-title"><i class="fas fa-circle-check" aria-hidden="true"></i> Completed Lessons</h2>
+                    <div class="pp-lessons-grid" id="completedLessons">
+                        <p class="pp-empty-state">No completed lessons yet.</p>
                     </div>
+                </section>
+
+                <div class="pp-actions">
+                    <button class="btn pp-btn-report" id="reportUserBtn" onclick="openReportModal('user')" hidden>
+                        <i class="fas fa-flag"></i> Report User
+                    </button>
+                    <button class="btn pp-btn-back" onclick="history.back()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
                 </div>
             </div>
         </div>
@@ -385,6 +135,10 @@
             
             document.getElementById('profileName').textContent = displayName;
             document.getElementById('profileUsername').textContent = '@' + viewedUser.username;
+            document.getElementById('reportUserBtn').hidden = window.API.getUser()?._id === viewedUser._id;
+            const completedLessons = viewedUser.completedLessons || [];
+            if (completedLessons.length) renderLessonList('completedLessons', completedLessons);
+            document.getElementById('completedSection').hidden = false;
             
             // Render badges
             renderBadges();
@@ -392,7 +146,6 @@
             // Stats
             document.getElementById('statCreated').textContent = viewedUser.createdLessons?.length || 0;
             document.getElementById('statEdited').textContent = viewedUser.editedLessons?.length || 0;
-            document.getElementById('statSince').textContent = new Date(viewedUser.createdAt).getFullYear();
             
             // Calculate average rating if creator
             if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
@@ -402,13 +155,9 @@
                 document.getElementById('statRating').textContent = '?';
             }
             
-            // Info grid
-            document.getElementById('infoRole').textContent = 
-                viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1);
-            
             document.getElementById('infoJoined').textContent = new Date(viewedUser.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric',
-                month: 'long',
+                month: 'short',
                 day: 'numeric'
             });
             
@@ -480,7 +229,7 @@
         }
 
         function makeBadge(cssClass, icon, label, tooltip) {
-            return `<span class="badge badge-colored ${cssClass}" title="${tooltip}" style="cursor:default;">
+            return `<span class="pp-badge pp-${cssClass}" title="${tooltip}">
                 <i class="fas ${icon}"></i> ${label}
             </span>`;
         }
@@ -502,13 +251,13 @@
 
                 document.getElementById('foldersSection').style.display = 'block';
                 document.getElementById('foldersList').innerHTML = data.data.map(f => `
-                    <a class="folder-card" href="folder.html?id=${f._id}">
-                        <div class="folder-card-icon"><i class="fas fa-layer-group"></i></div>
-                        <div class="folder-card-info">
-                            <div class="folder-card-title">${f.title}</div>
-                            <div class="folder-card-meta">${f.lessons?.length || 0} lesson${(f.lessons?.length || 0) !== 1 ? 's' : ''}${f.description ? ' · ' + f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : ''}</div>
+                    <a class="pp-folder-card" href="folder.html?id=${f._id}">
+                        <div class="pp-folder-card-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="pp-folder-card-info">
+                            <div class="pp-folder-card-title">${f.title}</div>
+                            <div class="pp-folder-card-meta">${f.lessons?.length || 0} lesson${(f.lessons?.length || 0) !== 1 ? 's' : ''}${f.description ? ' · ' + f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : ''}</div>
                         </div>
-                        <i class="fas fa-chevron-right" style="color:#ccc; font-size:13px;"></i>
+                        <i class="fas fa-chevron-right pp-row-arrow" aria-hidden="true"></i>
                     </a>
                 `).join('');
             } catch (e) {
@@ -567,19 +316,19 @@
         function renderLessonList(elementId, lessons) {
             const el = document.getElementById(elementId);
             if (!lessons || lessons.length === 0) {
-                el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox" style="font-size:32px; margin-bottom:8px;"></i><p>No lessons found</p></div>';
+                el.innerHTML = '<div class="pp-empty-state"><i class="fas fa-inbox" style="font-size:32px; margin-bottom:8px;"></i><p>No lessons found</p></div>';
                 return;
             }
             
             el.innerHTML = lessons.map(l => `
-                <div class="lesson-card" onclick="window.location.href='lesson.html?id=${l._id}'">
-                    <div class="lesson-title">${l.title}</div>
-                    <div class="lesson-meta">
+                <a class="pp-lesson-card" href="lesson.html?id=${l._id}">
+                    <div class="pp-lesson-title">${l.title}</div>
+                    <div class="pp-lesson-meta">
                         <span><i class="fas fa-tag"></i> ${l.type}</span>
                         ${l.averageRating > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${l.averageRating.toFixed(1)}</span>` : ''}
-                        <span style="text-transform:capitalize; padding:2px 8px; background:#e3f2fd; color:#1976d2; border-radius:4px; font-size:12px;">${l.status}</span>
+                        <span class="pp-lesson-status">${l.status}</span>
                     </div>
-                </div>
+                </a>
             `).join('');
         }
 

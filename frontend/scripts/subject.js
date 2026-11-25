@@ -28,6 +28,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Setup event listeners
     setupEventListeners();
+
+    const domainSlug = urlParams.get('domain');
+    const categorySlug = urlParams.get('category');
+    const domains = subjectsData[currentSubject]?.domains;
+    if (domains && Object.hasOwn(domains, domainSlug)) {
+        const categories = domains[domainSlug].categories;
+        const category = Object.hasOwn(categories, categorySlug) ? categories[categorySlug] : null;
+        displayCategories(domainSlug, !category);
+        if (category) displayLessons(categorySlug, category);
+    }
 });
 
 // Set background image based on subject
@@ -289,7 +299,7 @@ function displayDomains() {
 }
 
 // Display categories
-function displayCategories(domainSlug) {
+function displayCategories(domainSlug, scroll = true) {
     currentDomain = domainSlug;
     
     const subject = subjectsData[currentSubject];
@@ -335,7 +345,7 @@ function displayCategories(domainSlug) {
     });
     
     // Scroll to section
-    section.scrollIntoView({ behavior: 'smooth' });
+    if (scroll) section.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Display lessons

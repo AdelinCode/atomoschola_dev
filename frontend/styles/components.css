@@ -84,6 +84,8 @@
     margin-bottom: 50px;
 }
 
+#categoriesSection, #lessonsSection { scroll-margin-top: 100px; }
+
 .domains-section h2, .categories-section h2, .lessons-section h2 {
     font-size: 28px;
     font-weight: 600;
