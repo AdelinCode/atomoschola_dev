@@ -1323,7 +1323,7 @@ a:hover {
 /* ---- lesson attachment card (lesson.js renders it) ---- */
 .dark-mode .attachment-card,
 .dark-mode .lesson-attachment,
-.dark-mode [class*="attachment"] {
+.dark-mode [class*="attachment"]:where(:not(.lesson-attachments, .lesson-attachments *)) {
     background: var(--bg-secondary) !important;
     border-color: var(--border-primary) !important;
     color: var(--text-primary) !important;
