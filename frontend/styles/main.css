@@ -784,6 +784,12 @@ body {
     color: #999999;
 }
 
+.footer-bottom-credits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+}
+
 .footer-bottom-credit {
     font-size: 13px;
     color: #999999;

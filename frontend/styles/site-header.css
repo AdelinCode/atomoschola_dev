@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@500;650&display=swap");
 
 .atomo-site-header {
-    --nav-paper: #f8f4e9;
-    --nav-panel: #fffaf0;
+    --nav-paper: #f7f8fa;
+    --nav-panel: #fff;
     --nav-ink: #202c27;
-    --nav-rule: #b9bdab;
+    --nav-rule: #d6deea;
     --nav-focus: #913722;
     font-family: 'DM Sans', system-ui, sans-serif;
 }
@@ -37,9 +37,32 @@
 .atomo-site-header .header-content .logo a img { border-radius: 6px; }
 
 .atomo-site-header .header-content .search-bar {
+    flex: 1 1 340px;
+    min-width: 0;
+    margin-inline: 0 auto;
     border-radius: 5px;
     border-color: var(--nav-rule) !important;
     background: var(--nav-paper) !important;
+}
+
+.atomo-site-header .header-content .search-bar input {
+    min-width: 0;
+    text-overflow: ellipsis;
+}
+
+.atomo-site-header .search-btn { flex-shrink: 0; }
+
+.atomo-site-header #accountBtn > span {
+    max-width: clamp(70px, 9vw, 140px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+html:not(.dark-mode) .header.atomo-site-header .nav-menu #accountBtn .fa-user-circle,
+html:not(.dark-mode) .header.atomo-site-header .nav-menu a[href="profile.html"] .fa-user,
+html:not(.dark-mode) .mobile-nav-panel a[href="profile.html"] .fa-user {
+    color: #000 !important;
 }
 
 .atomo-site-header .header-content .search-bar input,
@@ -56,3 +79,36 @@
 }
 
 .mobile-nav-panel { font-family: 'DM Sans', system-ui, sans-serif; }
+
+@media (769px <= width <= 1120px) {
+    .atomo-site-header .header-content {
+        gap: clamp(10px, 1.5vw, 16px);
+        padding-inline: clamp(16px, 2vw, 24px);
+    }
+
+    .atomo-site-header .nav-menu :is(#contributorsBtn, #contributorsGuestBtn, #dashboardBtn) > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .atomo-site-header .nav-menu :is(#contributorsBtn, #contributorsGuestBtn, #dashboardBtn) > i:first-child {
+        margin-right: 0;
+    }
+}
+
+@media (769px <= width <= 960px) {
+    .atomo-site-header .nav-menu :is(.account-btn, .nav-item) > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .atomo-site-header .nav-menu :is(.account-btn, .nav-item) > i:first-child { margin-right: 0; }
+}

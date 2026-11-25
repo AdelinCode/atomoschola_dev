@@ -1,4 +1,4 @@
-// Injects the shared site footer into any element with id="site-footer"
+// Use the page's footer slot when present, or render at the script location.
 (function () {
     const html = `
     <footer class="site-footer">
@@ -40,11 +40,15 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <span class="footer-bottom-copy">&copy; 2026-2027 Atomo Schola. All rights reserved.</span>
-            <span class="footer-bottom-credit">Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
+            <span class="footer-bottom-copy">&copy; 2026 Atomo Schola. All rights reserved.</span>
+            <div class="footer-bottom-credits">
+                <span class="footer-bottom-credit">Website Created by <a href="https://github.com/HojdaAdelin" target="_blank">Hojda Adelin</a> &amp; <a href="https://github.com/Andy15ro" target="_blank">Lazar Andrei</a></span>
+                <span class="footer-bottom-credit">Made by Atomo Schola Team</span>
+            </div>
         </div>
     </footer>`;
 
     const el = document.getElementById('site-footer');
     if (el) el.outerHTML = html;
+    else document.currentScript.insertAdjacentHTML('beforebegin', html);
 })();

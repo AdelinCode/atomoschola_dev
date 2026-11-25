@@ -82,11 +82,11 @@ function renderGuestNav() {
         </div>
         <a href="login.html" class="nav-item">
             <i class="fas fa-sign-in-alt"></i>
-            Login
+            <span>Login</span>
         </a>
         <a href="register.html" class="nav-item">
             <i class="fas fa-user-plus"></i>
-            Register
+            <span>Register</span>
         </a>
     `;
     
