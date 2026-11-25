@@ -25,6 +25,26 @@
     <!-- Main Content -->
     <main class="lesson-main">
         <div class="container">
+            <div id="lessonLoading" role="status" aria-label="Loading lesson">
+                <div class="lesson-skeleton" aria-hidden="true">
+                    <div class="lesson-skeleton-line lesson-skeleton-breadcrumb"></div>
+                    <div class="lesson-header-section">
+                        <div class="lesson-meta-info">
+                            <div class="lesson-skeleton-line lesson-skeleton-badge"></div>
+                            <div class="lesson-skeleton-line lesson-skeleton-title"></div>
+                            <div class="lesson-skeleton-line"></div>
+                            <div class="lesson-skeleton-line lesson-skeleton-short"></div>
+                            <div class="lesson-skeleton-line lesson-skeleton-meta"></div>
+                        </div>
+                    </div>
+                    <div class="lesson-content-section">
+                        <div class="lesson-skeleton-line"></div>
+                        <div class="lesson-skeleton-line"></div>
+                        <div class="lesson-skeleton-line lesson-skeleton-short"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="lessonDetails" hidden>
             <!-- Breadcrumb -->
             <nav class="breadcrumb" id="breadcrumb">
                 <!-- Populated by JavaScript -->
@@ -33,36 +53,31 @@
             <!-- Lesson Header -->
             <div class="lesson-header-section">
                 <div class="lesson-meta-info">
-                    <div class="lesson-type-badge" id="lessonTypeBadge">
-                        <i class="fas fa-play-circle"></i>
-                        Video Lesson
-                    </div>
-                    <h1 class="lesson-title" id="lessonTitle">Introduction to Forces</h1>
-                    <p class="lesson-description" id="lessonDescription">
-                        Understanding the basic concepts of forces and their effects on objects in static and dynamic situations.
-                    </p>
+                    <div class="lesson-type-badge" id="lessonTypeBadge"></div>
+                    <h1 class="lesson-title" id="lessonTitle"></h1>
+                    <p class="lesson-description" id="lessonDescription"></p>
                     
                     <div class="lesson-stats">
                         <div class="lesson-rating">
                             <div class="stars" id="lessonStars">
                                 <!-- Populated by JavaScript -->
                             </div>
-                            <span class="rating-value" id="ratingValue">4.8</span>
-                            <span class="rating-count">(124 ratings)</span>
+                            <span class="rating-value" id="ratingValue"></span>
+                            <span class="rating-count"></span>
                         </div>
                         
                         <div class="lesson-info">
                             <div class="info-item">
                                 <i class="fas fa-user"></i>
-                                <span>Created by: <strong id="lessonCreators">Dr. Smith, Prof. Johnson</strong></span>
+                                <span>Created by: <strong id="lessonCreators"></strong></span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-edit"></i>
-                                <span>Edited by: <strong id="lessonEditors">Editor1</strong></span>
+                                <span>Edited by: <strong id="lessonEditors"></strong></span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-calendar"></i>
-                                <span>Published: <strong id="lessonDate">January 15, 2024</strong></span>
+                                <span>Published: <strong id="lessonDate"></strong></span>
                             </div>
                         </div>
                         <div id="lessonTags" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;"></div>
@@ -129,6 +144,7 @@
                 <div class="related-lessons-grid" id="relatedLessonsGrid">
                     <!-- Populated by JavaScript -->
                 </div>
+            </div>
             </div>
         </div>
     </main>

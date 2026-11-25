@@ -126,7 +126,6 @@ const lessonData = {
 // Initialize lesson page
 document.addEventListener('DOMContentLoaded', async function() {
     await initializeLessonPage();
-    setupLessonEventListeners();
 });
 
 async function initializeLessonPage() {
@@ -172,6 +171,9 @@ async function initializeLessonPage() {
         
         // Set background based on subject
         setSubjectBackground(currentLesson.subjectSlug);
+        setupLessonEventListeners();
+        document.getElementById('lessonLoading').hidden = true;
+        document.getElementById('lessonDetails').hidden = false;
         
     } catch (error) {
         console.error('Error loading lesson:', error);
@@ -864,7 +866,7 @@ function handleLessonEdit() {
 }
 
 function showError(message) {
-    const container = document.querySelector('.container');
+    const container = document.querySelector('.lesson-main > .container');
     if (container) {
         container.innerHTML = `
             <div style="text-align: center; padding: 60px 20px;">
