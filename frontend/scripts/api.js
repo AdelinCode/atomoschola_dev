@@ -191,6 +191,15 @@ window.API = {
   inviteCodes: inviteCodesAPI,
   admin: adminAPI,
   stats: statsAPI,
+  events: {
+    list: () => apiRequest('/events'),
+    get: id => apiRequest(`/events/${encodeURIComponent(id)}`),
+    permissions: () => apiRequest('/events/permissions'),
+    save: (data, id) => apiRequest(id ? `/events/${encodeURIComponent(id)}` : '/events', {
+      method: id ? 'PUT' : 'POST',
+      body: JSON.stringify(data)
+    })
+  },
   getToken,
   getUser,
   isAuthenticated: () => !!getToken(),
