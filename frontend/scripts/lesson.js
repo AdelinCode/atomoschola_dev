@@ -152,7 +152,9 @@ async function initializeLessonPage() {
         currentLesson = data.data;
         
         currentLesson.id = currentLesson._id;
-        currentLesson.subjectSlug = currentLesson.category?.domain?.subject?.slug || 'unknown';
+        const subject = currentLesson.category?.domain?.subject;
+        currentLesson.subjectSlug = subject?.slug || 'unknown';
+        document.body.classList.toggle('lesson-humanities', subject?.majorCategory === 'Humanities');
         
         // Update page content
         updateLessonHeader();

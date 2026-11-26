@@ -24,6 +24,12 @@
     --lesson-danger: #ffa1ae;
 }
 
+.lesson-page.lesson-humanities {
+    --lesson-soft: var(--humanities-surface);
+    --lesson-accent: var(--humanities-ink);
+    --lesson-line: var(--humanities-line);
+}
+
 .lesson-page .subject-page-background::before {
     background: color-mix(in srgb, var(--lesson-bg) 91%, transparent) !important;
 }
@@ -360,6 +366,15 @@
 
 .lesson-rating .stars i { color: var(--lesson-warn); }
 .lesson-main .rating-value { color: var(--lesson-ink) !important; }
+
+.lesson-humanities #submitRatingBtn {
+    background: var(--lesson-accent) !important;
+    color: var(--lesson-surface) !important;
+}
+
+.lesson-humanities #submitRatingBtn:hover {
+    background: color-mix(in srgb, var(--lesson-accent) 90%, var(--lesson-ink)) !important;
+}
 
 /* Related Lessons Section */
 .related-lessons-section h2 {

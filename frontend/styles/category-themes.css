@@ -1,26 +1,32 @@
-/* =============================================
-   Category Theme - only the main page title is colored
-   Everything else stays default (black/grey/white)
-   ============================================= */
+/* Category accents shared with the homepage cards. */
 
 body.theme-steam {
     --cat-primary: #667eea;
     --cat-secondary: #764ba2;
     --cat-light: rgba(102, 126, 234, 0.1);
     --cat-shadow: rgba(102, 126, 234, 0.3);
+    --subject-icon-ink: var(--stem-ink);
+    --subject-icon-surface: var(--stem-surface);
 }
 
 body.theme-humanities {
-    --cat-primary: #f093fb;
-    --cat-secondary: #f5576c;
-    --cat-light: rgba(240, 147, 251, 0.1);
-    --cat-shadow: rgba(240, 147, 251, 0.3);
+    --cat-primary: var(--humanities-ink);
+    --cat-secondary: color-mix(in srgb, var(--humanities-ink) 90%, var(--text-primary));
+    --cat-light: var(--humanities-surface);
+    --cat-shadow: color-mix(in srgb, var(--humanities-ink) 25%, transparent);
+    --subject-icon-ink: var(--humanities-ink);
+    --subject-icon-surface: var(--humanities-surface);
 }
 
 /* Only the main h1 title gets the category color */
-html body.theme-steam .hero h1,
 html body.theme-humanities .hero h1 {
     color: var(--cat-primary) !important;
+}
+
+html body.theme-steam .hero h1,
+html body.theme-steam .hero h1 > i,
+html body.theme-steam .hero .stat-number {
+    color: var(--stem-ink) !important;
 }
 
 /* Stat numbers (Lessons, Subjects, Domains) */
@@ -39,6 +45,18 @@ html body.theme-humanities .sidebar-toggle {
 html body.theme-steam .sidebar-toggle:hover,
 html body.theme-humanities .sidebar-toggle:hover {
     background: var(--cat-secondary) !important;
+}
+
+html body.theme-humanities .sidebar-toggle {
+    color: var(--cat-light) !important;
+}
+
+body:is(.theme-steam, .theme-humanities) .subject-card .subject-icon {
+    background: var(--subject-icon-surface) !important;
+}
+
+body:is(.theme-steam, .theme-humanities) .subject-card .subject-icon i {
+    color: var(--subject-icon-ink) !important;
 }
 
 /* Sidebar active item accent */

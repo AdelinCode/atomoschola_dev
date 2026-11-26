@@ -20,6 +20,14 @@
     --accent-secondary: #657be5;
     --accent-hover: #354bb7;
     --accent-warm: #d18a63;
+    --stem-ink: #15546b;
+    --stem-surface: #e7f3f6;
+    --stem-line: #aacbd4;
+    --stem-cover: #217b96;
+    --humanities-ink: #86402e;
+    --humanities-surface: #f8ebe2;
+    --humanities-line: #dbc1af;
+    --humanities-cover: #9b4b34;
     
     /* Interactive colors */
     --interactive-bg: #eceef4;
@@ -50,6 +58,14 @@
     --accent-secondary: #7a89e8;
     --accent-hover: #b8c2f7;
     --accent-warm: #d4906a;
+    --stem-ink: #a0dcec;
+    --stem-surface: #172e38;
+    --stem-line: #335a68;
+    --stem-cover: #216078;
+    --humanities-ink: #f3bea2;
+    --humanities-surface: #362721;
+    --humanities-line: #69473a;
+    --humanities-cover: #87452e;
 
     --interactive-bg: #1f2026;
     --interactive-hover: #22242b;
@@ -481,12 +497,22 @@ body {
 }
 
 .subject-card:hover,
-.lesson-card:hover,
 .domain-card:hover,
 .category-card:hover {
     border-color: var(--accent-primary) !important;
     box-shadow: 0 4px 12px var(--shadow-medium) !important;
     transform: translateY(-2px);
+}
+
+.lessons-section .lesson-card {
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.lessons-section .lesson-card:hover {
+    border-color: var(--border-secondary) !important;
+    box-shadow: none;
+    transform: none;
 }
 
 .subject-card h3,
@@ -513,6 +539,9 @@ body {
 .subject-icon i {
     color: var(--accent-primary) !important;
 }
+
+#subjectIcon[data-major-category="STEAM"] { color: var(--stem-ink); }
+#subjectIcon[data-major-category="Humanities"] { color: var(--humanities-ink); }
 
 /* ============================================
    LAYOUT COMPONENTS
@@ -812,7 +841,7 @@ a:hover {
 
 .category-major-card .card-icon.humanities-accent,
 .stat-value.humanities-accent {
-    color: #f093fb !important;
+    color: var(--humanities-ink) !important;
 }
 
 /* Hero section background overrides */
@@ -1660,7 +1689,6 @@ a:hover {
 
 .dark-mode .lesson-card {
     background: var(--bg-tertiary) !important;
-    border-left-color: #667eea !important;
 }
 
 .dark-mode .lesson-card:hover {

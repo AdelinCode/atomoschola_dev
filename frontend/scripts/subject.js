@@ -147,6 +147,7 @@ async function loadData() {
                     _id: subject._id,
                     name: subject.name,
                     icon: subject.icon,
+                    majorCategory: subject.majorCategory,
                     domains: domains
                 };
             });
@@ -176,6 +177,7 @@ async function loadData() {
             }
 
             if (iconEl && subject.icon) {
+                iconEl.dataset.majorCategory = subject.majorCategory || '';
                 iconEl.style.transition = 'opacity 0.3s ease';
                 iconEl.style.opacity = '0';
                 setTimeout(() => {
