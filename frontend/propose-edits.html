@@ -10,174 +10,383 @@
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/notifications.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        .propose-container {
-            max-width: 900px;
-            margin: 80px auto 40px;
-            padding: 20px;
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/site-header.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ── Local palette (mirrors events.css pattern) ── */
+        .propose-page {
+            --pe-bg:        #f8f7fb;
+            --pe-paper:     #fff;
+            --pe-soft:      #f0edf9;
+            --pe-ink:       #1e1a2e;
+            --pe-muted:     #5c5470;
+            --pe-line:      #d4cce8;
+            --pe-accent:    #5b3fa6;
+            --pe-btn-ink:   #fff;
+            --pe-error:     #a12638;
+            background: var(--pe-bg);
+            font-family: 'DM Sans', system-ui, sans-serif;
         }
-        .propose-header {
-            margin-bottom: 30px;
-            text-align: center;
+        .dark-mode .propose-page {
+            color-scheme: dark;
+            --pe-bg:        #16141c;
+            --pe-paper:     #1e1b27;
+            --pe-soft:      #272035;
+            --pe-ink:       #ede9f8;
+            --pe-muted:     #a89fc4;
+            --pe-line:      #3a3250;
+            --pe-accent:    #b89fef;
+            --pe-btn-ink:   #1a1230;
+            --pe-error:     #ffa1ae;
         }
-        .propose-card {
-            background: white;
+
+        /* ── Shell ── */
+        .propose-shell {
+            max-width: 820px;
+            margin: clamp(94px, 11vw, 130px) auto clamp(42px, 7vw, 80px);
+            padding-inline: clamp(16px, 4vw, 40px);
+            color: var(--pe-ink);
+        }
+
+        /* ── Hero ── */
+        .propose-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 16px;
+            padding: clamp(24px, 5vw, 52px);
+            border: 1px solid var(--pe-line);
+            border-radius: 16px;
+            background: linear-gradient(120deg, var(--pe-paper), var(--pe-soft));
+            margin-bottom: clamp(24px, 4vw, 40px);
+        }
+        .propose-hero h1 {
+            font: 650 clamp(2rem, 5vw, 3.2rem)/1.08 'Fraunces', Georgia, serif;
+            letter-spacing: -.04em;
+            color: var(--pe-ink);
+        }
+        .propose-hero p {
+            margin-top: 10px;
+            color: var(--pe-muted);
+            font-size: clamp(.95rem, 2vw, 1.08rem);
+            max-width: 54ch;
+        }
+        .propose-hero-art {
+            display: grid;
+            place-items: center;
+            width: clamp(64px, 13vw, 110px);
+            aspect-ratio: 1;
+            border: 1px solid var(--pe-line);
+            border-radius: 20%;
+            background: var(--pe-paper);
+            color: var(--pe-accent);
+            font-size: clamp(1.6rem, 5vw, 3.2rem);
+        }
+
+        /* ── Requirements ── */
+        .requirements-block {
+            border: 1px solid var(--pe-line);
             border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: var(--pe-paper);
+            padding: clamp(16px, 3vw, 28px);
+            margin-bottom: clamp(24px, 4vw, 36px);
+        }
+        .requirements-block h2 {
+            font: 650 1rem/1.2 'Fraunces', Georgia, serif;
+            color: var(--pe-accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            font-size: .85rem;
+        }
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .requirements-grid li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 11px 14px;
+            border: 1px solid var(--pe-line);
+            border-radius: 8px;
+            background: var(--pe-soft);
+            font-size: .88rem;
+            color: var(--pe-ink);
+            line-height: 1.4;
+        }
+        .requirements-grid li i {
+            color: var(--pe-accent);
+            font-size: .8rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* ── Global error ── */
+        .global-error {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border: 1px solid var(--pe-error);
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--pe-error) 10%, var(--pe-paper));
+            color: var(--pe-error);
+            font-size: .9rem;
             margin-bottom: 20px;
         }
-        .edit-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
+        .global-error.visible { display: flex; }
+
+        /* ── Edit card ── */
+        .edit-card {
+            border: 1px solid var(--pe-line);
+            border-radius: 12px;
+            background: var(--pe-paper);
             margin-bottom: 16px;
-            border-left: 4px solid #6f42c1;
+            overflow: hidden;
+            transition: border-color .2s;
         }
-        .edit-number {
-            background: #6f42c1;
-            color: white;
-            width: 32px;
-            height: 32px;
+        .edit-card:focus-within {
+            border-color: var(--pe-accent);
+        }
+        .edit-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 22px;
+            background: var(--pe-soft);
+            border-bottom: 1px solid var(--pe-line);
+        }
+        .edit-num {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            background: var(--pe-accent);
+            color: var(--pe-btn-ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .88rem;
+            flex-shrink: 0;
+        }
+        .edit-card-header h3 {
+            font: 650 1rem/1.2 'Fraunces', Georgia, serif;
+            color: var(--pe-ink);
+            margin: 0;
+        }
+        .edit-card-body {
+            padding: clamp(16px, 3vw, 24px);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ── Fields ── */
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .field label {
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--pe-ink);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .field label .req { color: var(--pe-error); font-size: .75rem; }
+        .field select,
+        .field input,
+        .field textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--pe-line);
+            border-radius: 7px;
+            background: var(--pe-paper);
+            color: var(--pe-ink);
+            font: inherit;
+            font-size: .925rem;
+            transition: border-color .2s, box-shadow .2s;
+            box-sizing: border-box;
+        }
+        .field select:focus,
+        .field input:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--pe-accent);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--pe-accent) 18%, transparent);
+        }
+        .field textarea { min-height: 108px; resize: vertical; }
+        .field select option { background: var(--pe-paper); color: var(--pe-ink); }
+
+        .field.invalid select,
+        .field.invalid input,
+        .field.invalid textarea {
+            border-color: var(--pe-error);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--pe-error) 14%, transparent);
+        }
+        .field-error {
+            font-size: .8rem;
+            color: var(--pe-error);
+            display: none;
+        }
+        .field.invalid .field-error { display: block; }
+
+        /* ── Submit ── */
+        .submit-row { margin-top: 8px; }
+        .btn-submit {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin-right: 12px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        .form-group select,
-        .form-group input,
-        .form-group textarea {
+            gap: 9px;
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        .btn-submit {
-            background: #6f42c1;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 13px 24px;
+            border: 1px solid var(--pe-accent);
+            border-radius: 9px;
+            background: var(--pe-accent);
+            color: var(--pe-btn-ink);
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
+            transition: background .2s, transform .15s;
         }
-        .btn-submit:hover {
-            background: #5a32a3;
-            transform: translateY(-2px);
-        }
-        .info-box {
-            background: #e7f3ff;
-            border-left: 4px solid #2196f3;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
+        .btn-submit:hover { background: color-mix(in srgb, var(--pe-accent) 88%, var(--pe-paper)); transform: translateY(-1px); }
+        .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+        /* ── Responsive ── */
+        @media (max-width: 540px) {
+            .propose-hero { grid-template-columns: 1fr; }
+            .propose-hero-art { display: none; }
+            .requirements-grid { grid-template-columns: 1fr; }
         }
     </style>
-    <link rel="stylesheet" href="styles/search.css">
-    <link rel="stylesheet" href="styles/site-header.css">
 </head>
-<body>
-    <!-- Header -->
+<body class="propose-page">
     <script src="scripts/site-header.js"></script>
 
-    <!-- Propose Edits Content -->
-    <main class="propose-container">
-        <div class="propose-header">
-            <h1><i class="fas fa-edit"></i> Propose Edits</h1>
-            <p>Submit 3 lesson edits to become an Editor</p>
-        </div>
+    <main class="propose-shell">
 
-        <div class="info-box">
-            <strong><i class="fas fa-info-circle"></i> Requirements:</strong>
-            <ul style="margin: 8px 0 0 20px;">
-                <li>You must propose exactly 3 edits</li>
-                <li>Each edit must be for a different lesson</li>
-                <li>Provide clear descriptions and content for each edit</li>
-                <li>The Editor Commission will vote on your proposals</li>
+        <!-- Hero -->
+        <header class="propose-hero">
+            <div>
+                <h1>Propose Edits</h1>
+                <p>Submit 3 lesson edits to apply for the Editor role. The Editor Commission will review your proposals.</p>
+            </div>
+            <div class="propose-hero-art" aria-hidden="true">
+                <i class="fas fa-pen-fancy"></i>
+            </div>
+        </header>
+
+        <!-- Requirements -->
+        <div class="requirements-block">
+            <h2><i class="fas fa-clipboard-list"></i> Requirements</h2>
+            <ul class="requirements-grid">
+                <li><i class="fas fa-check-circle"></i> Propose exactly 3 edits</li>
+                <li><i class="fas fa-check-circle"></i> Each edit must target a different lesson</li>
+                <li><i class="fas fa-check-circle"></i> Provide a clear description for each edit</li>
+                <li><i class="fas fa-check-circle"></i> Detail the specific changes you'd make</li>
             </ul>
         </div>
 
-        <form id="proposeEditsForm">
+        <!-- Global error -->
+        <div class="global-error" id="globalError">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="globalErrorText"></span>
+        </div>
+
+        <form id="proposeEditsForm" novalidate>
+
             <!-- Edit 1 -->
-            <div class="edit-item">
-                <h3><span class="edit-number">1</span> First Edit</h3>
-                <div class="form-group">
-                    <label for="lesson1">Select Lesson *</label>
-                    <select id="lesson1" name="lesson1" required>
-                        <option value="">Loading lessons...</option>
-                    </select>
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-num">1</div>
+                    <h3>First Edit</h3>
                 </div>
-                <div class="form-group">
-                    <label for="description1">Edit Description *</label>
-                    <input type="text" id="description1" name="description1" placeholder="Brief description of your edit" required>
-                </div>
-                <div class="form-group">
-                    <label for="content1">Edit Content *</label>
-                    <textarea id="content1" name="content1" placeholder="Describe your proposed changes in detail..." required></textarea>
+                <div class="edit-card-body">
+                    <div class="field" id="field-lesson1">
+                        <label for="lesson1">Lesson <span class="req">*</span></label>
+                        <select id="lesson1" name="lesson1"><option value="">Loading lessons…</option></select>
+                        <span class="field-error">Please select a lesson.</span>
+                    </div>
+                    <div class="field" id="field-description1">
+                        <label for="description1">Edit Description <span class="req">*</span></label>
+                        <input type="text" id="description1" name="description1" placeholder="Brief description of your edit">
+                        <span class="field-error">Please enter a description.</span>
+                    </div>
+                    <div class="field" id="field-content1">
+                        <label for="content1">Edit Content <span class="req">*</span></label>
+                        <textarea id="content1" name="content1" placeholder="Describe your proposed changes in detail…"></textarea>
+                        <span class="field-error">Please describe the changes you'd make.</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Edit 2 -->
-            <div class="edit-item">
-                <h3><span class="edit-number">2</span> Second Edit</h3>
-                <div class="form-group">
-                    <label for="lesson2">Select Lesson *</label>
-                    <select id="lesson2" name="lesson2" required>
-                        <option value="">Loading lessons...</option>
-                    </select>
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-num">2</div>
+                    <h3>Second Edit</h3>
                 </div>
-                <div class="form-group">
-                    <label for="description2">Edit Description *</label>
-                    <input type="text" id="description2" name="description2" placeholder="Brief description of your edit" required>
-                </div>
-                <div class="form-group">
-                    <label for="content2">Edit Content *</label>
-                    <textarea id="content2" name="content2" placeholder="Describe your proposed changes in detail..." required></textarea>
+                <div class="edit-card-body">
+                    <div class="field" id="field-lesson2">
+                        <label for="lesson2">Lesson <span class="req">*</span></label>
+                        <select id="lesson2" name="lesson2"><option value="">Loading lessons…</option></select>
+                        <span class="field-error">Please select a lesson.</span>
+                    </div>
+                    <div class="field" id="field-description2">
+                        <label for="description2">Edit Description <span class="req">*</span></label>
+                        <input type="text" id="description2" name="description2" placeholder="Brief description of your edit">
+                        <span class="field-error">Please enter a description.</span>
+                    </div>
+                    <div class="field" id="field-content2">
+                        <label for="content2">Edit Content <span class="req">*</span></label>
+                        <textarea id="content2" name="content2" placeholder="Describe your proposed changes in detail…"></textarea>
+                        <span class="field-error">Please describe the changes you'd make.</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Edit 3 -->
-            <div class="edit-item">
-                <h3><span class="edit-number">3</span> Third Edit</h3>
-                <div class="form-group">
-                    <label for="lesson3">Select Lesson *</label>
-                    <select id="lesson3" name="lesson3" required>
-                        <option value="">Loading lessons...</option>
-                    </select>
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-num">3</div>
+                    <h3>Third Edit</h3>
                 </div>
-                <div class="form-group">
-                    <label for="description3">Edit Description *</label>
-                    <input type="text" id="description3" name="description3" placeholder="Brief description of your edit" required>
-                </div>
-                <div class="form-group">
-                    <label for="content3">Edit Content *</label>
-                    <textarea id="content3" name="content3" placeholder="Describe your proposed changes in detail..." required></textarea>
+                <div class="edit-card-body">
+                    <div class="field" id="field-lesson3">
+                        <label for="lesson3">Lesson <span class="req">*</span></label>
+                        <select id="lesson3" name="lesson3"><option value="">Loading lessons…</option></select>
+                        <span class="field-error">Please select a lesson.</span>
+                    </div>
+                    <div class="field" id="field-description3">
+                        <label for="description3">Edit Description <span class="req">*</span></label>
+                        <input type="text" id="description3" name="description3" placeholder="Brief description of your edit">
+                        <span class="field-error">Please enter a description.</span>
+                    </div>
+                    <div class="field" id="field-content3">
+                        <label for="content3">Edit Content <span class="req">*</span></label>
+                        <textarea id="content3" name="content3" placeholder="Describe your proposed changes in detail…"></textarea>
+                        <span class="field-error">Please describe the changes you'd make.</span>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-paper-plane"></i> Submit Proposals
-            </button>
+            <div class="submit-row">
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Proposals
+                </button>
+            </div>
         </form>
     </main>
 
@@ -187,9 +396,143 @@
     <script src="scripts/notifications.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
-    <script src="scripts/propose-edits.js"></script>    <!-- Footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const user = window.API.getUser();
+            if (!user) {
+                alert('Please login to propose edits');
+                window.location.href = 'login.html';
+                return;
+            }
+            await loadLessons();
+            document.getElementById('proposeEditsForm').addEventListener('submit', handleSubmit);
+        });
+
+        async function loadLessons() {
+            try {
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                const response = await fetch(`${apiUrl}/lessons?status=published`);
+                const data = await response.json();
+                if (data.success) populateLessonSelects(data.data);
+            } catch (err) {
+                console.error('Error loading lessons:', err);
+            }
+        }
+
+        function populateLessonSelects(lessons) {
+            [1, 2, 3].forEach(n => {
+                const select = document.getElementById(`lesson${n}`);
+                select.innerHTML = '<option value="">Select a lesson</option>';
+                lessons.forEach(lesson => {
+                    const opt = document.createElement('option');
+                    opt.value = lesson._id;
+                    opt.textContent = lesson.title + (lesson.category?.name ? ' — ' + lesson.category.name : '');
+                    select.appendChild(opt);
+                });
+            });
+        }
+
+        function setFieldValid(id) {
+            document.getElementById('field-' + id)?.classList.remove('invalid');
+        }
+        function setFieldInvalid(id) {
+            document.getElementById('field-' + id)?.classList.add('invalid');
+        }
+
+        function scrollToFirst(ids) {
+            for (const id of ids) {
+                const el = document.getElementById('field-' + id);
+                if (el?.classList.contains('invalid')) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const input = el.querySelector('select, input, textarea');
+                    if (input) setTimeout(() => input.focus(), 400);
+                    return;
+                }
+            }
+        }
+
+        function showGlobalError(msg) {
+            const banner = document.getElementById('globalError');
+            document.getElementById('globalErrorText').textContent = msg;
+            banner.classList.add('visible');
+            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        function hideGlobalError() {
+            document.getElementById('globalError').classList.remove('visible');
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            hideGlobalError();
+
+            const fields = [
+                'lesson1','description1','content1',
+                'lesson2','description2','content2',
+                'lesson3','description3','content3'
+            ];
+
+            fields.forEach(id => setFieldValid(id));
+
+            let valid = true;
+            fields.forEach(id => {
+                if (!document.getElementById(id)?.value.trim()) {
+                    setFieldInvalid(id);
+                    valid = false;
+                }
+            });
+
+            if (!valid) { scrollToFirst(fields); return; }
+
+            const l1 = document.getElementById('lesson1').value;
+            const l2 = document.getElementById('lesson2').value;
+            const l3 = document.getElementById('lesson3').value;
+
+            if (l1 === l2 || l1 === l3 || l2 === l3) {
+                ['lesson1','lesson2','lesson3'].forEach(setFieldInvalid);
+                showGlobalError('Each edit must target a different lesson — please select 3 unique lessons.');
+                scrollToFirst(['lesson1','lesson2','lesson3']);
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
+
+            try {
+                const edits = [
+                    { lesson: l1, editDescription: document.getElementById('description1').value, editContent: document.getElementById('content1').value },
+                    { lesson: l2, editDescription: document.getElementById('description2').value, editContent: document.getElementById('content2').value },
+                    { lesson: l3, editDescription: document.getElementById('description3').value, editContent: document.getElementById('content3').value }
+                ];
+
+                const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+                const response = await fetch(`${apiUrl}/editor-commission/propose`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${window.API.getToken()}`
+                    },
+                    body: JSON.stringify({ edits })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Edit proposals submitted successfully! The Editor Commission will review them.');
+                    window.location.href = 'index.html';
+                } else {
+                    showGlobalError(result.message || 'Submission failed. Please try again.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Proposals';
+                }
+            } catch (err) {
+                showGlobalError('Network error: ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Proposals';
+            }
+        }
+    </script>
+
     <div id="site-footer"></div>
     <script src="scripts/footer.js"></script>
 </body>
 </html>
-

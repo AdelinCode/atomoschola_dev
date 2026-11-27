@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox - Atomo Schola</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/site-header.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ── Local palette ── */
+        .inbox-page {
+            --ib-bg:       #f5f7fb;
+            --ib-paper:    #fff;
+            --ib-soft:     #eaeff9;
+            --ib-ink:      #1a2033;
+            --ib-muted:    #505878;
+            --ib-line:     #cdd4e8;
+            --ib-accent:   #2d4fa1;
+            --ib-btn-ink:  #fff;
+            --ib-green:    #16a34a;
+            --ib-red:      #dc2626;
+            --ib-yellow:   #d97706;
+            background: var(--ib-bg);
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--ib-ink);
+        }
+        .dark-mode .inbox-page {
+            color-scheme: dark;
+            --ib-bg:       #141620;
+            --ib-paper:    #1b1f2e;
+            --ib-soft:     #222846;
+            --ib-ink:      #e8ecf8;
+            --ib-muted:    #9aa3c4;
+            --ib-line:     #2f3659;
+            --ib-accent:   #8fa8ef;
+            --ib-btn-ink:  #101428;
+            --ib-green:    #4ade80;
+            --ib-red:      #f87171;
+            --ib-yellow:   #fbbf24;
+        }
+
+        /* ── Shell ── */
+        .inbox-shell {
+            max-width: 760px;
+            margin: clamp(94px, 11vw, 130px) auto clamp(42px, 7vw, 80px);
+            padding-inline: clamp(16px, 4vw, 40px);
+        }
+
+        /* ── Hero ── */
+        .inbox-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 16px;
+            padding: clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px);
+            border: 1px solid var(--ib-line);
+            border-radius: 16px;
+            background: linear-gradient(120deg, var(--ib-paper), var(--ib-soft));
+            margin-bottom: 24px;
+        }
+        .inbox-hero h1 {
+            font: 650 clamp(1.6rem, 4vw, 2.4rem)/1.08 'Fraunces', Georgia, serif;
+            letter-spacing: -.04em;
+            color: var(--ib-ink);
+            margin-bottom: 6px;
+        }
+        .inbox-hero p { color: var(--ib-muted); font-size: .9rem; margin: 0; }
+        .inbox-hero-art {
+            display: grid;
+            place-items: center;
+            width: clamp(52px, 10vw, 80px);
+            aspect-ratio: 1;
+            border: 1px solid var(--ib-line);
+            border-radius: 20%;
+            background: var(--ib-paper);
+            color: var(--ib-accent);
+            font-size: clamp(1.3rem, 3vw, 2rem);
+        }
+        .inbox-unread-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            background: var(--ib-accent);
+            color: var(--ib-btn-ink);
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* ── Toolbar ── */
+        .inbox-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .inbox-filters {
+            display: flex;
+            gap: 4px;
+        }
+        .inbox-filter-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--ib-line);
+            border-radius: 999px;
+            background: var(--ib-paper);
+            color: var(--ib-muted);
+            font: inherit;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .inbox-filter-btn:hover { border-color: var(--ib-accent); color: var(--ib-accent); }
+        .inbox-filter-btn.active {
+            background: var(--ib-accent);
+            border-color: var(--ib-accent);
+            color: var(--ib-btn-ink);
+        }
+        .inbox-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .inbox-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid var(--ib-line);
+            border-radius: 8px;
+            background: var(--ib-paper);
+            color: var(--ib-muted);
+            font: inherit;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+        .inbox-action-btn:hover { border-color: var(--ib-accent); color: var(--ib-accent); }
+        .inbox-action-btn.danger:hover { border-color: var(--ib-red); color: var(--ib-red); }
+
+        /* ── List ── */
+        .inbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* ── Notification card ── */
+        .notif-card {
+            position: relative;
+            border: 1px solid var(--ib-line);
+            border-radius: 12px;
+            background: var(--ib-paper);
+            overflow: hidden;
+            transition: border-color .18s, box-shadow .18s;
+        }
+        .notif-card.unread {
+            border-left: 3px solid var(--ib-accent);
+            background: color-mix(in srgb, var(--ib-accent) 4%, var(--ib-paper));
+        }
+        .notif-card.unread.green  { border-left-color: var(--ib-green); background: color-mix(in srgb, var(--ib-green) 4%, var(--ib-paper)); }
+        .notif-card.unread.red    { border-left-color: var(--ib-red);   background: color-mix(in srgb, var(--ib-red)   4%, var(--ib-paper)); }
+        .notif-card.unread.yellow { border-left-color: var(--ib-yellow);background: color-mix(in srgb, var(--ib-yellow)4%, var(--ib-paper)); }
+        .notif-card:hover { border-color: color-mix(in srgb, var(--ib-accent) 50%, var(--ib-line)); box-shadow: 0 2px 12px color-mix(in srgb, var(--ib-accent) 10%, transparent); }
+
+        .notif-card-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 56px 16px 18px;
+            cursor: pointer;
+        }
+        .notif-card-inner.no-link { cursor: default; }
+
+        .notif-dot {
+            position: absolute;
+            top: 18px;
+            left: 6px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ib-accent);
+        }
+        .notif-card.unread.green  .notif-dot { background: var(--ib-green); }
+        .notif-card.unread.red    .notif-dot { background: var(--ib-red); }
+        .notif-card.unread.yellow .notif-dot { background: var(--ib-yellow); }
+        .notif-card:not(.unread) .notif-dot { display: none; }
+
+        .notif-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+            font-size: 15px;
+        }
+        .notif-card-icon.green  { background: var(--ib-green); }
+        .notif-card-icon.red    { background: var(--ib-red); }
+        .notif-card-icon.yellow { background: var(--ib-yellow); }
+        .notif-card-icon.blue   { background: var(--ib-accent); }
+
+        .notif-card-body { flex: 1; min-width: 0; }
+        .notif-card-title {
+            font-weight: 700;
+            font-size: .9rem;
+            color: var(--ib-ink);
+            margin-bottom: 3px;
+            line-height: 1.4;
+        }
+        .notif-card-msg {
+            font-size: .84rem;
+            color: var(--ib-muted);
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        .notif-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .75rem;
+            color: var(--ib-muted);
+            flex-wrap: wrap;
+        }
+        .notif-card-meta i { font-size: .7rem; }
+        .notif-card-link {
+            margin-left: auto;
+            color: var(--ib-accent);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Delete button */
+        .notif-card-delete {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--ib-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            opacity: 0;
+            transition: opacity .15s, background .15s, color .15s;
+        }
+        .notif-card:hover .notif-card-delete { opacity: 1; }
+        .notif-card-delete:hover { background: color-mix(in srgb, var(--ib-red) 12%, transparent); color: var(--ib-red); }
+
+        /* ── Empty state ── */
+        .inbox-empty {
+            text-align: center;
+            padding: 60px 20px;
+            border: 1px dashed var(--ib-line);
+            border-radius: 12px;
+            color: var(--ib-muted);
+        }
+        .inbox-empty i { font-size: 2.4rem; display: block; margin-bottom: 12px; opacity: .4; }
+        .inbox-empty p { font-size: .9rem; margin: 0; }
+
+        /* ── Loading ── */
+        .inbox-loading {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--ib-muted);
+            font-size: .9rem;
+        }
+
+        @media (max-width: 480px) {
+            .inbox-hero { grid-template-columns: 1fr; }
+            .inbox-hero-art { display: none; }
+        }
+    </style>
+</head>
+<body class="inbox-page">
+    <script src="scripts/site-header.js"></script>
+
+    <main class="inbox-shell">
+
+        <!-- Hero -->
+        <header class="inbox-hero">
+            <div>
+                <h1>Inbox</h1>
+                <p>Your notifications and updates from the platform.</p>
+                <div class="inbox-unread-badge" id="heroBadge" style="display:none;">
+                    <i class="fas fa-circle" style="font-size:.5rem;"></i>
+                    <span id="heroBadgeCount">0</span> unread
+                </div>
+            </div>
+            <div class="inbox-hero-art" aria-hidden="true">
+                <i class="fas fa-inbox"></i>
+            </div>
+        </header>
+
+        <!-- Toolbar -->
+        <div class="inbox-toolbar">
+            <div class="inbox-filters">
+                <button class="inbox-filter-btn active" onclick="setFilter('all', this)">All</button>
+                <button class="inbox-filter-btn" onclick="setFilter('unread', this)">Unread</button>
+                <button class="inbox-filter-btn" onclick="setFilter('read', this)">Read</button>
+            </div>
+            <div class="inbox-actions">
+                <button class="inbox-action-btn" id="markAllBtn" onclick="markAllRead()" style="display:none;">
+                    <i class="fas fa-check-double"></i> Mark all read
+                </button>
+                <button class="inbox-action-btn danger" id="deleteAllBtn" onclick="deleteAll()" style="display:none;">
+                    <i class="fas fa-trash"></i> Delete all
+                </button>
+            </div>
+        </div>
+
+        <!-- List -->
+        <div class="inbox-list" id="inboxList">
+            <div class="inbox-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+        </div>
+
+    </main>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/notifications.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        const API_URL = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+        let allNotifications = [];
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!window.API.isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            await fetchNotifications();
+        });
+
+        async function fetchNotifications() {
+            try {
+                const res  = await fetch(`${API_URL}/notifications`, {
+                    headers: { Authorization: `Bearer ${window.API.getToken()}` }
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message);
+                allNotifications = data.data;
+                render();
+            } catch (e) {
+                document.getElementById('inboxList').innerHTML =
+                    `<div class="inbox-empty"><i class="fas fa-exclamation-circle"></i><p>Could not load notifications: ${e.message}</p></div>`;
+            }
+        }
+
+        function render() {
+            const unread = allNotifications.filter(n => !n.isRead);
+
+            // Hero badge
+            const badge = document.getElementById('heroBadge');
+            if (unread.length) {
+                document.getElementById('heroBadgeCount').textContent = unread.length;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            // Toolbar buttons
+            document.getElementById('markAllBtn').style.display  = unread.length ? '' : 'none';
+            document.getElementById('deleteAllBtn').style.display = allNotifications.length ? '' : 'none';
+
+            // Filter
+            let list = allNotifications;
+            if (currentFilter === 'unread') list = allNotifications.filter(n => !n.isRead);
+            if (currentFilter === 'read')   list = allNotifications.filter(n =>  n.isRead);
+
+            const container = document.getElementById('inboxList');
+
+            if (!list.length) {
+                const msgs = { all: 'Your inbox is empty.', unread: 'No unread notifications.', read: 'No read notifications.' };
+                container.innerHTML = `<div class="inbox-empty"><i class="fas fa-bell-slash"></i><p>${msgs[currentFilter]}</p></div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(n => renderCard(n)).join('');
+        }
+
+        function renderCard(n) {
+            const { icon, colorClass } = getStyle(n.type);
+            const url   = getUrl(n);
+            const time  = formatTime(n.createdAt);
+            const unreadClass = n.isRead ? '' : `unread ${colorClass}`;
+            const innerClass  = url ? '' : 'no-link';
+            const clickAttr   = url
+                ? `onclick="handleClick('${n._id}', '${url}')"`
+                : (n.isRead ? '' : `onclick="markRead('${n._id}', this.closest('.notif-card'))"` );
+
+            return `
+            <div class="notif-card ${unreadClass}" id="nc-${n._id}">
+                <div class="notif-dot"></div>
+                <div class="notif-card-inner ${innerClass}" ${clickAttr}>
+                    <div class="notif-card-icon ${colorClass}">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="notif-card-body">
+                        <div class="notif-card-title">${n.title}</div>
+                        <div class="notif-card-msg">${n.message}</div>
+                        <div class="notif-card-meta">
+                            <span><i class="fas fa-clock"></i> ${time}</span>
+                            ${n.reviewedBy ? `<span><i class="fas fa-user"></i> ${n.reviewedBy.username || n.reviewedBy.firstName || ''}</span>` : ''}
+                            ${url ? `<span class="notif-card-link"><i class="fas fa-arrow-right"></i> View</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <button class="notif-card-delete" onclick="deleteOne('${n._id}')" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>`;
+        }
+
+        // ── Actions ──────────────────────────────────────────────────
+
+        async function handleClick(id, url) {
+            await markRead(id);
+            window.location.href = url;
+        }
+
+        async function markRead(id, cardEl) {
+            try {
+                await fetch(`${API_URL}/notifications/${id}/read`, {
+                    method: 'PUT',
+                    headers: { Authorization: `Bearer ${window.API.getToken()}` }
+                });
+                const n = allNotifications.find(x => x._id === id);
+                if (n) n.isRead = true;
+                if (cardEl) {
+                    const { colorClass } = getStyle(n?.type || '');
+                    cardEl.classList.remove('unread', 'green', 'red', 'yellow', 'blue');
+                    cardEl.querySelector('.notif-dot')?.remove();
+                }
+                render();
+            } catch (e) { console.error(e); }
+        }
+
+        async function markAllRead() {
+            try {
+                await fetch(`${API_URL}/notifications/mark-all-read`, {
+                    method: 'PUT',
+                    headers: { Authorization: `Bearer ${window.API.getToken()}` }
+                });
+                allNotifications.forEach(n => n.isRead = true);
+                render();
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteOne(id) {
+            try {
+                await fetch(`${API_URL}/notifications/${id}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: `Bearer ${window.API.getToken()}` }
+                });
+                allNotifications = allNotifications.filter(n => n._id !== id);
+                render();
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteAll() {
+            if (!confirm('Delete all notifications?')) return;
+            const ids = [...allNotifications.map(n => n._id)];
+            for (const id of ids) {
+                try {
+                    await fetch(`${API_URL}/notifications/${id}`, {
+                        method: 'DELETE',
+                        headers: { Authorization: `Bearer ${window.API.getToken()}` }
+                    });
+                } catch (e) {}
+            }
+            allNotifications = [];
+            render();
+        }
+
+        function setFilter(f, btn) {
+            currentFilter = f;
+            document.querySelectorAll('.inbox-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render();
+        }
+
+        // ── Helpers ──────────────────────────────────────────────────
+
+        function getStyle(type) {
+            if (type?.includes('approved')) return { icon: 'fas fa-check-circle', colorClass: 'green' };
+            if (type?.includes('rejected')) return { icon: 'fas fa-times-circle',  colorClass: 'red' };
+            if (type === 'password_reset_request') return { icon: 'fas fa-key', colorClass: 'yellow' };
+            return { icon: 'fas fa-bell', colorClass: 'blue' };
+        }
+
+        function getUrl(n) {
+            const { type, relatedItem } = n;
+            if (!relatedItem || type?.includes('rejected') || type === 'password_reset_request') return null;
+            const id = relatedItem._id || relatedItem;
+            if (type === 'lesson_approved') return `lesson.html?id=${id}`;
+            if (type === 'domain_approved') {
+                const slug = relatedItem.subject?.slug;
+                return slug ? `subject.html?subject=${slug}` : null;
+            }
+            if (type === 'category_approved') {
+                const slug = relatedItem.domain?.subject?.slug;
+                return slug ? `subject.html?subject=${slug}` : null;
+            }
+            return null;
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const diff = Date.now() - date;
+            const m = Math.floor(diff / 60000);
+            const h = Math.floor(diff / 3600000);
+            const d = Math.floor(diff / 86400000);
+            if (m < 1) return 'Just now';
+            if (m < 60) return `${m}m ago`;
+            if (h < 24) return `${h}h ago`;
+            if (d < 7)  return `${d}d ago`;
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+    </script>
+
+    <div id="site-footer"></div>
+    <script src="scripts/footer.js"></script>
+</body>
+</html>

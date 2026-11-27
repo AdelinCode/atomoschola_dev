@@ -283,9 +283,8 @@ function setupNavEventListeners() {
     if (inboxBtn) {
         inboxBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            // Close account dropdown first
             document.getElementById('accountDropdown')?.classList.remove('show');
-            showNotificationsModal();
+            window.location.href = 'inbox.html';
         });
     }
     
@@ -1103,7 +1102,7 @@ function buildMobilePanel(panel) {
         html += `
             <div class="mobile-nav-section">
                 <div class="mobile-nav-section-label">Account — ${currentUser.username}</div>
-                <button class="mobile-nav-item" onclick="showNotificationsModal(); closeMobileNav();">
+                <button class="mobile-nav-item" onclick="window.location.href='inbox.html'; closeMobileNav();">
                     <i class="fas fa-envelope"></i> Inbox
                 </button>
                 <a href="public-profile.html?id=${encodeURIComponent(currentUser._id)}" class="mobile-nav-item nav-profile-link"><i class="fas fa-user"></i> Profile</a>

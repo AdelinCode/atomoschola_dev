@@ -14,12 +14,77 @@
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
     <link rel="stylesheet" href="styles/site-header.css">
+    <style>
+        /* ── Accordion ── */
+        .pp-accordion {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pp-acc-item {
+            border: 1px solid var(--pp-line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .pp-acc-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background: var(--pp-muted-surface);
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            color: var(--pp-text);
+            font: inherit;
+            font-weight: 700;
+            font-size: .95rem;
+            transition: background .15s;
+        }
+        .pp-acc-trigger:hover { background: var(--pp-line); }
+        .pp-acc-trigger i.pp-acc-icon { color: var(--pp-accent); font-size: .9rem; }
+        .pp-acc-trigger .pp-acc-count {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--pp-muted);
+            font-size: .82rem;
+            font-weight: 400;
+        }
+        .pp-acc-trigger .pp-acc-chevron {
+            color: var(--pp-muted);
+            font-size: .75rem;
+            transition: transform .2s;
+            flex-shrink: 0;
+        }
+        .pp-acc-item.open .pp-acc-chevron { transform: rotate(180deg); }
+
+        .pp-acc-body {
+            display: none;
+            padding: 14px 18px;
+            border-top: 1px solid var(--pp-line);
+        }
+        .pp-acc-item.open .pp-acc-body { display: block; }
+
+        /* Loading spinner inside accordion */
+        .pp-acc-loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--pp-muted);
+            font-size: .88rem;
+            padding: 8px 0;
+        }
+    </style>
 </head>
 <body class="public-profile-page">
-    <!-- Header -->
     <script src="scripts/site-header.js"></script>
 
-    <!-- Profile Content -->
     <main class="pp-profile-container">
         <div class="pp-profile-card">
             <header class="pp-profile-hero">
@@ -30,7 +95,9 @@
                     <div class="pp-badges" id="profileBadges"></div>
                 </div>
             </header>
+
             <div class="pp-profile-main">
+                <!-- Stats -->
                 <div class="pp-profile-stats">
                     <div class="pp-stat">
                         <span class="pp-stat-value" id="statCreated">0</span>
@@ -41,7 +108,7 @@
                         <span class="pp-stat-label">Lessons Edited</span>
                     </div>
                     <div class="pp-stat">
-                        <span class="pp-stat-value" id="statRating">?</span>
+                        <span class="pp-stat-value" id="statRating">—</span>
                         <span class="pp-stat-label">Avg. Rating</span>
                     </div>
                     <div class="pp-stat">
@@ -50,30 +117,79 @@
                     </div>
                 </div>
 
-                <!-- Folders -->
-                <div id="foldersSection" style="display:none;">
-                    <h2 class="pp-section-title"><i class="fas fa-layer-group" aria-hidden="true"></i> Folders</h2>
-                    <div class="pp-lessons-grid" id="foldersList"></div>
-                </div>
+                <!-- Accordion sections -->
+                <div class="pp-accordion" id="ppAccordion">
 
-                <!-- Created Lessons -->
-                <div id="createdSection" style="display:none;">
-                    <h2 class="pp-section-title"><i class="fas fa-book" aria-hidden="true"></i> Created Lessons</h2>
-                    <div class="pp-lessons-grid" id="createdLessons"></div>
-                </div>
-
-                <!-- Edited Lessons -->
-                <div id="editedSection" style="display:none;">
-                    <h2 class="pp-section-title"><i class="fas fa-edit" aria-hidden="true"></i> Edited Lessons</h2>
-                    <div class="pp-lessons-grid" id="editedLessons"></div>
-                </div>
-
-                <section id="completedSection" hidden>
-                    <h2 class="pp-section-title"><i class="fas fa-circle-check" aria-hidden="true"></i> Completed Lessons</h2>
-                    <div class="pp-lessons-grid" id="completedLessons">
-                        <p class="pp-empty-state">No completed lessons yet.</p>
+                    <!-- Folders -->
+                    <div class="pp-acc-item" id="accFolders" style="display:none;">
+                        <button class="pp-acc-trigger" onclick="toggleAcc('accFolders')" type="button">
+                            <i class="fas fa-layer-group pp-acc-icon"></i>
+                            Folders
+                            <span class="pp-acc-count">
+                                <span id="countFolders">—</span>
+                                <i class="fas fa-chevron-down pp-acc-chevron"></i>
+                            </span>
+                        </button>
+                        <div class="pp-acc-body">
+                            <div class="pp-acc-loading" id="loadingFolders">
+                                <i class="fas fa-spinner fa-spin"></i> Loading…
+                            </div>
+                            <div class="pp-lessons-grid" id="foldersList"></div>
+                        </div>
                     </div>
-                </section>
+
+                    <!-- Created Lessons -->
+                    <div class="pp-acc-item" id="accCreated" style="display:none;">
+                        <button class="pp-acc-trigger" onclick="toggleAcc('accCreated')" type="button">
+                            <i class="fas fa-book pp-acc-icon"></i>
+                            Created Lessons
+                            <span class="pp-acc-count">
+                                <span id="countCreated">—</span>
+                                <i class="fas fa-chevron-down pp-acc-chevron"></i>
+                            </span>
+                        </button>
+                        <div class="pp-acc-body">
+                            <div class="pp-acc-loading" id="loadingCreated">
+                                <i class="fas fa-spinner fa-spin"></i> Loading…
+                            </div>
+                            <div class="pp-lessons-grid" id="createdLessons"></div>
+                        </div>
+                    </div>
+
+                    <!-- Edited Lessons -->
+                    <div class="pp-acc-item" id="accEdited" style="display:none;">
+                        <button class="pp-acc-trigger" onclick="toggleAcc('accEdited')" type="button">
+                            <i class="fas fa-pen pp-acc-icon"></i>
+                            Edited Lessons
+                            <span class="pp-acc-count">
+                                <span id="countEdited">—</span>
+                                <i class="fas fa-chevron-down pp-acc-chevron"></i>
+                            </span>
+                        </button>
+                        <div class="pp-acc-body">
+                            <div class="pp-acc-loading" id="loadingEdited">
+                                <i class="fas fa-spinner fa-spin"></i> Loading…
+                            </div>
+                            <div class="pp-lessons-grid" id="editedLessons"></div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Lessons -->
+                    <div class="pp-acc-item" id="accCompleted" style="display:none;">
+                        <button class="pp-acc-trigger" onclick="toggleAcc('accCompleted')" type="button">
+                            <i class="fas fa-circle-check pp-acc-icon"></i>
+                            Completed Lessons
+                            <span class="pp-acc-count">
+                                <span id="countCompleted">—</span>
+                                <i class="fas fa-chevron-down pp-acc-chevron"></i>
+                            </span>
+                        </button>
+                        <div class="pp-acc-body">
+                            <div class="pp-lessons-grid" id="completedLessons"></div>
+                        </div>
+                    </div>
+
+                </div>
 
                 <div class="pp-actions">
                     <button class="btn pp-btn-report" id="reportUserBtn" onclick="openReportModal('user')" hidden>
@@ -92,20 +208,30 @@
     <script src="scripts/search.js"></script>
     <script src="scripts/notifications.js"></script>
     <script src="scripts/theme.js"></script>
-    <script src="scripts/main.js"></script>    <script src="scripts/report.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/report.js"></script>
     <script>
         let viewedUser = null;
 
-        document.addEventListener('DOMContentLoaded', function() {
+        // ── Accordion toggle ──────────────────────────────────────────
+        function toggleAcc(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        function openAcc(id) {
+            const el = document.getElementById(id);
+            if (el) { el.style.display = ''; }
+        }
+
+        // ── Boot ─────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id');
-            
             if (!userId) {
                 alert('No user specified');
                 window.location.href = 'staff.html';
                 return;
             }
-            
             loadUserProfile(userId);
         });
 
@@ -114,9 +240,7 @@
                 const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
                 const response = await fetch(`${apiUrl}/users/${userId}`);
                 const data = await response.json();
-                
                 if (!data.success) throw new Error(data.message);
-                
                 viewedUser = data.data;
                 renderProfile();
             } catch (e) {
@@ -125,201 +249,196 @@
             }
         }
 
+        // ── Render profile ────────────────────────────────────────────
         function renderProfile() {
             const initials = (viewedUser.username || '?').slice(0, 2).toUpperCase();
             document.getElementById('profileAvatar').textContent = initials;
-            
-            const displayName = viewedUser.firstName && viewedUser.lastName 
+
+            const displayName = (viewedUser.firstName && viewedUser.lastName)
                 ? `${viewedUser.firstName} ${viewedUser.lastName}`
                 : viewedUser.username;
-            
+
             document.getElementById('profileName').textContent = displayName;
             document.getElementById('profileUsername').textContent = '@' + viewedUser.username;
             document.getElementById('reportUserBtn').hidden = window.API.getUser()?._id === viewedUser._id;
-            const completedLessons = viewedUser.completedLessons || [];
-            if (completedLessons.length) renderLessonList('completedLessons', completedLessons);
-            document.getElementById('completedSection').hidden = false;
-            
-            // Render badges
+
             renderBadges();
-            
-            // Stats
-            document.getElementById('statCreated').textContent = viewedUser.createdLessons?.length || 0;
-            document.getElementById('statEdited').textContent = viewedUser.editedLessons?.length || 0;
-            
-            // Calculate average rating if creator
-            if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
-                const avgRating = calculateAverageRating(viewedUser.createdLessons);
-                document.getElementById('statRating').textContent = avgRating > 0 ? avgRating.toFixed(1) : '?';
-            } else {
-                document.getElementById('statRating').textContent = '?';
+
+            const created = viewedUser.createdLessons?.length || 0;
+            const edited  = viewedUser.editedLessons?.length || 0;
+            document.getElementById('statCreated').textContent = created;
+            document.getElementById('statEdited').textContent  = edited;
+
+            if (created > 0) {
+                const avg = calculateAverageRating(viewedUser.createdLessons);
+                document.getElementById('statRating').textContent = avg > 0 ? avg.toFixed(1) : '—';
             }
-            
+
             document.getElementById('infoJoined').textContent = new Date(viewedUser.createdAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
+                year: 'numeric', month: 'short', day: 'numeric'
             });
-            
-            if (viewedUser.userType === 'creator' || viewedUser.userType === 'editor' || viewedUser.userType === 'owner' || viewedUser.userType === 'staff') {
-                loadLessons();
-                loadFolders();
+
+            // Completed lessons (already on user object)
+            const completed = viewedUser.completedLessons || [];
+            if (completed.length) {
+                document.getElementById('countCompleted').textContent = completed.length;
+                renderLessonList('completedLessons', completed);
+                const acc = document.getElementById('accCompleted');
+                if (acc) { acc.style.display = ''; }
             }
+
+            // Load async sections
+            loadFolders();
+
+            const canHaveLessons = ['creator','editor','owner','staff'].includes(viewedUser.userType);
+            if (canHaveLessons) loadLessons();
         }
 
+        // ── Badges ────────────────────────────────────────────────────
         function renderBadges() {
             const badges = [];
             const created = viewedUser.createdLessons?.length || 0;
-            const edited  = viewedUser.editedLessons?.length || 0;
+            const edited  = viewedUser.editedLessons?.length  || 0;
             const joinDate = new Date(viewedUser.createdAt);
-            const now = new Date();
-            const monthsOld = (now.getFullYear() - joinDate.getFullYear()) * 12 + (now.getMonth() - joinDate.getMonth());
+            const monthsOld = (new Date().getFullYear() - joinDate.getFullYear()) * 12
+                            + (new Date().getMonth()    - joinDate.getMonth());
 
-            // -- Role badges ------------------------------------------
             const roleIconMap = {
-                owner:      'fa-crown',
-                staff:      'fa-shield-alt',
-                editor:     'fa-pen-fancy',
-                creator:    'fa-paint-brush',
-                operator:   'fa-cogs',
-                translator: 'fa-language',
-                user:       'fa-user'
+                owner: 'fa-crown', staff: 'fa-shield-alt', editor: 'fa-pen-fancy',
+                creator: 'fa-paint-brush', operator: 'fa-cogs', translator: 'fa-language', user: 'fa-user'
             };
-            badges.push(makeBadge(
-                `badge-role-${viewedUser.userType}`,
+            badges.push(makeBadge(`badge-role-${viewedUser.userType}`,
                 roleIconMap[viewedUser.userType] || 'fa-user',
                 viewedUser.userType.charAt(0).toUpperCase() + viewedUser.userType.slice(1),
-                'You are what you are.'
-            ));
+                'You are what you are.'));
 
-            if (viewedUser.isCreatorCommissionMember) {
+            if (viewedUser.isCreatorCommissionMember)
                 badges.push(makeBadge('badge-commission-creator', 'fa-gavel', 'Creator Commission', 'Member of the creator commission.'));
-            }
-            if (viewedUser.isEditorCommissionMember) {
+            if (viewedUser.isEditorCommissionMember)
                 badges.push(makeBadge('badge-commission-editor', 'fa-balance-scale', 'Editor Commission', 'Member of the editor commission.'));
-            }
 
-            // -- Content achievements ---------------------------------
-            if (created >= 1)  badges.push(makeBadge('badge-ach-author',   'fa-feather-alt',   'Author',       'Published a first lesson.'));
-            if (created >= 5)  badges.push(makeBadge('badge-ach-prolific',  'fa-books',          'Prolific',     '5 lessons published.'));
-            if (created >= 10) badges.push(makeBadge('badge-ach-scholar',   'fa-graduation-cap', 'Scholar',      '10 lessons published.'));
-            if (created >= 25) badges.push(makeBadge('badge-ach-legend',    'fa-infinity',       'Legend',       '25 lessons published.'));
-
-            if (edited >= 1)   badges.push(makeBadge('badge-ach-editor1',   'fa-pencil-alt',     'First Edit',   'First approved edit.'));
-            if (edited >= 10)  badges.push(makeBadge('badge-ach-polisher',  'fa-magic',          'Polisher',     '10 edits approved.'));
-            if (edited >= 30)  badges.push(makeBadge('badge-ach-refiner',   'fa-gem',            'Refiner',      '30 edits approved.'));
+            if (created >= 1)  badges.push(makeBadge('badge-ach-author',   'fa-feather-alt',    'Author',      'Published a first lesson.'));
+            if (created >= 5)  badges.push(makeBadge('badge-ach-prolific',  'fa-books',           'Prolific',    '5 lessons published.'));
+            if (created >= 10) badges.push(makeBadge('badge-ach-scholar',   'fa-graduation-cap',  'Scholar',     '10 lessons published.'));
+            if (created >= 25) badges.push(makeBadge('badge-ach-legend',    'fa-infinity',        'Legend',      '25 lessons published.'));
+            if (edited  >= 1)  badges.push(makeBadge('badge-ach-editor1',   'fa-pencil-alt',      'First Edit',  'First approved edit.'));
+            if (edited  >= 10) badges.push(makeBadge('badge-ach-polisher',  'fa-magic',           'Polisher',    '10 edits approved.'));
+            if (edited  >= 30) badges.push(makeBadge('badge-ach-refiner',   'fa-gem',             'Refiner',     '30 edits approved.'));
 
             const avgRating = calculateAverageRating(viewedUser.createdLessons || []);
-            if (created >= 3 && avgRating >= 4.5) badges.push(makeBadge('badge-ach-quality',  'fa-star',  'Quality Creator', 'avg rating = 4.5 on 3+ lessons.'));
-            if (created >= 3 && avgRating >= 4.8) badges.push(makeBadge('badge-ach-perfect',  'fa-award', 'Perfectionist',   'avg rating = 4.8 on 3+ lessons.'));
-
-            // -- Time achievements ------------------------------------
-            const launchDate = new Date('2026-07-20');
-            if (joinDate < launchDate) {
+            if (created >= 3 && avgRating >= 4.5) badges.push(makeBadge('badge-ach-quality', 'fa-star',  'Quality Creator', 'avg rating ≥ 4.5 on 3+ lessons.'));
+            if (created >= 3 && avgRating >= 4.8) badges.push(makeBadge('badge-ach-perfect', 'fa-award', 'Perfectionist',   'avg rating ≥ 4.8 on 3+ lessons.'));
+            if (joinDate < new Date('2026-07-20'))
                 badges.push(makeBadge('badge-ach-early', 'fa-rocket', 'Early Adopter', 'Joined before the official launch.'));
-            }
-            if (monthsOld >= 12) badges.push(makeBadge('badge-veteran', 'fa-history',  `${Math.floor(monthsOld/12)}yr Member`, 'Loyal member of the community.'));
-
-            // -- Verified ---------------------------------------------
-            if (created > 0 || edited > 0) {
+            if (monthsOld >= 12)
+                badges.push(makeBadge('badge-veteran', 'fa-history', `${Math.floor(monthsOld/12)}yr Member`, 'Loyal member of the community.'));
+            if (created > 0 || edited > 0)
                 badges.push(makeBadge('badge-verified', 'fa-check-circle', 'Verified Contributor', 'Has published or edited content.'));
-            }
 
             document.getElementById('profileBadges').innerHTML = badges.join('');
         }
 
         function makeBadge(cssClass, icon, label, tooltip) {
-            return `<span class="pp-badge pp-${cssClass}" title="${tooltip}">
-                <i class="fas ${icon}"></i> ${label}
-            </span>`;
+            return `<span class="pp-badge pp-${cssClass}" title="${tooltip}"><i class="fas ${icon}"></i> ${label}</span>`;
         }
 
         function calculateAverageRating(lessons) {
-            if (!lessons || lessons.length === 0) return 0;
-            const withRatings = lessons.filter(l => l.averageRating && l.averageRating > 0);
-            if (withRatings.length === 0) return 0;
-            const sum = withRatings.reduce((acc, l) => acc + l.averageRating, 0);
-            return sum / withRatings.length;
+            if (!lessons?.length) return 0;
+            const rated = lessons.filter(l => l.averageRating > 0);
+            if (!rated.length) return 0;
+            return rated.reduce((s, l) => s + l.averageRating, 0) / rated.length;
         }
 
+        // ── Load folders ──────────────────────────────────────────────
         async function loadFolders() {
             try {
                 const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-                const res = await fetch(`${apiUrl}/folders?creatorId=${viewedUser._id}`);
+                const res  = await fetch(`${apiUrl}/folders?creatorId=${viewedUser._id}`);
                 const data = await res.json();
+
+                document.getElementById('loadingFolders').style.display = 'none';
+
                 if (!data.success || !data.data.length) return;
 
-                document.getElementById('foldersSection').style.display = 'block';
-                document.getElementById('foldersList').innerHTML = data.data.map(f => `
+                // Filter out folders with no lessons
+                const folders = data.data.filter(f => f.lessons?.length > 0);
+                if (!folders.length) return;
+
+                document.getElementById('countFolders').textContent = folders.length;
+                document.getElementById('foldersList').innerHTML = folders.map(f => {
+                    const lessonCount = f.lessons?.length || 0;
+                    return `
                     <a class="pp-folder-card" href="folder.html?id=${f._id}">
                         <div class="pp-folder-card-icon"><i class="fas fa-layer-group"></i></div>
                         <div class="pp-folder-card-info">
                             <div class="pp-folder-card-title">${f.title}</div>
-                            <div class="pp-folder-card-meta">${f.lessons?.length || 0} lesson${(f.lessons?.length || 0) !== 1 ? 's' : ''}${f.description ? ' · ' + f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : ''}</div>
+                            <div class="pp-folder-card-meta">
+                                ${lessonCount} lesson${lessonCount !== 1 ? 's' : ''}
+                                ${f.description ? ' · ' + f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : ''}
+                            </div>
                         </div>
                         <i class="fas fa-chevron-right pp-row-arrow" aria-hidden="true"></i>
-                    </a>
-                `).join('');
+                    </a>`;
+                }).join('');
+
+                // Make visible and open
+                const acc = document.getElementById('accFolders');
+                if (acc) {
+                    acc.style.display = '';
+                }
             } catch (e) {
                 console.error('Error loading folders:', e);
+                document.getElementById('loadingFolders').style.display = 'none';
             }
         }
 
+        // ── Load created & edited lessons ─────────────────────────────
         async function loadLessons() {
             try {
                 const apiUrl = window.CONFIG ? window.CONFIG.API_BASE_URL : 'http://localhost:5000/api';
-                
-                // Load created lessons
-                if (viewedUser.createdLessons && viewedUser.createdLessons.length > 0) {
-                    const createdIds = viewedUser.createdLessons.map(l => typeof l === 'object' ? l._id : l);
-                    const createdResponse = await fetch(`${apiUrl}/lessons?status=published`);
-                    const createdData = await createdResponse.json();
-                    
-                    if (createdData.success) {
-                        const userCreated = createdData.data.filter(l => 
-                            l.creators && l.creators.some(c => 
-                                (typeof c === 'object' ? c._id : c) === viewedUser._id
-                            )
-                        );
-                        
-                        if (userCreated.length > 0) {
-                            document.getElementById('createdSection').style.display = 'block';
-                            renderLessonList('createdLessons', userCreated);
-                        }
-                    }
+                const res  = await fetch(`${apiUrl}/lessons?status=published`);
+                const data = await res.json();
+                if (!data.success) return;
+
+                const all = data.data;
+
+                // Created
+                const userCreated = all.filter(l =>
+                    l.creators?.some(c => (typeof c === 'object' ? c._id : c) === viewedUser._id)
+                );
+                document.getElementById('loadingCreated').style.display = 'none';
+                if (userCreated.length) {
+                    document.getElementById('countCreated').textContent = userCreated.length;
+                    renderLessonList('createdLessons', userCreated);
+                    const acc = document.getElementById('accCreated');
+                    if (acc) { acc.style.display = ''; }
                 }
-                
-                // Load edited lessons
-                if (viewedUser.editedLessons && viewedUser.editedLessons.length > 0) {
-                    const editedIds = viewedUser.editedLessons.map(l => typeof l === 'object' ? l._id : l);
-                    const editedResponse = await fetch(`${apiUrl}/lessons?status=published`);
-                    const editedData = await editedResponse.json();
-                    
-                    if (editedData.success) {
-                        const userEdited = editedData.data.filter(l => 
-                            l.editors && l.editors.some(e => 
-                                (typeof e === 'object' ? e._id : e) === viewedUser._id
-                            )
-                        );
-                        
-                        if (userEdited.length > 0) {
-                            document.getElementById('editedSection').style.display = 'block';
-                            renderLessonList('editedLessons', userEdited);
-                        }
-                    }
+
+                // Edited
+                const userEdited = all.filter(l =>
+                    l.editors?.some(e => (typeof e === 'object' ? e._id : e) === viewedUser._id)
+                );
+                document.getElementById('loadingEdited').style.display = 'none';
+                if (userEdited.length) {
+                    document.getElementById('countEdited').textContent = userEdited.length;
+                    renderLessonList('editedLessons', userEdited);
+                    const acc = document.getElementById('accEdited');
+                    if (acc) { acc.style.display = ''; }
                 }
             } catch (e) {
                 console.error('Error loading lessons:', e);
+                document.getElementById('loadingCreated').style.display = 'none';
+                document.getElementById('loadingEdited').style.display  = 'none';
             }
         }
 
+        // ── Render lesson list ────────────────────────────────────────
         function renderLessonList(elementId, lessons) {
             const el = document.getElementById(elementId);
-            if (!lessons || lessons.length === 0) {
-                el.innerHTML = '<div class="pp-empty-state"><i class="fas fa-inbox" style="font-size:32px; margin-bottom:8px;"></i><p>No lessons found</p></div>';
+            if (!lessons?.length) {
+                el.innerHTML = '<div class="pp-empty-state"><i class="fas fa-inbox"></i><p>No lessons found</p></div>';
                 return;
             }
-            
             el.innerHTML = lessons.map(l => `
                 <a class="pp-lesson-card" href="lesson.html?id=${l._id}">
                     <div class="pp-lesson-title">${l.title}</div>
@@ -332,40 +451,24 @@
             `).join('');
         }
 
-        function getTypeIcon(type) {
-            const icons = {
-                text: 'file-text',
-                video: 'play-circle',
-                audio: 'volume-up',
-                presentation: 'presentation'
-            };
-            return icons[type] || 'file';
-        }
-
-        // Override report modal to use viewed user ID
-        window.openReportModal = function(targetType) {
+        // ── Report modal ──────────────────────────────────────────────
+        window.openReportModal = function (targetType) {
             if (!window.API.isAuthenticated()) {
                 alert('Please login to report content');
                 window.location.href = 'login.html';
                 return;
             }
-
             const modal = document.getElementById('reportModal');
-            const typeLabel = document.getElementById('reportTargetType');
             document.getElementById('reportTargetTypeValue').value = targetType;
-            
             document.getElementById('reportTargetId').value = viewedUser._id;
-            typeLabel.textContent = 'User';
-            
+            document.getElementById('reportTargetType').textContent = 'User';
             document.getElementById('reportReason').value = 'inappropriate_content';
             document.getElementById('reportDescription').value = '';
-            
             modal.style.display = 'flex';
         };
     </script>
-    <!-- Footer -->
+
     <div id="site-footer"></div>
     <script src="scripts/footer.js"></script>
 </body>
 </html>
-

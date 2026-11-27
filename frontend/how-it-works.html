@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <script>!function(){var t=localStorage.getItem('atomo-schola-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark-mode');}();</script>
     <meta charset="UTF-8">
@@ -12,530 +11,647 @@
     <link rel="stylesheet" href="styles/dropdown.css">
     <link rel="stylesheet" href="styles/search.css">
     <link rel="stylesheet" href="styles/notifications.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        .contrib-page {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px 60px;
+    <link rel="stylesheet" href="styles/site-header.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ── Local palette ── */
+        .hiw-page {
+            --hiw-bg:       #f5f7fb;
+            --hiw-paper:    #fff;
+            --hiw-soft:     #eaeff9;
+            --hiw-ink:      #1a2033;
+            --hiw-muted:    #505878;
+            --hiw-line:     #cdd4e8;
+            --hiw-accent:   #2d4fa1;
+            --hiw-btn-ink:  #fff;
+            background: var(--hiw-bg);
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--hiw-ink);
+        }
+        .dark-mode .hiw-page {
+            color-scheme: dark;
+            --hiw-bg:       #141620;
+            --hiw-paper:    #1b1f2e;
+            --hiw-soft:     #222846;
+            --hiw-ink:      #e8ecf8;
+            --hiw-muted:    #9aa3c4;
+            --hiw-line:     #2f3659;
+            --hiw-accent:   #8fa8ef;
+            --hiw-btn-ink:  #101428;
         }
 
-        /* Section */
-        .contrib-section {
-            background: white;
-            border-radius: 15px;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            padding: 32px;
-            margin-bottom: 24px;
+        /* ── Shell ── */
+        .hiw-shell {
+            max-width: 860px;
+            margin: clamp(94px, 11vw, 130px) auto clamp(42px, 7vw, 80px);
+            padding-inline: clamp(16px, 4vw, 40px);
         }
 
-        .contrib-section-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .contrib-section-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .contrib-section-icon i {
-            font-size: 22px;
-            color: white;
-        }
-
-        .contrib-section-header h2 {
-            font-size: 22px;
-            margin: 0;
-        }
-
-        .contrib-section p {
-            color: #6c757d !important;
-            line-height: 1.75;
-            margin-bottom: 16px;
-        }
-
-        .contrib-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Steps */
-        .steps-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            counter-reset: steps;
-        }
-
-        .steps-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 14px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #6c757d !important;
-            line-height: 1.6;
-        }
-
-        .steps-list li:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .step-number {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        /* Feature list */
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .feature-list li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #6c757d !important;
-            font-size: 15px;
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-list li i {
-            width: 20px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* Role badges */
-        .roles-grid {
+        /* ── Hero ── */
+        .hiw-hero {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
             gap: 16px;
-            margin-top: 8px;
+            padding: clamp(24px, 5vw, 52px);
+            border: 1px solid var(--hiw-line);
+            border-radius: 16px;
+            background: linear-gradient(120deg, var(--hiw-paper), var(--hiw-soft));
+            margin-bottom: clamp(24px, 4vw, 40px);
         }
-
-        .role-badge {
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid #e9ecef;
-        }
-
-        .role-badge i {
-            font-size: 26px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .role-badge .role-name {
-            font-weight: 700;
-            font-size: 15px;
-            color: #333 !important;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .role-badge .role-desc {
-            font-size: 12px;
-            color: #6c757d !important;
-            line-height: 1.4;
-        }
-
-        /* CTA */
-        .contrib-cta {
-            text-align: center;
-            padding: 40px 30px;
-            background: linear-gradient(135deg, rgba(108, 52, 131, 0.9) 0%, rgba(91, 44, 111, 0.9) 100%);
-            border-radius: 15px;
-            margin-top: 10px;
-            z-index: 1;
-            position: relative;
-        }
-
-        .contrib-cta h3 {
-            color: white !important;
-            font-size: 24px;
+        .hiw-hero h1 {
+            font: 650 clamp(2rem, 5vw, 3.2rem)/1.08 'Fraunces', Georgia, serif;
+            letter-spacing: -.04em;
+            color: var(--hiw-ink);
             margin-bottom: 10px;
         }
-
-        .contrib-cta p {
-            color: rgba(255,255,255,0.85) !important;
-            margin-bottom: 24px;
-            font-size: 15px;
+        .hiw-hero p {
+            color: var(--hiw-muted);
+            font-size: clamp(.95rem, 2vw, 1.08rem);
+            max-width: 54ch;
+            margin: 0;
+        }
+        .hiw-hero-art {
+            display: grid;
+            place-items: center;
+            width: clamp(64px, 13vw, 110px);
+            aspect-ratio: 1;
+            border: 1px solid var(--hiw-line);
+            border-radius: 20%;
+            background: var(--hiw-paper);
+            color: var(--hiw-accent);
+            font-size: clamp(1.6rem, 5vw, 3.2rem);
         }
 
-        .contrib-cta-buttons {
+        /* ── Quick-nav pills ── */
+        .hiw-nav {
             display: flex;
-            gap: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: clamp(20px, 3vw, 32px);
+        }
+        .hiw-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border: 1px solid var(--hiw-line);
+            border-radius: 999px;
+            background: var(--hiw-paper);
+            color: var(--hiw-muted);
+            font-size: .84rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color .18s, color .18s, background .18s;
+        }
+        .hiw-nav a:hover {
+            border-color: var(--hiw-accent);
+            color: var(--hiw-accent);
+            background: var(--hiw-soft);
+        }
+        .hiw-nav a i { font-size: .8rem; }
+
+        /* ── Accordion ── */
+        .hiw-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hiw-acc {
+            border: 1px solid var(--hiw-line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .hiw-acc-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 22px;
+            background: var(--hiw-paper);
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            color: var(--hiw-ink);
+            font: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background .15s;
+        }
+        .hiw-acc-trigger:hover { background: var(--hiw-soft); }
+
+        .hiw-acc-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: var(--hiw-soft);
+            border: 1px solid var(--hiw-line);
+            display: flex;
+            align-items: center;
             justify-content: center;
+            color: var(--hiw-accent);
+            font-size: .9rem;
+            flex-shrink: 0;
+            transition: background .15s;
+        }
+        .hiw-acc.open .hiw-acc-icon-wrap {
+            background: var(--hiw-accent);
+            border-color: var(--hiw-accent);
+            color: var(--hiw-btn-ink);
+        }
+
+        .hiw-acc-chevron {
+            margin-left: auto;
+            color: var(--hiw-muted);
+            font-size: .75rem;
+            transition: transform .2s;
+            flex-shrink: 0;
+        }
+        .hiw-acc.open .hiw-acc-chevron { transform: rotate(180deg); }
+
+        .hiw-acc-body {
+            display: none;
+            padding: 0 22px 22px;
+            border-top: 1px solid var(--hiw-line);
+        }
+        .hiw-acc.open .hiw-acc-body { display: block; }
+
+        /* ── Content inside accordion ── */
+        .hiw-prose {
+            color: var(--hiw-muted);
+            font-size: .93rem;
+            line-height: 1.75;
+            padding-top: 18px;
+        }
+        .hiw-prose p { margin-bottom: 14px; }
+        .hiw-prose p:last-child { margin-bottom: 0; }
+        .hiw-prose strong { color: var(--hiw-ink); }
+        .hiw-prose a { color: var(--hiw-accent); text-underline-offset: .18em; }
+
+        /* Steps */
+        .hiw-steps {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .hiw-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--hiw-line);
+        }
+        .hiw-step:last-child { border-bottom: none; padding-bottom: 0; }
+        .hiw-step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--hiw-accent);
+            color: var(--hiw-btn-ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .hiw-step-body { color: var(--hiw-muted); font-size: .9rem; line-height: 1.65; }
+        .hiw-step-body strong { color: var(--hiw-ink); display: block; margin-bottom: 2px; }
+
+        /* Feature list */
+        .hiw-features {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0;
+        }
+        .hiw-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--hiw-line);
+            color: var(--hiw-muted);
+            font-size: .9rem;
+            line-height: 1.55;
+        }
+        .hiw-features li:last-child { border-bottom: none; }
+        .hiw-features li i { width: 18px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+        .hiw-features li strong { color: var(--hiw-ink); }
+
+        /* Roles grid */
+        .hiw-roles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .hiw-role {
+            padding: 16px;
+            border: 1px solid var(--hiw-line);
+            border-radius: 10px;
+            background: var(--hiw-soft);
+            text-align: center;
+        }
+        .hiw-role i { font-size: 24px; margin-bottom: 8px; display: block; }
+        .hiw-role-name { font-weight: 700; font-size: .9rem; color: var(--hiw-ink); display: block; margin-bottom: 4px; }
+        .hiw-role-desc { font-size: .8rem; color: var(--hiw-muted); line-height: 1.4; }
+
+        /* Template banner */
+        .hiw-template-banner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: color-mix(in srgb, var(--hiw-accent) 8%, var(--hiw-paper));
+            border: 1px solid color-mix(in srgb, var(--hiw-accent) 30%, var(--hiw-line));
+            border-radius: 10px;
             flex-wrap: wrap;
         }
-
-        .cta-btn {
-            padding: 12px 28px;
+        .hiw-template-banner i { color: var(--hiw-accent); font-size: 26px; flex-shrink: 0; }
+        .hiw-template-banner strong { color: var(--hiw-ink); display: block; margin-bottom: 2px; font-size: .9rem; }
+        .hiw-template-banner span { font-size: .82rem; color: var(--hiw-muted); }
+        .hiw-template-banner a {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            background: var(--hiw-accent);
+            color: var(--hiw-btn-ink);
             border-radius: 8px;
+            font-weight: 700;
+            font-size: .85rem;
             text-decoration: none;
+            white-space: nowrap;
+        }
+        .hiw-template-banner a:hover { opacity: .88; }
+
+        /* Outcome chips */
+        .hiw-outcomes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .hiw-outcome {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: .82rem;
             font-weight: 600;
-            font-size: 14px;
+            border: 1px solid;
+        }
+        .hiw-outcome.green  { color: #166534; background: #dcfce7; border-color: #bbf7d0; }
+        .hiw-outcome.red    { color: #991b1b; background: #fee2e2; border-color: #fecaca; }
+        .hiw-outcome.orange { color: #92400e; background: #fef3c7; border-color: #fde68a; }
+        .hiw-outcome.blue   { color: #1e3a8a; background: #dbeafe; border-color: #bfdbfe; }
+        .dark-mode .hiw-outcome.green  { color: #86efac; background: #14532d33; border-color: #16653b55; }
+        .dark-mode .hiw-outcome.red    { color: #fca5a5; background: #7f1d1d33; border-color: #7f1d1d55; }
+        .dark-mode .hiw-outcome.orange { color: #fcd34d; background: #78350f33; border-color: #78350f55; }
+        .dark-mode .hiw-outcome.blue   { color: #93c5fd; background: #1e3a8a33; border-color: #1e3a8a55; }
+
+        /* CTA */
+        .hiw-cta {
+            margin-top: 32px;
+            padding: clamp(28px, 5vw, 44px);
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--hiw-accent), color-mix(in srgb, var(--hiw-accent) 70%, #000));
+            text-align: center;
+        }
+        .hiw-cta h2 {
+            font: 650 clamp(1.4rem, 3vw, 1.9rem)/1.15 'Fraunces', Georgia, serif;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .hiw-cta p { color: rgba(255,255,255,.82); margin-bottom: 22px; font-size: .95rem; }
+        .hiw-cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .hiw-cta-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: .9rem;
+            text-decoration: none;
+            transition: opacity .18s, transform .15s;
         }
+        .hiw-cta-btn:hover { opacity: .88; transform: translateY(-1px); }
+        .hiw-cta-btn.solid { background: #fff; color: var(--hiw-accent); }
+        .hiw-cta-btn.outline { background: rgba(255,255,255,.12); color: #fff; border: 1.5px solid rgba(255,255,255,.4); }
 
-        .cta-btn-white {
-            background: white;
-            color: #6C3483 !important;
+        /* Color helpers */
+        .c-blue   { color: #3b82f6; }
+        .c-red    { color: #ef4444; }
+        .c-orange { color: #f97316; }
+        .c-yellow { color: #eab308; }
+        .c-green  { color: #22c55e; }
+        .c-teal   { color: #14b8a6; }
+        .c-purple { color: #a855f7; }
+        .c-grey   { color: #9ca3af; }
+        .c-accent { color: var(--hiw-accent); }
+
+        @media (max-width: 540px) {
+            .hiw-hero { grid-template-columns: 1fr; }
+            .hiw-hero-art { display: none; }
+            .hiw-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .hiw-template-banner { flex-direction: column; align-items: flex-start; }
+            .hiw-template-banner a { width: 100%; justify-content: center; }
         }
-
-        .cta-btn-white:hover {
-            background: #f0e6f6;
-            color: #6C3483 !important;
-        }
-
-        .cta-btn-outline {
-            background: rgba(255,255,255,0.15);
-            color: white !important;
-            border: 2px solid rgba(255,255,255,0.4);
-        }
-
-        .cta-btn-outline:hover {
-            background: rgba(255,255,255,0.25);
-            color: white !important;
-        }
-
-        .template-banner { display:flex; align-items:center; gap:16px; margin-top:20px; padding:16px 20px; background:#f0fdf4; border:2px solid #20c997; border-radius:10px; flex-wrap:wrap; }
-        .template-banner-sub { font-size:13px; color:#6c757d; }
-        .template-banner a { flex-shrink:0; }
-        .dark-mode .template-banner { background:#0d2b22; border-color:#20c997; }
-        .dark-mode .template-banner strong { color:#e0e0e0; }
-        .dark-mode .template-banner-sub { color:#9ca3af; }
-        @media (max-width: 480px) {
-            .template-banner { flex-direction:column; align-items:flex-start; }
-            .template-banner a { width:100%; justify-content:center; box-sizing:border-box; }
-        }
-        .bg-yellow  { background: #ffc107; }
-        .bg-teal    { background: #17a2b8; }
-        .bg-purple  { background: #6C3483; }
-        .bg-orange  { background: #fd7e14; }
-        .bg-green   { background: #20c997; }
-        .bg-blue    { background: #007bff; }
-        .bg-red     { background: #dc3545; }
-
-        .color-yellow  { color: #ffc107; }
-        .color-teal    { color: #17a2b8; }
-        .color-purple  { color: #6C3483; }
-        .color-orange  { color: #fd7e14; }
-        .color-green   { color: #20c997; }
-        .color-blue    { color: #007bff; }
-        .color-red     { color: #dc3545; }
-        .color-grey    { color: #6c757d; }
     </style>
-    <link rel="stylesheet" href="styles/site-header.css">
 </head>
-
-<body>
+<body class="hiw-page">
     <script src="scripts/site-header.js"></script>
 
-    <main class="main-content">
-        <div class="container">
-            <div class="contrib-page">
+    <main class="hiw-shell">
 
-                <!-- What is Atomo Schola -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-purple">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h2>What is Atomo Schola?</h2>
-                    </div>
-                    <p>Atomo Schola is a community-driven educational platform organized around two major categories: <strong>STEM</strong> (Science, Technology, Engineering &amp; Mathematics) and <strong>Humanities</strong> (History, Literature, Philosophy, Languages &amp; Social Sciences).</p>
-                    <p>Content is structured hierarchically each category contains subjects, subjects contain domains, and domains contain lessons. Anyone can browse and read lessons freely, while contributing requires an account and a specific role.</p>
-                </div>
-
-                <!-- Content Types -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-orange">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <h2>Content Types</h2>
-                    </div>
-                    <p>Lessons on the platform come in three formats:</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-file-alt color-blue"></i> <strong>Text Lessons</strong> Rich formatted content with support for LaTeX mathematical formulas</li>
-                        <li><i class="fas fa-video color-red"></i> <strong>Video Lessons</strong> Embedded YouTube videos with descriptions</li>
-                        <li><i class="fas fa-chalkboard color-orange"></i> <strong>Presentations</strong> Interactive slide-based content</li>
-                    </ul>
-                </div>
-
-                <!-- Lesson Structure -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-green">
-                            <i class="fas fa-sitemap"></i>
-                        </div>
-                        <h2>Lesson Structure</h2>
-                    </div>
-                    <p>To maintain consistent quality across the platform, every lesson must follow a general structure. While the majority of content is left to the creator's discretion, the following sections are required:</p>
-                    
-                    <ul class="steps-list">
-                        <li>
-                            <span class="step-number bg-green">1</span>
-                            <div>
-                                <strong>Prerequisites</strong><br>
-                                List the knowledge assumed to be known by the reader to understand the lesson. Total enumeration is not required if calculus requires algebra and arithmetic, and arithmetic is already a prerequisite for algebra, you only need to specify algebra for calculus. Prefer linking to lessons within Atomo Schola, but if unavailable, specify the general chapter or topic with sufficient detail to avoid confusion.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">2</span>
-                            <div>
-                                <strong>The Lesson</strong><br>
-                                This is the core content, whether in Word, PowerPoint, Video, or any other format. The lesson should be easily understood without a teacher, with thorough explanations and examples. Not everything needs to be memorized only understood. Materials requiring memorization belong in the next section.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">3</span>
-                            <div>
-                                <strong>Summary</strong><br>
-                                Provide a concise summary of the lesson. All materials here are expected to be memorized. Students should be able to learn or review using only the summary, without needing the full lesson. For example, include physics formulas and phenomena, or mathematical theorems.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">4</span>
-                            <div>
-                                <strong>Exercises</strong><br>
-                                Include problems for practicing the material presented in the lesson. The number and type are at the creator's discretion, but there should be enough for thorough practice. Ideally, exercises should cover a range of difficulties and dimensions.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-green">5</span>
-                            <div>
-                                <strong>Bibliography</strong><br>
-                                List the materials used to create the lesson. Even if information comes from memory, this list should be sufficient to verify the accuracy of the presented information. Original explanations not found in sources should be clearly marked as such.
-                            </div>
-                        </li>
-                    </ul>
-                    
-                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-green" style="margin-right: 6px;"></i> This structure ensures quality and consistency while preserving creator creativity.</p>
-
-                    <div class="template-banner">
-                        <i class="fas fa-file-word" style="font-size:28px; color:#20c997; flex-shrink:0;"></i>
-                        <div style="flex:1;">
-                            <strong style="display:block; margin-bottom:2px;">Official Lesson Template</strong>
-                            <span class="template-banner-sub">Download the Word template with the required structure already set up.</span>
-                        </div>
-                        <a href="docs_materials/Header.docx" download style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#20c997; color:white; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap;">
-                            <i class="fas fa-download"></i> Download .docx
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Roles -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-blue">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h2>Roles on the Platform</h2>
-                    </div>
-                    <p>Roles are hierarchical each role includes all the permissions of the roles below it. Creators are also editors and users; editors are also users.</p>
-                    <div class="roles-grid">
-                        <div class="role-badge">
-                            <i class="fas fa-user color-grey"></i>
-                            <span class="role-name">User</span>
-                            <span class="role-desc">Browse, bookmark and rate lessons</span>
-                        </div>
-                        <div class="role-badge">
-                            <i class="fas fa-pen-fancy color-teal"></i>
-                            <span class="role-name">Editor</span>
-                            <span class="role-desc">Everything a User can do, plus vote on proposed lessons</span>
-                        </div>
-                        <div class="role-badge">
-                            <i class="fas fa-lightbulb color-yellow"></i>
-                            <span class="role-name">Creator</span>
-                            <span class="role-desc">Everything an Editor can do, plus create and publish lessons</span>
-                        </div>
-                        <div class="role-badge">
-                            <i class="fas fa-tasks color-orange"></i>
-                            <span class="role-name">Staff</span>
-                            <span class="role-desc">Moderate content and manage the platform</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Become a Creator -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-yellow">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h2>Become a Creator</h2>
-                    </div>
-                    <p>Creators write and publish lessons on the platform. To earn the Creator role, you must first be an Editor and submit a complete original lesson for review. The Council of Creators votes on the submission — if a majority approves it, the lesson is published automatically and you are promoted to Creator.</p>
-                    <ul class="steps-list">
-                        <li>
-                            <span class="step-number bg-yellow">1</span>
-                            Create a free account and become an Editor first.
-                        </li>
-                        <li>
-                            <span class="step-number bg-yellow">2</span>
-                            Prepare and submit a complete original lesson for the Council of Creators to review.
-                        </li>
-                        <li>
-                            <span class="step-number bg-yellow">3</span>
-                            The Council of Creators votes on your submission. A majority vote is required for approval.
-                        </li>
-                        <li>
-                            <span class="step-number bg-yellow">4</span>
-                            If approved, your lesson is published automatically and you receive the Creator role.
-                        </li>
-                    </ul>
-                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-yellow" style="margin-right: 6px;"></i> The quality of your submitted lesson is the primary factor in the Council's decision.</p>
-                </div>
-
-                <!-- Become an Editor -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-teal">
-                            <i class="fas fa-pen-fancy"></i>
-                        </div>
-                        <h2>Become an Editor</h2>
-                    </div>
-                    <p>Editors join review panels and vote on lessons submitted by creators. To earn the Editor role, propose 3 edits to 3 different published lessons via the <a href="propose-edits.html" style="color:#17a2b8;">Propose Edits</a> page. Each edit is reviewed by the Editor Commission, which votes on it.</p>
-                    <ul class="steps-list">
-                        <li>
-                            <span class="step-number bg-teal">1</span>
-                            Propose edits to 3 different published lessons.
-                        </li>
-                        <li>
-                            <span class="step-number bg-teal">2</span>
-                            Each edit is reviewed by the Editor Commission, which votes to accept or reject it.
-                        </li>
-                        <li>
-                            <span class="step-number bg-teal">3</span>
-                            If all 3 edits are accepted, you officially become an Editor.
-                        </li>
-                        <li>
-                            <span class="step-number bg-teal">4</span>
-                            As an Editor, you can join review panels and vote on new lesson submissions.
-                        </li>
-                    </ul>
-                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-teal" style="margin-right: 6px;"></i> Editors play an essential role in maintaining the quality standards of the platform.</p>
-                </div>
-
-                <!-- Lesson Review Process -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-blue">
-                            <i class="fas fa-clipboard-check"></i>
-                        </div>
-                        <h2>Lesson Review Process</h2>
-                    </div>
-                    <p>When a creator submits a new lesson, it appears on the <a href="lesson-review.html" style="color:#17a2b8;">Review Dashboard</a> visible to all editors and creators. The review process is collaborative and panel-based.</p>
-                    <ul class="steps-list">
-                        <li>
-                            <span class="step-number bg-blue">1</span>
-                            <div>
-                                <strong>Submission</strong><br>
-                                The creator submits the lesson. It enters the Review Dashboard with status <em>Under Review</em>. Creators are limited to 1 submission per day.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-blue">2</span>
-                            <div>
-                                <strong>Panel Assembly</strong><br>
-                                Any editor or creator (other than the lesson's creator) can voluntarily join the review panel. Up to 9 reviewers can be in a panel. Discussion happens on the platform's Discord server in a private channel coordinated by the creator.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-blue">3</span>
-                            <div>
-                                <strong>Vote Session</strong><br>
-                                When the creator feels the panel is ready, they open a vote session. All current panel members are notified and cast a YES or NO vote.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number bg-blue">4</span>
-                            <div>
-                                <strong>Outcome</strong><br>
-                                If <strong>7 YES votes</strong> are reached, the lesson is automatically published. If all panel members have voted without reaching 7 YES, the session closes as rejected  but the creator can open a new session after further discussion and improvements.
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="feature-list" style="margin-top: 16px;">
-                        <li><i class="fas fa-check-circle color-green"></i> <strong>7 YES votes</strong> lesson is published immediately</li>
-                        <li><i class="fas fa-times-circle color-red"></i> All panel votes cast without 7 YES session rejected, can retry</li>
-                        <li><i class="fas fa-shield-alt color-orange"></i> Staff and owners can approve or reject any lesson directly</li>
-                        <li><i class="fas fa-user color-purple"></i> The lesson creator cannot join their own review panel</li>
-                    </ul>
-                </div>
-
-                <!-- Leaderboards & Commissions -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-purple">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h2>Leaderboards &amp; Commissions</h2>
-                    </div>
-                    <p>Creators and editors each have their own leaderboard. Since creators also have editor privileges, a creator can appear on both leaderboards simultaneously.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-star color-yellow"></i> <strong>Creator leaderboard</strong> requires at least 5 published lessons to qualify</li>
-                        <li><i class="fas fa-star color-teal"></i> <strong>Editor leaderboard</strong> requires having voted on at least 15 accepted lessons to qualify</li>
-                        <li><i class="fas fa-chart-bar color-blue"></i> Score formula: 15(avg rating 0-3 months) + 10(avg rating 3-12 months) + 7.5(avg rating 12+ months) + 1(total published)</li>
-                        <li><i class="fas fa-gavel color-purple"></i> The top 7 creators and top 7 editors are invited to join their respective commission for a one-month term</li>
-                        <li><i class="fas fa-arrow-right color-grey"></i> If someone declines the invitation, the spot passes to the next person on the leaderboard</li>
-                    </ul>
-                    <p style="margin-top: 16px;"><i class="fas fa-info-circle color-purple" style="margin-right: 6px;"></i> Commissions are the governing bodies that vote on role upgrade proposals and new lesson submissions.</p>
-                </div>
-
-                <!-- Platform Features -->
-                <div class="contrib-section">
-                    <div class="contrib-section-header">
-                        <div class="contrib-section-icon bg-green">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h2>Platform Features</h2>
-                    </div>
-                    <p>All registered users have access to these features:</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-search color-blue"></i> Advanced search across all subjects, domains and lessons</li>
-                        <li><i class="fas fa-bookmark color-yellow"></i> Bookmark your favorite lessons to find them quickly later</li>
-                        <li><i class="fas fa-star color-green"></i> Rate and review lessons to help other learners</li>
-                        <li><i class="fas fa-file-alt color-teal"></i> Rich text editor with LaTeX formula support for creators</li>
-                        <li><i class="fas fa-paperclip color-grey"></i> Attach files from cloud storage to lessons</li>
-                        <li><i class="fas fa-bell color-orange"></i> Inbox notifications for updates on your proposals and edits</li>
-                        <li><i class="fas fa-key color-purple"></i> Use invite codes to upgrade your account role</li>
-                    </ul>
-                </div>
-
+        <!-- Hero -->
+        <header class="hiw-hero">
+            <div>
+                <h1>How Atomo Schola Works</h1>
+                <p>Everything you need to know about the platform — content structure, roles, and how to become a contributor.</p>
             </div>
-        </div>
+            <div class="hiw-hero-art" aria-hidden="true">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+        </header>
+
+        <!-- Quick nav -->
+        <nav class="hiw-nav" aria-label="Jump to section">
+            <a href="#acc-overview"    onclick="openAcc('acc-overview')"   ><i class="fas fa-info-circle"></i> Overview</a>
+            <a href="#acc-structure"   onclick="openAcc('acc-structure')"  ><i class="fas fa-sitemap"></i> Lesson Structure</a>
+            <a href="#acc-types"       onclick="openAcc('acc-types')"      ><i class="fas fa-layer-group"></i> Content Types</a>
+            <a href="#acc-roles"       onclick="openAcc('acc-roles')"      ><i class="fas fa-users"></i> Roles</a>
+            <a href="#acc-editor"      onclick="openAcc('acc-editor')"     ><i class="fas fa-pen-fancy"></i> Become an Editor</a>
+            <a href="#acc-creator"     onclick="openAcc('acc-creator')"    ><i class="fas fa-lightbulb"></i> Become a Creator</a>
+            <a href="#acc-review"      onclick="openAcc('acc-review')"     ><i class="fas fa-clipboard-check"></i> Review Process</a>
+            <a href="#acc-leaderboard" onclick="openAcc('acc-leaderboard')"><i class="fas fa-trophy"></i> Leaderboards</a>
+            <a href="#acc-features"    onclick="openAcc('acc-features')"   ><i class="fas fa-star"></i> Features</a>
+        </nav>
+
+        <!-- Accordion -->
+        <div class="hiw-accordion">
+
+            <!-- Overview -->
+            <div class="hiw-acc" id="acc-overview">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-overview')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-info-circle"></i></span>
+                    What is Atomo Schola?
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Atomo Schola is a community-driven educational platform organized around two major categories: <strong>STEM</strong> (Science, Technology, Engineering &amp; Mathematics) and <strong>Humanities</strong> (History, Literature, Philosophy, Languages &amp; Social Sciences).</p>
+                        <p>Content is structured hierarchically — each category contains subjects, subjects contain domains, and domains contain lessons. Anyone can browse and read lessons freely; contributing requires an account and a specific role.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Types -->
+            <div class="hiw-acc" id="acc-types">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-types')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-layer-group"></i></span>
+                    Content Types
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose"><p>Lessons come in three formats:</p></div>
+                    <ul class="hiw-features">
+                        <li><i class="fas fa-file-alt c-blue"></i> <div><strong>Text Lessons</strong> Rich formatted content with LaTeX formula support</div></li>
+                        <li><i class="fas fa-video c-red"></i> <div><strong>Video Lessons</strong> Embedded YouTube videos with descriptions</div></li>
+                        <li><i class="fas fa-chalkboard c-orange"></i> <div><strong>Presentations</strong> Interactive slide-based content</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Lesson Structure -->
+            <div class="hiw-acc" id="acc-structure">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-structure')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-sitemap"></i></span>
+                    Lesson Structure
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Every lesson must follow a standard structure. While most content is left to the creator's discretion, these five sections are required:</p>
+                    </div>
+                    <ol class="hiw-steps">
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">1</span>
+                            <div class="hiw-step-body">
+                                <strong>Prerequisites</strong>
+                                List the knowledge assumed by the reader. Prefer linking to lessons within Atomo Schola; if unavailable, specify the topic with enough detail to avoid confusion. Total enumeration is not required — if calculus requires algebra, only algebra needs to be listed.
+                            </div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">2</span>
+                            <div class="hiw-step-body">
+                                <strong>The Lesson</strong>
+                                The core content, in any supported format. Should be understandable without a teacher — thorough explanations and examples required. Focus on understanding, not memorization; material that must be memorized belongs in the Summary.
+                            </div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">3</span>
+                            <div class="hiw-step-body">
+                                <strong>Summary</strong>
+                                A concise summary of everything that must be memorized — formulas, theorems, key phenomena. Students should be able to review using only the summary.
+                            </div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">4</span>
+                            <div class="hiw-step-body">
+                                <strong>Exercises</strong>
+                                Practice problems covering a range of difficulties. Enough for thorough practice at the creator's discretion.
+                            </div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">5</span>
+                            <div class="hiw-step-body">
+                                <strong>Bibliography</strong>
+                                Sources used to create the lesson, sufficient to verify accuracy. Original explanations not found in sources should be clearly marked as such.
+                            </div>
+                        </li>
+                    </ol>
+                    <div class="hiw-template-banner">
+                        <i class="fas fa-file-word"></i>
+                        <div style="flex:1;">
+                            <strong>Official Lesson Template</strong>
+                            <span>Download the Word template with the required structure already set up.</span>
+                        </div>
+                        <a href="docs_materials/Header.docx" download><i class="fas fa-download"></i> Download .docx</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roles -->
+            <div class="hiw-acc" id="acc-roles">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-roles')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-users"></i></span>
+                    Roles on the Platform
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Roles are hierarchical — each role includes all permissions of the roles below it. Creators are also editors and users; editors are also users.</p>
+                    </div>
+                    <div class="hiw-roles">
+                        <div class="hiw-role">
+                            <i class="fas fa-user c-grey"></i>
+                            <span class="hiw-role-name">User</span>
+                            <span class="hiw-role-desc">Browse, bookmark and rate lessons</span>
+                        </div>
+                        <div class="hiw-role">
+                            <i class="fas fa-pen-fancy c-teal"></i>
+                            <span class="hiw-role-name">Editor</span>
+                            <span class="hiw-role-desc">Everything a User can do, plus vote on proposed lessons</span>
+                        </div>
+                        <div class="hiw-role">
+                            <i class="fas fa-lightbulb c-yellow"></i>
+                            <span class="hiw-role-name">Creator</span>
+                            <span class="hiw-role-desc">Everything an Editor can do, plus create and publish lessons</span>
+                        </div>
+                        <div class="hiw-role">
+                            <i class="fas fa-tasks c-orange"></i>
+                            <span class="hiw-role-name">Staff</span>
+                            <span class="hiw-role-desc">Moderate content and manage the platform</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Become an Editor -->
+            <div class="hiw-acc" id="acc-editor">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-editor')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-pen-fancy"></i></span>
+                    Become an Editor
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Editors join review panels and vote on lessons submitted by creators. To earn the Editor role, propose 3 edits to 3 different published lessons via the <a href="propose-edits.html">Propose Edits</a> page. Each edit is reviewed by the Editor Commission.</p>
+                    </div>
+                    <ol class="hiw-steps">
+                        <li class="hiw-step"><span class="hiw-step-num">1</span><div class="hiw-step-body">Propose edits to 3 different published lessons.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">2</span><div class="hiw-step-body">Each edit is reviewed by the Editor Commission, which votes to accept or reject it.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">3</span><div class="hiw-step-body">If all 3 edits are accepted, you officially become an Editor.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">4</span><div class="hiw-step-body">As an Editor, you can join review panels and vote on new lesson submissions.</div></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Become a Creator -->
+            <div class="hiw-acc" id="acc-creator">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-creator')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-lightbulb"></i></span>
+                    Become a Creator
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Creators write and publish lessons. To earn the Creator role you must first be an Editor, then submit a complete original lesson for review. The Council of Creators votes — a majority approval publishes the lesson and promotes you.</p>
+                    </div>
+                    <ol class="hiw-steps">
+                        <li class="hiw-step"><span class="hiw-step-num">1</span><div class="hiw-step-body">Create a free account and become an Editor first.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">2</span><div class="hiw-step-body">Prepare and submit a complete original lesson for the Council of Creators to review.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">3</span><div class="hiw-step-body">The Council of Creators votes on your submission. A majority is required for approval.</div></li>
+                        <li class="hiw-step"><span class="hiw-step-num">4</span><div class="hiw-step-body">If approved, your lesson is published automatically and you receive the Creator role.</div></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Lesson Review Process -->
+            <div class="hiw-acc" id="acc-review">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-review')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-clipboard-check"></i></span>
+                    Lesson Review Process
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>When a creator submits a lesson it appears on the <a href="lesson-review.html">Review Dashboard</a>, visible to all editors and creators. The process is collaborative and panel-based.</p>
+                    </div>
+                    <ol class="hiw-steps">
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">1</span>
+                            <div class="hiw-step-body"><strong>Submission</strong>The lesson enters the Review Dashboard with status <em>Under Review</em>. Creators are limited to 1 submission per day.</div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">2</span>
+                            <div class="hiw-step-body"><strong>Panel Assembly</strong>Any editor or creator (other than the lesson's author) can join the review panel. Up to 9 reviewers. Discussion happens on the platform's Discord in a private channel.</div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">3</span>
+                            <div class="hiw-step-body"><strong>Vote Session</strong>When ready, the creator opens a vote session. All panel members are notified and cast YES or NO.</div>
+                        </li>
+                        <li class="hiw-step">
+                            <span class="hiw-step-num">4</span>
+                            <div class="hiw-step-body"><strong>Outcome</strong>7 YES votes → lesson published automatically. If all panel members vote without reaching 7 YES, the session closes as rejected — but the creator can open a new session after further improvements.</div>
+                        </li>
+                    </ol>
+                    <div class="hiw-outcomes">
+                        <span class="hiw-outcome green"><i class="fas fa-check-circle"></i> 7 YES → published immediately</span>
+                        <span class="hiw-outcome red"><i class="fas fa-times-circle"></i> &lt; 7 YES → session rejected, can retry</span>
+                        <span class="hiw-outcome orange"><i class="fas fa-shield-alt"></i> Staff can approve or reject directly</span>
+                        <span class="hiw-outcome blue"><i class="fas fa-user-slash"></i> Creator cannot join their own panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboards & Commissions -->
+            <div class="hiw-acc" id="acc-leaderboard">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-leaderboard')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-trophy"></i></span>
+                    Leaderboards &amp; Commissions
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose">
+                        <p>Creators and editors each have their own leaderboard. Since creators also have editor privileges, a creator can appear on both simultaneously.</p>
+                    </div>
+                    <ul class="hiw-features">
+                        <li><i class="fas fa-star c-yellow"></i> <div><strong>Creator leaderboard</strong> — requires at least 5 published lessons to qualify</div></li>
+                        <li><i class="fas fa-star c-teal"></i> <div><strong>Editor leaderboard</strong> — requires having voted on at least 15 accepted lessons</div></li>
+                        <li><i class="fas fa-chart-bar c-accent"></i> <div><strong>Score formula</strong> — 15 × (avg rating 0–3 months) + 10 × (avg rating 3–12 months) + 7.5 × (avg rating 12+ months) + 1 × (total published)</div></li>
+                        <li><i class="fas fa-gavel c-purple"></i> <div>The top 7 creators and top 7 editors are invited to their respective commission for a one-month term</div></li>
+                        <li><i class="fas fa-arrow-right c-grey"></i> <div>If someone declines the invitation, the spot passes to the next person on the leaderboard</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Platform Features -->
+            <div class="hiw-acc" id="acc-features">
+                <button class="hiw-acc-trigger" onclick="toggleAcc('acc-features')" type="button">
+                    <span class="hiw-acc-icon-wrap"><i class="fas fa-star"></i></span>
+                    Platform Features
+                    <i class="fas fa-chevron-down hiw-acc-chevron"></i>
+                </button>
+                <div class="hiw-acc-body">
+                    <div class="hiw-prose"><p>All registered users have access to these features:</p></div>
+                    <ul class="hiw-features">
+                        <li><i class="fas fa-search c-blue"></i> <div>Advanced search across all subjects, domains and lessons</div></li>
+                        <li><i class="fas fa-bookmark c-yellow"></i> <div>Bookmark your favourite lessons to find them quickly later</div></li>
+                        <li><i class="fas fa-star c-green"></i> <div>Rate and review lessons to help other learners</div></li>
+                        <li><i class="fas fa-file-alt c-teal"></i> <div>Rich text editor with LaTeX formula support for creators</div></li>
+                        <li><i class="fas fa-paperclip c-grey"></i> <div>Attach files from cloud storage to lessons</div></li>
+                        <li><i class="fas fa-bell c-orange"></i> <div>Inbox notifications for updates on proposals and edits</div></li>
+                        <li><i class="fas fa-key c-purple"></i> <div>Use invite codes to upgrade your account role</div></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div><!-- /accordion -->
+
+
+
     </main>
 
     <script src="scripts/config.js"></script>
@@ -544,9 +660,16 @@
     <script src="scripts/notifications.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/main.js"></script>
-    <!-- Footer -->
+    <script>
+        function toggleAcc(id) {
+            document.getElementById(id)?.classList.toggle('open');
+        }
+        function openAcc(id) {
+            document.getElementById(id)?.classList.add('open');
+        }
+    </script>
+
     <div id="site-footer"></div>
     <script src="scripts/footer.js"></script>
 </body>
 </html>
-

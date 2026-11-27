@@ -275,7 +275,7 @@ function displayDomains() {
     const domains = Object.entries(subject.domains);
     
     if (domains.length === 0) {
-        grid.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">No domains available</p>';
+        grid.innerHTML = '<p style="text-align: center; padding: 60px 40px; color: #555; font-size: 1.25rem; font-weight: 500;"><i class="fas fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 12px; color: #aaa;"></i>No domains available</p>';
         return;
     }
     
@@ -351,7 +351,7 @@ function displayCategories(domainSlug, scroll = true) {
 }
 
 // Display lessons
-function displayLessons(categorySlug, category) {
+function displayLessons(categorySlug, category, scroll = true) {
     currentCategory = categorySlug;
     
     // Check if user is authenticated
@@ -377,7 +377,7 @@ function displayLessons(categorySlug, category) {
     
     if (filtered.length === 0) {
         grid.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">No lessons available</p>';
-        section.scrollIntoView({ behavior: 'smooth' });
+        if (scroll) section.scrollIntoView({ behavior: 'smooth' });
         return;
     }
     
@@ -412,7 +412,7 @@ function displayLessons(categorySlug, category) {
     });
     
     // Scroll to section
-    section.scrollIntoView({ behavior: 'smooth' });
+    if (scroll) section.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Create lesson card
@@ -493,7 +493,7 @@ function setupEventListeners() {
                 const subject = subjectsData[currentSubject];
                 const domain = subject.domains[currentDomain];
                 const category = domain.categories[currentCategory];
-                displayLessons(currentCategory, category);
+                displayLessons(currentCategory, category, false);
             }
         });
     }
@@ -504,7 +504,7 @@ function setupEventListeners() {
                 const subject = subjectsData[currentSubject];
                 const domain = subject.domains[currentDomain];
                 const category = domain.categories[currentCategory];
-                displayLessons(currentCategory, category);
+                displayLessons(currentCategory, category, false);
             }
         });
     }

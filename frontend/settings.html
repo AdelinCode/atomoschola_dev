@@ -131,7 +131,7 @@
 
     <!-- Settings Content -->
     <main class="settings-container">
-        <a href="profile.html" class="back-link">
+        <a href="#" class="back-link" id="backToProfileLink">
             <i class="fas fa-arrow-left"></i>
             Back to Profile
         </a>
@@ -202,6 +202,12 @@
                 return;
             }
             
+            // Set back-to-profile link with current user's ID
+            const currentUser = window.API.getUser();
+            if (currentUser && currentUser._id) {
+                document.getElementById('backToProfileLink').href = `public-profile.html?id=${currentUser._id}`;
+            }
+
             loadCurrentInfo();
             setupForm();
         });

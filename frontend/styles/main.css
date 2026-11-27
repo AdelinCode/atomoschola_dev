@@ -13,6 +13,19 @@ body {
     color: var(--text-primary, #212529);
     background-color: var(--bg-primary, #ffffff);
     transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main,
+body > .main-content {
+    flex: 1;
+    width: 100%;
+}
+
+#site-footer {
+    margin-top: auto;
 }
 
 .container {
@@ -258,6 +271,7 @@ body {
     margin-top: 90px;
     min-height: calc(100vh - 90px);
     padding: 40px 0;
+    flex: 1;
 }
 
 /* Hero Section */
@@ -661,7 +675,6 @@ body {
     color: var(--footer-ink);
     font-family: 'DM Sans', system-ui, sans-serif;
     padding: clamp(28px, 5vw, 52px) clamp(18px, 5vw, 56px) 0;
-    margin-top: 60px;
     border-top: 1px solid var(--footer-line);
 }
 
